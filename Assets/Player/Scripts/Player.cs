@@ -8,11 +8,17 @@ public class Player : MonoBehaviour
     Rigidbody rb;
 
     [HideInInspector] public Vector2 movement;
-    private bool isSprinting = false;
+    [HideInInspector] public bool isSprinting = false;
 
     public float jumpForce = 3;
     public float walkSpeed = 2;
     public float runSpeed = 5;
+
+    public PlayerBaseState playerState;
+    public PlayerIdleState idleState = new PlayerIdleState();
+    public PlayerWalkState walkState = new PlayerWalkState();
+    public PlayerRunState runState = new PlayerRunState();
+    public PlayerFallState fallState = new PlayerFallState();
 
     // Start is called before the first frame update
     void Start()
@@ -40,5 +46,11 @@ public class Player : MonoBehaviour
     {
         if (value.isPressed) isSprinting = true;
         else isSprinting = false;
+    }
+    public void ChangeState(PlayerBaseState state)
+    {
+        playerState.ExitState(this);
+        playerState = state;
+        playerState.EnterState(this);
     }
 }
