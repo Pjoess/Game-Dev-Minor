@@ -36,8 +36,9 @@ public class Player : MonoBehaviour
     {
         playerState.UpdateState(this);
     }
-    public void Movement(float speed)
+    public void Movement()
     {
+        float speed = isSprinting ? runSpeed : walkSpeed;
         transform.Translate(new Vector3(movement.x, 0, movement.y) * speed * Time.deltaTime);
     }
 
