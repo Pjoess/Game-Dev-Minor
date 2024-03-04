@@ -18,5 +18,7 @@ public class PlayerWalkState : PlayerBaseState
     {
         player.Movement(player.walkSpeed);
         if (player.isSprinting) player.ChangeState(player.runState);
+
+        if (!player.GroundCheck()) player.ChangeState(player.fallState);
     }
 }

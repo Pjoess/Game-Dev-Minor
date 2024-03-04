@@ -17,6 +17,7 @@ public class PlayerIdleState : PlayerBaseState
     public override void UpdateState(Player player)
     {
         if (player.movement != Vector2.zero) player.ChangeState(player.walkState);
+        if (!player.GroundCheck()) player.ChangeState(player.fallState);
     }
 
 }

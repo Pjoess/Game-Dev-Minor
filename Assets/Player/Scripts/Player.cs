@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     Rigidbody rb;
+    CapsuleCollider cc;
 
     [HideInInspector] public Vector2 movement;
     [HideInInspector] public bool isSprinting = false;
@@ -23,14 +24,17 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerState = idleState;
+        playerState.EnterState(this);
+
         rb = GetComponent<Rigidbody>();
+        cc = GetComponent<CapsuleCollider>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isSprinting) Movement(walkSpeed);
-        else Movement(runSpeed);
+        playerState.UpdateState(this);
     }
     public void Movement(float speed)
     {
@@ -47,10 +51,22 @@ public class Player : MonoBehaviour
         if (value.isPressed) isSprinting = true;
         else isSprinting = false;
     }
+
+    void OnJump()
+    {
+        if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    public bool GroundCheck()
+    {
+        return Physics.Raycast(transform.position + cc.center, Vector3.down, cc.bounds.extents.y + 0.1f);
+    }
+
     public void ChangeState(PlayerBaseState state)
     {
         playerState.ExitState(this);
         playerState = state;
         playerState.EnterState(this);
     }
+
 }
