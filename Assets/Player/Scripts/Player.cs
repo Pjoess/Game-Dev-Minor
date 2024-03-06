@@ -17,12 +17,14 @@ public class Player : MonoBehaviour
     public float jumpForce = 3;
     public float walkSpeed = 2;
     public float runSpeed = 5;
+    public float rotationSpeed = 1;
 
     public PlayerBaseState playerState;
     public PlayerIdleState idleState = new PlayerIdleState();
     public PlayerWalkState walkState = new PlayerWalkState();
     public PlayerRunState runState = new PlayerRunState();
     public PlayerFallState fallState = new PlayerFallState();
+    public PlayerHitState hitState = new PlayerHitState();
 
     [HideInInspector] public Animator animator;
 
@@ -31,7 +33,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public int animIDGrounded;
     [HideInInspector] public int animIDFall;
     [HideInInspector] public int animIDJump;
-    [HideInInspector] public int animIDMotionMagnitude;
+    [HideInInspector] public int animIDStriking;
 
     private void AssignAnimIDs()
     {
@@ -39,12 +41,13 @@ public class Player : MonoBehaviour
         animIDGrounded = Animator.StringToHash("Grounded");
         animIDFall = Animator.StringToHash("Fall");
         animIDJump = Animator.StringToHash("Jump");
-        animIDMotionMagnitude = Animator.StringToHash("MotionMagnitude");
+        animIDStriking = Animator.StringToHash("Striking");
     }
 
     // Start is called before the first frame update
     void Start()
     {
+
         animator = GetComponent<Animator>();
         AssignAnimIDs();
 
@@ -54,7 +57,6 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
 
-        
     }
 
     // Update is called once per frame
@@ -64,16 +66,22 @@ public class Player : MonoBehaviour
     }
     public void Movement()
     {
-        //animator.SetFloat(animIDMotionMagnitude, 1f);
         if (movement == Vector2.zero) ChangeState(idleState);
 
         float speed = isSprinting ? runSpeed : walkSpeed;
-        transform.Translate(new Vector3(movement.x, 0, movement.y) * speed * Time.deltaTime);
-
+        
         _animationBlend = Mathf.Lerp(_animationBlend, speed, Time.deltaTime * 5f);
         if (_animationBlend < 0.01f) _animationBlend = 0f;
-
         animator.SetFloat(animIDSpeed, _animationBlend);
+
+        Vector3 direction = new Vector3(movement.x, 0, movement.y);
+
+        transform.Translate(direction * speed * Time.deltaTime);
+
+        //Vector3 lookDirection = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) * direction;
+        //Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
 
     }
 
@@ -92,6 +100,11 @@ public class Player : MonoBehaviour
     {
         if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         animator.SetBool(animIDJump, true);
+    }
+
+    void OnAttack()
+    {
+        if (playerState != hitState) ChangeState(hitState);
     }
 
     public bool GroundCheck()

@@ -2,18 +2,30 @@ using UnityEngine;
 
 public class PlayerHitState : PlayerBaseState
 {
+
+    private float strikeTimer = 1f;
+    private float strikeTimerDelta = 1f;
+
     public override void EnterState(Player player)
     {
-        Debug.Log("Player starts swing...");
+        player.animator.SetBool(player.animIDStriking, true);
+        strikeTimerDelta = strikeTimer;
     }
 
     public override void ExitState(Player player)
     {
-        Debug.Log("Player finish swing...");
+        player.animator.SetBool(player.animIDStriking, false);
     }
 
     public override void UpdateState(Player player)
     {
-        Debug.Log("Player check if hits something...");
+        if (strikeTimerDelta > 0)
+        {
+            strikeTimerDelta -= Time.deltaTime;
+        }
+        else
+        {
+            player.ChangeState(player.idleState);
+        }
     }
 }
