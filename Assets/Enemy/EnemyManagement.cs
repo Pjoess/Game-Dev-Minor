@@ -105,7 +105,7 @@ public class EnemyManagement : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        Debug.Log("Staying in the collision...");
+        //Debug.Log("Staying in the collision...");
     }
 
     void OnTriggerExit(Collider other)

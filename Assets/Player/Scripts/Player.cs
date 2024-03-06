@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public Vector2 movement;
     [HideInInspector] public bool isSprinting = false;
+    public float jumpToFallTimer = 0.15f;
+    [HideInInspector] public float _animationBlend;
 
     public float jumpForce = 3;
     public float walkSpeed = 2;
@@ -21,14 +24,37 @@ public class Player : MonoBehaviour
     public PlayerRunState runState = new PlayerRunState();
     public PlayerFallState fallState = new PlayerFallState();
 
+    [HideInInspector] public Animator animator;
+
+    //Animation param IDs
+    [HideInInspector] public int animIDSpeed;
+    [HideInInspector] public int animIDGrounded;
+    [HideInInspector] public int animIDFall;
+    [HideInInspector] public int animIDJump;
+    [HideInInspector] public int animIDMotionMagnitude;
+
+    private void AssignAnimIDs()
+    {
+        animIDSpeed = Animator.StringToHash("Speed");
+        animIDGrounded = Animator.StringToHash("Grounded");
+        animIDFall = Animator.StringToHash("Fall");
+        animIDJump = Animator.StringToHash("Jump");
+        animIDMotionMagnitude = Animator.StringToHash("MotionMagnitude");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
+        AssignAnimIDs();
+
         playerState = idleState;
         playerState.EnterState(this);
 
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
+
+        
     }
 
     // Update is called once per frame
@@ -38,8 +64,17 @@ public class Player : MonoBehaviour
     }
     public void Movement()
     {
+        //animator.SetFloat(animIDMotionMagnitude, 1f);
+        if (movement == Vector2.zero) ChangeState(idleState);
+
         float speed = isSprinting ? runSpeed : walkSpeed;
         transform.Translate(new Vector3(movement.x, 0, movement.y) * speed * Time.deltaTime);
+
+        _animationBlend = Mathf.Lerp(_animationBlend, speed, Time.deltaTime * 5f);
+        if (_animationBlend < 0.01f) _animationBlend = 0f;
+
+        animator.SetFloat(animIDSpeed, _animationBlend);
+
     }
 
     void OnMove(InputValue value)
@@ -56,6 +91,7 @@ public class Player : MonoBehaviour
     void OnJump()
     {
         if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        animator.SetBool(animIDJump, true);
     }
 
     public bool GroundCheck()
@@ -68,6 +104,16 @@ public class Player : MonoBehaviour
         playerState.ExitState(this);
         playerState = state;
         playerState.EnterState(this);
+    }
+
+    private void OnFootstep(AnimationEvent animationEvent)
+    {
+        
+    }
+
+    private void OnLand(AnimationEvent animationEvent)
+    {
+       
     }
 
 }
