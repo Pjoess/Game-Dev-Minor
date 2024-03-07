@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public float walkSpeed = 2;
     public float runSpeed = 5;
     public float speedChangeRate = 5;
-    public float rotationSpeed = 1;
+    public float rotationSpeed = 500;
 
     public PlayerBaseState playerState;
     public PlayerIdleState idleState = new PlayerIdleState();
