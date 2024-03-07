@@ -77,12 +77,21 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(movement.x, 0, movement.y);
 
-        transform.Translate(direction * speed * Time.deltaTime);
+        Vector3 camF = Camera.main.transform.forward;
+        Vector3 camR = Camera.main.transform.right;
+        camF.y = 0;
+        camR.y = 0;
+        camF = camF.normalized;
+        camR = camR.normalized;
 
-        //Vector3 lookDirection = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0) * direction;
-        //Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+        Vector3 moveDir = camF * direction.z + camR * direction.x;
 
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+        transform.Translate(speed * Time.deltaTime * moveDir, Space.World);
+
+        Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+        Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
 
     }
 
