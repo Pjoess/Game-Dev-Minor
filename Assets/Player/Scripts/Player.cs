@@ -12,11 +12,12 @@ public class Player : MonoBehaviour
     [HideInInspector] public Vector2 movement;
     [HideInInspector] public bool isSprinting = false;
     public float jumpToFallTimer = 0.15f;
-    [HideInInspector] public float _animationBlend;
+    [HideInInspector] public float animationBlend;
 
     public float jumpForce = 3;
     public float walkSpeed = 2;
     public float runSpeed = 5;
+    public float speedChangeRate = 5;
     public float rotationSpeed = 1;
 
     public PlayerBaseState playerState;
@@ -70,9 +71,9 @@ public class Player : MonoBehaviour
 
         float speed = isSprinting ? runSpeed : walkSpeed;
         
-        _animationBlend = Mathf.Lerp(_animationBlend, speed, Time.deltaTime * 5f);
-        if (_animationBlend < 0.01f) _animationBlend = 0f;
-        animator.SetFloat(animIDSpeed, _animationBlend);
+        animationBlend = Mathf.Lerp(animationBlend, speed, Time.deltaTime * speedChangeRate);
+        if (animationBlend < 0.01f) animationBlend = 0f;
+        animator.SetFloat(animIDSpeed, animationBlend);
 
         Vector3 direction = new Vector3(movement.x, 0, movement.y);
 

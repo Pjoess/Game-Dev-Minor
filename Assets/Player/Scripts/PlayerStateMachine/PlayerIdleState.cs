@@ -17,10 +17,10 @@ public class PlayerIdleState : PlayerBaseState
         if (player.movement != Vector2.zero) player.ChangeState(player.walkState);
         if (!player.GroundCheck()) player.ChangeState(player.fallState);
 
-        player._animationBlend = Mathf.Lerp(player._animationBlend, 0, Time.deltaTime * 5f);
-        if (player._animationBlend < 0.01f) player._animationBlend = 0f;
+        player.animationBlend = Mathf.Lerp(player.animationBlend, 0, Time.deltaTime * player.speedChangeRate);
+        if (player.animationBlend < 0.01f) player.animationBlend = 0f;
 
-        player.animator.SetFloat(player.animIDSpeed, player._animationBlend);
+        player.animator.SetFloat(player.animIDSpeed, player.animationBlend);
     }
 
 }
