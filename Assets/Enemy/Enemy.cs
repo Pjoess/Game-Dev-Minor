@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
-public class EnemyManagement : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float healthPoints = 2f;
     public float timerDuration = 1f;
@@ -10,6 +11,18 @@ public class EnemyManagement : MonoBehaviour
     private bool isCollisionCooldown = false; // Flag to track if the enemy is in collision cooldown
     public float collisionCooldown = 0.1f; // Time during which the enemy is immune to collision after being hit
     private readonly float maxHeight = 15f; // Set your desired maximum height
+
+    private void Start()
+    {
+        // Start the jumping coroutine
+        StartCoroutine(JumpRoutine());
+    }
+
+    private void Update()
+    {
+        KnockBack();        
+    }
+
 
     // On hit, change color and apply force.
     void OnTriggerEnter(Collider other)
@@ -38,7 +51,7 @@ public class EnemyManagement : MonoBehaviour
                     Invoke(nameof(DestroyObject), timerDuration); // destroy object after a certain time
                     break;
             }
-
+            KnockBack();
             // Start the collision cooldown
             StartCollisionCooldown();
         }
@@ -70,11 +83,6 @@ public class EnemyManagement : MonoBehaviour
         isKnockedBack = true;
     }
 
-    private void Update()
-    {
-        KnockBack();        
-    }
-
     private void KnockBack()
     {
         if (isKnockedBack)
@@ -90,6 +98,21 @@ public class EnemyManagement : MonoBehaviour
             }
         }
         MaxHeightAfterHit();
+    }
+
+    private IEnumerator JumpRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.5f);
+            Jump();
+        }
+    }
+
+    // Jumping behavior
+    private void Jump()
+    {
+        GetComponent<Rigidbody>().AddForce(Vector3.up * pushForce, ForceMode.VelocityChange);
     }
 
     private void MaxHeightAfterHit()
