@@ -3,37 +3,42 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    Rigidbody rb;
-    CapsuleCollider cc;
+    #region Component References
+        Rigidbody rb;
+        CapsuleCollider cc;
+        public Weapon sword;
+    #endregion
 
-    [HideInInspector] public Vector2 movement;
-    [HideInInspector] public bool isSprinting = false;
-    public float jumpToFallTimer = 0.15f;
-    [HideInInspector] public float animationBlend;
+    #region Basic Variables for (Movements and Jumping)
+        public float jumpForce = 3;
+        public float walkSpeed = 2;
+        public float runSpeed = 5;
+        public float speedChangeRate = 5;
+        public float rotationSpeed = 500;
+        [HideInInspector] public Vector2 movement;
+        [HideInInspector] public bool isSprinting = false;
+        public float jumpToFallTimer = 0.15f;
+    #endregion
 
-    public float jumpForce = 3;
-    public float walkSpeed = 2;
-    public float runSpeed = 5;
-    public float speedChangeRate = 5;
-    public float rotationSpeed = 500;
+    #region Player States
+        public PlayerBaseState playerState;
+        public PlayerIdleState idleState = new PlayerIdleState();
+        public PlayerWalkState walkState = new PlayerWalkState();
+        public PlayerRunState runState = new PlayerRunState();
+        public PlayerFallState fallState = new PlayerFallState();
+        public PlayerHitState hitState = new PlayerHitState();
+    #endregion
 
-    public PlayerBaseState playerState;
-    public PlayerIdleState idleState = new PlayerIdleState();
-    public PlayerWalkState walkState = new PlayerWalkState();
-    public PlayerRunState runState = new PlayerRunState();
-    public PlayerFallState fallState = new PlayerFallState();
-    public PlayerHitState hitState = new PlayerHitState();
-
-    [HideInInspector] public Animator animator;
-
-    //Animation param IDs
-    [HideInInspector] public int animIDSpeed;
-    [HideInInspector] public int animIDGrounded;
-    [HideInInspector] public int animIDFall;
-    [HideInInspector] public int animIDJump;
-    [HideInInspector] public int animIDStriking;
-
-    public Weapon sword;
+    #region Player Animation
+        [HideInInspector] public Animator animator;
+        [HideInInspector] public float animationBlend;
+        // --- Animation parameters IDs --- //
+        [HideInInspector] public int animIDSpeed;
+        [HideInInspector] public int animIDGrounded;
+        [HideInInspector] public int animIDFall;
+        [HideInInspector] public int animIDJump;
+        [HideInInspector] public int animIDStriking;
+    #endregion
 
     private void AssignAnimIDs()
     {
@@ -94,27 +99,29 @@ public class Player : MonoBehaviour
 
     }
 
-    void OnMove(InputValue value)
-    {
-        movement = value.Get<Vector2>();
-    }
+    #region New Input System
+        void OnMove(InputValue value)
+        {
+            movement = value.Get<Vector2>();
+        }
 
-    void OnSprint(InputValue value)
-    {
-        if (value.isPressed) isSprinting = true;
-        else isSprinting = false;
-    }
+        void OnSprint(InputValue value)
+        {
+            if (value.isPressed) isSprinting = true;
+            else isSprinting = false;
+        }
 
-    void OnJump()
-    {
-        if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        animator.SetBool(animIDJump, true);
-    }
+        void OnJump()
+        {
+            if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            animator.SetBool(animIDJump, true);
+        }
 
-    void OnAttack()
-    {
-        if (playerState != hitState) ChangeState(hitState);
-    }
+        void OnAttack()
+        {
+            if (playerState != hitState) ChangeState(hitState);
+        }
+    #endregion
 
     public bool GroundCheck()
     {
