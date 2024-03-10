@@ -3,54 +3,62 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float healthPoints = 2f;
-    public float timerDuration = 1f;
-    public float pushForce = 3f;
-    public float friction = 2f; // Adjust the friction value as needed
-    private bool isKnockedBack = false;
-    private bool isCollisionCooldown = false; // Flag to track if the enemy is in collision cooldown
-    public float collisionCooldown = 0.1f; // Time during which the enemy is immune to collision after being hit
-    private readonly float maxHeight = 15f; // Set your desired maximum height
+    #region Basic Variables
+        public float healthPoints = 3;
+        public float timeDurationRespawn = 2f;
+        public float deathCooldown = 2f;
+        public float pushForce = 3f;
+        public float friction = 2f;
+        private bool isKnockedBack = false;
+        private bool isCollisionCooldown = false;
+        public float collisionCooldown = 0.1f;
+        private readonly float maxHeight = 15f;
+    #endregion
+
+    #region Enemy Save Original Size and Position
+        private Vector3 initialPosition;
+        private Quaternion originalRotation;
+        private Color originalColor;
+        private Vector3 originalScale;
+    #endregion
 
     private void Start()
     {
+        initialPosition = transform.position;
+        originalColor = GetComponent<MeshRenderer>().material.color;
+        originalScale = transform.localScale;
+
         // Start the jumping coroutine
         StartCoroutine(JumpRoutine());
     }
 
     private void Update()
     {
-        KnockBack();        
+        KnockBack();
     }
 
-
-    // On hit, change color and apply force.
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Weapon") && !isCollisionCooldown)
         {
             ApplyForce();
+            healthPoints--;
+
             switch (healthPoints)
             {
                 case 2:
-                    healthPoints--;
-                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(170, 0, 0, 200);
-                    transform.localScale *= 0.8f; // Make object smaller
-                    print("Hit " + healthPoints);
+                    UpdateAppearance(new Color32(170, 0, 0, 200), originalScale * 0.8f);
                     break;
                 case 1:
-                    healthPoints--;
-                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(70, 0, 0, 200);
-                    transform.localScale *= 0.6f;
-                    print("Hit " + healthPoints);
+                    UpdateAppearance(new Color32(70, 0, 0, 200), originalScale * 0.6f);
                     break;
                 case 0:
-                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(10, 0, 0, 200);
-                    transform.localScale *= 0.2f;
-                    print("Hit " + healthPoints);
-                    Invoke(nameof(DestroyObject), timerDuration); // destroy object after a certain time
+                    UpdateAppearance(new Color32(10, 0, 0, 200), originalScale * 0.2f);
+                    // Invoke(nameof(DestroyEnemy), deathCooldown); // destroy object after a certain time
+                    StartCoroutine(RespawnEnemy()); // this is for testing purposes
                     break;
             }
+
             KnockBack();
             // Start the collision cooldown
             StartCollisionCooldown();
@@ -68,17 +76,16 @@ public class Enemy : MonoBehaviour
         isCollisionCooldown = false;
     }
 
-    private void DestroyObject()
+    private void DestroyEnemy()
     {
-        // Destroy the GameObject after the specified duration
-        Destroy(gameObject);
+        // Deactivate the GameObject instead of destroying it
+        gameObject.SetActive(false);
         print("Enemy Defeated!");
     }
 
     private void ApplyForce()
     {
-        // Apply a force to push the enemy back
-        Vector3 pushDirection = transform.forward; // Adjust the direction as needed
+        Vector3 pushDirection = transform.forward;
         GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.VelocityChange);
         isKnockedBack = true;
     }
@@ -87,10 +94,8 @@ public class Enemy : MonoBehaviour
     {
         if (isKnockedBack)
         {
-            // Apply friction to decelerate the enemy
             GetComponent<Rigidbody>().velocity -= friction * Time.deltaTime * GetComponent<Rigidbody>().velocity;
 
-            // Check if the velocity is low enough to stop
             if (GetComponent<Rigidbody>().velocity.magnitude < 0.1f)
             {
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -105,25 +110,51 @@ public class Enemy : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1.5f);
-            Jump();
+            EnemyJump();
         }
     }
 
-    // Jumping behavior
-    private void Jump()
+    private void EnemyJump()
     {
-        GetComponent<Rigidbody>().AddForce(Vector3.up * pushForce, ForceMode.VelocityChange);
+        if (healthPoints > 0)
+        {
+            GetComponent<Rigidbody>().AddForce(Vector3.up * pushForce, ForceMode.VelocityChange);
+        }
     }
 
     private void MaxHeightAfterHit()
     {
-        // Restrict the enemy's Y position
         if (transform.position.y > maxHeight)
         {
             Vector3 newPos = transform.position;
             newPos.y = maxHeight;
             transform.position = newPos;
         }
+    }
+
+    private IEnumerator RespawnEnemy()
+    {
+        yield return new WaitForSeconds(timeDurationRespawn);
+
+        // Reset appearance
+        UpdateAppearance(originalColor, originalScale);
+
+        // Reset health, position, and rotation
+        healthPoints = 3;
+        transform.position = initialPosition;
+        transform.rotation = originalRotation;
+
+        // Reactivate the GameObject
+        gameObject.SetActive(true);
+
+        print("Enemy Respawned!");
+    }
+
+    private void UpdateAppearance(Color color, Vector3 scale)
+    {
+        // Update color and scale
+        GetComponent<MeshRenderer>().material.color = color;
+        transform.localScale = scale;
     }
 
     void OnTriggerStay(Collider other)

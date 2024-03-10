@@ -18,11 +18,10 @@ public class PlayerHitState : PlayerBaseState
     }
 
     public override void UpdateState(Player player)
-    {
-        player.sword.EnableSwordCollider();
-        
+    {   
         if (strikeTimerDelta > 0)
         {
+            player.sword.EnableSwordCollider();
             strikeTimerDelta -= Time.deltaTime;
         }
         else
