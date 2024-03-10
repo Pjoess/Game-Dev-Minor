@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class PlayerHitState : PlayerBaseState
 {
-
-    private float strikeTimer = 1f;
-    private float strikeTimerDelta = 1f;
+    private readonly float strikeTimer = 1f;
+    private float strikeTimerDelta;
 
     public override void EnterState(Player player)
     {
@@ -14,11 +13,14 @@ public class PlayerHitState : PlayerBaseState
 
     public override void ExitState(Player player)
     {
+        player.sword.DisableSwordCollider();
         player.animator.SetBool(player.animIDStriking, false);
     }
 
     public override void UpdateState(Player player)
     {
+        player.sword.EnableSwordCollider();
+        
         if (strikeTimerDelta > 0)
         {
             strikeTimerDelta -= Time.deltaTime;

@@ -9,7 +9,7 @@ public class EnemyManagement : MonoBehaviour
     private bool isKnockedBack = false;
     private bool isCollisionCooldown = false; // Flag to track if the enemy is in collision cooldown
     public float collisionCooldown = 0.1f; // Time during which the enemy is immune to collision after being hit
-    private float maxHeight = 15f; // Set your desired maximum height
+    private readonly float maxHeight = 15f; // Set your desired maximum height
 
     // On hit, change color and apply force.
     void OnTriggerEnter(Collider other)
@@ -32,7 +32,6 @@ public class EnemyManagement : MonoBehaviour
                     print("Hit " + healthPoints);
                     break;
                 case 0:
-                    healthPoints = 2;
                     this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(10, 0, 0, 200);
                     transform.localScale *= 0.2f;
                     print("Hit " + healthPoints);
@@ -56,18 +55,19 @@ public class EnemyManagement : MonoBehaviour
         isCollisionCooldown = false;
     }
 
+    private void DestroyObject()
+    {
+        // Destroy the GameObject after the specified duration
+        Destroy(gameObject);
+        print("Enemy Defeated!");
+    }
+
     private void ApplyForce()
     {
         // Apply a force to push the enemy back
         Vector3 pushDirection = transform.forward; // Adjust the direction as needed
         GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.VelocityChange);
         isKnockedBack = true;
-    }
-
-    private void DestroyObject()
-    {
-        // Destroy the GameObject after the specified duration
-        Destroy(gameObject);
     }
 
     private void Update()

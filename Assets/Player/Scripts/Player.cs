@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
 
 public class Player : MonoBehaviour
 {
@@ -36,6 +33,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public int animIDJump;
     [HideInInspector] public int animIDStriking;
 
+    public Sword sword;
+
     private void AssignAnimIDs()
     {
         animIDSpeed = Animator.StringToHash("Speed");
@@ -48,7 +47,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        sword = GetComponentInChildren<Sword>();
         animator = GetComponent<Animator>();
         AssignAnimIDs();
 
