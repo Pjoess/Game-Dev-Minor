@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Sword : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
     private CapsuleCollider swordCollider;
     public bool colliderSwitch = false;

@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public int animIDJump;
     [HideInInspector] public int animIDStriking;
 
-    public Sword sword;
+    public Weapon sword;
 
     private void AssignAnimIDs()
     {
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sword = GetComponentInChildren<Sword>();
+        sword = GetComponentInChildren<Weapon>();
         animator = GetComponent<Animator>();
         AssignAnimIDs();
 
