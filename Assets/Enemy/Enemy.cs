@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+// --- Base Class --- ///
 public class EnemyCube : MonoBehaviour
 {
     #region Basic Variables
