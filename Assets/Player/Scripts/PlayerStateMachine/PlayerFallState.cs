@@ -18,6 +18,7 @@ public class PlayerFallState : PlayerBaseState
 
     public override void UpdateState(Player player)
     {
+        player.Movement();
         if (player.GroundCheck()) player.ChangeState(player.idleState);
     }
 }
