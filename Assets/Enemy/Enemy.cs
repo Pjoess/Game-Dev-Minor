@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyCube : MonoBehaviour
 {
     #region Basic Variables
         public float healthPoints = 3;
@@ -21,13 +21,13 @@ public class Enemy : MonoBehaviour
         private Color originalColor;
     #endregion
 
-    private void Start()
+    protected virtual void Start()
     {
         InitializeOriginalValues();
         StartCoroutine(JumpRoutine());
     }
 
-    void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
         if (IsWeaponCollisionValid(other))
         {
@@ -38,18 +38,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private bool IsWeaponCollisionValid(Collider other)
+    protected virtual bool IsWeaponCollisionValid(Collider other)
     {
         return other.gameObject.CompareTag("Weapon") && !isCollisionCooldown;
     }
 
-    private void ApplyDamageAndEffects()
+    protected virtual void ApplyDamageAndEffects()
     {
         ApplyForce();
         healthPoints--;
     }
 
-    private void CheckHealthAndUpdateAppearance()
+    protected virtual void CheckHealthAndUpdateAppearance()
     {
         switch (healthPoints)
         {
@@ -62,31 +62,31 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void StartCollisionCooldown()
+    protected virtual void StartCollisionCooldown()
     {
         isCollisionCooldown = true;
         Invoke(nameof(EndCollisionCooldown), collisionCooldown);
     }
 
-    private void EndCollisionCooldown()
+    protected virtual void EndCollisionCooldown()
     {
         isCollisionCooldown = false;
     }
 
-    private void DestroyEnemy()
+    protected virtual void DestroyEnemy()
     {
         gameObject.SetActive(false);
         print("Enemy Defeated!");
     }
 
-    private void ApplyForce()
+    protected virtual void ApplyForce()
     {
         Vector3 pushDirection = transform.forward;
         GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.VelocityChange);
         isKnockedBack = true;
     }
 
-    private void KnockBack()
+    protected virtual void KnockBack()
     {
         if (isKnockedBack)
         {
@@ -102,7 +102,7 @@ public class Enemy : MonoBehaviour
         MaxHeightAfterHit();
     }
 
-    private IEnumerator JumpRoutine()
+    protected virtual IEnumerator JumpRoutine()
     {
         while (true)
         {
@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void EnemyJump()
+    protected virtual void EnemyJump()
     {
         if (healthPoints > 0)
         {
@@ -119,7 +119,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void MaxHeightAfterHit()
+    protected virtual void MaxHeightAfterHit()
     {
         if (transform.position.y > maxHeight)
         {
@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private IEnumerator RespawnEnemy()
+    protected virtual IEnumerator RespawnEnemy()
     {
         yield return new WaitForSeconds(timeDurationRespawn);
         UpdateAppearance(originalColor, originalScale);
@@ -138,33 +138,33 @@ public class Enemy : MonoBehaviour
         print("Enemy Respawned!");
     }
 
-    private void ResetEnemyState()
+    protected virtual void ResetEnemyState()
     {
         healthPoints = 3;
         transform.position = initialPosition;
         transform.rotation = originalRotation;
     }
 
-    private void UpdateAppearance(Color color, Vector3 scale)
+    protected virtual void UpdateAppearance(Color color, Vector3 scale)
     {
         GetComponent<MeshRenderer>().material.color = color;
         transform.localScale = scale;
     }
 
-    private void InitializeOriginalValues()
+    protected virtual void InitializeOriginalValues()
     {
         initialPosition = transform.position;
         originalColor = GetComponent<MeshRenderer>().material.color;
         originalScale = transform.localScale;
         originalRotation = transform.rotation;
     }
-
-    void OnTriggerStay(Collider other)
+    
+    protected virtual void OnTriggerStay(Collider other)
     {
         Debug.Log("Inside collision...");
     }
 
-    void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         Debug.Log("Exiting collision...");
     }
