@@ -1,3 +1,4 @@
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class PlayerWalkState : PlayerBaseState
@@ -15,7 +16,8 @@ public class PlayerWalkState : PlayerBaseState
     public override void UpdateState(Player player)
     {
         player.Movement();
+        if (player.movement == Vector2.zero) player.ChangeState(player.idleState);
         if (player.isSprinting) player.ChangeState(player.runState);
-        if (!player.GroundCheck()) player.ChangeState(player.fallState);
+        player.FallCheck();
     }
 }

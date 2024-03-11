@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public bool isSprinting = false;
         public float jumpToFallTimer = 0.15f;
+        [HideInInspector] public float jumpToFallDelta;
     #endregion
 
     #region Player States
@@ -59,6 +60,8 @@ public class Player : MonoBehaviour
         playerState.EnterState(this);
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
+
+        jumpToFallDelta = jumpToFallTimer;
     }
 
     // Update is called once per frame
@@ -69,8 +72,6 @@ public class Player : MonoBehaviour
 
     public void Movement()
     {
-        if (movement == Vector2.zero) ChangeState(idleState);
-
         float speed = isSprinting ? runSpeed : walkSpeed;
         
         animationBlend = Mathf.Lerp(animationBlend, speed, Time.deltaTime * speedChangeRate);
@@ -90,10 +91,13 @@ public class Player : MonoBehaviour
 
         transform.Translate(speed * Time.deltaTime * moveDirection, Space.World);
 
-        Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
-        Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+        if(direction != Vector3.zero) 
+        {
+            Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+            Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+        }
     }
 
     #region New Input System Methods
@@ -111,6 +115,19 @@ public class Player : MonoBehaviour
     #endregion --- End ---
 
     public bool GroundCheck() => Physics.Raycast(transform.position + cc.center, Vector3.down, cc.bounds.extents.y + 0.1f);
+
+    public void FallCheck()
+    {
+        if(!GroundCheck())
+        {
+            if(jumpToFallDelta > 0) jumpToFallDelta -= Time.deltaTime;
+            else
+            {
+                animator.SetBool(animIDFall, true);
+                ChangeState(fallState);
+            }
+        }
+    }
 
     public void ChangeState(PlayerBaseState state)
     {
