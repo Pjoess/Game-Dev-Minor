@@ -8,10 +8,11 @@ public class Player : MonoBehaviour
         Rigidbody rb;
         CapsuleCollider cc;
         public Weapon sword;
+        AudioSource jumpSound;
     #endregion
 
     #region Basic Variables for (Movements and Jumping)
-        public float jumpForce = 3;
+        public float jumpForce = 5;
         public float walkSpeed = 2;
         public float runSpeed = 5;
         public float speedChangeRate = 5;
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
         playerState.EnterState(this);
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
-
+        jumpSound = GetComponent<AudioSource>();
         jumpToFallDelta = jumpToFallTimer;
     }
 
@@ -110,9 +111,13 @@ public class Player : MonoBehaviour
         {
             if (playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             animator.SetBool(animIDJump, true);
+            jumpSound.Play();
         }
 
-        void OnAttack() => ChangeState(playerState != hitState ? hitState : null);
+        void OnAttack()
+        {
+            ChangeState(playerState != hitState ? hitState : null);
+        }
     #endregion --- End ---
 
     public bool GroundCheck() => Physics.Raycast(transform.position + cc.center, Vector3.down, cc.bounds.extents.y + 0.1f);
