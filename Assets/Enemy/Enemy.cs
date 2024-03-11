@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 // --- Base Class --- ///
-public class EnemyCube : MonoBehaviour
+public class EnemyCube : MonoBehaviour, ITriggerCheckable
 {
     #region Basic Variables
         public float healthPoints = 3;
@@ -16,6 +17,25 @@ public class EnemyCube : MonoBehaviour
         public float maxHeight = 15f;
     #endregion
 
+    #region AI variables
+        public NavMeshAgent Agent { get; set; }
+        public Transform Target { get; set; }
+    #endregion
+
+    #region Enemy States
+        public EnemyIdleState idleState = new EnemyIdleState();
+        public EnemyChaseState chaseState = new EnemyChaseState();
+        public EnemyFallState fallState = new EnemyFallState();
+        public EnemyHitState hitState = new EnemyHitState();
+    #endregion
+
+    #region CheckTriggers
+        public bool IsAggroed { get; set; }
+        public bool IsWithinStrikingDistance { get; set; }
+        public void SetAggroStatus(bool isAggroed){ IsAggroed = isAggroed; }
+        public void SetStrikingDistanceBool(bool isWithinStrikingDistance){ IsWithinStrikingDistance = isWithinStrikingDistance; }
+    #endregion
+
     #region Enemy Save Original Size and Position for the Respawn
         private Vector3 initialPosition, originalScale;
         private Quaternion originalRotation;
@@ -27,6 +47,11 @@ public class EnemyCube : MonoBehaviour
         InitializeOriginalValues();
         StartCoroutine(JumpRoutine());
     }
+
+    // protected void Awake()
+    // {
+    //     SphereCollider = GetComponent<SphereCollider>();
+    // }
 
     protected void OnTriggerEnter(Collider other)
     {
