@@ -23,7 +23,10 @@ public class PlayerHitState : PlayerBaseState
             player.sword.EnableSwordCollider();
             strikeTimerDelta -= Time.deltaTime;
         } else {
-            player.ChangeState(player.idleState);
+            //player.ChangeState(player.idleState);
         }
+
+
+
     }
 }

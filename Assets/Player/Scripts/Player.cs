@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -127,6 +128,13 @@ public class Player : MonoBehaviour
                 ChangeState(fallState);
             }
         }
+    }
+
+    public bool IsAnimPlaying(string animStateName)
+    {
+        bool isAnimPlaying = animator.GetCurrentAnimatorStateInfo(0).length >
+           animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        return isAnimPlaying && animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName);
     }
 
     public void ChangeState(PlayerBaseState state)
