@@ -22,5 +22,4 @@ public class PlayerIdleState : PlayerBaseState
 
         player.animator.SetFloat(player.animIDSpeed, player.animationBlend);
     }
-
 }

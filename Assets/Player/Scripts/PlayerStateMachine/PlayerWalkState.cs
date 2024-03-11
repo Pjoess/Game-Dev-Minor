@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWalkState : PlayerBaseState
@@ -18,7 +16,6 @@ public class PlayerWalkState : PlayerBaseState
     {
         player.Movement();
         if (player.isSprinting) player.ChangeState(player.runState);
-
         if (!player.GroundCheck()) player.ChangeState(player.fallState);
     }
 }

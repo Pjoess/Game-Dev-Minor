@@ -13,23 +13,10 @@ public class Weapon : MonoBehaviour
 
     public void SwitchSwordCollider()
     {
-        if (colliderSwitch)
-        {
-            EnableSwordCollider();
-        }
-        else
-        {
-            DisableSwordCollider();
-        }
+        if (colliderSwitch) EnableSwordCollider();
+        else DisableSwordCollider();
     }
 
-    public void DisableSwordCollider()
-    {
-        swordCollider.enabled = false;
-    }
-
-    public void EnableSwordCollider()
-    {
-        swordCollider.enabled = true;
-    }
+    public void DisableSwordCollider() => swordCollider.enabled = false;
+    public void EnableSwordCollider() => swordCollider.enabled = true;
 }

@@ -55,13 +55,10 @@ public class Player : MonoBehaviour
         sword = GetComponentInChildren<Weapon>();
         animator = GetComponent<Animator>();
         AssignAnimIDs();
-
         playerState = idleState;
         playerState.EnterState(this);
-
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
-
     }
 
     // Update is called once per frame
@@ -69,6 +66,7 @@ public class Player : MonoBehaviour
     {
         playerState.UpdateState(this);
     }
+
     public void Movement()
     {
         if (movement == Vector2.zero) ChangeState(idleState);
@@ -79,70 +77,49 @@ public class Player : MonoBehaviour
         if (animationBlend < 0.01f) animationBlend = 0f;
         animator.SetFloat(animIDSpeed, animationBlend);
 
-        Vector3 direction = new Vector3(movement.x, 0, movement.y);
+        Vector3 direction = new(movement.x, 0, movement.y);
 
-        Vector3 camF = Camera.main.transform.forward;
-        Vector3 camR = Camera.main.transform.right;
-        camF.y = 0;
-        camR.y = 0;
-        camF = camF.normalized;
-        camR = camR.normalized;
+        Vector3 cameraFaceForward = Camera.main.transform.forward;
+        Vector3 cameraFaceRight = Camera.main.transform.right;
+        cameraFaceForward.y = 0;
+        cameraFaceRight.y = 0;
+        cameraFaceForward = cameraFaceForward.normalized;
+        cameraFaceRight = cameraFaceRight.normalized;
 
-        Vector3 moveDir = camF * direction.z + camR * direction.x;
+        Vector3 moveDirection = cameraFaceForward * direction.z + cameraFaceRight * direction.x;
 
-        transform.Translate(speed * Time.deltaTime * moveDir, Space.World);
+        transform.Translate(speed * Time.deltaTime * moveDirection, Space.World);
 
         Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
         Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-
     }
 
-    #region New Input System
-        void OnMove(InputValue value)
-        {
-            movement = value.Get<Vector2>();
-        }
+    #region New Input System Methods
+        void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-        void OnSprint(InputValue value)
-        {
-            if (value.isPressed) isSprinting = true;
-            else isSprinting = false;
-        }
+        void OnSprint(InputValue value) => isSprinting = value.isPressed;
 
         void OnJump()
         {
-            if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if (playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             animator.SetBool(animIDJump, true);
         }
 
-        void OnAttack()
-        {
-            if (playerState != hitState) ChangeState(hitState);
-        }
-    #endregion
+        void OnAttack() => ChangeState(playerState != hitState ? hitState : null);
+    #endregion --- End ---
 
-    public bool GroundCheck()
-    {
-        return Physics.Raycast(transform.position + cc.center, Vector3.down, cc.bounds.extents.y + 0.1f);
-    }
+    public bool GroundCheck() => Physics.Raycast(transform.position + cc.center, Vector3.down, cc.bounds.extents.y + 0.1f);
 
     public void ChangeState(PlayerBaseState state)
     {
         playerState.ExitState(this);
-        playerState = state;
+        playerState = state ?? playerState;
         playerState.EnterState(this);
     }
 
-    private void OnFootstep(AnimationEvent animationEvent)
-    {
-        
-    }
+    private void OnFootstep(AnimationEvent animationEvent) { }
 
-    private void OnLand(AnimationEvent animationEvent)
-    {
-       
-    }
-
+    private void OnLand(AnimationEvent animationEvent) { }
 }

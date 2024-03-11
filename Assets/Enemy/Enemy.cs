@@ -12,56 +12,53 @@ public class Enemy : MonoBehaviour
         private bool isKnockedBack = false;
         private bool isCollisionCooldown = false;
         public float collisionCooldown = 0.1f;
-        private readonly float maxHeight = 15f;
+        public float maxHeight = 15f;
     #endregion
 
-    #region Enemy Save Original Size and Position
-        private Vector3 initialPosition;
+    #region Enemy Save Original Size and Position for the Respawn
+        private Vector3 initialPosition, originalScale;
         private Quaternion originalRotation;
         private Color originalColor;
-        private Vector3 originalScale;
     #endregion
 
     private void Start()
     {
-        initialPosition = transform.position;
-        originalColor = GetComponent<MeshRenderer>().material.color;
-        originalScale = transform.localScale;
-
-        // Start the jumping coroutine
+        InitializeOriginalValues();
         StartCoroutine(JumpRoutine());
-    }
-
-    private void Update()
-    {
-        KnockBack();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Weapon") && !isCollisionCooldown)
+        if (IsWeaponCollisionValid(other))
         {
-            ApplyForce();
-            healthPoints--;
+            ApplyDamageAndEffects();
+            CheckHealthAndUpdateAppearance();
+            KnockBack();
+            StartCollisionCooldown();
+        }
+    }
 
-            switch (healthPoints)
-            {
-                case 2:
-                    UpdateAppearance(new Color32(170, 0, 0, 200), originalScale * 0.8f);
-                    break;
-                case 1:
-                    UpdateAppearance(new Color32(70, 0, 0, 200), originalScale * 0.6f);
-                    break;
-                case 0:
-                    UpdateAppearance(new Color32(10, 0, 0, 200), originalScale * 0.2f);
+    private bool IsWeaponCollisionValid(Collider other)
+    {
+        return other.gameObject.CompareTag("Weapon") && !isCollisionCooldown;
+    }
+
+    private void ApplyDamageAndEffects()
+    {
+        ApplyForce();
+        healthPoints--;
+    }
+
+    private void CheckHealthAndUpdateAppearance()
+    {
+        switch (healthPoints)
+        {
+            case 2: UpdateAppearance(new Color32(170, 0, 0, 200), originalScale * 0.8f); break;
+            case 1: UpdateAppearance(new Color32(70, 0, 0, 200), originalScale * 0.6f); break;
+            case 0: UpdateAppearance(new Color32(10, 0, 0, 200), originalScale * 0.2f);
                     // Invoke(nameof(DestroyEnemy), deathCooldown); // destroy object after a certain time
                     StartCoroutine(RespawnEnemy()); // this is for testing purposes
                     break;
-            }
-
-            KnockBack();
-            // Start the collision cooldown
-            StartCollisionCooldown();
         }
     }
 
@@ -78,7 +75,6 @@ public class Enemy : MonoBehaviour
 
     private void DestroyEnemy()
     {
-        // Deactivate the GameObject instead of destroying it
         gameObject.SetActive(false);
         print("Enemy Defeated!");
     }
@@ -94,11 +90,12 @@ public class Enemy : MonoBehaviour
     {
         if (isKnockedBack)
         {
-            GetComponent<Rigidbody>().velocity -= friction * Time.deltaTime * GetComponent<Rigidbody>().velocity;
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.velocity -= friction * Time.deltaTime * rb.velocity;
 
-            if (GetComponent<Rigidbody>().velocity.magnitude < 0.1f)
+            if (rb.velocity.magnitude < 0.1f)
             {
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                rb.velocity = Vector3.zero;
                 isKnockedBack = false;
             }
         }
@@ -135,31 +132,36 @@ public class Enemy : MonoBehaviour
     private IEnumerator RespawnEnemy()
     {
         yield return new WaitForSeconds(timeDurationRespawn);
-
-        // Reset appearance
         UpdateAppearance(originalColor, originalScale);
+        ResetEnemyState();
+        gameObject.SetActive(true);
+        print("Enemy Respawned!");
+    }
 
-        // Reset health, position, and rotation
+    private void ResetEnemyState()
+    {
         healthPoints = 3;
         transform.position = initialPosition;
         transform.rotation = originalRotation;
-
-        // Reactivate the GameObject
-        gameObject.SetActive(true);
-
-        print("Enemy Respawned!");
     }
 
     private void UpdateAppearance(Color color, Vector3 scale)
     {
-        // Update color and scale
         GetComponent<MeshRenderer>().material.color = color;
         transform.localScale = scale;
     }
 
+    private void InitializeOriginalValues()
+    {
+        initialPosition = transform.position;
+        originalColor = GetComponent<MeshRenderer>().material.color;
+        originalScale = transform.localScale;
+        originalRotation = transform.rotation;
+    }
+
     void OnTriggerStay(Collider other)
     {
-        //Debug.Log("Staying in the collision...");
+        Debug.Log("Inside collision...");
     }
 
     void OnTriggerExit(Collider other)
