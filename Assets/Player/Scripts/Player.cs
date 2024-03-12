@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
         [HideInInspector] public bool isSprinting = false;
         public float jumpToFallTimer = 0.15f;
         [HideInInspector] public float jumpToFallDelta;
+
+        public static event Action hasAttacked;
     #endregion
 
     #region Player States
@@ -30,11 +32,13 @@ public class Player : MonoBehaviour
         public PlayerWalkState walkState = new PlayerWalkState();
         public PlayerRunState runState = new PlayerRunState();
         public PlayerFallState fallState = new PlayerFallState();
-        public PlayerHitState hitState = new PlayerHitState();
+        public PlayerStrikeState strikeState = new PlayerStrikeState();
+        public PlayerStrike2State strike2State = new PlayerStrike2State();
+        public PlayerStrike3State strike3State = new PlayerStrike3State();
     #endregion
 
     #region Player Animation
-        [HideInInspector] public Animator animator;
+    [HideInInspector] public Animator animator;
         [HideInInspector] public float animationBlend;
         // --- Animation parameters IDs --- //
         [HideInInspector] public int animIDSpeed;
@@ -121,8 +125,8 @@ public class Player : MonoBehaviour
 
         void OnAttack()
         {
-            if (playerState != hitState) ChangeState(hitState);
-            else hitState.RespondToAttack(this);
+            if (hasAttacked != null) hasAttacked.Invoke();
+            else if (playerState != strikeState && playerState != strike3State) ChangeState(strikeState);
         }
     #endregion --- End ---
 
