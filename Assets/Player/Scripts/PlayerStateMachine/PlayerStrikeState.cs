@@ -21,7 +21,6 @@ public class PlayerStrikeState : PlayerBaseState
     {
         Player.hasAttacked -= OnAttack;
         player.sword.DisableSwordCollider();
-        //player.animator.SetBool(player.animIDStrike1, false);
     }
 
     public override void UpdateState(Player player)
