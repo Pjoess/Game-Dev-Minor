@@ -1,6 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -40,7 +41,9 @@ public class Player : MonoBehaviour
         [HideInInspector] public int animIDGrounded;
         [HideInInspector] public int animIDFall;
         [HideInInspector] public int animIDJump;
-        [HideInInspector] public int animIDStriking;
+        [HideInInspector] public int animIDStrike1;
+        [HideInInspector] public int animIDStrike2;
+        [HideInInspector] public int animIDStrike3;
     #endregion
 
     private void AssignAnimIDs()
@@ -49,7 +52,9 @@ public class Player : MonoBehaviour
         animIDGrounded = Animator.StringToHash("Grounded");
         animIDFall = Animator.StringToHash("Fall");
         animIDJump = Animator.StringToHash("Jump");
-        animIDStriking = Animator.StringToHash("Striking");
+        animIDStrike1 = Animator.StringToHash("Strike1");
+        animIDStrike2 = Animator.StringToHash("Strike2");
+        animIDStrike3 = Animator.StringToHash("Strike3");
     }
 
     // Start is called before the first frame update
@@ -116,7 +121,8 @@ public class Player : MonoBehaviour
 
         void OnAttack()
         {
-            ChangeState(playerState != hitState ? hitState : null);
+            if (playerState != hitState) ChangeState(hitState);
+            else hitState.RespondToAttack(this);
         }
     #endregion --- End ---
 
@@ -140,6 +146,15 @@ public class Player : MonoBehaviour
         bool isAnimPlaying = animator.GetCurrentAnimatorStateInfo(0).length >
            animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
         return isAnimPlaying && animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName);
+    }
+    public bool IsAnimFinished(string animStateName)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName))
+        {
+            AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+            return info.normalizedTime > 1.0f;
+        }
+        else return false;
     }
 
     public void ChangeState(PlayerBaseState state)
