@@ -17,16 +17,13 @@ public class EnemyCube : MonoBehaviour, ITriggerCheckable
         public float maxHeight = 15f;
     #endregion
 
-    #region AI variables
-        public NavMeshAgent Agent { get; set; }
-        public Transform Target { get; set; }
-    #endregion
+
 
     #region Enemy States
-        public EnemyIdleState idleState = new EnemyIdleState();
-        public EnemyChaseState chaseState = new EnemyChaseState();
-        public EnemyFallState fallState = new EnemyFallState();
-        public EnemyHitState hitState = new EnemyHitState();
+        // public EnemyIdleState idleState = new EnemyIdleState();
+        // public EnemyChaseState chaseState = new EnemyChaseState();
+        // public EnemyFallState fallState = new EnemyFallState();
+        // public EnemyHitState hitState = new EnemyHitState();
     #endregion
 
     #region CheckTriggers
@@ -187,11 +184,11 @@ public class EnemyCube : MonoBehaviour, ITriggerCheckable
     
     protected virtual void OnTriggerStay(Collider other)
     {
-        Debug.Log("Inside collision...");
+        // Debug.Log("Inside collision...");
     }
 
     protected virtual void OnTriggerExit(Collider other)
     {
-        Debug.Log("Exiting collision...");
+        // Debug.Log("Exiting collision...");
     }
 }

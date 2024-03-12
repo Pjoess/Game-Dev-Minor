@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class EnemyFallState : PlayerBaseState
+public class EnemyFallState : EnemyState
 {
+    public EnemyFallState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    {
+    }
 
     //private float fallTimer;
 
-    public override void EnterState(Player player)
+    public override void EnterState()
     {
 
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState()
     {
 
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState()
     { 
 
         

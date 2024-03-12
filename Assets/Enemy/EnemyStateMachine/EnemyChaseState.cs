@@ -1,20 +1,34 @@
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public class EnemyChaseState : PlayerBaseState
+public class EnemyChaseState : EnemyState
 {
-    public override void EnterState(Player player)
+    public EnemyChaseState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    {
+    }
+
+    public override void EnterState()
+    {
+        enemy.Agent.isStopped = false;
+        Debug.Log("Chase state");
+    }
+
+    public override void ExitState()
     {
         
     }
 
-    public override void ExitState(Player player)
+    public override void UpdateState()
     {
-        
-    }
+        enemy.Agent.SetDestination(enemy.Target.position);
 
-    public override void UpdateState(Player player)
-    {
-        
+        if(enemy.IsWithinStrikingDistance)
+        {
+            enemyStateMachine.ChangeState(enemy.EnemyHitState);
+        }
+        if(!enemy.IsAggroed)
+        {
+            enemyStateMachine.ChangeState(enemy.EnemyIdleState);
+        }
     }
 }

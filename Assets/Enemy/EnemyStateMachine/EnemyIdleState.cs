@@ -1,21 +1,25 @@
 using UnityEngine;
-
-public class EnemyIdleState : EnemyBaseState
+public class EnemyIdleState : EnemyState
 {
-    public override void EnterState(Enemy enemy)
+    public EnemyIdleState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
 
-    public override void ExitState(Enemy enemy)
+    public override void EnterState()
+    {
+        enemy.Agent.isStopped = true;
+    }
+
+    public override void ExitState()
     {
         
     }
 
-    public override void UpdateState(Enemy enemy)
+    public override void UpdateState()
     {
         if (enemy.IsAggroed)
         {
-            // enemy.ChangeState(enemy.chaseState);
+            enemyStateMachine.ChangeState(enemy.EnemyChaseState);
         }
     }
 }

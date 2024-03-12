@@ -1,20 +1,32 @@
 using UnityEngine;
 
-public class EnemyHitState : PlayerBaseState
+public class EnemyHitState : EnemyState
 {
+    public EnemyHitState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    {
+    }
 
-    public override void EnterState(Player player)
+    public override void EnterState()
+    {
+        enemy.Agent.isStopped = true;
+    }
+
+    public override void ExitState()
     {
 
     }
 
-    public override void ExitState(Player player)
+    public override void UpdateState()
     {
+        //rotate towards player
 
-    }
+        //Attack player
 
-    public override void UpdateState(Player player)
-    {   
-
+        
+        if(!enemy.IsWithinStrikingDistance && enemy.IsAggroed)
+        {
+            enemy.Agent.isStopped = false;
+            enemyStateMachine.ChangeState(enemy.EnemyChaseState);
+        }
     }
 }
