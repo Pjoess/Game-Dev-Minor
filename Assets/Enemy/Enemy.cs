@@ -23,8 +23,11 @@ public class EnemyCube : MonoBehaviour
         private Color originalColor;
     #endregion
 
+    public AudioSource slimeJumpSound;
+
     protected virtual void Start()
     {
+        slimeJumpSound = GetComponent<AudioSource>();
         InitializeOriginalValues();
         StartCoroutine(JumpRoutine());
     }
@@ -120,6 +123,10 @@ public class EnemyCube : MonoBehaviour
         if (healthPoints > 0)
         {
             GetComponent<Rigidbody>().AddForce(Vector3.up * pushForce, ForceMode.VelocityChange);
+            if (slimeJumpSound != null)
+            {
+                slimeJumpSound.Play();
+            }
         }
     }
 
