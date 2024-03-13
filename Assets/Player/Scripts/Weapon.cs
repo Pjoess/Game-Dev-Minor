@@ -21,7 +21,7 @@ public class Weapon : MonoBehaviour
 
     public void DisableSwordCollider() => swordCollider.enabled = false;
     
-    public void SwordAttackEnableCollision() 
+    public void DoSwordAttackEnableCollision() 
     {
         swordCollider.enabled = true; // Enable Collision
         swordSlashSound.Play();
