@@ -149,6 +149,7 @@ public class EnemyCube : MonoBehaviour
         transform.rotation = originalRotation;
     }
 
+    // Color
     protected virtual void UpdateAppearance(Color color, Vector3 scale)
     {
         GetComponent<MeshRenderer>().material.color = color;

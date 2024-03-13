@@ -3,31 +3,31 @@ using UnityEngine;
 
 public class PlayerStrikeState : PlayerBaseState
 {
-    private bool struckAgain;
+    Weapon weapon;
 
     public override void EnterState(Player player)
     {
         player.sword.EnableSwordCollider();
-        Player.hasAttacked += OnAttack;
+        player.HasAttacked += player.OnAttackStruck;
         player.animator.SetBool(player.animIDStrike1, true);
-        struckAgain = false;
+        player.struckAgain = false;
         Debug.Log("Anim1");
+        //weapon.GetComponent<MeshRenderer>().material.color = new Color32(170, 0, 0, 200);
     }
 
     public override void ExitState(Player player)
     {
-        Player.hasAttacked -= OnAttack;
+        player.HasAttacked -= player.OnAttackStruck;
         player.sword.DisableSwordCollider();
     }
 
     public override void UpdateState(Player player)
     {
+        player.AttackRotation();
 
-        player.attackRotation();
-
-        if(player.IsAnimFinished("Strike1"))
+        if (player.IsAnimFinished("Strike1"))
         {
-            if(struckAgain) 
+            if (player.struckAgain)
             {
                 player.animator.SetBool(player.animIDStrike2, true);
                 player.ChangeState(player.strike2State);
@@ -38,10 +38,5 @@ public class PlayerStrikeState : PlayerBaseState
                 player.ChangeState(player.idleState);
             }
         }
-    }
-
-    private void OnAttack()
-    {
-        struckAgain = true;
     }
 }
