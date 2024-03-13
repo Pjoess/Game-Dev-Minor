@@ -11,11 +11,12 @@ public partial class Player
     #endregion
 
     #region Basic Variables for (Movements and Jumping)
-        public float jumpForce = 5;
-        public float walkSpeed = 2;
-        public float runSpeed = 5;
-        public float speedChangeRate = 5;
-        public float rotationSpeed = 500;
+        public float jumpForce = 5f;
+        public float dashForce  = 2.5f;
+        public float walkSpeed = 2f;
+        public float runSpeed = 5f;
+        public float speedChangeRate = 5f;
+        public float rotationSpeed = 500f;
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public bool isSprinting = false;
         public float jumpToFallTimer = 0.15f;

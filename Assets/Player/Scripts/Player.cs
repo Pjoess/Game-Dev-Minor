@@ -1,6 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System;
 
 public partial class Player : MonoBehaviour
 {
@@ -117,6 +117,38 @@ public partial class Player : MonoBehaviour
             if(value.isPressed && IsGrounded()){
                 if (HasAttacked != null) HasAttacked.Invoke();
                 else if (playerState != strikeState && playerState != strike3State) ChangeState(strikeState);
+            }
+        }
+
+        void OnDash(InputValue value)
+        {
+            if (value.isPressed && IsGrounded() && playerState != fallState)
+            {
+                Vector3 moveDirection = new Vector3(movement.x, 0, movement.y).normalized;
+
+                if (moveDirection != Vector3.zero)
+                {
+                    Vector3 dashDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
+                    dashDirection.y = 0; // Set the vertical component to zero to avoid moving up or down
+
+                    StartCoroutine(DashCoroutine(dashDirection.normalized));
+                }
+            }
+        }
+
+        // Maybe in a StateMachine for dash.
+        private IEnumerator DashCoroutine(Vector3 dashDirection)
+        {
+            float elapsed = 0f;
+            float duration = 0.2f; // Adjust the duration as needed
+
+            while (elapsed < duration)
+            {
+                float currentSpeed = Mathf.Lerp(0, dashForce, elapsed / duration);
+                rigidBody.AddForce(dashDirection * currentSpeed, ForceMode.Impulse);
+
+                elapsed += Time.deltaTime;
+                yield return null;
             }
         }
     #endregion --- End ---
