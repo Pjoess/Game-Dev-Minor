@@ -24,7 +24,8 @@ public class PlayerStrike2State : PlayerBaseState
 
     public override void UpdateState(Player player)
     {
-        if(player.IsAnimFinished("Strike2"))
+        player.attackRotation();
+        if (player.IsAnimFinished("Strike2"))
         {
             if (struckAgain)
             {

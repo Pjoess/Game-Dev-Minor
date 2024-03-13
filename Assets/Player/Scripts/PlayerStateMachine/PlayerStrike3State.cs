@@ -20,6 +20,7 @@ public class PlayerStrike3State : PlayerBaseState
 
     public override void UpdateState(Player player)
     {
-        if(player.IsAnimFinished("Strike3")) player.ChangeState(player.idleState);
+        player.attackRotation();
+        if (player.IsAnimFinished("Strike3")) player.ChangeState(player.idleState);
     }
 }

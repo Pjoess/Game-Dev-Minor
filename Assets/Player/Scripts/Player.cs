@@ -81,6 +81,20 @@ public class Player : MonoBehaviour
         playerState.UpdateState(this);
     }
 
+
+    public void attackRotation()
+    {
+        Vector3 direction = new(movement.x, 0, movement.y);
+
+        if (direction != Vector3.zero)
+        {
+            Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+            Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * 0.5f * Time.deltaTime);
+        }
+    }
+
     public void Movement()
     {
         float speed = isSprinting ? runSpeed : walkSpeed;
