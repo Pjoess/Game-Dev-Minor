@@ -20,14 +20,15 @@ public partial class Player
         public float runSpeed = 5f;
         public float dashForce  = 2f;
         public float speedChangeRate = 5f;
-        public float rotationSpeed = 500f;
+        public float rotationSpeed = 600f;
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public bool isSprinting = false;
     #endregion
 
     #region Sword Attack and Collison
-        public event Action HasAttacked;
-        public bool struckAgain;
+        [HideInInspector] public event Action HasAttacked;
+        [HideInInspector] public bool struckAgain;
+        public float attackDistance = 0.05f;
     #endregion
 
     #region Player States

@@ -4,6 +4,7 @@ public class PlayerStrike2State : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
+        player.MoveForwardOnAttack();
         player.sword.DoSwordAttackEnableCollision();
         player.HasAttacked += player.OnAttackStruck;
         player.struckAgain = false;

@@ -78,6 +78,12 @@ public partial class Player : MonoBehaviour
         }
 
         public void OnAttackStruck() => struckAgain = true;
+
+        public void MoveForwardOnAttack(){
+            // Move a little bit forward when attacking
+            Vector3 newPosition = transform.position + transform.forward * attackDistance;
+            transform.position = newPosition;
+        }
     #endregion
 
     #region Animation of Player

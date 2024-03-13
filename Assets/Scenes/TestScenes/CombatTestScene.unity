@@ -1523,13 +1523,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPoints: 3
-  timeDurationRespawn: 2
-  deathCooldown: 2
-  pushForce: 3
-  friction: 2
-  collisionCooldown: 2
+  respawnTime: 2
+  pushBackForce: 1
+  pushUpForce: 4
+  pushbackGroundFriction: 2
+  collisionCooldown: 1
   maxHeight: 15
-  rotationSpeed: 500
+  rotationSpeed: 750
   slimeJumpSound: {fileID: 0}
 --- !u!65 &1259969032
 BoxCollider:
@@ -2090,13 +2090,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPoints: 3
-  timeDurationRespawn: 4
-  deathCooldown: 2
-  pushForce: 3
-  friction: 2
-  collisionCooldown: 0.1
+  respawnTime: 2
+  pushBackForce: 1
+  pushUpForce: 4
+  pushbackGroundFriction: 2
+  collisionCooldown: 1
   maxHeight: 15
-  rotationSpeed: 500
+  rotationSpeed: 750
   slimeJumpSound: {fileID: 0}
 --- !u!1 &1849695126
 GameObject:
@@ -2898,7 +2898,7 @@ PrefabInstance:
     - target: {fileID: 745307703136050936, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
         type: 3}
       propertyPath: dashForce
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 745307703136050936, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
         type: 3}
@@ -2913,7 +2913,12 @@ PrefabInstance:
     - target: {fileID: 745307703136050936, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
         type: 3}
       propertyPath: rotationSpeed
-      value: 500
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 745307703136050936, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: attackDistance
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3638020977745632247, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
         type: 3}
