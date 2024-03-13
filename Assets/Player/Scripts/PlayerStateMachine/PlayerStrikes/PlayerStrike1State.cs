@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerStrikeState : PlayerBaseState
@@ -22,7 +21,6 @@ public class PlayerStrikeState : PlayerBaseState
     public override void UpdateState(Player player)
     {
         player.AttackRotation();
-
         if (player.IsAnimFinished("Strike1"))
         {
             if (player.struckAgain)
