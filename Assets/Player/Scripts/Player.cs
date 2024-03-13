@@ -86,6 +86,7 @@ public partial class Player : MonoBehaviour
             bool isAnimPlaying = animator.GetCurrentAnimatorStateInfo(0).length > animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             return isAnimPlaying && animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName);
         }
+
         public bool IsAnimFinished(string animStateName)
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName))
@@ -113,16 +114,9 @@ public partial class Player : MonoBehaviour
 
         void OnAttack(InputValue value)
         {
-            if(value.isPressed && IsGrounded())
-            {
-                if (HasAttacked != null) 
-                {
-                    HasAttacked.Invoke();
-                }
-                else if (playerState != strikeState && playerState != strike3State) 
-                {
-                    ChangeState(strikeState);
-                }
+            if(value.isPressed && IsGrounded()){
+                if (HasAttacked != null) HasAttacked.Invoke();
+                else if (playerState != strikeState && playerState != strike3State) ChangeState(strikeState);
             }
         }
     #endregion --- End ---
