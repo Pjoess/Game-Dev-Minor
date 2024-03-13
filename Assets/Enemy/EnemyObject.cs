@@ -9,15 +9,10 @@ public class Enemy : EnemyCube
     {
         base.Start(); // Call base class Start method if needed
 
-        // Assuming you have a Player tag for the player object
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-
-        if (playerObject != null)
-        {
+        if (playerObject != null) {
             player = playerObject.transform;
-        }
-        else
-        {
+        } else {
             Debug.LogError("Player not found. Make sure you have a GameObject with the 'Player' tag.");
         }
     }
@@ -25,12 +20,9 @@ public class Enemy : EnemyCube
     protected override void Update()
     {
         base.Update(); // Call base class Update method if needed
-
         // Face the player
         if (player != null)
-        {
             FacePlayer();
-        }
     }
 
     private void FacePlayer()
@@ -40,8 +32,7 @@ public class Enemy : EnemyCube
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 
-    protected override bool IsWeaponCollisionValid(Collider other)
-    {
+    protected override bool IsWeaponCollisionValid(Collider other){
         return base.IsWeaponCollisionValid(other); // Call base class method if needed
     }
 }
