@@ -9,6 +9,7 @@ public class PlayerStrike2State : PlayerBaseState
 
     public override void EnterState(Player player)
     {
+        player.sword.EnableSwordCollider();
         Player.hasAttacked += OnAttack;
         struckAgain = false;
         Debug.Log("Anim2");
@@ -17,7 +18,8 @@ public class PlayerStrike2State : PlayerBaseState
     public override void ExitState(Player player)
     {
         Player.hasAttacked -= OnAttack;
-        
+        player.sword.DisableSwordCollider();
+
     }
 
     public override void UpdateState(Player player)
