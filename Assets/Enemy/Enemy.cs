@@ -14,6 +14,7 @@ public class EnemyCube : MonoBehaviour
         private bool isCollisionCooldown = false;
         public float collisionCooldown = 0.1f;
         public float maxHeight = 15f;
+        public float rotationSpeed = 500f;
     #endregion
 
     #region Enemy Save Original Size and Position for the Respawn
@@ -27,6 +28,8 @@ public class EnemyCube : MonoBehaviour
         InitializeOriginalValues();
         StartCoroutine(JumpRoutine());
     }
+    
+    protected virtual void Update(){}
 
     protected void OnTriggerEnter(Collider other)
     {
@@ -82,7 +85,7 @@ public class EnemyCube : MonoBehaviour
 
     protected virtual void ApplyForce()
     {
-        Vector3 pushDirection = transform.forward;
+        Vector3 pushDirection = -transform.forward;
         GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.VelocityChange);
         isKnockedBack = true;
     }
