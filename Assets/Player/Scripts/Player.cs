@@ -15,11 +15,11 @@ public partial class Player : MonoBehaviour
             playerState.EnterState(this);
         }
 
-        public bool GroundCheck() => Physics.Raycast(transform.position + capsuleColider.center, Vector3.down, capsuleColider.bounds.extents.y + 0.1f);
+        public bool IsGrounded() => Physics.Raycast(transform.position + capsuleColider.center, Vector3.down, capsuleColider.bounds.extents.y + 0.1f);
 
         public void FallCheck()
         {
-            if(!GroundCheck())
+            if(!IsGrounded())
             {
                 if(jumpToFallDelta > 0){
                     jumpToFallDelta -= Time.deltaTime;
@@ -102,17 +102,28 @@ public partial class Player : MonoBehaviour
 
         void OnSprint(InputValue value) => isSprinting = value.isPressed;
 
-        void OnJump()
+        void OnJump(InputValue value)
         {
-            if (playerState != fallState) rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            animator.SetBool(animIDJump, true);
-            jumpSound.Play();
+            if (value.isPressed && IsGrounded() && playerState != fallState) {
+                rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                animator.SetBool(animIDJump, true);
+                jumpSound.Play();
+            }
         }
 
-        void OnAttack()
+        void OnAttack(InputValue value)
         {
-            if (HasAttacked != null) HasAttacked.Invoke();
-            else if (playerState != strikeState && playerState != strike3State) ChangeState(strikeState);
+            if(value.isPressed && IsGrounded())
+            {
+                if (HasAttacked != null) 
+                {
+                    HasAttacked.Invoke();
+                }
+                else if (playerState != strikeState && playerState != strike3State) 
+                {
+                    ChangeState(strikeState);
+                }
+            }
         }
     #endregion --- End ---
 
