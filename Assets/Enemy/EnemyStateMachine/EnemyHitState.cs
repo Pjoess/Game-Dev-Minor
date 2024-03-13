@@ -23,10 +23,10 @@ public class EnemyHitState : EnemyState
         //Attack player
 
         
-        if(!enemy.IsWithinStrikingDistance && enemy.IsAggroed)
-        {
-            enemy.Agent.isStopped = false;
-            enemyStateMachine.ChangeState(enemy.EnemyChaseState);
-        }
+        // if(!enemy.IsWithinStrikingDistance && enemy.IsAggroed)
+        // {
+        //     enemy.Agent.isStopped = false;
+        //     enemyStateMachine.ChangeState(enemy.EnemyChaseState);
+        // }
     }
 }

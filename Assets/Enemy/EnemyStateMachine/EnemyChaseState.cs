@@ -24,7 +24,7 @@ public class EnemyChaseState : EnemyState
 
         if(enemy.IsWithinStrikingDistance)
         {
-            enemyStateMachine.ChangeState(enemy.EnemyHitState);
+            enemyStateMachine.ChangeState(enemy.EnemyAttackState);
         }
         if(!enemy.IsAggroed)
         {

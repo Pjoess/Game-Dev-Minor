@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // --- Base Class --- ///
-public class EnemyCube : MonoBehaviour, ITriggerCheckable
+public class EnemyCube : MonoBehaviour
 {
     #region Basic Variables
         public float healthPoints = 3;
