@@ -4,7 +4,7 @@ public class PlayerStrikeState : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
-        player.sword.EnableSwordCollider();
+        player.sword.SwordAttackEnableCollision();
         player.HasAttacked += player.OnAttackStruck;
         player.animator.SetBool(player.animIDStrike1, true);
         player.struckAgain = false;

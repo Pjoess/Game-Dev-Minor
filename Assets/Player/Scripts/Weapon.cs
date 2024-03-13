@@ -3,11 +3,13 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     private CapsuleCollider swordCollider;
+    public AudioSource swordSlashSound;
     public bool colliderSwitchOn_Off = false;
 
     void Start()
     {
         swordCollider = GetComponent<CapsuleCollider>();
+        swordSlashSound = GetComponent<AudioSource>();
         SwordToDefault();
     }
 
@@ -18,5 +20,10 @@ public class Weapon : MonoBehaviour
     }
 
     public void DisableSwordCollider() => swordCollider.enabled = false;
-    public void EnableSwordCollider() => swordCollider.enabled = true;
+    
+    public void SwordAttackEnableCollision() 
+    {
+        swordCollider.enabled = true; // Enable Collision
+        swordSlashSound.Play();
+    }
 }

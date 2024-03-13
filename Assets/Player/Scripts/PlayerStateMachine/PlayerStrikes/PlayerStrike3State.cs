@@ -4,7 +4,7 @@ public class PlayerStrike3State : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
-        player.sword.EnableSwordCollider();
+        player.sword.SwordAttackEnableCollision();
         Debug.Log("Anim3");
         player.sword.GetComponent<MeshRenderer>().material.color = new Color32(204, 0, 0, 200); // Red
     }
