@@ -8,6 +8,7 @@ public class PlayerStrike3State : PlayerBaseState
     {
         player.sword.EnableSwordCollider();
         Debug.Log("Anim3");
+        player.sword.GetComponent<MeshRenderer>().material.color = new Color32(204, 0, 0, 200); // Red
     }
 
     public override void ExitState(Player player)
@@ -16,6 +17,7 @@ public class PlayerStrike3State : PlayerBaseState
         player.animator.SetBool(player.animIDStrike1, false);
         player.animator.SetBool(player.animIDStrike2, false);
         player.animator.SetBool(player.animIDStrike3, false);
+        player.sword.SwordToDefault();
     }
 
     public override void UpdateState(Player player)
