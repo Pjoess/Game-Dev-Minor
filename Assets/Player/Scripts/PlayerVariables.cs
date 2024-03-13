@@ -11,16 +11,18 @@ public partial class Player
     #endregion
 
     #region Basic Variables for (Movements and Jumping)
+        // Jumping and Falling
         public float jumpForce = 5f;
-        public float dashForce  = 2.5f;
+        public float jumpToFallTimer = 0.15f;
+        [HideInInspector] public float jumpToFallDelta;
+        // Moving
         public float walkSpeed = 2f;
         public float runSpeed = 5f;
+        public float dashForce  = 2.5f;
         public float speedChangeRate = 5f;
         public float rotationSpeed = 500f;
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public bool isSprinting = false;
-        public float jumpToFallTimer = 0.15f;
-        [HideInInspector] public float jumpToFallDelta;
     #endregion
 
     #region Sword Attack and Collison
@@ -32,8 +34,9 @@ public partial class Player
         public PlayerBaseState playerState;
         public PlayerIdleState idleState = new();
         public PlayerWalkState walkState = new();
-        public PlayerRunState runState = new();
         public PlayerFallState fallState = new();
+        public PlayerRunState runState = new();
+        public PlayerDashState dashState = new();
         public PlayerStrikeState strikeState = new();
         public PlayerStrike2State strike2State = new();
         public PlayerStrike3State strike3State = new();

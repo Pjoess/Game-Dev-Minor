@@ -120,6 +120,7 @@ public partial class Player : MonoBehaviour
             }
         }
 
+        // TODO: Still need to put the dash in a StateMachine
         void OnDash(InputValue value)
         {
             if (value.isPressed && IsGrounded() && playerState != fallState)
@@ -136,7 +137,6 @@ public partial class Player : MonoBehaviour
             }
         }
 
-        // Maybe in a StateMachine for dash.
         private IEnumerator DashCoroutine(Vector3 dashDirection)
         {
             float elapsed = 0f;
@@ -151,6 +151,7 @@ public partial class Player : MonoBehaviour
                 yield return null;
             }
         }
+
     #endregion --- End ---
 
     private void OnFootstep(AnimationEvent animationEvent){}
