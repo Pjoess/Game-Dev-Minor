@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyCube : MonoBehaviour
 {
     #region Basic Variables
-        public float healthPoints = 3;
-        public float timeDurationRespawn = 2f;
-        public float deathCooldown = 2f;
+        public float healthPoints = 3f;
+        public float timeDurationRespawn = 4f;
+        public float deathCooldown = 1f;
         public float pushForce = 3f;
         public float friction = 2f;
         private bool isKnockedBack = false;

@@ -18,7 +18,7 @@ public partial class Player
         // Moving
         public float walkSpeed = 2f;
         public float runSpeed = 5f;
-        public float dashForce  = 2.5f;
+        public float dashForce  = 2f;
         public float speedChangeRate = 5f;
         public float rotationSpeed = 500f;
         [HideInInspector] public Vector2 movement;
