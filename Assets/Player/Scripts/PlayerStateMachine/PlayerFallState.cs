@@ -13,6 +13,7 @@ public class PlayerFallState : PlayerBaseState
         Debug.Log("Land");
         player.animator.SetBool(player.animIDGrounded, true);
         player.animator.SetBool(player.animIDFall, false);
+        player.hasJumped = false;
     }
 
     public override void UpdateState(Player player)

@@ -4,15 +4,17 @@ using System;
 public partial class Player
 {
     #region Component References
-        Rigidbody rigidBody;
+        [HideInInspector] public Rigidbody rigidBody;
         CapsuleCollider capsuleColider;
         public Weapon sword;
-        AudioSource jumpSound;
+        [HideInInspector] public AudioSource jumpSound;
     #endregion
 
     #region Basic Variables for (Movements and Jumping)
         // Jumping and Falling
         public float jumpForce = 5f;
+        public float jumpCooldown = 1f;
+        [HideInInspector] public float jumpCooldownDelta;
         public float idleToFallTimer = 0.15f;
         [HideInInspector] public float idleToFallDelta;
         // Moving
@@ -23,6 +25,7 @@ public partial class Player
         public float rotationSpeed = 600f;
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public bool isSprinting = false;
+        [HideInInspector] public bool hasJumped = false;    
     #endregion
 
     #region Sword Attack and Collison
@@ -83,5 +86,6 @@ public partial class Player
         // Jumping
         jumpSound = GetComponent<AudioSource>();
         idleToFallDelta = idleToFallTimer;
+        jumpCooldownDelta = 0f;
     }
 }

@@ -66,6 +66,18 @@ public partial class Player : MonoBehaviour
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
             }
         }
+
+        public void Jump()
+        {
+            if(jumpCooldownDelta > 0)
+            {
+                jumpCooldownDelta -= Time.deltaTime;
+            }
+            else if(hasJumped)
+            {
+                ChangeState(jumpState);
+            }
+        }
     #endregion
 
     #region Attacks Methods
@@ -116,10 +128,8 @@ public partial class Player : MonoBehaviour
 
         void OnJump(InputValue value)
         {
-            if (value.isPressed && IsGrounded() && playerState != fallState) {
-                rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                ChangeState(jumpState);
-                jumpSound.Play();
+            if (value.isPressed && IsGrounded()) {
+                hasJumped = true;
             }
         }
 

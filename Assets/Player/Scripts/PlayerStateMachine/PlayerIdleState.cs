@@ -15,7 +15,7 @@ public class PlayerIdleState : PlayerBaseState
     public override void UpdateState(Player player)
     {
         if (player.movement != Vector2.zero) player.ChangeState(player.walkState);
-
+        player.Jump();
         player.FallCheck();
 
         player.animationBlend = Mathf.Lerp(player.animationBlend, 0, Time.deltaTime * player.speedChangeRate);
