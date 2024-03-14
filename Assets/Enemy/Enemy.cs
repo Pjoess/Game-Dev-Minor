@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 // --- Base Class --- ///
 public class EnemyCube : MonoBehaviour
@@ -15,6 +16,22 @@ public class EnemyCube : MonoBehaviour
         public float collisionCooldown = 1f;
         public float maxHeight = 15f;
         public float rotationSpeed = 750f;
+    #endregion
+
+
+
+    #region Enemy States
+        // public EnemyIdleState idleState = new EnemyIdleState();
+        // public EnemyChaseState chaseState = new EnemyChaseState();
+        // public EnemyFallState fallState = new EnemyFallState();
+        // public EnemyHitState hitState = new EnemyHitState();
+    #endregion
+
+    #region CheckTriggers
+        public bool IsAggroed { get; set; }
+        public bool IsWithinStrikingDistance { get; set; }
+        public void SetAggroStatus(bool isAggroed){ IsAggroed = isAggroed; }
+        public void SetStrikingDistanceBool(bool isWithinStrikingDistance){ IsWithinStrikingDistance = isWithinStrikingDistance; }
     #endregion
 
     #region Enemy Save Original Size and Position for the Respawn
@@ -33,6 +50,11 @@ public class EnemyCube : MonoBehaviour
     }
     
     protected virtual void Update(){}
+
+    // protected void Awake()
+    // {
+    //     SphereCollider = GetComponent<SphereCollider>();
+    // }
 
     protected void OnTriggerEnter(Collider other)
     {
@@ -172,11 +194,11 @@ public class EnemyCube : MonoBehaviour
     
     protected virtual void OnTriggerStay(Collider other)
     {
-        Debug.Log("Inside collision...");
+        // Debug.Log("Inside collision...");
     }
 
     protected virtual void OnTriggerExit(Collider other)
     {
-        Debug.Log("Exiting collision...");
+        // Debug.Log("Exiting collision...");
     }
 }
