@@ -12,7 +12,6 @@ public class PlayerFallState : PlayerBaseState
     {
         Debug.Log("Land");
         player.animator.SetBool(player.animIDGrounded, true);
-        player.animator.SetBool(player.animIDJump, false);
         player.animator.SetBool(player.animIDFall, false);
     }
 
@@ -21,7 +20,7 @@ public class PlayerFallState : PlayerBaseState
         player.Movement();
         if (player.IsGrounded())
         {
-            player.jumpToFallDelta = player.jumpToFallTimer;
+            player.idleToFallDelta = player.idleToFallTimer;
             player.ChangeState(player.idleState);   
         }
     }

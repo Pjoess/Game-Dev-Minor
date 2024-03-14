@@ -13,8 +13,8 @@ public partial class Player
     #region Basic Variables for (Movements and Jumping)
         // Jumping and Falling
         public float jumpForce = 5f;
-        public float jumpToFallTimer = 0.15f;
-        [HideInInspector] public float jumpToFallDelta;
+        public float idleToFallTimer = 0.15f;
+        [HideInInspector] public float idleToFallDelta;
         // Moving
         public float walkSpeed = 2f;
         public float runSpeed = 5f;
@@ -36,6 +36,7 @@ public partial class Player
         public PlayerIdleState idleState = new();
         public PlayerWalkState walkState = new();
         public PlayerFallState fallState = new();
+        public PlayerJumpState jumpState = new();
         public PlayerRunState runState = new();
         public PlayerDashState dashState = new();
         public PlayerStrikeState strikeState = new();
@@ -81,6 +82,6 @@ public partial class Player
         playerState.EnterState(this);
         // Jumping
         jumpSound = GetComponent<AudioSource>();
-        jumpToFallDelta = jumpToFallTimer;
+        idleToFallDelta = idleToFallTimer;
     }
 }

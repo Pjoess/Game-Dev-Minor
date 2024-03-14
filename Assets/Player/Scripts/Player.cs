@@ -15,14 +15,19 @@ public partial class Player : MonoBehaviour
             playerState.EnterState(this);
         }
 
-        public bool IsGrounded() => Physics.Raycast(transform.position + capsuleColider.center, Vector3.down, capsuleColider.bounds.extents.y + 0.1f);
-
+        public bool IsGrounded()
+        {
+            return Physics.Raycast(transform.position + capsuleColider.center + new Vector3(0.4f, 0.0f, -0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
+                Physics.Raycast(transform.position + capsuleColider.center + new Vector3(-0.4f, 0.0f, 0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
+                Physics.Raycast(transform.position + capsuleColider.center + new Vector3(-0.4f, 0.0f, -0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
+                Physics.Raycast(transform.position + capsuleColider.center + new Vector3(0.4f, 0.0f, 0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f);
+        }
         public void FallCheck()
         {
             if(!IsGrounded())
             {
-                if(jumpToFallDelta > 0){
-                    jumpToFallDelta -= Time.deltaTime;
+                if(idleToFallDelta > 0){
+                    idleToFallDelta -= Time.deltaTime;
                 } else {
                     animator.SetBool(animIDFall, true);
                     ChangeState(fallState);
@@ -113,7 +118,7 @@ public partial class Player : MonoBehaviour
         {
             if (value.isPressed && IsGrounded() && playerState != fallState) {
                 rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                animator.SetBool(animIDJump, true);
+                ChangeState(jumpState);
                 jumpSound.Play();
             }
         }
