@@ -31,7 +31,7 @@ public partial class Player
     #region Sword Attack and Collison
         [HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
-        public float attackDistance = 0.05f;
+        public float attackDistance = 0.15f;
     #endregion
 
     #region Player States
