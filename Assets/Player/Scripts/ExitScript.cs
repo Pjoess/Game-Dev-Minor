@@ -21,7 +21,6 @@ public class ExitScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Inside the collision");
         if (collision.gameObject.CompareTag("Player")){
             #if UNITY_EDITOR
                 // Application.Quit() does not work in the editor so
