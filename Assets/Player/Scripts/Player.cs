@@ -101,6 +101,17 @@ public partial class Player : MonoBehaviour
             Vector3 newPosition = transform.position + transform.forward * attackDistance;
             transform.position = newPosition;
         }
+
+        // FIX DASH + Timer next dash @check Jump
+        // Kijk naar camera slow down on @Attack forward and Dash
+        // Superjump BUG (rennen op een slime en dan space)
+        // Collision Fixen
+        // is Stike 3 do knockback on enemy
+        public void KnockBack(){
+            // if(){
+            //     enemy.isKnockedBack = true;
+            // }
+        }
     #endregion
 
     #region Animation of Player

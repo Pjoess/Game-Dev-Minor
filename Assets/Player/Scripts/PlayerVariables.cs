@@ -7,6 +7,7 @@ public partial class Player
         [HideInInspector] public Rigidbody rigidBody;
         CapsuleCollider capsuleColider;
         public Weapon sword;
+        public Enemy enemy;
         [HideInInspector] public AudioSource jumpSound;
     #endregion
 
@@ -77,6 +78,7 @@ public partial class Player
         AssignAnimIDs();
         // References
         sword = GetComponentInChildren<Weapon>();
+        enemy = GetComponentInChildren<Enemy>();
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
         capsuleColider = GetComponent<CapsuleCollider>();

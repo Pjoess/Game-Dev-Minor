@@ -11,14 +11,12 @@ public class EnemyCube : MonoBehaviour
         public float pushBackForce = 1f;
         public float pushUpForce = 4f;
         public float pushbackGroundFriction = 2f;
-        private bool isKnockedBack = false;
-        private bool isCollisionCooldown = false;
+        public bool isKnockedBack = false;
+        public bool isCollisionCooldown = false;
         public float collisionCooldown = 1f;
         public float maxHeight = 15f;
         public float rotationSpeed = 750f;
     #endregion
-
-
 
     #region Enemy States
         // public EnemyIdleState idleState = new EnemyIdleState();
@@ -74,6 +72,7 @@ public class EnemyCube : MonoBehaviour
 
     protected virtual void ApplyDamageAndEffects()
     {
+        // If in player knockback is true
         ApplyForce();
         healthPoints--;
     }
