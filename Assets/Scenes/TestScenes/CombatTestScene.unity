@@ -2040,6 +2040,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlimeEnemyFollow
       objectReference: {fileID: 0}
+    - target: {fileID: 3198502390492704377, guid: 0ba0f6eee23032e4e83d421e739dc905,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -2283,10 +2288,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 639988718}
     m_Modifications:
+    - target: {fileID: 662851457270906552, guid: e185ac6c132d53c4aab6652f1166e285,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 701438368235572568, guid: e185ac6c132d53c4aab6652f1166e285,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4267161119045556491, guid: e185ac6c132d53c4aab6652f1166e285,
+        type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6671054032631385447, guid: e185ac6c132d53c4aab6652f1166e285,
         type: 3}
       propertyPath: m_Name
       value: Triggers
+      objectReference: {fileID: 0}
+    - target: {fileID: 7487292305902760705, guid: e185ac6c132d53c4aab6652f1166e285,
+        type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8447885696578067107, guid: e185ac6c132d53c4aab6652f1166e285,
         type: 3}
@@ -3335,6 +3360,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 137130834711192561, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: m_Height
+      value: 1.8220966
+      objectReference: {fileID: 0}
+    - target: {fileID: 137130834711192561, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.4357911
+      objectReference: {fileID: 0}
+    - target: {fileID: 137130834711192561, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 137130834711192561, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.8860645
+      objectReference: {fileID: 0}
+    - target: {fileID: 137130834711192561, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.010288626
+      objectReference: {fileID: 0}
     - target: {fileID: 745307703136050936, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
         type: 3}
       propertyPath: dashForce
@@ -3425,6 +3475,11 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4338056008014147336, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7249937889890353549, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
         type: 3}
       propertyPath: m_Controller
@@ -3456,6 +3511,11 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 600293144678390110, guid: 890f6075c729f164788375d6449b1123,
+        type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1994203173521036357, guid: 890f6075c729f164788375d6449b1123,
         type: 3}
       propertyPath: m_Name
@@ -3463,8 +3523,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994203173521036357, guid: 890f6075c729f164788375d6449b1123,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1994203173521036357, guid: 890f6075c729f164788375d6449b1123,
+        type: 3}
       propertyPath: m_TagString
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205870440826191597, guid: 890f6075c729f164788375d6449b1123,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238073584082947341, guid: 890f6075c729f164788375d6449b1123,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6090168158862226260, guid: 890f6075c729f164788375d6449b1123,
+        type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7456284656553081523, guid: 890f6075c729f164788375d6449b1123,
         type: 3}
