@@ -6,15 +6,16 @@ using UnityEngine.AI;
 public class EnemyCube : MonoBehaviour
 {
     #region Basic Variables
-        public float healthPoints = 3;
-        public float timeDurationRespawn = 2f;
-        public float deathCooldown = 2f;
-        public float pushForce = 3f;
-        public float friction = 2f;
+        public float healthPoints = 3f;
+        public float respawnTime = 2f;
+        public float pushBackForce = 1f;
+        public float pushUpForce = 4f;
+        public float pushbackGroundFriction = 2f;
         private bool isKnockedBack = false;
         private bool isCollisionCooldown = false;
-        public float collisionCooldown = 0.1f;
+        public float collisionCooldown = 1f;
         public float maxHeight = 15f;
+        public float rotationSpeed = 750f;
     #endregion
 
 
@@ -39,11 +40,16 @@ public class EnemyCube : MonoBehaviour
         private Color originalColor;
     #endregion
 
+    public AudioSource slimeJumpSound;
+
     protected virtual void Start()
     {
+        slimeJumpSound = GetComponent<AudioSource>();
         InitializeOriginalValues();
         StartCoroutine(JumpRoutine());
     }
+    
+    protected virtual void Update(){}
 
     // protected void Awake()
     // {
@@ -79,7 +85,6 @@ public class EnemyCube : MonoBehaviour
             case 2: UpdateAppearance(new Color32(170, 0, 0, 200), originalScale * 0.8f); break;
             case 1: UpdateAppearance(new Color32(70, 0, 0, 200), originalScale * 0.6f); break;
             case 0: UpdateAppearance(new Color32(10, 0, 0, 200), originalScale * 0.2f);
-                    // Invoke(nameof(DestroyEnemy), deathCooldown); // destroy object after a certain time
                     StartCoroutine(RespawnEnemy()); // this is for testing purposes
                     break;
         }
@@ -104,8 +109,8 @@ public class EnemyCube : MonoBehaviour
 
     protected virtual void ApplyForce()
     {
-        Vector3 pushDirection = transform.forward;
-        GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.VelocityChange);
+        Vector3 pushDirection = -transform.forward;
+        GetComponent<Rigidbody>().AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
         isKnockedBack = true;
     }
 
@@ -114,7 +119,7 @@ public class EnemyCube : MonoBehaviour
         if (isKnockedBack)
         {
             Rigidbody rb = GetComponent<Rigidbody>();
-            rb.velocity -= friction * Time.deltaTime * rb.velocity;
+            rb.velocity -= pushbackGroundFriction * Time.deltaTime * rb.velocity;
 
             if (rb.velocity.magnitude < 0.1f)
             {
@@ -138,7 +143,11 @@ public class EnemyCube : MonoBehaviour
     {
         if (healthPoints > 0)
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * pushForce, ForceMode.VelocityChange);
+            GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.VelocityChange);
+            if (slimeJumpSound != null)
+            {
+                slimeJumpSound.Play();
+            }
         }
     }
 
@@ -154,7 +163,7 @@ public class EnemyCube : MonoBehaviour
 
     protected virtual IEnumerator RespawnEnemy()
     {
-        yield return new WaitForSeconds(timeDurationRespawn);
+        yield return new WaitForSeconds(respawnTime);
         UpdateAppearance(originalColor, originalScale);
         ResetEnemyState();
         gameObject.SetActive(true);
@@ -168,6 +177,7 @@ public class EnemyCube : MonoBehaviour
         transform.rotation = originalRotation;
     }
 
+    // Color
     protected virtual void UpdateAppearance(Color color, Vector3 scale)
     {
         GetComponent<MeshRenderer>().material.color = color;

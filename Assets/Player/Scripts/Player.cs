@@ -1,147 +1,165 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public partial class Player : MonoBehaviour
 {
-    #region Component References
-        Rigidbody rb;
-        CapsuleCollider cc;
-        public Weapon sword;
-        AudioSource jumpSound;
-    #endregion
-
-    #region Basic Variables for (Movements and Jumping)
-        public float jumpForce = 5;
-        public float walkSpeed = 2;
-        public float runSpeed = 5;
-        public float speedChangeRate = 5;
-        public float rotationSpeed = 500;
-        [HideInInspector] public Vector2 movement;
-        [HideInInspector] public bool isSprinting = false;
-        public float jumpToFallTimer = 0.15f;
-        [HideInInspector] public float jumpToFallDelta;
-    #endregion
-
-    #region Player States
-        public PlayerBaseState playerState;
-        public PlayerIdleState idleState = new PlayerIdleState();
-        public PlayerWalkState walkState = new PlayerWalkState();
-        public PlayerRunState runState = new PlayerRunState();
-        public PlayerFallState fallState = new PlayerFallState();
-        public PlayerHitState hitState = new PlayerHitState();
-    #endregion
-
-    #region Player Animation
-        [HideInInspector] public Animator animator;
-        [HideInInspector] public float animationBlend;
-        // --- Animation parameters IDs --- //
-        [HideInInspector] public int animIDSpeed;
-        [HideInInspector] public int animIDGrounded;
-        [HideInInspector] public int animIDFall;
-        [HideInInspector] public int animIDJump;
-        [HideInInspector] public int animIDStriking;
-    #endregion
-
-    private void AssignAnimIDs()
-    {
-        animIDSpeed = Animator.StringToHash("Speed");
-        animIDGrounded = Animator.StringToHash("Grounded");
-        animIDFall = Animator.StringToHash("Fall");
-        animIDJump = Animator.StringToHash("Jump");
-        animIDStriking = Animator.StringToHash("Striking");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        sword = GetComponentInChildren<Weapon>();
-        animator = GetComponent<Animator>();
-        AssignAnimIDs();
-        playerState = idleState;
-        playerState.EnterState(this);
-        rb = GetComponent<Rigidbody>();
-        cc = GetComponent<CapsuleCollider>();
-        jumpSound = GetComponent<AudioSource>();
-        jumpToFallDelta = jumpToFallTimer;
-    }
-
     // Update is called once per frame
-    void Update()
-    {
-        playerState.UpdateState(this);
-    }
+    void Update() => playerState.UpdateState(this);
 
-    public void Movement()
-    {
-        float speed = isSprinting ? runSpeed : walkSpeed;
-        
-        animationBlend = Mathf.Lerp(animationBlend, speed, Time.deltaTime * speedChangeRate);
-        if (animationBlend < 0.01f) animationBlend = 0f;
-        animator.SetFloat(animIDSpeed, animationBlend);
-
-        Vector3 direction = new(movement.x, 0, movement.y);
-
-        Vector3 cameraFaceForward = Camera.main.transform.forward;
-        Vector3 cameraFaceRight = Camera.main.transform.right;
-        cameraFaceForward.y = 0;
-        cameraFaceRight.y = 0;
-        cameraFaceForward = cameraFaceForward.normalized;
-        cameraFaceRight = cameraFaceRight.normalized;
-
-        Vector3 moveDirection = cameraFaceForward * direction.z + cameraFaceRight * direction.x;
-
-        transform.Translate(speed * Time.deltaTime * moveDirection, Space.World);
-
-        if(direction != Vector3.zero) 
+    #region General Methods
+        public void ChangeState(PlayerBaseState state)
         {
-            Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
-            Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+            playerState.ExitState(this);
+            playerState = state ?? playerState;
+            playerState.EnterState(this);
         }
-    }
+
+        public bool IsGrounded() => Physics.Raycast(transform.position + capsuleColider.center, Vector3.down, capsuleColider.bounds.extents.y + 0.1f);
+
+        public void FallCheck()
+        {
+            if(!IsGrounded())
+            {
+                if(jumpToFallDelta > 0){
+                    jumpToFallDelta -= Time.deltaTime;
+                } else {
+                    animator.SetBool(animIDFall, true);
+                    ChangeState(fallState);
+                }
+            }
+        }
+    #endregion
+
+    #region Movements and Facing Direction
+        public void Movement()
+        {
+            float speed = isSprinting ? runSpeed : walkSpeed;
+            
+            animationBlend = Mathf.Lerp(animationBlend, speed, Time.deltaTime * speedChangeRate);
+            if (animationBlend < 0.01f) animationBlend = 0f;
+            animator.SetFloat(animIDSpeed, animationBlend);
+
+            Vector3 direction = new(movement.x, 0, movement.y);
+
+            Vector3 cameraFaceForward = Camera.main.transform.forward;
+            Vector3 cameraFaceRight = Camera.main.transform.right;
+            cameraFaceForward.y = 0;
+            cameraFaceRight.y = 0;
+            cameraFaceForward = cameraFaceForward.normalized;
+            cameraFaceRight = cameraFaceRight.normalized;
+
+            Vector3 moveDirection = cameraFaceForward * direction.z + cameraFaceRight * direction.x;
+
+            transform.Translate(speed * Time.deltaTime * moveDirection, Space.World);
+
+            if(direction != Vector3.zero) 
+            {
+                Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+                Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+            }
+        }
+    #endregion
+
+    #region Attacks Methods
+        public void AttackRotation()
+        {
+            Vector3 direction = new(movement.x, 0, movement.y);
+
+            if (direction != Vector3.zero)
+            {
+                Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+                Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * 0.5f * Time.deltaTime);
+            }
+        }
+
+        public void OnAttackStruck() => struckAgain = true;
+
+        public void MoveForwardOnAttack(){
+            // Move a little bit forward when attacking
+            Vector3 newPosition = transform.position + transform.forward * attackDistance;
+            transform.position = newPosition;
+        }
+    #endregion
+
+    #region Animation of Player
+        public bool IsAnimPlaying(string animStateName)
+        {
+            bool isAnimPlaying = animator.GetCurrentAnimatorStateInfo(0).length > animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            return isAnimPlaying && animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName);
+        }
+
+        public bool IsAnimFinished(string animStateName)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName))
+            {
+                AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+                return info.normalizedTime > 1.0f;
+            }
+            else return false;
+        }
+    #endregion
 
     #region New Input System Methods
         void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
         void OnSprint(InputValue value) => isSprinting = value.isPressed;
 
-        void OnJump()
+        void OnJump(InputValue value)
         {
-            if (playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            animator.SetBool(animIDJump, true);
-            jumpSound.Play();
-        }
-
-        void OnAttack()
-        {
-            ChangeState(playerState != hitState ? hitState : null);
-        }
-    #endregion --- End ---
-
-    public bool GroundCheck() => Physics.Raycast(transform.position + cc.center, Vector3.down, cc.bounds.extents.y + 0.1f);
-
-    public void FallCheck()
-    {
-        if(!GroundCheck())
-        {
-            if(jumpToFallDelta > 0) jumpToFallDelta -= Time.deltaTime;
-            else
-            {
-                animator.SetBool(animIDFall, true);
-                ChangeState(fallState);
+            if (value.isPressed && IsGrounded() && playerState != fallState) {
+                rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                animator.SetBool(animIDJump, true);
+                jumpSound.Play();
             }
         }
-    }
 
-    public void ChangeState(PlayerBaseState state)
-    {
-        playerState.ExitState(this);
-        playerState = state ?? playerState;
-        playerState.EnterState(this);
-    }
+        void OnAttack(InputValue value)
+        {
+            if(value.isPressed && IsGrounded()){
+                if (HasAttacked != null) HasAttacked.Invoke();
+                else if (playerState != strikeState && playerState != strike3State) ChangeState(strikeState);
+            }
+        }
 
-    private void OnFootstep(AnimationEvent animationEvent) { }
+        // TODO: Still need to put the dash in a StateMachine
+        void OnDash(InputValue value)
+        {
+            if (value.isPressed && IsGrounded() && playerState != fallState)
+            {
+                Vector3 moveDirection = new Vector3(movement.x, 0, movement.y).normalized;
 
-    private void OnLand(AnimationEvent animationEvent) { }
+                if (moveDirection != Vector3.zero)
+                {
+                    Vector3 dashDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
+                    dashDirection.y = 0; // Set the vertical component to zero to avoid moving up or down
+
+                    StartCoroutine(DashCoroutine(dashDirection.normalized));
+                }
+            }
+        }
+
+        private IEnumerator DashCoroutine(Vector3 dashDirection)
+        {
+            float elapsed = 0f;
+            float duration = 0.2f; // Adjust the duration as needed
+
+            while (elapsed < duration)
+            {
+                float currentSpeed = Mathf.Lerp(0, dashForce, elapsed / duration);
+                rigidBody.AddForce(dashDirection * currentSpeed, ForceMode.Impulse);
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+    #endregion --- End ---
+
+    private void OnFootstep(AnimationEvent animationEvent){}
+    private void OnLand(AnimationEvent animationEvent){}
 }

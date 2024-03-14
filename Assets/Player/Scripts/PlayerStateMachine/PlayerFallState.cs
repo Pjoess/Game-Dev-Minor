@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class PlayerFallState : PlayerBaseState
 {
-
-    //private float fallTimer;
-
     public override void EnterState(Player player)
     {
         Debug.Log("Fall");
@@ -21,13 +18,11 @@ public class PlayerFallState : PlayerBaseState
 
     public override void UpdateState(Player player)
     { 
-
         player.Movement();
-        if (player.GroundCheck())
+        if (player.IsGrounded())
         {
-            player.ChangeState(player.idleState);
             player.jumpToFallDelta = player.jumpToFallTimer;
+            player.ChangeState(player.idleState);   
         }
-        
     }
 }
