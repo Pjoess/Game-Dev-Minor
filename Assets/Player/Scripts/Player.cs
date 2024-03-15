@@ -102,7 +102,6 @@ public partial class Player : MonoBehaviour
             transform.position = newPosition;
         }
 
-        // FIX DASH + Timer next dash @check Jump
         // Kijk naar camera slow down on @Attack forward and Dash
         // Superjump BUG (rennen op een slime en dan space)
         // Collision Fixen
@@ -192,7 +191,6 @@ public partial class Player : MonoBehaviour
             // Reset isDashing to false after the cooldown period
             isDashing = false;
         }
-
     #endregion --- End ---
 
     private void OnFootstep(AnimationEvent animationEvent){}
