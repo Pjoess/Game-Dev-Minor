@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // --- Base Class --- ///
-public class EnemyCube : MonoBehaviour
+public class EnemyCube : MonoBehaviour, IDamageble
 {
     #region Basic Variables
         public float healthPoints = 3f;
@@ -54,16 +54,16 @@ public class EnemyCube : MonoBehaviour
     //     SphereCollider = GetComponent<SphereCollider>();
     // }
 
-    protected void OnTriggerEnter(Collider other)
-    {
-        if (IsWeaponCollisionValid(other))
-        {
-            ApplyDamageAndEffects();
-            CheckHealthAndUpdateAppearance();
-            KnockBack();
-            StartCollisionCooldown();
-        }
-    }
+    //protected void OnTriggerEnter(Collider other)
+    //{
+    //    if (IsWeaponCollisionValid(other))
+    //    {
+    //        ApplyDamageAndEffects();
+    //        CheckHealthAndUpdateAppearance();
+    //        KnockBack();
+    //        StartCollisionCooldown();
+    //    }
+    //}
 
     protected virtual bool IsWeaponCollisionValid(Collider other)
     {
@@ -73,7 +73,7 @@ public class EnemyCube : MonoBehaviour
     protected virtual void ApplyDamageAndEffects()
     {
         // If in player knockback is true
-        ApplyForce();
+        //ApplyForce();
         healthPoints--;
     }
 
@@ -106,28 +106,28 @@ public class EnemyCube : MonoBehaviour
         print("Enemy Defeated!");
     }
 
-    protected virtual void ApplyForce()
-    {
-        Vector3 pushDirection = -transform.forward;
-        GetComponent<Rigidbody>().AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
-        isKnockedBack = true;
-    }
+    //protected virtual void ApplyForce()
+    //{
+    //    Vector3 pushDirection = -transform.forward;
+    //    GetComponent<Rigidbody>().AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
+    //    isKnockedBack = true;
+    //}
 
-    protected virtual void KnockBack()
-    {
-        if (isKnockedBack)
-        {
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.velocity -= pushbackGroundFriction * Time.deltaTime * rb.velocity;
+    //protected virtual void KnockBack()
+    //{
+    //    if (isKnockedBack)
+    //    {
+    //        Rigidbody rb = GetComponent<Rigidbody>();
+    //        rb.velocity -= pushbackGroundFriction * Time.deltaTime * rb.velocity;
 
-            if (rb.velocity.magnitude < 0.1f)
-            {
-                rb.velocity = Vector3.zero;
-                isKnockedBack = false;
-            }
-        }
-        MaxHeightAfterHit();
-    }
+    //        if (rb.velocity.magnitude < 0.1f)
+    //        {
+    //            rb.velocity = Vector3.zero;
+    //            isKnockedBack = false;
+    //        }
+    //    }
+    //    MaxHeightAfterHit();
+    //}
 
     protected virtual IEnumerator JumpRoutine()
     {
@@ -199,5 +199,19 @@ public class EnemyCube : MonoBehaviour
     protected virtual void OnTriggerExit(Collider other)
     {
         // Debug.Log("Exiting collision...");
+    }
+
+    public void Hit()
+    {
+        ApplyDamageAndEffects();
+        CheckHealthAndUpdateAppearance();
+        StartCollisionCooldown();
+    }
+
+    public void ApplyKnockback()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        Vector3 pushDirection = -transform.forward;
+        rb.AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
     }
 }
