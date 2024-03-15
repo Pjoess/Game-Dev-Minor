@@ -1,83 +1,51 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
-// --- Base Class --- ///
-public class EnemyCube : MonoBehaviour, IDamageble
-{
-    #region Basic Variables
-        public float healthPoints = 3f;
-        public float respawnTime = 2f;
-        public float pushBackForce = 1f;
-        public float pushUpForce = 4f;
-        public float pushbackGroundFriction = 2f;
-        public bool isKnockedBack = false;
-        public bool isCollisionCooldown = false;
-        public float collisionCooldown = 1f;
-        public float maxHeight = 15f;
-        public float rotationSpeed = 750f;
-    #endregion
-
-    #region Enemy States
-        // public EnemyIdleState idleState = new EnemyIdleState();
-        // public EnemyChaseState chaseState = new EnemyChaseState();
-        // public EnemyFallState fallState = new EnemyFallState();
-        // public EnemyHitState hitState = new EnemyHitState();
-    #endregion
-
-    #region CheckTriggers
-        public bool IsAggroed { get; set; }
-        public bool IsWithinStrikingDistance { get; set; }
-        public void SetAggroStatus(bool isAggroed){ IsAggroed = isAggroed; }
-        public void SetStrikingDistanceBool(bool isWithinStrikingDistance){ IsWithinStrikingDistance = isWithinStrikingDistance; }
-    #endregion
-
-    #region Enemy Save Original Size and Position for the Respawn
-        private Vector3 initialPosition, originalScale;
-        private Quaternion originalRotation;
-        private Color originalColor;
-    #endregion
-
-    public AudioSource slimeJumpSound;
-
-    protected virtual void Start()
-    {
-        slimeJumpSound = GetComponent<AudioSource>();
-        InitializeOriginalValues();
-        StartCoroutine(JumpRoutine());
+public partial class Enemy : MonoBehaviour, IDamageble
+{   
+    public void Update(){
+        if (player != null) FacePlayer(); // Face the player
     }
-    
-    protected virtual void Update(){}
 
-    // protected void Awake()
-    // {
-    //     SphereCollider = GetComponent<SphereCollider>();
-    // }
+    public void CheckPlayerExist()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null) 
+        {
+            player = playerObject.transform;
+        } 
+        else 
+        {
+            Debug.LogError("Player not found. Make sure you have a GameObject with the 'Player' tag.");
+        }
+    }
 
-    //protected void OnTriggerEnter(Collider other)
-    //{
-    //    if (IsWeaponCollisionValid(other))
-    //    {
-    //        ApplyDamageAndEffects();
-    //        CheckHealthAndUpdateAppearance();
-    //        KnockBack();
-    //        StartCollisionCooldown();
-    //    }
-    //}
+    public void FacePlayer()
+    {
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0f, directionToPlayer.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+    }
 
-    protected virtual bool IsWeaponCollisionValid(Collider other)
+    public void OnTriggerEnter(Collider other)
+    {
+       if (IsWeaponCollisionValid(other))
+       {
+           ApplyDamageAndEffects();
+           // CheckHealthAndUpdateAppearance();
+       }
+    }
+
+    public void ApplyDamageAndEffects() => healthPoints--;
+
+    public bool IsWeaponCollisionValid(Collider other)
     {
         return other.gameObject.CompareTag("Weapon") && !isCollisionCooldown;
     }
 
-    protected virtual void ApplyDamageAndEffects()
-    {
-        // If in player knockback is true
-        //ApplyForce();
-        healthPoints--;
-    }
+    
 
-    protected virtual void CheckHealthAndUpdateAppearance()
+    public void CheckHealthAndUpdateAppearance()
     {
         switch (healthPoints)
         {
@@ -89,47 +57,21 @@ public class EnemyCube : MonoBehaviour, IDamageble
         }
     }
 
-    protected virtual void StartCollisionCooldown()
+    public void StartCollisionCooldown()
     {
         isCollisionCooldown = true;
         Invoke(nameof(EndCollisionCooldown), collisionCooldown);
     }
 
-    protected virtual void EndCollisionCooldown()
-    {
-        isCollisionCooldown = false;
-    }
+    public void EndCollisionCooldown() => isCollisionCooldown = false;
 
-    protected virtual void DestroyEnemy()
+    public void DestroyEnemy()
     {
         gameObject.SetActive(false);
         print("Enemy Defeated!");
     }
 
-    //protected virtual void ApplyForce()
-    //{
-    //    Vector3 pushDirection = -transform.forward;
-    //    GetComponent<Rigidbody>().AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
-    //    isKnockedBack = true;
-    //}
-
-    //protected virtual void KnockBack()
-    //{
-    //    if (isKnockedBack)
-    //    {
-    //        Rigidbody rb = GetComponent<Rigidbody>();
-    //        rb.velocity -= pushbackGroundFriction * Time.deltaTime * rb.velocity;
-
-    //        if (rb.velocity.magnitude < 0.1f)
-    //        {
-    //            rb.velocity = Vector3.zero;
-    //            isKnockedBack = false;
-    //        }
-    //    }
-    //    MaxHeightAfterHit();
-    //}
-
-    protected virtual IEnumerator JumpRoutine()
+    public IEnumerator JumpRoutine()
     {
         while (true)
         {
@@ -138,7 +80,7 @@ public class EnemyCube : MonoBehaviour, IDamageble
         }
     }
 
-    protected virtual void EnemyJump()
+    public void EnemyJump()
     {
         if (healthPoints > 0)
         {
@@ -150,55 +92,34 @@ public class EnemyCube : MonoBehaviour, IDamageble
         }
     }
 
-    protected virtual void MaxHeightAfterHit()
-    {
-        if (transform.position.y > maxHeight)
-        {
-            Vector3 newPos = transform.position;
-            newPos.y = maxHeight;
-            transform.position = newPos;
-        }
-    }
-
-    protected virtual IEnumerator RespawnEnemy()
+    public IEnumerator RespawnEnemy()
     {
         yield return new WaitForSeconds(respawnTime);
         UpdateAppearance(originalColor, originalScale);
-        ResetEnemyState();
+        ResetEnemyStatePosition();
         gameObject.SetActive(true);
         print("Enemy Respawned!");
     }
 
-    protected virtual void ResetEnemyState()
+    public void ResetEnemyStatePosition()
     {
-        healthPoints = 3;
+        healthPoints = 3f;
         transform.position = initialPosition;
         transform.rotation = originalRotation;
     }
 
-    // Color
-    protected virtual void UpdateAppearance(Color color, Vector3 scale)
+    public void UpdateAppearance(Color color, Vector3 scale)
     {
         GetComponent<MeshRenderer>().material.color = color;
         transform.localScale = scale;
     }
 
-    protected virtual void InitializeOriginalValues()
+    public void InitializeOriginalValues()
     {
         initialPosition = transform.position;
         originalColor = GetComponent<MeshRenderer>().material.color;
         originalScale = transform.localScale;
         originalRotation = transform.rotation;
-    }
-    
-    protected virtual void OnTriggerStay(Collider other)
-    {
-        // Debug.Log("Inside collision...");
-    }
-
-    protected virtual void OnTriggerExit(Collider other)
-    {
-        // Debug.Log("Exiting collision...");
     }
 
     public void Hit()
@@ -213,5 +134,15 @@ public class EnemyCube : MonoBehaviour, IDamageble
         Rigidbody rb = GetComponent<Rigidbody>();
         Vector3 pushDirection = -transform.forward;
         rb.AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
+    }
+
+    protected virtual void OnTriggerStay(Collider other)
+    {
+        // Debug.Log("Inside collision...");
+    }
+
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        // Debug.Log("Exiting collision...");
     }
 }
