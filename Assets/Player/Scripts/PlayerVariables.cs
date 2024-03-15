@@ -21,7 +21,7 @@ public partial class Player
         // Moving
         public float walkSpeed = 2f;
         public float runSpeed = 5f;
-        public float dashForce  = 2f;
+        public float dashForce  = 1.5f;
         private bool isDashing = false;
         public float speedChangeRate = 5f;
         public float rotationSpeed = 600f;

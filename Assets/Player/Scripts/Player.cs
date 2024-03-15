@@ -178,10 +178,10 @@ public partial class Player : MonoBehaviour
 
             while (elapsed < duration)
             {
+                elapsed += Time.deltaTime;
                 float currentSpeed = Mathf.Lerp(0, dashForce, elapsed / duration);
                 rigidBody.AddForce(currentSpeed * dashDirection, ForceMode.Impulse);
-
-                elapsed += Time.deltaTime;
+                
                 yield return null;
             }
 
