@@ -4,7 +4,7 @@ using UnityEngine;
 public partial class Enemy : MonoBehaviour, IDamageble
 {   
     public void Update(){
-        if (player != null) FacePlayer(); // Face the player
+        FacePlayer(); // Face the player
     }
 
     public void CheckPlayerExist()
@@ -36,16 +36,12 @@ public partial class Enemy : MonoBehaviour, IDamageble
        }
     }
 
-    public void ApplyDamageAndEffects() => healthPoints--;
-
     public bool IsWeaponCollisionValid(Collider other)
     {
         return other.gameObject.CompareTag("Weapon") && !isCollisionCooldown;
     }
 
-    
-
-    public void CheckHealthAndUpdateAppearance()
+    public void OnHealthUpdateChangeAppearance()
     {
         switch (healthPoints)
         {
@@ -65,76 +61,85 @@ public partial class Enemy : MonoBehaviour, IDamageble
 
     public void EndCollisionCooldown() => isCollisionCooldown = false;
 
-    public void DestroyEnemy()
-    {
-        gameObject.SetActive(false);
-        print("Enemy Defeated!");
-    }
-
-    public IEnumerator JumpRoutine()
-    {
-        while (true)
+    
+    #region Enemy Jump
+        public IEnumerator JumpRoutine()
         {
-            yield return new WaitForSeconds(1.5f);
-            EnemyJump();
-        }
-    }
-
-    public void EnemyJump()
-    {
-        if (healthPoints > 0)
-        {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.VelocityChange);
-            if (slimeJumpSound != null)
+            while (true)
             {
-                slimeJumpSound.Play();
+                yield return new WaitForSeconds(1.5f);
+                EnemyJump();
             }
         }
-    }
 
-    public IEnumerator RespawnEnemy()
-    {
-        yield return new WaitForSeconds(respawnTime);
-        UpdateAppearance(originalColor, originalScale);
-        ResetEnemyStatePosition();
-        gameObject.SetActive(true);
-        print("Enemy Respawned!");
-    }
+        public void EnemyJump()
+        {
+            if (healthPoints > 0)
+            {
+                GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.VelocityChange);
+                if (slimeJumpSound != null)
+                {
+                    slimeJumpSound.Play();
+                }
+            }
+        }
+    #endregion
 
-    public void ResetEnemyStatePosition()
-    {
-        healthPoints = 3f;
-        transform.position = initialPosition;
-        transform.rotation = originalRotation;
-    }
+    #region Start over and Respawn Enemy
+        public void DestroyEnemy()
+        {
+            gameObject.SetActive(false);
+            Debug.Log("Enemy Defeated!");
+        }
 
-    public void UpdateAppearance(Color color, Vector3 scale)
-    {
-        GetComponent<MeshRenderer>().material.color = color;
-        transform.localScale = scale;
-    }
+        public IEnumerator RespawnEnemy()
+        {
+            yield return new WaitForSeconds(respawnTime);
+            UpdateAppearance(originalColor, originalScale);
+            ResetEnemyStatePosition();
+            gameObject.SetActive(true);
+            Debug.Log("Enemy Respawned!");
+        }
 
-    public void InitializeOriginalValues()
-    {
-        initialPosition = transform.position;
-        originalColor = GetComponent<MeshRenderer>().material.color;
-        originalScale = transform.localScale;
-        originalRotation = transform.rotation;
-    }
+        public void ResetEnemyStatePosition()
+        {
+            healthPoints = 3f;
+            transform.position = initialPosition;
+            transform.rotation = originalRotation;
+        }
 
-    public void Hit()
-    {
-        ApplyDamageAndEffects();
-        CheckHealthAndUpdateAppearance();
-        StartCollisionCooldown();
-    }
+        public void UpdateAppearance(Color color, Vector3 scale)
+        {
+            GetComponent<MeshRenderer>().material.color = color;
+            transform.localScale = scale;
+        }
 
-    public void ApplyKnockback()
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        Vector3 pushDirection = -transform.forward;
-        rb.AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
-    }
+        public void InitializeOriginalValues()
+        {
+            initialPosition = transform.position;
+            originalColor = GetComponent<MeshRenderer>().material.color;
+            originalScale = transform.localScale;
+            originalRotation = transform.rotation;
+        }
+    #endregion
+
+    #region Combat
+        public void ApplyDamageAndEffects() => healthPoints--;
+        
+        public void Hit()
+        {
+            ApplyDamageAndEffects();
+            OnHealthUpdateChangeAppearance();
+            StartCollisionCooldown();
+        }
+
+        public void ApplyKnockback()
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            Vector3 pushDirection = -transform.forward;
+            rb.AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
+        }
+    #endregion
 
     protected virtual void OnTriggerStay(Collider other)
     {
