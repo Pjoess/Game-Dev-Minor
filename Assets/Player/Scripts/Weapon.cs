@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     private CapsuleCollider swordCollider;
     public AudioSource swordSlashSound;
     public bool colliderSwitchOn_Off = false;
-    private List<GameObject> enemies = new List<GameObject>();
+    private List<GameObject> enemiesHit = new List<GameObject>();
     private bool strongAttack = false;
 
     public bool StrongAttack { get => strongAttack; set => strongAttack = value; }
@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
     public void SwordToDefault(){
         GetComponent<MeshRenderer>().material.color = new Color32(255, 240, 0, 200); // Yellow Default
         swordCollider.enabled = false; // Disable Collider
-        enemies.Clear();
+        enemiesHit.Clear();
     }
 
     public void DisableSwordCollider() => swordCollider.enabled = false;
@@ -36,14 +36,14 @@ public class Weapon : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (swordCollider.enabled && other.gameObject.CompareTag("Enemy") && !enemies.Any(x => x == other.gameObject))
+        if (swordCollider.enabled && other.gameObject.CompareTag("Enemy") && !enemiesHit.Any(x => x == other.gameObject))
         {
             other.gameObject.GetComponent<IDamageble>().Hit();
             if(strongAttack)
             {
                 other.gameObject.GetComponent<IDamageble>().ApplyKnockback();
             }
-            enemies.Add(other.gameObject);
+            enemiesHit.Add(other.gameObject);
         }
     }
 }
