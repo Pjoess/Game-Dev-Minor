@@ -155,7 +155,7 @@ public partial class Player : MonoBehaviour
         // TODO: Still need to put the dash in a StateMachine
         void OnDash(InputValue value)
         {
-            if (value.isPressed && IsGrounded() && playerState != fallState)
+            if (value.isPressed && IsGrounded() && !isDashing)
             {
                 Vector3 moveDirection = new Vector3(movement.x, 0, movement.y).normalized;
 
@@ -165,6 +165,9 @@ public partial class Player : MonoBehaviour
                     dashDirection.y = 0; // Set the vertical component to zero to avoid moving up or down
 
                     StartCoroutine(DashCoroutine(dashDirection.normalized));
+
+                    // Set isDashing to true to indicate the player is currently dashing
+                    isDashing = true;
                 }
             }
         }
@@ -172,16 +175,22 @@ public partial class Player : MonoBehaviour
         private IEnumerator DashCoroutine(Vector3 dashDirection)
         {
             float elapsed = 0f;
-            float duration = 0.2f; // Adjust the duration as needed
+            float duration = 0.4f; // Adjust the duration as needed
 
             while (elapsed < duration)
             {
                 float currentSpeed = Mathf.Lerp(0, dashForce, elapsed / duration);
-                rigidBody.AddForce(dashDirection * currentSpeed, ForceMode.Impulse);
+                rigidBody.AddForce(currentSpeed * dashDirection, ForceMode.Impulse);
 
                 elapsed += Time.deltaTime;
                 yield return null;
             }
+
+            // Wait for cooldown after the dash is complete
+            yield return new WaitForSeconds(2f);
+
+            // Reset isDashing to false after the cooldown period
+            isDashing = false;
         }
 
     #endregion --- End ---
