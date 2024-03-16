@@ -66,6 +66,7 @@ public partial class Player
         [HideInInspector] public int animIDStrike1;
         [HideInInspector] public int animIDStrike2;
         [HideInInspector] public int animIDStrike3;
+        [HideInInspector] public int animIDDash;
     #endregion
 
     private void AssignAnimIDs()
@@ -77,6 +78,7 @@ public partial class Player
         animIDStrike1 = Animator.StringToHash("Strike1");
         animIDStrike2 = Animator.StringToHash("Strike2");
         animIDStrike3 = Animator.StringToHash("Strike3");
+        animIDDash = Animator.StringToHash("Dash");
     }
 
     // Start is called before the first frame update
