@@ -16,6 +16,10 @@ public class PlayerDashState : PlayerBaseState
     public override void UpdateState(Player player)
     {
         if (player.movement == Vector2.zero) player.ChangeState(player.idleState);
-        if (player.isSprinting) player.ChangeState(player.runState);
+        if (player.isSprinting) {
+            player.ChangeState(player.runState);
+        } else {
+            player.ChangeState(player.walkState);
+        }
     }
 }
