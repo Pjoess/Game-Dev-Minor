@@ -12,6 +12,7 @@ public partial class Player
     #endregion
 
     #region Basic Variables for (Movements and Jumping)
+        [SerializeField] private int healthPoints = 5;
         // Jumping and Falling
         public float jumpForce = 5f;
         public float jumpCooldown = 1f;

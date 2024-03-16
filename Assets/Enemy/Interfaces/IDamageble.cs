@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IDamageble
 {
-    void Hit();
-    void ApplyKnockback();
+    public int HealthPoints { get; set; }
+    abstract void Hit();
+    virtual void ApplyKnockback() { }
 }

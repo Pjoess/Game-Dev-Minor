@@ -1,8 +1,9 @@
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public partial class Enemy : MonoBehaviour, IDamageble
-{   
+{
     public void Update(){
         FacePlayer(); // Face the player
     }
@@ -27,19 +28,19 @@ public partial class Enemy : MonoBehaviour, IDamageble
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-       if (IsWeaponCollisionValid(other))
-       {
-           ApplyDamageAndEffects();
-           // CheckHealthAndUpdateAppearance();
-       }
-    }
+    //public void OnTriggerEnter(Collider other)
+    //{
+    //   if (IsWeaponCollisionValid(other))
+    //   {
+    //       ApplyDamageAndEffects();
+    //       // CheckHealthAndUpdateAppearance();
+    //   }
+    //}
 
-    public bool IsWeaponCollisionValid(Collider other)
-    {
-        return other.gameObject.CompareTag("Weapon") && !isCollisionCooldown;
-    }
+    //public bool IsWeaponCollisionValid(Collider other)
+    //{
+    //    return other.gameObject.CompareTag("Weapon") && !isCollisionCooldown;
+    //}
 
     public void OnHealthUpdateChangeAppearance()
     {
@@ -103,7 +104,7 @@ public partial class Enemy : MonoBehaviour, IDamageble
 
         public void ResetEnemyStatePosition()
         {
-            healthPoints = 3f;
+            healthPoints = 3;
             transform.position = initialPosition;
             transform.rotation = originalRotation;
         }

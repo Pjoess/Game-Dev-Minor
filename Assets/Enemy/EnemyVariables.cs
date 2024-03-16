@@ -4,7 +4,8 @@ using UnityEngine;
 public partial class Enemy
 {
     #region Basic Variables
-        public float healthPoints = 3f;
+        public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
+        [SerializeField] private int healthPoints = 3;
         public float respawnTime = 2f;
         public float pushBackForce = 4f;
         public float pushUpForce = 4f;

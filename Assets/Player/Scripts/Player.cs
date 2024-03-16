@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 // Superjump BUG (rennen op een slime en dan space) maybe a bug?
 // Collision Fixen vibrating against wall
 
-public partial class Player : MonoBehaviour
+public partial class Player : MonoBehaviour, IDamageble
 {
     // Update is called once per frame
     void Update() => playerState.UpdateState(this);
@@ -186,6 +186,18 @@ public partial class Player : MonoBehaviour
             if (value.isPressed && IsGrounded() && !isDashing && !isStriking) ChangeState(dashState);
         }
     #endregion --- End ---
+
+    public void Hit()
+    {
+        HealthPoints--;
+    }
+
+    public void ApplyKnockback(Vector3 pos)
+    {
+        //Knockback code
+    }
+
+    public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
     private void OnFootstep(AnimationEvent animationEvent){}
     private void OnLand(AnimationEvent animationEvent){}
