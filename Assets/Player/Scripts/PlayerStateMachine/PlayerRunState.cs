@@ -16,6 +16,8 @@ public class PlayerRunState : PlayerBaseState
     {
         player.Movement();
         player.Jump();
+        player.Dash();
+        player.Attack();
         if (player.movement == Vector2.zero) player.ChangeState(player.idleState);
         if (!player.isSprinting) player.ChangeState(player.walkState);
         player.FallCheck();

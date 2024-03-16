@@ -23,7 +23,7 @@ public partial class Player
         public float walkSpeed = 2f;
         public float runSpeed = 5f;
         public float dashForce  = 1.5f;
-        private bool isDashing = false;
+        [HideInInspector] public bool isDashing = false;
         public Vector3 dashDirection;
         public float speedChangeRate = 5f;
         public float rotationSpeed = 600f;
@@ -31,10 +31,13 @@ public partial class Player
         [HideInInspector] public bool isSprinting = false;
         [HideInInspector] public bool hasJumped = false;
         public bool isStriking = false;
+    //Dash
+    public float dashCooldown = 2f;
+    [HideInInspector] public float dashCooldownDelta;
     #endregion
 
     #region Sword Attack and Collison
-        [HideInInspector] public event Action HasAttacked;
+    [HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
         public float attackDistance = 0.15f;
     #endregion

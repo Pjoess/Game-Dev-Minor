@@ -83,44 +83,47 @@ public partial class Player : MonoBehaviour, IDamageble
             }
         }
 
-        public void Dash(){
-                Vector3 moveDirection = new Vector3(movement.x, 0, movement.y).normalized;
+        public void Dash()
+        {
+        //When dashing while attacking, the dash is queued and happens immediately after finising the attack. Bug or feature?
+        //You can dash through small spaces.
 
+            Vector3 moveDirection = new Vector3(movement.x, 0, movement.y);
+
+            if (isDashing && dashCooldownDelta <= 0)
+            {
                 if (moveDirection != Vector3.zero)
                 {
+                    Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
+                    Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+                    transform.rotation = rotation;
                     dashDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
                     dashDirection.y = 0; // Set the vertical component to zero to avoid moving up or down
-                    // Set isDashing to true to indicate the player is currently dashing
-                    DashCooldown();
+                                         // Set isDashing to true to indicate the player is currently dashing
+                    ChangeState(dashState);
                 }
-        }
-
-        public void DashCooldown()
-        {
-            StartCoroutine(DashCoroutine(dashDirection.normalized));
-            isDashing = true;
-        }
-
-        private IEnumerator DashCoroutine(Vector3 dashDirection)
-        {
-            float elapsed = 0f;
-            float duration = 0.4f; // Adjust the duration as needed for dashing
-
-            while (elapsed < duration)
+            }
+            else if (dashCooldownDelta > 0)
             {
-                elapsed += Time.deltaTime;
-                float currentSpeed = Mathf.Lerp(0, dashForce, elapsed / duration);
-                rigidBody.AddForce(currentSpeed * dashDirection, ForceMode.Impulse);
-                yield return null;
+                dashCooldownDelta -= Time.deltaTime;
             }
 
-            // Wait for cooldown after the dash is complete then reset
-            yield return new WaitForSeconds(2f);
-            isDashing = false;
+            if(moveDirection == Vector3.zero) 
+            {
+                isDashing = false;
+            }    
         }
     #endregion
 
     #region Attacks Methods
+
+    public void Attack()
+    {
+        if(isStriking)
+        {
+            ChangeState(strikeState);
+        }
+    }
         public void AttackRotation()
         {
             Vector3 direction = new(movement.x, 0, movement.y);
@@ -177,13 +180,16 @@ public partial class Player : MonoBehaviour, IDamageble
         {
             if(value.isPressed && IsGrounded()){
                 if (HasAttacked != null) HasAttacked.Invoke();
-                else if (playerState != strikeState && playerState != strike3State) ChangeState(strikeState);
+                else if (!isStriking)
+                {
+                    isStriking = true;
+                }
             }
         }
 
         void OnDash(InputValue value)
         {
-            if (value.isPressed && IsGrounded() && !isDashing && !isStriking) ChangeState(dashState);
+            if (value.isPressed && !isDashing)  isDashing = true;
         }
     #endregion --- End ---
 

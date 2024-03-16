@@ -9,7 +9,6 @@ public class PlayerStrike3State : PlayerBaseState
         Debug.Log("Anim3");
         player.sword.GetComponent<MeshRenderer>().material.color = new Color32(204, 0, 0, 200); // Red
         player.sword.StrongAttack = true;
-        player.isStriking = true;
     }
 
     public override void ExitState(Player player)
