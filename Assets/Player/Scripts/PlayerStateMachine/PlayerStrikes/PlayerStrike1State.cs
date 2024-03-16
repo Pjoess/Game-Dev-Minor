@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class PlayerStrikeState : PlayerBaseState
 {
-    
-
     public override void EnterState(Player player)
     {
         player.MoveForwardOnAttack();
@@ -11,6 +9,7 @@ public class PlayerStrikeState : PlayerBaseState
         player.HasAttacked += player.OnAttackStruck;
         player.animator.SetBool(player.animIDStrike1, true);
         player.struckAgain = false;
+        player.isStriking = true;
         Debug.Log("Anim1");
         player.sword.GetComponent<MeshRenderer>().material.color = new Color32(0, 128, 255, 200); // Blue
     }
@@ -19,6 +18,7 @@ public class PlayerStrikeState : PlayerBaseState
     {
         player.HasAttacked -= player.OnAttackStruck;
         player.sword.SwordToDefault();
+        player.isStriking = false;
     }
 
     public override void UpdateState(Player player)

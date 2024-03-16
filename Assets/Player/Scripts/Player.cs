@@ -78,6 +78,42 @@ public partial class Player : MonoBehaviour
                 ChangeState(jumpState);
             }
         }
+
+        public void Dash(){
+                Vector3 moveDirection = new Vector3(movement.x, 0, movement.y).normalized;
+
+                if (moveDirection != Vector3.zero)
+                {
+                    dashDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
+                    dashDirection.y = 0; // Set the vertical component to zero to avoid moving up or down
+                    // Set isDashing to true to indicate the player is currently dashing
+                    DashCooldown();
+                }
+        }
+
+        public void DashCooldown()
+        {
+            StartCoroutine(DashCoroutine(dashDirection.normalized));
+            isDashing = true;
+        }
+
+        private IEnumerator DashCoroutine(Vector3 dashDirection)
+        {
+            float elapsed = 0f;
+            float duration = 0.4f; // Adjust the duration as needed for dashing
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float currentSpeed = Mathf.Lerp(0, dashForce, elapsed / duration);
+                rigidBody.AddForce(currentSpeed * dashDirection, ForceMode.Impulse);
+                yield return null;
+            }
+
+            // Wait for cooldown after the dash is complete then reset
+            yield return new WaitForSeconds(2f);
+            isDashing = false;
+        }
     #endregion
 
     #region Attacks Methods
@@ -154,42 +190,8 @@ public partial class Player : MonoBehaviour
         // TODO: Still need to put the dash in a StateMachine
         void OnDash(InputValue value)
         {
-            if (value.isPressed && IsGrounded() && !isDashing)
-            {
-                Vector3 moveDirection = new Vector3(movement.x, 0, movement.y).normalized;
-
-                if (moveDirection != Vector3.zero)
-                {
-                    Vector3 dashDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
-                    dashDirection.y = 0; // Set the vertical component to zero to avoid moving up or down
-
-                    StartCoroutine(DashCoroutine(dashDirection.normalized));
-
-                    // Set isDashing to true to indicate the player is currently dashing
-                    isDashing = true;
-                }
-            }
-        }
-
-        private IEnumerator DashCoroutine(Vector3 dashDirection)
-        {
-            float elapsed = 0f;
-            float duration = 0.4f; // Adjust the duration as needed
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float currentSpeed = Mathf.Lerp(0, dashForce, elapsed / duration);
-                rigidBody.AddForce(currentSpeed * dashDirection, ForceMode.Impulse);
-                
-                yield return null;
-            }
-
-            // Wait for cooldown after the dash is complete
-            yield return new WaitForSeconds(2f);
-
-            // Reset isDashing to false after the cooldown period
-            isDashing = false;
+            if (value.isPressed && IsGrounded() && !isDashing && !isStriking)
+               ChangeState(dashState);
         }
     #endregion --- End ---
 

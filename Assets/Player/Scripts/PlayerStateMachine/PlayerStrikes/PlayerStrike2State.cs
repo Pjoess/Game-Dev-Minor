@@ -8,6 +8,7 @@ public class PlayerStrike2State : PlayerBaseState
         player.sword.DoSwordAttackEnableCollision();
         player.HasAttacked += player.OnAttackStruck;
         player.struckAgain = false;
+        player.isStriking = true;
         Debug.Log("Anim2");
         player.sword.GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 255, 200); // Light Orange
     }
@@ -17,6 +18,7 @@ public class PlayerStrike2State : PlayerBaseState
         player.HasAttacked -= player.OnAttackStruck;
         player.sword.DisableSwordCollider();
         player.sword.SwordToDefault();
+        player.isStriking = false;
     }
 
     public override void UpdateState(Player player)
