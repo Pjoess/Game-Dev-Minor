@@ -2,6 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// TODO: 
+// Superjump BUG (rennen op een slime en dan space) maybe a bug?
+// Collision Fixen vibrating against wall
+
 public partial class Player : MonoBehaviour
 {
     // Update is called once per frame
@@ -137,16 +141,6 @@ public partial class Player : MonoBehaviour
             Vector3 newPosition = transform.position + transform.forward * attackDistance;
             transform.position = newPosition;
         }
-
-        // Kijk naar camera slow down on @Attack forward and Dash
-        // Superjump BUG (rennen op een slime en dan space)
-        // Collision Fixen
-        // is Stike 3 do knockback on enemy
-        public void KnockBack(){
-            // if(){
-            //     enemy.isKnockedBack = true;
-            // }
-        }
     #endregion
 
     #region Animation of Player
@@ -187,11 +181,9 @@ public partial class Player : MonoBehaviour
             }
         }
 
-        // TODO: Still need to put the dash in a StateMachine
         void OnDash(InputValue value)
         {
-            if (value.isPressed && IsGrounded() && !isDashing && !isStriking)
-               ChangeState(dashState);
+            if (value.isPressed && IsGrounded() && !isDashing && !isStriking) ChangeState(dashState);
         }
     #endregion --- End ---
 
