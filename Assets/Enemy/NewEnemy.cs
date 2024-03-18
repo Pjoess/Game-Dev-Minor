@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NewEnemy : MonoBehaviour, ITriggerCheckable
+public class NewEnemy : MonoBehaviour, ITriggerCheckable, IDamageble
 {
     #region General variables
-        public float Health { get; set; }
-        public float MaxHealth { get; set; }
+        public int HealthPoints { get; set; }
+        public int MaxHealth { get; set; } = 3;
         public float MoveSpeed { get; set; }
         
     #endregion
@@ -55,6 +55,7 @@ public class NewEnemy : MonoBehaviour, ITriggerCheckable
 
             EnemyStateMachine.Initialize(EnemyIdleState);
             Agent.speed = 1.5f;
+            HealthPoints = MaxHealth;
         }
         void Update()
         {
@@ -94,6 +95,14 @@ public class NewEnemy : MonoBehaviour, ITriggerCheckable
             GetComponent<MeshRenderer>().material.color = new Color32(170, 0, 0, 200);
             yield return new WaitForSeconds(1);
             GetComponent<MeshRenderer>().material.color = new Color32(0, 0, 0, 200);
+        }
+    #endregion
+
+    #region Attacked 
+
+        public void Hit()
+        {
+            
         }
     #endregion
 }
