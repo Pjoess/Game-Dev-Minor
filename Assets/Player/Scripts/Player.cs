@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// TODO: 
+// TODO:
 // Superjump BUG (rennen op een slime en dan space) maybe a bug?
 // Collision Fixen vibrating against wall
 
@@ -15,7 +15,7 @@ public partial class Player : MonoBehaviour, IDamageble
         public void ChangeState(PlayerBaseState state)
         {
             playerState.ExitState(this);
-            playerState = state ?? playerState;
+            playerState = state ?? playerState; // If state is null -> stay on the playerState
             playerState.EnterState(this);
         }
 
