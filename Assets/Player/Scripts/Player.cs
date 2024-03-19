@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 // TODO:
 // Superjump BUG (rennen op een slime en dan space) maybe a bug?
@@ -198,6 +199,7 @@ public partial class Player : MonoBehaviour, IDamageble
                 Time.timeScale = 0;
                 isPaused = true;
                 Debug.Log("is paused: " + isPaused);
+                // SceneManager.LoadScene("MainMenu"); // stil testing go to scene 
             } else {
                 Time.timeScale = 1;
                 isPaused = false;
