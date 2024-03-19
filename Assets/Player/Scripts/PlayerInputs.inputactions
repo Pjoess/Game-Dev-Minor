@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "196cc844-be41-488c-bcc9-0741d5c83384",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -227,27 +236,10 @@
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "MainMenu",
-            "id": "3019d44d-aaac-4168-962e-b0289faf8beb",
-            "actions": [
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "5caf94c7-761c-4fbf-b43b-eecb4e2af6bf",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "3f61534b-c8e8-4661-bf98-802ead73a00c",
+                    "id": "3cf2bb0a-fc45-44cf-a977-82032006223a",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",

@@ -31,9 +31,11 @@ public partial class Player
         [HideInInspector] public bool isSprinting = false;
         [HideInInspector] public bool hasJumped = false;
         public bool isStriking = false;
-    //Dash
-    public float dashCooldown = 2f;
-    [HideInInspector] public float dashCooldownDelta;
+        //Dash
+        public float dashCooldown = 2f;
+        [HideInInspector] public float dashCooldownDelta;
+        // UI Buttons
+        public bool isPaused = false;
     #endregion
 
     #region Sword Attack and Collison

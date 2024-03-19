@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -190,6 +191,18 @@ public partial class Player : MonoBehaviour, IDamageble
         void OnDash(InputValue value)
         {
             if (value.isPressed && !isDashing)  isDashing = true;
+        }
+
+        void OnPause(InputValue value){
+            if(value.isPressed && !isPaused){
+                Time.timeScale = 0;
+                isPaused = true;
+                Debug.Log("is paused: " + isPaused);
+            } else {
+                Time.timeScale = 1;
+                isPaused = false;
+                Debug.Log("is paused: " + isPaused);
+            }
         }
     #endregion --- End ---
 
