@@ -13,12 +13,14 @@ public partial class Player
 
     #region Basic Variables for (Movements and Jumping)
         [SerializeField] private int healthPoints = 5;
+
         // Jumping and Falling
         public float jumpForce = 5f;
         public float jumpCooldown = 1f;
         [HideInInspector] public float jumpCooldownDelta;
         public float idleToFallTimer = 0.15f;
         [HideInInspector] public float idleToFallDelta;
+
         // Moving
         public float walkSpeed = 2f;
         public float runSpeed = 5f;
@@ -31,11 +33,15 @@ public partial class Player
         [HideInInspector] public bool isSprinting = false;
         [HideInInspector] public bool hasJumped = false;
         public bool isStriking = false;
+
         //Dash
         public float dashCooldown = 2f;
         [HideInInspector] public float dashCooldownDelta;
+
         // UI Buttons
         public bool isPaused = false;
+        [SerializeField] GameObject uiButton;
+        public float buttonCameraOffset = -50f;
     #endregion
 
     #region Sword Attack and Collison
@@ -81,24 +87,5 @@ public partial class Player
         animIDStrike2 = Animator.StringToHash("Strike2");
         animIDStrike3 = Animator.StringToHash("Strike3");
         animIDDash = Animator.StringToHash("Dash");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        AssignAnimIDs();
-        // References
-        sword = GetComponentInChildren<Weapon>();
-        enemy = GetComponentInChildren<Enemy>();
-        animator = GetComponent<Animator>();
-        rigidBody = GetComponent<Rigidbody>();
-        capsuleColider = GetComponent<CapsuleCollider>();
-        // Default state
-        playerState = idleState;
-        playerState.EnterState(this);
-        // Jumping
-        jumpSound = GetComponent<AudioSource>();
-        idleToFallDelta = idleToFallTimer;
-        jumpCooldownDelta = 0f;
     }
 }

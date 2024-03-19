@@ -7,11 +7,50 @@ using UnityEngine.SceneManagement;
 // TODO:
 // Superjump BUG (rennen op een slime en dan space) maybe a bug?
 // Collision Fixen vibrating against wall
-
+    
 public partial class Player : MonoBehaviour, IDamageble
 {
+    // Start is called before the first frame update
+    void Start()
+    {
+        AssignAnimIDs();
+        // References
+        sword = GetComponentInChildren<Weapon>();
+        enemy = GetComponentInChildren<Enemy>();
+        animator = GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody>();
+        capsuleColider = GetComponent<CapsuleCollider>();
+        // Default state
+        playerState = idleState;
+        playerState.EnterState(this);
+        // Jumping
+        jumpSound = GetComponent<AudioSource>();
+        idleToFallDelta = idleToFallTimer;
+        jumpCooldownDelta = 0f;
+
+
+    }
+
+    private void LateUpdate()
+    {
+        if (uiButton != null && Camera.main != null)
+        {
+            // Set the position of the UI button to the position of the camera
+            uiButton.transform.position = Camera.main.transform.position;
+
+            uiButton.transform.position += Camera.main.transform.forward * buttonCameraOffset; // offset of 2 units in front of the camera
+            uiButton.transform.position += Camera.main.transform.right * buttonCameraOffset;
+        }
+        else
+        {
+            //Debug.LogWarning("UI button or main camera not assigned.");
+        }
+    }
+
     // Update is called once per frame
-    void Update() => playerState.UpdateState(this);
+    void Update(){
+        playerState.UpdateState(this);
+    }
 
     #region General Methods
         public void ChangeState(PlayerBaseState state)
@@ -198,12 +237,14 @@ public partial class Player : MonoBehaviour, IDamageble
             if(value.isPressed && !isPaused){
                 Time.timeScale = 0;
                 isPaused = true;
-                Debug.Log("is paused: " + isPaused);
+                uiButton.SetActive(!uiButton.activeSelf); // Toggle the active state of the button GameObject
+                Debug.Log("Game Paused");
                 // SceneManager.LoadScene("MainMenu"); // stil testing go to scene 
             } else {
                 Time.timeScale = 1;
                 isPaused = false;
-                Debug.Log("is paused: " + isPaused);
+                uiButton.SetActive(uiButton.activeSelf);
+                Debug.Log("Game Started");
             }
         }
     #endregion --- End ---

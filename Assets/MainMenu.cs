@@ -13,14 +13,6 @@ Then drag and drop the MainMenuScriptObject on the "On Click ()" then select Mai
 */
 public class MainMenu : MonoBehaviour
 {
-    void Start(){
-
-    }
-
-    void Update(){
-
-    }
-
     public void PlayGame(){
         SceneManager.LoadSceneAsync(1);
     }
@@ -33,5 +25,9 @@ public class MainMenu : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+
+    public void ToMainMenu(){
+        SceneManager.LoadSceneAsync(0);
     }
 }
