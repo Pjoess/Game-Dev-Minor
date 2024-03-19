@@ -1,4 +1,5 @@
 using System.Collections;
+using Cinemachine;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,23 +28,29 @@ public partial class Player : MonoBehaviour, IDamageble
         jumpSound = GetComponent<AudioSource>();
         idleToFallDelta = idleToFallTimer;
         jumpCooldownDelta = 0f;
+        // UI
+        uiButton.SetActive(false); // Make the button invisible
 
-
+        // Get the Cinemachine Virtual Camera component
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
 
-    private void LateUpdate()
+void LateUpdate()
     {
-        if (uiButton != null && Camera.main != null)
+        if (uiButton != null && virtualCamera != null)
         {
-            // Set the position of the UI button to the position of the camera
-            uiButton.transform.position = Camera.main.transform.position;
+            // Get the position of the virtual camera
+            Vector3 cameraPosition = virtualCamera.transform.position;
 
-            uiButton.transform.position += Camera.main.transform.forward * buttonCameraOffset; // offset of 2 units in front of the camera
-            uiButton.transform.position += Camera.main.transform.right * buttonCameraOffset;
+            // Calculate the position of the button relative to the camera
+            Vector3 buttonPosition = cameraPosition + virtualCamera.transform.rotation * buttonCameraOffset;
+
+            // Update the position of the button
+            uiButton.transform.position = buttonPosition;
         }
         else
         {
-            //Debug.LogWarning("UI button or main camera not assigned.");
+            Debug.LogWarning("UI button or Cinemachine Virtual Camera not assigned.");
         }
     }
 
@@ -233,20 +240,26 @@ public partial class Player : MonoBehaviour, IDamageble
             if (value.isPressed && !isDashing)  isDashing = true;
         }
 
-        void OnPause(InputValue value){
-            if(value.isPressed && !isPaused){
+        void OnPause(InputValue value)
+        {
+            if (value.isPressed && !isPaused)
+            {
+                Debug.Log("Game Paused");
                 Time.timeScale = 0;
                 isPaused = true;
-                uiButton.SetActive(!uiButton.activeSelf); // Toggle the active state of the button GameObject
-                Debug.Log("Game Paused");
+                uiButton.SetActive(true); // Make the button visible
                 // SceneManager.LoadScene("MainMenu"); // stil testing go to scene 
-            } else {
+            }
+            else
+            {
+                Debug.Log("Game Started");
                 Time.timeScale = 1;
                 isPaused = false;
-                uiButton.SetActive(uiButton.activeSelf);
-                Debug.Log("Game Started");
+                uiButton.SetActive(false); // Make the button invisible
             }
         }
+
+
     #endregion --- End ---
 
     public void Hit()

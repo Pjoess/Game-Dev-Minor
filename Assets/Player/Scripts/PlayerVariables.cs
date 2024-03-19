@@ -1,5 +1,10 @@
 using UnityEngine;
 using System;
+using System.Collections;
+using Cinemachine;
+using UnityEditor;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public partial class Player
 {
@@ -41,11 +46,17 @@ public partial class Player
         // UI Buttons
         public bool isPaused = false;
         [SerializeField] GameObject uiButton;
-        public float buttonCameraOffset = -50f;
+        public float buttonCameraOffsetForward = -50f;
+        public float buttonCameraOffsetRight = -50f;
+        public float buttonCameraOffsetUp = -50f;
+
+        // UI CameraFollow
+        private CinemachineVirtualCamera virtualCamera;
+        [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
     #endregion
 
     #region Sword Attack and Collison
-    [HideInInspector] public event Action HasAttacked;
+        [HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
         public float attackDistance = 0.15f;
     #endregion

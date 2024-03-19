@@ -13,6 +13,12 @@ Then drag and drop the MainMenuScriptObject on the "On Click ()" then select Mai
 */
 public class MainMenu : MonoBehaviour
 {
+    Player player;
+
+    void Start(){
+        player = GetComponentInChildren<Player>();
+    }
+
     public void PlayGame(){
         SceneManager.LoadSceneAsync(1);
     }

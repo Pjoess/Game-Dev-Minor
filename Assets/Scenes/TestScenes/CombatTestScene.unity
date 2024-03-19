@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 62646300}
   - component: {fileID: 62646299}
   m_Layer: 5
-  m_Name: Canvas InGame to Main Menu
+  m_Name: 'Canvas '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -950,7 +950,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Main Menu
+  m_text: Quit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1595,7 +1595,7 @@ GameObject:
   - component: {fileID: 1243401517}
   - component: {fileID: 1243401516}
   m_Layer: 5
-  m_Name: MainMenu
+  m_Name: Quit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1667,7 +1667,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1641318039}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: ToMainMenu
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3394,7 +3394,7 @@ PrefabInstance:
         type: 3}
       propertyPath: uiButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1243401514}
     - target: {fileID: 5923838575727417170, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
         type: 3}
       propertyPath: dashForce
@@ -3404,6 +3404,16 @@ PrefabInstance:
         type: 3}
       propertyPath: buttonCameraOffset
       value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5923838575727417170, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: buttonCameraOffset.x
+      value: 950
+      objectReference: {fileID: 0}
+    - target: {fileID: 5923838575727417170, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+        type: 3}
+      propertyPath: buttonCameraOffset.y
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
