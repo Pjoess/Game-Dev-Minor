@@ -36,12 +36,4 @@ public partial class Enemy
     #region Player Reference
         private Transform player; // Reference to the player object
     #endregion
-
-    public void Start()
-    {
-        slimeJumpSound = GetComponent<AudioSource>();
-        InitializeOriginalValues();
-        StartCoroutine(JumpRoutine());
-        CheckPlayerExist();
-    }
 }

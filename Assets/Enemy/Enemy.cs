@@ -4,6 +4,17 @@ using UnityEngine;
 
 public partial class Enemy : MonoBehaviour, IDamageble
 {
+  
+    public void Start()
+    {
+        slimeJumpSound = GetComponent<AudioSource>();
+        InitializeOriginalValues();
+        StartCoroutine(JumpRoutine());
+        CheckPlayerExist();
+
+        InvokeRepeating(nameof(FireBullet), 0f, fireInterval);
+    }
+
     public void Update(){
         FacePlayer(); // Face the player
     }
@@ -140,14 +151,52 @@ public partial class Enemy : MonoBehaviour, IDamageble
             Vector3 pushDirection = -transform.forward;
             rb.AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
         }
+
+        public GameObject bulletPrefab;
+        public Transform firePoint;
+        public float fireInterval = 3f;
+        public float bulletSpeed = 8f;
+
+        private void FireBullet()
+        {
+            if (player != null)
+            {
+                // Instantiate the bullet at the fire point on the enemy
+                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+                // Calculate the direction from the enemy to the player
+                Vector3 directionToPlayer = (player.position - firePoint.position).normalized;
+
+                // Set the bullet's velocity to move towards the player
+                bullet.GetComponent<Rigidbody>().velocity = directionToPlayer * bulletSpeed;
+
+                // Make the bullet smaller
+                float bulletScale = 0.3f; // Adjust as needed
+                bullet.transform.localScale = new Vector3(bulletScale, bulletScale, bulletScale);
+
+                // Destroy the bullet after 2 seconds
+                Destroy(bullet, 2f);
+            }
+        }
+
+        // private void OnTriggerEnter(Collider other)
+        // {
+        //     Debug.Log("Trigger entered with: " + other.name);
+
+        //     if (other.CompareTag("Ammo"))
+        //     {
+        //         Debug.Log("Ignoring collision with ammo");
+        //         Physics.IgnoreCollision(GetComponent<Collider>(), other, true);
+        //     }
+        // }
     #endregion
 
-    protected virtual void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)
     {
         // Debug.Log("Inside collision...");
     }
 
-    protected virtual void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         // Debug.Log("Exiting collision...");
     }

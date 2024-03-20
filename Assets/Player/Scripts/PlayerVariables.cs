@@ -35,9 +35,11 @@ public partial class Player
         public float speedChangeRate = 5f;
         public float rotationSpeed = 600f;
         [HideInInspector] public Vector2 movement;
+        [HideInInspector] public Vector3 direction;
         [HideInInspector] public bool isSprinting = false;
         [HideInInspector] public bool hasJumped = false;
         public bool isStriking = false;
+
 
         //Dash
         public float dashCooldown = 2f;

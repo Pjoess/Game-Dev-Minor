@@ -97,7 +97,7 @@ void LateUpdate()
             if (animationBlend < 0.01f) animationBlend = 0f;
             animator.SetFloat(animIDSpeed, animationBlend);
 
-            Vector3 direction = new(movement.x, 0, movement.y);
+            direction = new(movement.x, 0, movement.y);
 
             Vector3 cameraFaceForward = Camera.main.transform.forward;
             Vector3 cameraFaceRight = Camera.main.transform.right;
