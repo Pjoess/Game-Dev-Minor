@@ -7,6 +7,8 @@ public partial class Enemy : MonoBehaviour, IDamageble
   
     public void Start()
     {
+        healthDropScript = GetComponent<HealthDropScript>();
+        healthPoints = maxHealthPoints;
         slimeJumpSound = GetComponent<AudioSource>();
         InitializeOriginalValues();
         StartCoroutine(JumpRoutine());
@@ -106,6 +108,7 @@ public partial class Enemy : MonoBehaviour, IDamageble
 
         public IEnumerator RespawnEnemy()
         {
+            healthDropScript.InstantiateDroppedItem(new Vector3(transform.position.x, initialPosition.y, transform.position.z));
             yield return new WaitForSeconds(respawnTime);
             UpdateAppearance(originalColor, originalScale);
             ResetEnemyStatePosition();

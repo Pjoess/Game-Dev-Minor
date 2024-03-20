@@ -33,6 +33,8 @@ public partial class Player : MonoBehaviour, IDamageble
 
         // Get the Cinemachine Virtual Camera component
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+
+        healthPoints = maxHealthPoints;
     }
 
 void LateUpdate()
@@ -271,8 +273,6 @@ void LateUpdate()
     {
         //Knockback code
     }
-
-    public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
     private void OnFootstep(AnimationEvent animationEvent){}
     private void OnLand(AnimationEvent animationEvent){}
