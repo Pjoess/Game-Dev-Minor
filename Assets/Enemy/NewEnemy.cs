@@ -80,9 +80,16 @@ public class NewEnemy : MonoBehaviour, ITriggerCheckable, IDamageble
             // IsAttacking = isAttacking;
         }
 
+        public void FacePlayer()
+        {
+            Vector3 directionToPlayer = (Target.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0f, directionToPlayer.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 100);
+        }
 
         public void Attack()
         {
+            FacePlayer();
             IsAttacking = EnemyAttackCoroutine();
             StartCoroutine(IsAttacking);
             IsAttacking = null;

@@ -45,57 +45,57 @@ public class EnemySlime : MonoBehaviour, IChaseTriggerCheckable
         }
         void Update()
         {
-            if(IsAggroed && IsGrounded()){
-                WhenJump();
-            }
+            // if(IsAggroed && IsGrounded()){
+            //     WhenJump();
+            // }
             
-
+            Chase();
         }
 
         public void Chase()
         {
             if(IsAggroed){
-                
+                Agent.SetDestination(Target.transform.position);
             }
         }
 
-        public void WhenJump(){
-            if (Agent.enabled)
-            {
-                Agent.SetDestination(transform.position);
+        // public void WhenJump(){
+        //     if (Agent.enabled)
+        //     {
+        //         Agent.SetDestination(transform.position);
 
-                JumpPosition = transform.position;
-                // disable the agent
-                Agent.updatePosition = false;
-                Agent.updateRotation = false;
-                Agent.isStopped = true;
-            }
-            RB.isKinematic = false;
-            RB.useGravity = true;
+        //         JumpPosition = transform.position;
+        //         // disable the agent
+        //         Agent.updatePosition = false;
+        //         Agent.updateRotation = false;
+        //         Agent.isStopped = true;
+        //     }
+        //     RB.isKinematic = false;
+        //     RB.useGravity = true;
 
-            // this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(this.transform.position - Target.transform.position), 5 * Time.deltaTime);
-            RB.AddRelativeForce(new Vector3(0, 5f, 0), ForceMode.Impulse);
-            RB.AddRelativeForce(this.transform.forward * 4, ForceMode.Impulse);
-        }
-        public bool IsGrounded()
-        {
-            float groundCheckDistance = (GetComponent<BoxCollider>().size.y /2) + 0.1f;
+        //     // this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(this.transform.position - Target.transform.position), 5 * Time.deltaTime);
+        //     RB.AddRelativeForce(new Vector3(0, 5f, 0), ForceMode.Impulse);
+        //     RB.AddRelativeForce(this.transform.forward * 4, ForceMode.Impulse);
+        // // }
+        // public bool IsGrounded()
+        // {
+        //     float groundCheckDistance = (GetComponent<BoxCollider>().size.y /2) + 0.1f;
 
-            RaycastHit hit;
+        //     RaycastHit hit;
 
-            if(Physics.Raycast(transform.position, -transform.up, out hit, groundCheckDistance))
-            {
-                Debug.Log("IsGrounded");
-                Agent.updatePosition = true;
-                Agent.updateRotation = true;
-                Agent.isStopped = false;
-                RB.isKinematic = true;
-                RB.useGravity = false;
-                return true;
-            } else {
-                return false;
-            }
-        }
+        //     if(Physics.Raycast(transform.position, -transform.up, out hit, groundCheckDistance))
+        //     {
+        //         Debug.Log("IsGrounded");
+        //         Agent.updatePosition = true;
+        //         Agent.updateRotation = true;
+        //         Agent.isStopped = false;
+        //         RB.isKinematic = true;
+        //         RB.useGravity = false;
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
 
     #endregion
 
