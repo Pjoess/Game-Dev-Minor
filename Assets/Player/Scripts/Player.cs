@@ -37,24 +37,24 @@ public partial class Player : MonoBehaviour, IDamageble
         healthPoints = maxHealthPoints;
     }
 
-void LateUpdate()
-    {
-        if (uiButton != null && virtualCamera != null)
-        {
-            // Get the position of the virtual camera
-            Vector3 cameraPosition = virtualCamera.transform.position;
+// void LateUpdate()
+//     {
+//         if (uiButton != null && virtualCamera != null)
+//         {
+//             // Get the position of the virtual camera
+//             Vector3 cameraPosition = virtualCamera.transform.position;
 
-            // Calculate the position of the button relative to the camera
-            Vector3 buttonPosition = cameraPosition + virtualCamera.transform.rotation * buttonCameraOffset;
+//             // Calculate the position of the button relative to the camera
+//             Vector3 buttonPosition = cameraPosition + virtualCamera.transform.rotation * buttonCameraOffset;
 
-            // Update the position of the button
-            uiButton.transform.position = buttonPosition;
-        }
-        else
-        {
-            Debug.LogWarning("UI button or Cinemachine Virtual Camera not assigned.");
-        }
-    }
+//             // Update the position of the button
+//             uiButton.transform.position = buttonPosition;
+//         }
+//         else
+//         {
+//             Debug.LogWarning("UI button or Cinemachine Virtual Camera not assigned.");
+//         }
+//     }
 
     // Update is called once per frame
     void Update(){
