@@ -264,6 +264,17 @@ void LateUpdate()
 
     #endregion --- End ---
 
+
+
+    public void HealPlayer(int value)
+    {
+        if(healthPoints < maxHealthPoints)
+        {
+            healthPoints += value;
+            if (healthPoints > maxHealthPoints) healthPoints = maxHealthPoints;
+        }
+    }
+
     public void Hit()
     {
         HealthPoints--;
