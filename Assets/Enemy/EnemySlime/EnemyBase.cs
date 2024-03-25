@@ -17,6 +17,7 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         //Triggers
         public bool IsAggroed { get; set; }
         public bool IsWithinStrikingDistance { get; set; }
+        public bool IsAttacking { get; set; }
     #endregion
 
     #region States
@@ -87,9 +88,9 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
 
     public void Awake()
     {
-        HealthPoints = 100;
         Agent = GetComponent<NavMeshAgent>();
         Target = GameObject.FindWithTag("Player").transform;
+        HealthPoints = 100;
         MovementSpeed = 10;
 
         IsAggroed = false;
@@ -116,7 +117,6 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
     public void SetAggroStatus(bool isAggroed)
     {
         IsAggroed = isAggroed;
-        // Debug.Log("Set AGGRO");
     }
     public void SetStrikingDistanceBool(bool isWithinStrikingDistance)
     {

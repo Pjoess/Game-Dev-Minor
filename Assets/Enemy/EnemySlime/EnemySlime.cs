@@ -13,6 +13,9 @@ public class EnemySlime : EnemyBase
     public override void Attack()
     {
         Agent.isStopped = true;
+        IsAttacking = true;
+
+        StartCoroutine(AttackCoroutine());
     }
 
     public override void Chase()
@@ -34,4 +37,22 @@ public class EnemySlime : EnemyBase
     {
         throw new System.NotImplementedException();
     }
+
+
+    public IEnumerator AttackCoroutine()
+    {
+        // FacePlayer();
+        yield return new WaitForSeconds(2);
+
+        yield return new WaitForSeconds(3);
+        IsAttacking = false;
+    }
+
+    // public void FacePlayer()
+    // {
+    //     Vector3 directionToPlayer = (Target.position - transform.position).normalized;
+    //     Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0f, directionToPlayer.z));
+    //     transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 750);
+    // }
+
 }

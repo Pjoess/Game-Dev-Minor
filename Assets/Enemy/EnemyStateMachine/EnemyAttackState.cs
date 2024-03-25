@@ -8,6 +8,7 @@ public class EnemyAttackState : EnemyState
     public override void EnterState()
     {
         enemy.Agent.isStopped = true;
+        Debug.Log("Attacking...");
         enemy.Attack();
     }
 
@@ -18,13 +19,17 @@ public class EnemyAttackState : EnemyState
 
     public override void UpdateState()
     {
-        if(enemy.CheckChase())
+        if(enemy.CheckChase() && !enemy.IsAttacking)
         {
             enemyStateMachine.ChangeState(enemy.enemyChaseState);
         }
-        if(enemy.CheckIdle())
+        if(enemy.CheckIdle() && !enemy.IsAttacking)
         {
             enemyStateMachine.ChangeState(enemy.enemyIdleState);
+        }
+        if(enemy.CheckAttack() && !enemy.IsAttacking)
+        {
+            EnterState();
         }
     }
 }
