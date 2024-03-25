@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class EnemyState
 {
-    protected NewEnemy enemy;
+    protected EnemyBase enemy;
     protected EnemyStateMachine enemyStateMachine;
 
-    public EnemyState(NewEnemy enemy, EnemyStateMachine enemyStateMachine)
+    public EnemyState(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;

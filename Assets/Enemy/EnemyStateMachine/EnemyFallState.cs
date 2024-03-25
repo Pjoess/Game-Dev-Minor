@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyFallState : EnemyState
 {
-    public EnemyFallState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    public EnemyFallState(EnemyBase enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
 
@@ -20,7 +20,7 @@ public class EnemyFallState : EnemyState
 
     public override void UpdateState()
     { 
-
+        enemy.CheckFall();
         
     }
 }

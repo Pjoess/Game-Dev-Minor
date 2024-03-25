@@ -6,13 +6,13 @@ public class StrikingDistanceCheck : MonoBehaviour
 {
 
     public GameObject PlayerTarget { get; set; }
-    private NewEnemy enemy;
+    private EnemyBase enemy;
 
     private void Awake()
     {
         PlayerTarget = GameObject.FindGameObjectWithTag("Player");
 
-        enemy = GetComponentInParent<NewEnemy>();
+        enemy = GetComponentInParent<EnemyBase>();
     }
 
     private void OnTriggerStay(Collider collider)

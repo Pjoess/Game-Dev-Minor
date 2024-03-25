@@ -1,12 +1,16 @@
 using UnityEngine;
 public class EnemyIdleState : EnemyState
 {
-    public EnemyIdleState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    public EnemyIdleState(EnemyBase enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
 
     public override void EnterState()
     {
+        Debug.Log("enter IDLE ENEMY");
+        // if(enemy.Agent == null){
+        //     Debug.Log("enemy is null");
+        // }
         enemy.Agent.isStopped = true;
     }
 
@@ -17,9 +21,14 @@ public class EnemyIdleState : EnemyState
 
     public override void UpdateState()
     {
-        if (enemy.IsAggroed)
+        if(enemy.CheckChase())
         {
-            enemyStateMachine.ChangeState(enemy.EnemyChaseState);
+            enemyStateMachine.ChangeState(enemy.enemyChaseState);
+        }
+
+        if(enemy.CheckAttack())
+        {
+            enemyStateMachine.ChangeState(enemy.enemyAttackState);
         }
     }
 }

@@ -1,13 +1,14 @@
 using UnityEngine;
 public class EnemyAttackState : EnemyState
 {
-    public EnemyAttackState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    public EnemyAttackState(EnemyBase enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
 
     public override void EnterState()
     {
         enemy.Agent.isStopped = true;
+        enemy.Attack();
     }
 
     public override void ExitState()
@@ -17,19 +18,13 @@ public class EnemyAttackState : EnemyState
 
     public override void UpdateState()
     {
-        //rotate towards player
-
-        //Attack player
-        if(enemy.IsAttacking == null)
+        if(enemy.CheckChase())
         {
-            enemy.SetIsAttackingBool(true);
-            enemy.Attack();
+            enemyStateMachine.ChangeState(enemy.enemyChaseState);
         }
-        
-        if(!enemy.IsWithinStrikingDistance && enemy.IsAggroed)
+        if(enemy.CheckIdle())
         {
-            enemy.Agent.isStopped = false;
-            enemyStateMachine.ChangeState(enemy.EnemyChaseState);
+            enemyStateMachine.ChangeState(enemy.enemyIdleState);
         }
     }
 }

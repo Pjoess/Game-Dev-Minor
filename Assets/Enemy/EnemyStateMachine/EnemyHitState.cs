@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyHitState : EnemyState
 {
-    public EnemyHitState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    public EnemyHitState(EnemyBase enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
 
@@ -18,6 +18,7 @@ public class EnemyHitState : EnemyState
 
     public override void UpdateState()
     {
+        enemy.CheckHit();
         //rotate towards player
 
         //Attack player
