@@ -12,16 +12,16 @@ public class AIController : MonoBehaviour
     public LayerMask layerMask;
 
     // Public variables
-    public float range = 5f;
-    public float avoidanceDistance = 5f;
+    public float range = 10f;
+    public float avoidanceDistance = 6f;
     public float bulletSpeed = 6f;
     public float bulletLifetime = 3f;
     public float standStillTime = 2f;
     public float nextMoveTime = 5f;
-    public float shootingInterval = 0.5f;
-    public float shootingRange = 5f;
+    public float shootingInterval = 1f;
+    public float shootingRange = 10f;
 
-    // Private variables
+    // Private
     private bool isStandingStill = false;
     private Coroutine shootingRoutine;
 
@@ -88,6 +88,21 @@ public class AIController : MonoBehaviour
     }
 
     // Coroutine for shooting at the enemy
+    // IEnumerator ShootAtEnemyRoutine()
+    // {
+    //     while (true)
+    //     {
+    //         Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, layerMask);
+    //         foreach (Collider collider in hitColliders)
+    //         {
+    //             ShootAtEnemy(collider.transform.position);
+    //             agent.SetDestination(collider.transform.position);
+    //         }
+    //         yield return new WaitForSeconds(shootingInterval);
+    //     }
+    // }
+
+    // Coroutine for shooting at the enemy
     IEnumerator ShootAtEnemyRoutine()
     {
         while (true)
@@ -95,12 +110,35 @@ public class AIController : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, layerMask);
             foreach (Collider collider in hitColliders)
             {
-                ShootAtEnemy(collider.transform.position);
-                agent.SetDestination(collider.transform.position);
+                // Check if the enemy is within line of sight
+                if (IsInLineOfSight(collider.transform))
+                {
+                    ShootAtEnemy(collider.transform.position);
+                    agent.SetDestination(collider.transform.position);
+                }
             }
             yield return new WaitForSeconds(shootingInterval);
         }
     }
+
+        // Method to check if an enemy is in line of sight
+    bool IsInLineOfSight(Transform enemyTransform)
+    {
+            Vector3 direction = enemyTransform.position - transform.position;
+
+            // Cast a ray towards the enemy
+            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, layerMask))
+        {
+            if (hit.transform == enemyTransform)
+            {
+                // Enemy is in line of sight
+                return true;
+            }
+        }
+        // Enemy is not in line of sight
+        return false;
+    }
+
 
     // Method for shooting at the enemy
     void ShootAtEnemy(Vector3 targetPosition)
