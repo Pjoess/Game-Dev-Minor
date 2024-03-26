@@ -56,7 +56,8 @@ public class AIController : MonoBehaviour
     // Start method called when the script is initialized
     void Start()
     {
-        if(toggleAttack){
+        if (toggleAttack)
+        {
             shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
         }
     }
