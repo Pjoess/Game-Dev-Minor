@@ -2,31 +2,32 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BuddyAI_Controller : MonoBehaviour
+public class AIController : MonoBehaviour
 {
     // References
     public NavMeshAgent agent;
     public Transform player;
     public GameObject bulletPrefab;
-    public Transform followCenterPoint;
+    public Transform centrePoint;
     public LayerMask layerMask;
-    
-    // Public variables
-    public float attackDetectRange = 5;
-    public float avoidanceDistance = 7;
-    public float bulletSpeed = 6;
-    public float bulletLifetime = 3;
-    public float standStillTime = 2;
-    public float shootingInterval = 1;
-    public float shootingRange = 10;
 
-    // Rotation variables
-    public float rotationSpeed = 750f;
-    public float maxRotationAngle = 5f;
+    // Public variables
+    public float range = 5f;
+    public float avoidanceDistance = 5f;
+    public float bulletSpeed = 6f;
+    public float bulletLifetime = 3f;
+    public float standStillTime = 1f;
+    public float nextMoveTime = 5f;
+    public float shootingInterval = 1f;
+    public float shootingRange = 5f;
 
     // Private variables
     private bool isStandingStill = false;
     private Coroutine shootingRoutine;
+
+    // Rotation variables
+    public float rotationSpeed = 750f;
+    public float maxRotationAngle = 5f;
 
     // Awake method called when the script instance is being loaded
     void Awake()
@@ -47,7 +48,7 @@ public class BuddyAI_Controller : MonoBehaviour
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer > attackDetectRange)
+        if (distanceToPlayer > range)
         {
             agent.SetDestination(player.position);
             return;
@@ -119,7 +120,7 @@ public class BuddyAI_Controller : MonoBehaviour
     // Method for moving to the next destination
     void MoveToNextDestination()
     {
-        Invoke(nameof(CalculateNextMove), 1f);
+        Invoke(nameof(CalculateNextMove), nextMoveTime);
     }
 
     // Method for calculating the next move
@@ -133,7 +134,7 @@ public class BuddyAI_Controller : MonoBehaviour
         }
         else
         {
-            if (RandomPoint(followCenterPoint.position, attackDetectRange, out Vector3 point))
+            if (RandomPoint(centrePoint.position, range, out Vector3 point))
             {
                 agent.SetDestination(point);
             }
@@ -162,7 +163,7 @@ public class BuddyAI_Controller : MonoBehaviour
         Vector3 avoidanceDirection = Vector3.Cross(Vector3.up, directionToPlayer).normalized;
         Vector3 avoidancePoint = player.position + avoidanceDirection * avoidanceDistance;
 
-        NavMeshPath path = new();
+        NavMeshPath path = new NavMeshPath();
         if (NavMesh.CalculatePath(transform.position, avoidancePoint, NavMesh.AllAreas, path))
         {
             if (path.corners.Length > 1 && Vector3.Distance(path.corners[1], player.position) > avoidanceDistance)
