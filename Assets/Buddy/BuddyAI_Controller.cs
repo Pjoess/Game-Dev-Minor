@@ -16,9 +16,9 @@ public class AIController : MonoBehaviour
     public float avoidanceDistance = 5f;
     public float bulletSpeed = 6f;
     public float bulletLifetime = 3f;
-    public float standStillTime = 1f;
+    public float standStillTime = 2f;
     public float nextMoveTime = 5f;
-    public float shootingInterval = 1f;
+    public float shootingInterval = 0.5f;
     public float shootingRange = 5f;
 
     // Private variables
@@ -27,7 +27,7 @@ public class AIController : MonoBehaviour
 
     // Rotation variables
     public float rotationSpeed = 750f;
-    public float maxRotationAngle = 5f;
+    public float maxRotationAngle = 10f;
 
     // Awake method called when the script instance is being loaded
     void Awake()

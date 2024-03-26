@@ -2205,7 +2205,7 @@ MonoBehaviour:
   avoidanceDistance: 5
   bulletSpeed: 6
   bulletLifetime: 3
-  standStillTime: 1
+  standStillTime: 2
   nextMoveTime: 5
   shootingInterval: 1
   shootingRange: 7
@@ -2220,7 +2220,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1341020509}
   m_Enabled: 1
   m_AgentTypeID: -1923039037
-  m_Radius: 1
+  m_Radius: 2
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -4092,7 +4092,7 @@ PrefabInstance:
     - target: {fileID: 7958712138288525009, guid: e6533a69197e5704884f15a3e58a931d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.8
+      value: -0.89
       objectReference: {fileID: 0}
     - target: {fileID: 7958712138288525009, guid: e6533a69197e5704884f15a3e58a931d,
         type: 3}
@@ -4102,7 +4102,7 @@ PrefabInstance:
     - target: {fileID: 7958712138288525009, guid: e6533a69197e5704884f15a3e58a931d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 127.21
+      value: 121.91
       objectReference: {fileID: 0}
     - target: {fileID: 7958712138288525009, guid: e6533a69197e5704884f15a3e58a931d,
         type: 3}
