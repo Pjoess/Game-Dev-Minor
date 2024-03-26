@@ -9,33 +9,41 @@ public class AIController : MonoBehaviour
     public Transform player;
     public GameObject bulletPrefab;
     public Transform centrePoint;
-    public LayerMask layerMask;
+    public LayerMask attackLayer;
 
     // Public variables
     public float range = 10f;
     public float avoidanceDistance = 6f;
-    public float bulletSpeed = 6f;
+    public float bulletSpeed = 8f;
     public float bulletLifetime = 3f;
     public float standStillTime = 2f;
     public float nextMoveTime = 5f;
     public float shootingInterval = 1f;
     public float shootingRange = 10f;
 
+    // Public variables NavMeshAgent
+    [HideInInspector] public float speed = 5f;
+    [HideInInspector] public float angularSpeed = 1200f;
+    [HideInInspector] public float acceleration = 20f;
+
     // Private
     private bool isStandingStill = false;
     private Coroutine shootingRoutine;
 
     // Rotation variables
-    public float rotationSpeed = 750f;
-    public float maxRotationAngle = 10f;
+    public float rotationSpeed = 1200f;
+    public float maxRotationAngle = 5f;
 
     // Awake method called when the script instance is being loaded
     void Awake()
     {
         // Getting the NavMeshAgent component attached to the same GameObject
         agent = GetComponent<NavMeshAgent>();
+        // Set move speed and acceleration
+        agent.speed = speed;
+        agent.angularSpeed = angularSpeed;
+        agent.acceleration = acceleration;
     }
-
 
     // Start method called when the script is initialized
     void Start()
@@ -107,7 +115,7 @@ public class AIController : MonoBehaviour
     {
         while (true)
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, layerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
             foreach (Collider collider in hitColliders)
             {
                 // Check if the enemy is within line of sight
@@ -127,7 +135,7 @@ public class AIController : MonoBehaviour
             Vector3 direction = enemyTransform.position - transform.position;
 
             // Cast a ray towards the enemy
-            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
         {
             if (hit.transform == enemyTransform)
             {
