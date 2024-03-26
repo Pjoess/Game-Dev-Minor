@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
+using TMPro; // Import the TextMeshPro namespace
 
 public class AIController : MonoBehaviour
 {
@@ -10,33 +12,31 @@ public class AIController : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform centrePoint;
     public LayerMask attackLayer;
+    public TextMeshProUGUI toggleBuddyAttackText; // Reference to the TextMeshPro UI Text component
 
     // Public variables
-    public float range = 10f;
+    public float buddyToPlayerDistance = 8f;
     public float avoidanceDistance = 6f;
     public float bulletSpeed = 8f;
     public float bulletLifetime = 3f;
     public float standStillTime = 2f;
-    public float nextMoveTime = 5f;
-    public float shootingInterval = 1f;
+    public float nextMoveTime = 2f;
+    public float shootingInterval = 0.5f;
     public float shootingRange = 10f;
-    public float jumpForce = 8f; // Force applied upwards for jumping
-    public float jumpDelay = 0.5f; // Delay before AI can jump again
-
+    public bool toggleAttack;
 
     // Public variables NavMeshAgent
     [HideInInspector] public float speed = 5f;
-    [HideInInspector] public float angularSpeed = 1200f;
+    [HideInInspector] public float angularSpeed = 750f;
     [HideInInspector] public float acceleration = 20f;
 
     // Private
     private bool isStandingStill = false;
     private Coroutine shootingRoutine;
-    private bool isJumping = false; // Flag to indicate if AI is currently jumping
     private Rigidbody rb; // Rigidbody component for jumping
 
     // Rotation variables
-    public float rotationSpeed = 1200f;
+    public float rotationSpeed = 750f;
     public float maxRotationAngle = 5f;
 
     // Awake method called when the script instance is being loaded
@@ -56,7 +56,9 @@ public class AIController : MonoBehaviour
     // Start method called when the script is initialized
     void Start()
     {
-        shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
+        if(toggleAttack){
+            shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
+        }
     }
 
     // Update method called once per frame
@@ -64,7 +66,7 @@ public class AIController : MonoBehaviour
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer > range)
+        if (distanceToPlayer > buddyToPlayerDistance)
         {
             agent.SetDestination(player.position);
             return;
@@ -172,7 +174,7 @@ public class AIController : MonoBehaviour
         }
         else
         {
-            if (RandomPoint(centrePoint.position, range, out Vector3 point))
+            if (RandomPoint(centrePoint.position, buddyToPlayerDistance, out Vector3 point))
             {
                 agent.SetDestination(point);
             }
@@ -212,4 +214,49 @@ public class AIController : MonoBehaviour
 
         return Vector3.zero;
     }
+
+    void OnToggleBuddyAttack(InputValue value)
+    {
+        // Toggle the text based on the value of toggleAttack
+        toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggresive";
+
+        // Toggle the attack behavior
+        if (value.isPressed)
+        {
+            // Toggle the value of toggleAttack
+            toggleAttack = !toggleAttack;
+
+            // Start or stop the shooting routine based on toggleAttack
+            if (toggleAttack && shootingRoutine == null)
+            {
+                // If toggleAttack is true and shootingRoutine is not already running, start the routine
+                shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
+            }
+            else if (!toggleAttack && shootingRoutine != null)
+            {
+                // If toggleAttack is false and shootingRoutine is running, stop the routine
+                StopCoroutine(shootingRoutine);
+                shootingRoutine = null;
+            }
+        }
+    }
+
+    // void OnToggleBuddyAttack(InputValue value){
+    //     if (value.isPressed && toggleAttack != true)
+    //     {
+    //         toggleBuddyAttackText.text = "Buddy Passive";
+    //     }
+    //     else
+    //     {
+    //         toggleBuddyAttackText.text = "Buddy Aggresive";
+    //     }
+
+    //     if(toggleAttack != true){
+    //         toggleAttack = true;
+    //         Debug.Log(toggleAttack);
+    //     } else {
+    //         toggleAttack = false;
+    //         Debug.Log(toggleAttack);
+    //     }
+    // }
 }

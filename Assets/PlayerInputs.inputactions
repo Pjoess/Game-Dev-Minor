@@ -249,6 +249,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "BuddyCommands",
+            "id": "666b3b42-6670-4cdb-b5c5-9525404403ee",
+            "actions": [
+                {
+                    "name": "ToggleBuddyAttack",
+                    "type": "Button",
+                    "id": "adfd0c11-150f-41fb-a31b-04717de4cc68",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7c9d4a69-e614-4d1e-ae5f-6e95d4588b52",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ToggleBuddyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
