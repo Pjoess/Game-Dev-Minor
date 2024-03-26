@@ -20,6 +20,9 @@ public class AIController : MonoBehaviour
     public float nextMoveTime = 5f;
     public float shootingInterval = 1f;
     public float shootingRange = 10f;
+    public float jumpForce = 8f; // Force applied upwards for jumping
+    public float jumpDelay = 0.5f; // Delay before AI can jump again
+
 
     // Public variables NavMeshAgent
     [HideInInspector] public float speed = 5f;
@@ -29,6 +32,8 @@ public class AIController : MonoBehaviour
     // Private
     private bool isStandingStill = false;
     private Coroutine shootingRoutine;
+    private bool isJumping = false; // Flag to indicate if AI is currently jumping
+    private Rigidbody rb; // Rigidbody component for jumping
 
     // Rotation variables
     public float rotationSpeed = 1200f;
@@ -43,6 +48,9 @@ public class AIController : MonoBehaviour
         agent.speed = speed;
         agent.angularSpeed = angularSpeed;
         agent.acceleration = acceleration;
+
+        // Get the Rigidbody component
+        rb = GetComponent<Rigidbody>();
     }
 
     // Start method called when the script is initialized
@@ -96,21 +104,6 @@ public class AIController : MonoBehaviour
     }
 
     // Coroutine for shooting at the enemy
-    // IEnumerator ShootAtEnemyRoutine()
-    // {
-    //     while (true)
-    //     {
-    //         Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, layerMask);
-    //         foreach (Collider collider in hitColliders)
-    //         {
-    //             ShootAtEnemy(collider.transform.position);
-    //             agent.SetDestination(collider.transform.position);
-    //         }
-    //         yield return new WaitForSeconds(shootingInterval);
-    //     }
-    // }
-
-    // Coroutine for shooting at the enemy
     IEnumerator ShootAtEnemyRoutine()
     {
         while (true)
@@ -129,13 +122,13 @@ public class AIController : MonoBehaviour
         }
     }
 
-        // Method to check if an enemy is in line of sight
+    // Method to check if an enemy is in line of sight
     bool IsInLineOfSight(Transform enemyTransform)
     {
-            Vector3 direction = enemyTransform.position - transform.position;
+        Vector3 direction = enemyTransform.position - transform.position;
 
-            // Cast a ray towards the enemy
-            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
+        // Cast a ray towards the enemy
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
         {
             if (hit.transform == enemyTransform)
             {
@@ -146,7 +139,6 @@ public class AIController : MonoBehaviour
         // Enemy is not in line of sight
         return false;
     }
-
 
     // Method for shooting at the enemy
     void ShootAtEnemy(Vector3 targetPosition)
