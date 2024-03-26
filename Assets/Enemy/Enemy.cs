@@ -14,7 +14,7 @@ public partial class Enemy : MonoBehaviour, IDamageble
         StartCoroutine(JumpRoutine());
         CheckPlayerExist();
 
-        InvokeRepeating(nameof(FireBullet), 0f, fireInterval);
+        //InvokeRepeating(nameof(FireBullet), 0f, fireInterval);
     }
 
     public void Update(){
@@ -155,32 +155,32 @@ public partial class Enemy : MonoBehaviour, IDamageble
             rb.AddForce(pushDirection * pushBackForce, ForceMode.VelocityChange);
         }
 
-        public GameObject bulletPrefab;
-        public Transform firePoint;
-        public float fireInterval = 3f;
-        public float bulletSpeed = 8f;
+        // public GameObject bulletPrefab;
+        // public Transform firePoint;
+        // public float fireInterval = 3f;
+        // public float bulletSpeed = 8f;
 
-        private void FireBullet()
-        {
-            if (player != null)
-            {
-                // Instantiate the bullet at the fire point on the enemy
-                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        // private void FireBullet()
+        // {
+        //     if (player != null)
+        //     {
+        //         // Instantiate the bullet at the fire point on the enemy
+        //         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
-                // Calculate the direction from the enemy to the player
-                Vector3 directionToPlayer = (player.position - firePoint.position).normalized;
+        //         // Calculate the direction from the enemy to the player
+        //         Vector3 directionToPlayer = (player.position - firePoint.position).normalized;
 
-                // Set the bullet's velocity to move towards the player
-                bullet.GetComponent<Rigidbody>().velocity = directionToPlayer * bulletSpeed;
+        //         // Set the bullet's velocity to move towards the player
+        //         bullet.GetComponent<Rigidbody>().velocity = directionToPlayer * bulletSpeed;
 
-                // Make the bullet smaller
-                float bulletScale = 0.3f; // Adjust as needed
-                bullet.transform.localScale = new Vector3(bulletScale, bulletScale, bulletScale);
+        //         // Make the bullet smaller
+        //         float bulletScale = 0.3f; // Adjust as needed
+        //         bullet.transform.localScale = new Vector3(bulletScale, bulletScale, bulletScale);
 
-                // Destroy the bullet after 2 seconds
-                Destroy(bullet, 2f);
-            }
-        }
+        //         // Destroy the bullet after 2 seconds
+        //         Destroy(bullet, 2f);
+        //     }
+        // }
 
         // private void OnTriggerEnter(Collider other)
         // {
