@@ -240,23 +240,4 @@ public class AIController : MonoBehaviour
             }
         }
     }
-
-    // void OnToggleBuddyAttack(InputValue value){
-    //     if (value.isPressed && toggleAttack != true)
-    //     {
-    //         toggleBuddyAttackText.text = "Buddy Passive";
-    //     }
-    //     else
-    //     {
-    //         toggleBuddyAttackText.text = "Buddy Aggresive";
-    //     }
-
-    //     if(toggleAttack != true){
-    //         toggleAttack = true;
-    //         Debug.Log(toggleAttack);
-    //     } else {
-    //         toggleAttack = false;
-    //         Debug.Log(toggleAttack);
-    //     }
-    // }
 }
