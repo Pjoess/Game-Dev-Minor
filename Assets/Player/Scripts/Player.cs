@@ -223,7 +223,6 @@ public partial class Player : MonoBehaviour, IDamageble
             if (value.isPressed && IsGrounded()) {
                 hasJumped = true;
             }
-        HealthPoints -= 30;
         }
 
         void OnAttack(InputValue value)
@@ -258,6 +257,15 @@ public partial class Player : MonoBehaviour, IDamageble
                 Time.timeScale = 1;
                 isPaused = false;
                 uiButton.SetActive(false); // Make the button invisible
+            }
+        }
+
+        void OnDebugTakeDamage()
+        {
+            if(healthPoints > 0)
+            {
+                healthPoints -= 30;
+                if (healthPoints < 0)   healthPoints = 0;
             }
         }
 
