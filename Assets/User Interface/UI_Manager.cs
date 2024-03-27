@@ -5,16 +5,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu_Manager : MonoBehaviour
+public class UI_Manager : MonoBehaviour
 {
-    public Canvas canvas;
-
     void Start(){
    
     }
 
     public void PlayGame(){
         SceneManager.LoadSceneAsync(1);
+    }
+
+    public void ToMainMenu(){
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void QuitGame(){
