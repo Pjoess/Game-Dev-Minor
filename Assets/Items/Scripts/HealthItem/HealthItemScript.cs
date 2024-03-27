@@ -16,7 +16,7 @@ public class HealthItemScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //other.gameObject.GetComponent<Player>().HealPlayer(healthItem.healthRestored);
+            other.gameObject.GetComponent<Player>().HealPlayer(healthItem.healthRestored);
             Destroy(gameObject);
         }
     }
