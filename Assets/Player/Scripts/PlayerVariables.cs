@@ -40,6 +40,7 @@ public partial class Player
     [HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
         public float attackDistance = 0.15f;
+        public float attackDamage = 10f;
     #endregion
 
     #region Player States

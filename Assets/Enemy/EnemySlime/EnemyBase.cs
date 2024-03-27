@@ -8,6 +8,7 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
     #region Variables
         //
         public float HealthPoints { get; set; }
+        public float MaxHealth { get; set; }
         public float MovementSpeed { get; set; }
 
         //Target nav
@@ -18,6 +19,10 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         public bool IsAggroed { get; set; }
         public bool IsWithinStrikingDistance { get; set; }
         public bool IsAttacking { get; set; }
+
+        [SerializeField]public EnemyHealthBar enemyHealthBar;
+        public bool isCollisionCooldown;
+        public float collisionCooldown = 1f;
     #endregion
 
     #region States
@@ -33,7 +38,7 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         public abstract void Chase();
         public abstract void Attack();
         public abstract void Idle();
-        public abstract void Hit();
+        public abstract void Hit(float damage);
 
         public abstract void InitializeStates();
     #endregion
@@ -89,8 +94,10 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
     public void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
+        enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
         Target = GameObject.FindWithTag("Player").transform;
-        HealthPoints = 100;
+        MaxHealth = 100;
+        HealthPoints = MaxHealth;
         MovementSpeed = 10;
 
         IsAggroed = false;

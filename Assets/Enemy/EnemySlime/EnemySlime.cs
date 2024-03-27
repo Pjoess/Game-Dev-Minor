@@ -28,9 +28,18 @@ public class EnemySlime : EnemyBase
 
     }
 
-    public override void Hit()
+    public override void Hit(float damage)
     {
-        throw new System.NotImplementedException();
+        HealthPoints -= damage;
+
+        enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealth);
+
+        if(HealthPoints <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+
+
     }
 
     public override void Idle()
@@ -41,18 +50,42 @@ public class EnemySlime : EnemyBase
 
     public IEnumerator AttackCoroutine()
     {
-        // FacePlayer();
-        yield return new WaitForSeconds(2);
+        yield return FacePlayer();
 
         yield return new WaitForSeconds(3);
         IsAttacking = false;
     }
 
-    // public void FacePlayer()
-    // {
-    //     Vector3 directionToPlayer = (Target.position - transform.position).normalized;
-    //     Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0f, directionToPlayer.z));
-    //     transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 750);
-    // }
+    public IEnumerator FacePlayer()
+    {
+        Vector3 directionToPlayer = (Target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0f, directionToPlayer.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10);
+        yield return null;
+    }
 
+
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (IsWeaponCollisionValid(other))
+        {
+            float damage = other.GetComponentInParent<Player>().attackDamage;
+
+            Hit(damage);
+        }
+    }
+
+    public bool IsWeaponCollisionValid(Collider other)
+    {
+        return other.gameObject.CompareTag("Weapon")&& !isCollisionCooldown;
+    }
+
+    public void StartCollisionCooldown()
+    {
+        isCollisionCooldown = true;
+        Invoke(nameof(EndCollisionCooldown), collisionCooldown);
+    }
+
+    public void EndCollisionCooldown() => isCollisionCooldown = false;
 }
