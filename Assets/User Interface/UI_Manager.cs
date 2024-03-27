@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
-    void Start(){
+    public AudioSource buttonClick;
 
+    void Start(){
+        buttonClick = GetComponent<AudioSource>();
     }
 
     public void PlayGame(){
@@ -21,5 +24,9 @@ public class UI_Manager : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+
+    public void PlayClickSound(){
+        if(buttonClick != null) buttonClick.Play();
     }
 }
