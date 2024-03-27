@@ -29,31 +29,14 @@ public partial class Player : MonoBehaviour, IDamageble
         jumpCooldownDelta = 0f;
         // UI
         uiButton.SetActive(false); // Make the button invisible
+        Time.timeScale = 1; // start game unPaused
+        isPaused = false;
 
         // Get the Cinemachine Virtual Camera component
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
         healthPoints = maxHealthPoints;
     }
-
-// void LateUpdate()
-//     {
-//         if (uiButton != null && virtualCamera != null)
-//         {
-//             // Get the position of the virtual camera
-//             Vector3 cameraPosition = virtualCamera.transform.position;
-
-//             // Calculate the position of the button relative to the camera
-//             Vector3 buttonPosition = cameraPosition + virtualCamera.transform.rotation * buttonCameraOffset;
-
-//             // Update the position of the button
-//             uiButton.transform.position = buttonPosition;
-//         }
-//         else
-//         {
-//             Debug.LogWarning("UI button or Cinemachine Virtual Camera not assigned.");
-//         }
-//     }
 
     // Update is called once per frame
     void Update(){
@@ -254,7 +237,6 @@ public partial class Player : MonoBehaviour, IDamageble
                 Time.timeScale = 0;
                 isPaused = true;
                 uiButton.SetActive(true); // Make the button visible
-                // SceneManager.LoadScene("MainMenu"); // stil testing go to scene 
             }
             else
             {
