@@ -17,7 +17,6 @@ public partial class Player : MonoBehaviour, IDamageble
         AssignAnimIDs();
         // References
         sword = GetComponentInChildren<Weapon>();
-        enemy = GetComponentInChildren<Enemy>();
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
         capsuleColider = GetComponent<CapsuleCollider>();

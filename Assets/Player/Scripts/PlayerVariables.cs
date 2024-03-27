@@ -11,8 +11,7 @@ public partial class Player
     #region Component References
         [HideInInspector] public Rigidbody rigidBody;
         CapsuleCollider capsuleColider;
-        public Weapon sword;
-        public Enemy enemy;
+        [HideInInspector] public Weapon sword;
         [HideInInspector] public AudioSource jumpSound;
     #endregion
 
