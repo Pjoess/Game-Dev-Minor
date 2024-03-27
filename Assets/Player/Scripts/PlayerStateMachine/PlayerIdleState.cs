@@ -5,6 +5,7 @@ public class PlayerIdleState : PlayerBaseState
     public override void EnterState(Player player)
     {
         //Debug.Log("Idle");
+        player.isSprinting = false;
     }
 
     public override void ExitState(Player player)
