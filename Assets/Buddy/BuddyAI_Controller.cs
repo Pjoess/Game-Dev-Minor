@@ -219,7 +219,7 @@ public class AIController : MonoBehaviour
     void OnToggleBuddyAttack(InputValue value)
     {
         // Toggle the text based on the value of toggleAttack
-        toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggresive";
+        toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Agressive";
 
         // Toggle the attack behavior
         if (value.isPressed)
