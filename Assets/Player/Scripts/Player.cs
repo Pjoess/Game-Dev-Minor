@@ -224,6 +224,7 @@ public partial class Player : MonoBehaviour, IDamageble
             if (value.isPressed && IsGrounded()) {
                 hasJumped = true;
             }
+        HealthPoints -= 30;
         }
 
         void OnAttack(InputValue value)
@@ -264,6 +265,16 @@ public partial class Player : MonoBehaviour, IDamageble
 
     #endregion --- End ---
 
+
+    public void EnableSwordCollision()
+    {
+        sword.DoSwordAttackEnableCollision();
+    }
+
+    public void DisableSwordCollision()
+    {
+        sword.SwordToDefault();
+    }
 
 
     public void HealPlayer(int value)

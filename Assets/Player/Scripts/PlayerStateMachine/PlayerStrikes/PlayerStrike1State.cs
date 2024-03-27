@@ -4,12 +4,11 @@ public class PlayerStrikeState : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
+        Debug.Log("Anim1");
         player.MoveForwardOnAttack();
-        player.sword.DoSwordAttackEnableCollision();
         player.HasAttacked += player.OnAttackStruck;
         player.animator.SetBool(player.animIDStrike1, true);
         player.struckAgain = false;
-        Debug.Log("Anim1");
         player.sword.GetComponent<MeshRenderer>().material.color = new Color32(0, 128, 255, 200); // Blue
     }
 
@@ -31,8 +30,8 @@ public class PlayerStrikeState : PlayerBaseState
             }
             else
             {
-                player.isStriking = false;
                 player.animator.SetBool(player.animIDStrike1, false);
+                player.isStriking = false;
                 player.ChangeState(player.idleState);
             }
         }

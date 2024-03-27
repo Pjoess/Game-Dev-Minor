@@ -5,7 +5,6 @@ public class PlayerStrike2State : PlayerBaseState
     public override void EnterState(Player player)
     {
         player.MoveForwardOnAttack();
-        player.sword.DoSwordAttackEnableCollision();
         player.HasAttacked += player.OnAttackStruck;
         player.struckAgain = false;
         Debug.Log("Anim2");
@@ -15,7 +14,6 @@ public class PlayerStrike2State : PlayerBaseState
     public override void ExitState(Player player)
     {
         player.HasAttacked -= player.OnAttackStruck;
-        player.sword.DisableSwordCollider();
         player.sword.SwordToDefault();
     }
 

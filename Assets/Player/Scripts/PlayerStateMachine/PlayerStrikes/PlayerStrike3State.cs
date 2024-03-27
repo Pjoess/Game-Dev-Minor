@@ -5,7 +5,6 @@ public class PlayerStrike3State : PlayerBaseState
     public override void EnterState(Player player)
     {
         player.MoveForwardOnAttack();
-        player.sword.DoSwordAttackEnableCollision();
         Debug.Log("Anim3");
         player.sword.GetComponent<MeshRenderer>().material.color = new Color32(204, 0, 0, 200); // Red
         player.sword.StrongAttack = true;
@@ -13,7 +12,6 @@ public class PlayerStrike3State : PlayerBaseState
 
     public override void ExitState(Player player)
     {
-        player.sword.DisableSwordCollider();
         player.animator.SetBool(player.animIDStrike1, false);
         player.animator.SetBool(player.animIDStrike2, false);
         player.animator.SetBool(player.animIDStrike3, false);
