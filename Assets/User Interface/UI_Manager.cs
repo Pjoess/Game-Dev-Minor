@@ -6,8 +6,17 @@ public class UI_Manager : MonoBehaviour
 {
     public AudioSource buttonClick;
 
-    void Start(){
+    void Awake(){
         buttonClick = GetComponent<AudioSource>();
+    }
+
+    void Start(){
+        // Check the number of monitors connected.
+        if (Display.displays.Length > 1)
+        {
+            // Activate the display 1 (second monitor connected to the system).
+            Display.displays[1].Activate();
+        }
     }
 
     public void PlayGame(){
