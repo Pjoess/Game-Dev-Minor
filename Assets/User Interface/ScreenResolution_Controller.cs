@@ -12,11 +12,13 @@ public class ScreenResolution_Controller : MonoBehaviour
     private int currentRefreshRate;
     private int currentResolutionIndex = 0;
 
+    [System.Obsolete]
     void Start()
     {
         LoadResolution();
     }
 
+    [System.Obsolete]
     private void LoadResolution()
     {
         resolutions = Screen.resolutions;
@@ -37,7 +39,7 @@ public class ScreenResolution_Controller : MonoBehaviour
             }
         }
 
-        List<string> options = new List<string>();
+        List<string> options = new();
         foreach (Resolution res in filteredResolutions)
         {
             string aspectRatio = GetAspectRatio(res.width, res.height);
