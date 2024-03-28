@@ -1,24 +1,33 @@
 using UnityEngine;
 using System;
+using System.Collections;
+using Cinemachine;
+using UnityEditor;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public partial class Player
 {
     #region Component References
         [HideInInspector] public Rigidbody rigidBody;
         CapsuleCollider capsuleColider;
-        public Weapon sword;
-        public Enemy enemy;
+        [HideInInspector] public Weapon sword;
         [HideInInspector] public AudioSource jumpSound;
     #endregion
 
     #region Basic Variables for (Movements and Jumping)
-        [SerializeField] private int healthPoints = 5;
+        public int MaxHealthPoints { get { return maxHealthPoints; } }
+        [SerializeField] private int maxHealthPoints = 3;
+        public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
+        private int healthPoints;
+
         // Jumping and Falling
         public float jumpForce = 5f;
         public float jumpCooldown = 1f;
         [HideInInspector] public float jumpCooldownDelta;
         public float idleToFallTimer = 0.15f;
         [HideInInspector] public float idleToFallDelta;
+
         // Moving
         public float walkSpeed = 2f;
         public float runSpeed = 5f;
@@ -28,16 +37,30 @@ public partial class Player
         public float speedChangeRate = 5f;
         public float rotationSpeed = 600f;
         [HideInInspector] public Vector2 movement;
+        [HideInInspector] public Vector3 direction;
         [HideInInspector] public bool isSprinting = false;
         [HideInInspector] public bool hasJumped = false;
         public bool isStriking = false;
-    //Dash
-    public float dashCooldown = 2f;
-    [HideInInspector] public float dashCooldownDelta;
+
+
+        //Dash
+        public float dashCooldown = 2f;
+        [HideInInspector] public float dashCooldownDelta;
+
+        // UI Buttons
+        public bool isPaused = false;
+        [SerializeField] GameObject uiButton;
+        public float buttonCameraOffsetForward = -50f;
+        public float buttonCameraOffsetRight = -50f;
+        public float buttonCameraOffsetUp = -50f;
+
+        // UI CameraFollow
+        private CinemachineVirtualCamera virtualCamera;
+        [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
     #endregion
 
     #region Sword Attack and Collison
-    [HideInInspector] public event Action HasAttacked;
+        [HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
         public float attackDistance = 0.15f;
         public float attackDamage = 10f;
@@ -80,24 +103,5 @@ public partial class Player
         animIDStrike2 = Animator.StringToHash("Strike2");
         animIDStrike3 = Animator.StringToHash("Strike3");
         animIDDash = Animator.StringToHash("Dash");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        AssignAnimIDs();
-        // References
-        sword = GetComponentInChildren<Weapon>();
-        enemy = GetComponentInChildren<Enemy>();
-        animator = GetComponent<Animator>();
-        rigidBody = GetComponent<Rigidbody>();
-        capsuleColider = GetComponent<CapsuleCollider>();
-        // Default state
-        playerState = idleState;
-        playerState.EnterState(this);
-        // Jumping
-        jumpSound = GetComponent<AudioSource>();
-        idleToFallDelta = idleToFallTimer;
-        jumpCooldownDelta = 0f;
     }
 }

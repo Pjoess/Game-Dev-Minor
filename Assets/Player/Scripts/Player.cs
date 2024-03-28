@@ -1,21 +1,53 @@
 using System.Collections;
+using Cinemachine;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-// TODO: 
+// TODO:
 // Superjump BUG (rennen op een slime en dan space) maybe a bug?
 // Collision Fixen vibrating against wall
-
+    
 public partial class Player : MonoBehaviour, IDamageble
 {
+    // Start is called before the first frame update
+    void Start()
+    {
+        AssignAnimIDs();
+        // References
+        sword = GetComponentInChildren<Weapon>();
+        animator = GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody>();
+        capsuleColider = GetComponent<CapsuleCollider>();
+        // Default state
+        playerState = idleState;
+        playerState.EnterState(this);
+        // Jumping
+        jumpSound = GetComponent<AudioSource>();
+        idleToFallDelta = idleToFallTimer;
+        jumpCooldownDelta = 0f;
+        // UI
+        uiButton.SetActive(false); // Make the button invisible
+        Time.timeScale = 1; // start game unPaused
+        isPaused = false;
+
+        // Get the Cinemachine Virtual Camera component
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+
+        healthPoints = maxHealthPoints;
+    }
+
     // Update is called once per frame
-    void Update() => playerState.UpdateState(this);
+    void Update(){
+        playerState.UpdateState(this);
+    }
 
     #region General Methods
         public void ChangeState(PlayerBaseState state)
         {
             playerState.ExitState(this);
-            playerState = state ?? playerState;
+            playerState = state ?? playerState; // If state is null -> stay on the playerState
             playerState.EnterState(this);
         }
 
@@ -49,7 +81,7 @@ public partial class Player : MonoBehaviour, IDamageble
             if (animationBlend < 0.01f) animationBlend = 0f;
             animator.SetFloat(animIDSpeed, animationBlend);
 
-            Vector3 direction = new(movement.x, 0, movement.y);
+            direction = new(movement.x, 0, movement.y);
 
             Vector3 cameraFaceForward = Camera.main.transform.forward;
             Vector3 cameraFaceRight = Camera.main.transform.right;
@@ -167,7 +199,12 @@ public partial class Player : MonoBehaviour, IDamageble
     #region New Input System Methods
         void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-        void OnSprint(InputValue value) => isSprinting = value.isPressed;
+        void OnSprint(InputValue value)
+    {
+        if(!isSprinting) isSprinting = true;
+        else isSprinting = false;
+    }
+
 
         void OnJump(InputValue value)
         {
@@ -191,7 +228,57 @@ public partial class Player : MonoBehaviour, IDamageble
         {
             if (value.isPressed && !isDashing)  isDashing = true;
         }
+
+        void OnPause(InputValue value)
+        {
+            if (value.isPressed && !isPaused)
+            {
+                Debug.Log("Game Paused");
+                Time.timeScale = 0;
+                isPaused = true;
+                uiButton.SetActive(true); // Make the button visible
+            }
+            else
+            {
+                Debug.Log("Game Started");
+                Time.timeScale = 1;
+                isPaused = false;
+                uiButton.SetActive(false); // Make the button invisible
+            }
+        }
+
+        void OnDebugTakeDamage()
+        {
+            if(healthPoints > 0)
+            {
+                healthPoints -= 30;
+                if (healthPoints < 0)   healthPoints = 0;
+            }
+        }
+
+
     #endregion --- End ---
+
+
+    public void EnableSwordCollision()
+    {
+        sword.DoSwordAttackEnableCollision();
+    }
+
+    public void DisableSwordCollision()
+    {
+        sword.SwordToDefault();
+    }
+
+
+    public void HealPlayer(int value)
+    {
+        if(healthPoints < maxHealthPoints)
+        {
+            healthPoints += value;
+            if (healthPoints > maxHealthPoints) healthPoints = maxHealthPoints;
+        }
+    }
 
     public void Hit()
     {
@@ -202,8 +289,6 @@ public partial class Player : MonoBehaviour, IDamageble
     {
         //Knockback code
     }
-
-    public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
     private void OnFootstep(AnimationEvent animationEvent){}
     private void OnLand(AnimationEvent animationEvent){}

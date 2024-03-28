@@ -4,8 +4,10 @@ using UnityEngine;
 public partial class Enemy
 {
     #region Basic Variables
+        public int MaxHealthPoints { get { return maxHealthPoints; } }
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
-        [SerializeField] private int healthPoints = 3;
+        [SerializeField] private int maxHealthPoints = 3;
+        private int healthPoints;
         public float respawnTime = 2f;
         public float pushBackForce = 4f;
         public float pushUpForce = 4f;
@@ -33,15 +35,8 @@ public partial class Enemy
         public AudioSource slimeJumpSound;
     #endregion
 
-    #region Player Reference
+    #region References
         private Transform player; // Reference to the player object
+        private HealthDropScript healthDropScript;
     #endregion
-
-    public void Start()
-    {
-        slimeJumpSound = GetComponent<AudioSource>();
-        InitializeOriginalValues();
-        StartCoroutine(JumpRoutine());
-        CheckPlayerExist();
-    }
 }
