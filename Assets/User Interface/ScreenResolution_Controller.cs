@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -13,44 +10,48 @@ public class ScreenResolution_Controller : MonoBehaviour
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
 
-    private float currentRefreshRate;
     private int currentResolutionIndex = 0;
 
     [System.Obsolete]
     void Start()
     {
-        // Toggle Fullscreen
-        Screen.fullScreen = !Screen.fullScreen;
+        // Start the game in fullscreen mode
+        Screen.fullScreen = true;
         
-        ScreenRelution();
+        // Set the resolution of the current device
+        Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
+
+        ScreenResolution();
     }
 
     [System.Obsolete]
-    private void ScreenRelution()
+    private void ScreenResolution()
     {
         resolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
 
-        resolutionDropdown.ClearOptions();
-        currentRefreshRate = Screen.currentResolution.refreshRate;
+        int currentWidth = Screen.currentResolution.width;
+        int currentHeight = Screen.currentResolution.height;
 
-        for (int i = 0; i < resolutions.Length; i++)
+        resolutionDropdown.ClearOptions();
+
+        foreach (Resolution res in resolutions)
         {
-            if (resolutions[i].refreshRate == currentRefreshRate)
+            if (res.width == currentWidth && res.height == currentHeight)
             {
-                filteredResolutions.Add(resolutions[i]);
+                filteredResolutions.Add(res);
             }
         }
 
         List<string> options = new List<string>();
-        for (int i = 0; i < filteredResolutions.Count; i++)
+        foreach (Resolution res in filteredResolutions)
         {
-            string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRate + " Hz";
+            string resolutionOption = res.width + "x" + res.height + " " + res.refreshRate + " Hz";
             options.Add(resolutionOption);
 
-            if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
+            if (res.width == currentWidth && res.height == currentHeight)
             {
-                currentResolutionIndex = i;
+                currentResolutionIndex = filteredResolutions.IndexOf(res);
             }
         }
 
@@ -59,7 +60,8 @@ public class ScreenResolution_Controller : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
-    public void SetResolution(int resolutionIndex){
+    public void SetResolution(int resolutionIndex)
+    {
         Resolution resolution = filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, true);
     }
