@@ -52,8 +52,10 @@ public class EnemySlime : EnemyBase
     {
         yield return FacePlayer();
 
-        // Agent.acceleration = 100;
-        // Agent.Move()
+        Vector3 directionToPlayer = Target.position - transform.position;
+        Agent.acceleration = 20;
+        Agent.Move(directionToPlayer);
+        Agent.acceleration = 10;
 
         yield return new WaitForSeconds(3);
         IsAttacking = false;
