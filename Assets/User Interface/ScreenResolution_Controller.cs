@@ -12,20 +12,22 @@ public class ScreenResolution_Controller : MonoBehaviour
     private int currentRefreshRate;
     private int currentResolutionIndex = 0;
 
-    [System.Obsolete]
     void Start()
     {
-        Resolution();
+        LoadResolution();
     }
 
-    [System.Obsolete]
-    private void Resolution()
+    private void LoadResolution()
     {
         resolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
 
         resolutionDropdown.ClearOptions();
         currentRefreshRate = Screen.currentResolution.refreshRate;
+
+        // Check if resolution is set in PlayerPrefs, otherwise use current screen resolution
+        int screenWidth = PlayerPrefs.GetInt("ScreenWidth", Screen.currentResolution.width);
+        int screenHeight = PlayerPrefs.GetInt("ScreenHeight", Screen.currentResolution.height);
 
         foreach (Resolution res in resolutions)
         {
@@ -42,7 +44,7 @@ public class ScreenResolution_Controller : MonoBehaviour
             string resolutionOption = res.width + "x" + res.height + " (" + aspectRatio + ") " + res.refreshRate + " Hz";
             options.Add(resolutionOption);
 
-            if (res.width == Screen.width && res.height == Screen.height)
+            if (res.width == screenWidth && res.height == screenHeight)
             {
                 currentResolutionIndex = filteredResolutions.IndexOf(res);
             }
@@ -51,6 +53,9 @@ public class ScreenResolution_Controller : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
+        // Set the resolution based on PlayerPrefs or current screen resolution
+        Screen.SetResolution(screenWidth, screenHeight, true);
     }
 
     private string GetAspectRatio(int width, int height)
@@ -64,5 +69,10 @@ public class ScreenResolution_Controller : MonoBehaviour
     {
         Resolution resolution = filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, true);
+
+        // Save selected resolution
+        PlayerPrefs.SetInt("ScreenWidth", resolution.width);
+        PlayerPrefs.SetInt("ScreenHeight", resolution.height);
+        PlayerPrefs.Save(); // Save PlayerPrefs to disk
     }
 }
