@@ -13,13 +13,7 @@ public partial class Player : MonoBehaviour, IDamageble
 {
     // Start is called before the first frame update
     void Start()
-    {
-
-        for(int i = 0; i < Gamepad.all.Count; i++)
-        {
-            Debug.Log(Gamepad.all[i].name);
-        }
-
+    { 
         AssignAnimIDs();
         // References
         sword = GetComponentInChildren<Weapon>();
