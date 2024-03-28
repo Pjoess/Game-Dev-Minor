@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using TMPro;
 
 public class ScreenResolution_Controller : MonoBehaviour
@@ -13,7 +9,7 @@ public class ScreenResolution_Controller : MonoBehaviour
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
 
-    private float currentRefreshRate;
+    private int currentRefreshRate;
     private int currentResolutionIndex = 0;
 
     [System.Obsolete]
@@ -31,23 +27,24 @@ public class ScreenResolution_Controller : MonoBehaviour
         resolutionDropdown.ClearOptions();
         currentRefreshRate = Screen.currentResolution.refreshRate;
 
-        for (int i = 0; i < resolutions.Length; i++)
+        foreach (Resolution res in resolutions)
         {
-            if (resolutions[i].refreshRate == currentRefreshRate)
+            if (res.refreshRate == currentRefreshRate)
             {
-                filteredResolutions.Add(resolutions[i]);
+                filteredResolutions.Add(res);
             }
         }
 
         List<string> options = new List<string>();
-        for (int i = 0; i < filteredResolutions.Count; i++)
+        foreach (Resolution res in filteredResolutions)
         {
-            string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRate + " Hz";
+            string aspectRatio = GetAspectRatio(res.width, res.height);
+            string resolutionOption = res.width + "x" + res.height + " (" + aspectRatio + ") " + res.refreshRate + " Hz";
             options.Add(resolutionOption);
 
-            if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
+            if (res.width == Screen.width && res.height == Screen.height)
             {
-                currentResolutionIndex = i;
+                currentResolutionIndex = filteredResolutions.IndexOf(res);
             }
         }
 
@@ -56,7 +53,15 @@ public class ScreenResolution_Controller : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
-    public void SetResolution(int resolutionIndex){
+    private string GetAspectRatio(int width, int height)
+    {
+        float aspectRatio = (float)width / height;
+        string aspectRatioString = aspectRatio.ToString("0.##");
+        return aspectRatioString;
+    }
+
+    public void SetResolution(int resolutionIndex)
+    {
         Resolution resolution = filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, true);
     }
