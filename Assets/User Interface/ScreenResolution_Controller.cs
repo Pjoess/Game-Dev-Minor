@@ -17,25 +17,39 @@ public class ScreenResolution_Controller : MonoBehaviour
     private int currentResolutionIndex = 0;
 
     [System.Obsolete]
-    void Start(){
+    void Start()
+    {
+        // Toggle Fullscreen
+        Screen.fullScreen = !Screen.fullScreen;
+        
+        ScreenRelution();
+    }
+
+    [System.Obsolete]
+    private void ScreenRelution()
+    {
         resolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
 
         resolutionDropdown.ClearOptions();
         currentRefreshRate = Screen.currentResolution.refreshRate;
 
-        for(int i = 0; i < resolutions.Length; i++){
-            if(resolutions[i].refreshRate == currentRefreshRate){
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            if (resolutions[i].refreshRate == currentRefreshRate)
+            {
                 filteredResolutions.Add(resolutions[i]);
             }
         }
 
         List<string> options = new List<string>();
-        for(int i = 0; i < filteredResolutions.Count; i++){
+        for (int i = 0; i < filteredResolutions.Count; i++)
+        {
             string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRate + " Hz";
             options.Add(resolutionOption);
-            
-            if(filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height){
+
+            if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
+            {
                 currentResolutionIndex = i;
             }
         }
