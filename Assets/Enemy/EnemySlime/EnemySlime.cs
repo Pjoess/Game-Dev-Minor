@@ -52,6 +52,9 @@ public class EnemySlime : EnemyBase
     {
         yield return FacePlayer();
 
+        // Agent.acceleration = 100;
+        // Agent.Move()
+
         yield return new WaitForSeconds(3);
         IsAttacking = false;
     }
