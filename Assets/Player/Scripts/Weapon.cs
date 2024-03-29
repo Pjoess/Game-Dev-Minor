@@ -14,6 +14,7 @@ public class Weapon : MonoBehaviour
 
     void Start()
     {
+        gameObject.GetComponentInChildren<ParticleSystem>().Stop();
         swordCollider = GetComponent<CapsuleCollider>();
         swordSlashSound = GetComponent<AudioSource>();
         SwordToDefault();
@@ -21,6 +22,7 @@ public class Weapon : MonoBehaviour
 
     // Reset to Default Color + Disable the Collider
     public void SwordToDefault(){
+        gameObject.GetComponentInChildren<ParticleSystem>().Stop();
         GetComponent<MeshRenderer>().material.color = new Color32(255, 240, 0, 200); // Yellow Default
         swordCollider.enabled = false; // Disable Collider
         enemiesHit.Clear();
@@ -30,6 +32,7 @@ public class Weapon : MonoBehaviour
     
     public void DoSwordAttackEnableCollision() 
     {
+        gameObject.GetComponentInChildren<ParticleSystem>().Play();
         swordCollider.enabled = true; // Enable Collision
         swordSlashSound.Play();
     }
