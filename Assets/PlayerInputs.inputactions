@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "ToggleBuddyAttack",
+                    "type": "Button",
+                    "id": "bcaad9f1-0e81-498b-b5d4-691de04f5be1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Sprint",
                     "type": "Button",
                     "id": "779efceb-e04a-42d4-ab5b-87ff77c507df",
@@ -322,31 +331,25 @@
                     "action": "DebugTakeDamage",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "BuddyCommands",
-            "id": "666b3b42-6670-4cdb-b5c5-9525404403ee",
-            "actions": [
-                {
-                    "name": "ToggleBuddyAttack",
-                    "type": "Button",
-                    "id": "adfd0c11-150f-41fb-a31b-04717de4cc68",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "7c9d4a69-e614-4d1e-ae5f-6e95d4588b52",
+                    "id": "cfce3a6d-b52b-4fc9-a4b6-6989b4ff80e9",
                     "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "ToggleBuddyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c086eb77-bbce-4dd5-9714-d43daaef2939",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "ToggleBuddyAttack",
                     "isComposite": false,
                     "isPartOfComposite": false

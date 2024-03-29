@@ -216,29 +216,27 @@ public class AIController : MonoBehaviour
         return Vector3.zero;
     }
 
-    void OnToggleBuddyAttack(InputValue value)
+    public void ToggleBehaviour()
     {
         // Toggle the text based on the value of toggleAttack
         toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Agressive";
 
-        // Toggle the attack behavior
-        if (value.isPressed)
-        {
-            // Toggle the value of toggleAttack
-            toggleAttack = !toggleAttack;
+        // Toggle the value of toggleAttack
+        toggleAttack = !toggleAttack;
 
-            // Start or stop the shooting routine based on toggleAttack
-            if (toggleAttack && shootingRoutine == null)
-            {
-                // If toggleAttack is true and shootingRoutine is not already running, start the routine
-                shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
-            }
-            else if (!toggleAttack && shootingRoutine != null)
-            {
-                // If toggleAttack is false and shootingRoutine is running, stop the routine
-                StopCoroutine(shootingRoutine);
-                shootingRoutine = null;
-            }
+        // Start or stop the shooting routine based on toggleAttack
+        if (toggleAttack && shootingRoutine == null)
+        {
+            // If toggleAttack is true and shootingRoutine is not already running, start the routine
+            shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
+        }
+        else if (!toggleAttack && shootingRoutine != null)
+        {
+            // If toggleAttack is false and shootingRoutine is running, stop the routine
+            StopCoroutine(shootingRoutine);
+            shootingRoutine = null;
         }
     }
+
+    
 }

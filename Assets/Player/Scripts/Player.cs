@@ -256,6 +256,11 @@ public partial class Player : MonoBehaviour, IDamageble
             }
         }
 
+        void OnToggleBuddyAttack(InputValue value)
+        {
+            buddy.ToggleBehaviour();
+        }
+
 
     #endregion --- End ---
 
