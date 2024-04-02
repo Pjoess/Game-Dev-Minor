@@ -5,6 +5,9 @@ using UnityEngine;
 public class EnemySlime : EnemyBase
 {
 
+    [SerializeField]
+    public ScriptableObject scriptableObject;
+
     public override void InitializeStates()
     {
 
