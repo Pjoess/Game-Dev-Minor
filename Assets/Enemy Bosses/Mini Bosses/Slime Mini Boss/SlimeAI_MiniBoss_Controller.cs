@@ -16,9 +16,12 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     private AudioSource audioSource;
     private bool isChasingPlayer = false;
 
+    [SerializeField] private int maxHealthPoints = 15;
+    private int healthPoints;
+
     // From IDamagable
-    public int MaxHealthPoints { get; }
-    public int HealthPoints { get; set; }
+    public int MaxHealthPoints { get { return maxHealthPoints; } }
+    [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
     void Start()
     {
@@ -26,12 +29,14 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         originalPosition = transform.position;
         centerCollider = centerPoint.GetComponent<SphereCollider>();
         audioSource = GetComponent<AudioSource>();
+        HealthPoints = MaxHealthPoints;
         StartCoroutine(PatrolRoutine());
     }
 
     void Update()
     {
         CheckChaseRange();
+        CheckDeath();
     }
 
     private void CheckChaseRange()
@@ -101,6 +106,16 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
     public void Hit(int damage)
     {
-        
+        Debug.Log("Boss hit");
+        HealthPoints -= damage;
+    }
+
+    private void CheckDeath()
+    {
+        if(HealthPoints <= 0)
+        {
+            GetComponent<MemoryDropScipt>().DropItem(transform.position);
+            Destroy(gameObject);
+        }
     }
 }
