@@ -4,20 +4,24 @@ using UnityEngine.AI;
 
 public class SlimeAI_MiniBoss_Controller : MonoBehaviour
 {
-public Transform centerPoint; // Center point for patrolling
+    public Transform centerPoint; // Center point for patrolling
     public float patrolRange = 5f; // Range of patrolling
     public LayerMask playerLayer; // Layer mask for detecting player
     public float chaseRange = 10f; // Range at which AI starts chasing player
     public float patrolWaitTime = 2f; // Time to wait at patrol destination
+    public AudioClip chaseMusic; // Music to play while chasing
     private NavMeshAgent agent;
     private Vector3 originalPosition; // Original position for patrolling
     private SphereCollider centerCollider; // Collider to detect when AI leaves patrolling area
+    private AudioSource audioSource;
+    private bool isChasingPlayer = false;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         originalPosition = transform.position;
         centerCollider = centerPoint.GetComponent<SphereCollider>();
+        audioSource = GetComponent<AudioSource>();
         StartCoroutine(PatrolRoutine());
     }
 
@@ -30,12 +34,26 @@ public Transform centerPoint; // Center point for patrolling
             // Player detected, chase and attack
             Transform player = colliders[0].transform;
             agent.SetDestination(player.position);
+            if (!isChasingPlayer) // If not already chasing
+            {
+                isChasingPlayer = true;
+                audioSource.clip = chaseMusic;
+                audioSource.Play();
+            }
 
             // Check if AI is close enough to attack
             if (Vector3.Distance(transform.position, player.position) <= agent.stoppingDistance)
             {
                 // Implement attack logic here
                 AttackPlayer();
+            }
+        }
+        else
+        {
+            if (isChasingPlayer) // If stopped chasing
+            {
+                isChasingPlayer = false;
+                audioSource.Stop();
             }
         }
     }
