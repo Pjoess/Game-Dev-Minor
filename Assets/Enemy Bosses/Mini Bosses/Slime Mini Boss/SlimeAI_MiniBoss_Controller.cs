@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SlimeAI_MiniBoss_Controller : MonoBehaviour
+public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 {
     public Transform centerPoint; // Center point for patrolling
     public float patrolRange = 5f; // Range of patrolling
@@ -15,6 +15,10 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour
     private SphereCollider centerCollider; // Collider to detect when AI leaves patrolling area
     private AudioSource audioSource;
     private bool isChasingPlayer = false;
+
+    // From IDamagable
+    public int MaxHealthPoints { get; }
+    public int HealthPoints { get; set; }
 
     void Start()
     {
@@ -93,5 +97,10 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour
     {
         // Implement attack logic here
         Debug.Log("Attacking Player!");
+    }
+
+    public void Hit(int damage)
+    {
+        
     }
 }
