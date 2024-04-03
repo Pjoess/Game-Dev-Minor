@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using TMPro; // Import the TextMeshPro namespace
 
-public class AIController : MonoBehaviour
+public class BuddyAI_Controller : MonoBehaviour
 {
     // References
     public NavMeshAgent agent;
