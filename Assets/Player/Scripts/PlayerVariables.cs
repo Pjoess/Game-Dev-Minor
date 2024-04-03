@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public partial class Player
 {
     #region Component References
-        [SerializeField] private AIController buddy;
+        [SerializeField] private BuddyAI_Controller buddy;
         [HideInInspector] public Rigidbody rigidBody;
         CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
