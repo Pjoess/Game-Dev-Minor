@@ -99,7 +99,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         Debug.Log("Attacking Player!");
     }
 
-    public void Hit()
+    public void Hit(int damage)
     {
         
     }
