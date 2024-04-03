@@ -11735,10 +11735,20 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3553898783050386368, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5788570474504112434, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
       propertyPath: m_Speed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788570474504112434, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
+        type: 3}
+      propertyPath: m_Height
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
