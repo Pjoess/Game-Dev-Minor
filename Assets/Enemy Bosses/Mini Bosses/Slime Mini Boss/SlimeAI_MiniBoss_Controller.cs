@@ -55,8 +55,7 @@ public Transform centerPoint; // Center point for patrolling
 
             // Randomly select a point within patrol range around center point
             Vector3 randomPoint = centerPoint.position + Random.insideUnitSphere * patrolRange;
-            NavMeshHit hit;
-            NavMesh.SamplePosition(randomPoint, out hit, patrolRange, 1);
+            NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, patrolRange, 1);
             Vector3 finalPoint = hit.position;
 
             // Set destination to the selected point
