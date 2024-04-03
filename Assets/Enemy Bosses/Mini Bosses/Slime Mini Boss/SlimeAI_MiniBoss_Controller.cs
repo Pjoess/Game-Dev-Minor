@@ -27,6 +27,11 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour
 
     void Update()
     {
+        CheckChaseRange();
+    }
+
+    private void CheckChaseRange()
+    {
         // Check if player is within chase range
         Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer);
         if (colliders.Length > 0)
