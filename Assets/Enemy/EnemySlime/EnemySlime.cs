@@ -5,8 +5,7 @@ using UnityEngine;
 public class EnemySlime : EnemyBase
 {
 
-    [SerializeField]
-    public ScriptableObject scriptableObject;
+
 
     public override void InitializeStates()
     {
@@ -53,12 +52,12 @@ public class EnemySlime : EnemyBase
 
     public IEnumerator AttackCoroutine()
     {
-        yield return FacePlayer();
+        // yield return FacePlayer();
 
         Vector3 directionToPlayer = Target.position - transform.position;
-        Agent.acceleration = 20;
+        // Agent.acceleration = 5;
         Agent.Move(directionToPlayer);
-        Agent.acceleration = 10;
+        // Agent.acceleration = 5;
 
         yield return new WaitForSeconds(3);
         IsAttacking = false;
@@ -96,4 +95,6 @@ public class EnemySlime : EnemyBase
     }
 
     public void EndCollisionCooldown() => isCollisionCooldown = false;
+
+
 }
