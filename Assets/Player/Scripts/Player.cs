@@ -285,9 +285,9 @@ public partial class Player : MonoBehaviour, IDamageble
         }
     }
 
-    public void Hit()
+    public void Hit(int damage)
     {
-        HealthPoints--;
+        HealthPoints -= damage;
     }
 
     public void ApplyKnockback(Vector3 pos)

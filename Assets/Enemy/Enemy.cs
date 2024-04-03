@@ -141,7 +141,7 @@ public partial class Enemy : MonoBehaviour, IDamageble
     #region Combat
         public void ApplyDamageAndEffects() => healthPoints--;
         
-        public void Hit()
+        public void Hit(int damage)
         {
             ApplyDamageAndEffects();
             OnHealthUpdateChangeAppearance();
