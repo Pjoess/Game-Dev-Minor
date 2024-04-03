@@ -6737,7 +6737,7 @@ Transform:
   m_GameObject: {fileID: 775778042}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.28, y: 1.61, z: -0.23000336}
+  m_LocalPosition: {x: 13.6, y: 1.61, z: 0.9}
   m_LocalScale: {x: 0.2929, y: 0.2929, z: 0.2929}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6812,7 +6812,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 22
+  m_Radius: 30
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &838043666
 GameObject:
@@ -10453,12 +10453,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerPoint: {fileID: 775778043}
-  patrolRange: 8
+  patrolRange: 10
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  chaseRange: 8
-  patrolWaitTime: 5
+  chaseRange: 10
+  patrolWaitTime: 6
   chaseMusic: {fileID: 8300000, guid: 298ef463d347d24459db48b376042ff4, type: 3}
 --- !u!82 &1992813541
 AudioSource:
@@ -11688,7 +11688,7 @@ PrefabInstance:
     - target: {fileID: 3038517742291339024, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.78
+      value: 2.55
       objectReference: {fileID: 0}
     - target: {fileID: 3038517742291339024, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
@@ -11749,6 +11749,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Height
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788570474504112434, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
+        type: 3}
+      propertyPath: m_StoppingDistance
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
