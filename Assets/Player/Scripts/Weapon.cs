@@ -41,7 +41,7 @@ public class Weapon : MonoBehaviour
     {
         if (swordCollider.enabled && other.gameObject.CompareTag("Enemy") && !enemiesHit.Any(x => x == other.gameObject))
         {
-            other.gameObject.GetComponent<IDamageble>().Hit();
+            other.gameObject.GetComponent<IDamageble>().Hit(5);
             if(strongAttack)
             {
                 other.gameObject.GetComponent<IDamageble>().ApplyKnockback();
