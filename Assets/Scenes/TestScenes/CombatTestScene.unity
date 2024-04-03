@@ -7808,6 +7808,10 @@ MonoBehaviour:
   shootingInterval: 0.5
   shootingRange: 10
   toggleAttack: 0
+  lights:
+  - {fileID: 1941659873}
+  - {fileID: 95126719}
+  - {fileID: 1500266959}
   speed: 5
   angularSpeed: 1200
   acceleration: 20
@@ -11503,6 +11507,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cfdb5adc81c7746a6a39bc7e8f7bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &5512367082550222639
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.666
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 101.903
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3430010271001804945, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
+        type: 3}
+      propertyPath: m_Name
+      value: ChimneySmoke
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1ecd2f3a79827264ba0f2fbff8118e97, type: 3}
 --- !u!1001 &7834991048621864698
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11544,7 +11616,7 @@ PrefabInstance:
     - target: {fileID: 3038517742291339024, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.74
+      value: -24.36
       objectReference: {fileID: 0}
     - target: {fileID: 3038517742291339024, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
@@ -11628,3 +11700,4 @@ SceneRoots:
   - {fileID: 1369365530}
   - {fileID: 403182293}
   - {fileID: 1360413719}
+  - {fileID: 5512367082550222639}
