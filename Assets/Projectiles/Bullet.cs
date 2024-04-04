@@ -33,12 +33,14 @@ public class Bullet : MonoBehaviour
     //     }
     // }
 
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     if(other.CompareTag("Enemy")){
-    //         Destroy(other);
-    //     }
-    // }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<IDamageble>().Hit(0);
+            Destroy(this.gameObject);
+        }
+    }
 
     public void DisableBullet() => sphereCollider.enabled = false;
     public void EnableBullit() => sphereCollider.enabled = true;
