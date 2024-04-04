@@ -5,11 +5,16 @@ using UnityEngine;
 public class EnemySlime : EnemyBase
 {
 
+    public bool isChasingPlayer = false;
+    public float chaseRange = 10f;
+    [SerializeField]
+    public LayerMask playerLayer;
+    public Transform centerPoint;
 
 
     public override void InitializeStates()
     {
-
+        
     }
 
     public override void Attack()
@@ -95,6 +100,53 @@ public class EnemySlime : EnemyBase
     }
 
     public void EndCollisionCooldown() => isCollisionCooldown = false;
+
+
+    private void CheckChaseRange()
+    {
+        // Check if player is within chase range
+        Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer);
+
+
+        // if (colliders.Length > 0)
+        //     {
+        //         if (colliders[0].gameObject.tag == "Player")
+        //         {
+        //             print("COLLIDED WITH ENEMY");
+        //         }
+        //     }
+        if (colliders.Length > 0)
+        {
+            Debug.Log("THERE IS");
+
+            foreach (var collider in colliders){
+                // Player detected, chase and attack
+                if(collider.gameObject.tag == "Player"){
+                    Transform player = colliders[0].transform;
+                    Agent.SetDestination(player.position);
+                }
+                if (!isChasingPlayer) // If not already chasing
+                {
+                    isChasingPlayer = true;
+                }
+
+                // Check if AI is close enough to attack
+                if (Vector3.Distance(transform.position, Target.position) <= Agent.stoppingDistance)
+                {
+                    // Implement attack logic here
+                    Attack();
+                }
+            }
+
+        }
+        else
+        {
+            if (isChasingPlayer) // If stopped chasing
+            {
+                isChasingPlayer = false;
+            }
+        }
+    }
 
 
 }
