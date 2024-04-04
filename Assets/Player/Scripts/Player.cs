@@ -13,7 +13,7 @@ public partial class Player : MonoBehaviour, IDamageble
 {
     // Start is called before the first frame update
     void Start()
-    {
+    { 
         AssignAnimIDs();
         // References
         sword = GetComponentInChildren<Weapon>();
@@ -256,6 +256,11 @@ public partial class Player : MonoBehaviour, IDamageble
             }
         }
 
+        void OnToggleBuddyAttack(InputValue value)
+        {
+            buddy.ToggleBehaviour();
+        }
+
 
     #endregion --- End ---
 
@@ -280,9 +285,9 @@ public partial class Player : MonoBehaviour, IDamageble
         }
     }
 
-    public void Hit()
+    public void Hit(int damage)
     {
-        HealthPoints--;
+        HealthPoints -= damage;
     }
 
     public void ApplyKnockback(Vector3 pos)

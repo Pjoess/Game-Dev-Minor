@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using TMPro;
 
 public class ScreenResolution_Controller : MonoBehaviour
@@ -13,40 +9,72 @@ public class ScreenResolution_Controller : MonoBehaviour
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
 
-    private float currentRefreshRate;
+    private int currentRefreshRate;
     private int currentResolutionIndex = 0;
 
     [System.Obsolete]
-    void Start(){
+    void Start()
+    {
+        LoadResolution();
+    }
+
+    [System.Obsolete]
+    private void LoadResolution()
+    {
         resolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
 
         resolutionDropdown.ClearOptions();
         currentRefreshRate = Screen.currentResolution.refreshRate;
 
-        for(int i = 0; i < resolutions.Length; i++){
-            if(resolutions[i].refreshRate == currentRefreshRate){
-                filteredResolutions.Add(resolutions[i]);
+        // Check if resolution is set in PlayerPrefs, otherwise use current screen resolution
+        int screenWidth = PlayerPrefs.GetInt("ScreenWidth", Screen.currentResolution.width);
+        int screenHeight = PlayerPrefs.GetInt("ScreenHeight", Screen.currentResolution.height);
+
+        foreach (Resolution res in resolutions)
+        {
+            if (res.refreshRate == currentRefreshRate)
+            {
+                filteredResolutions.Add(res);
             }
         }
 
-        List<string> options = new List<string>();
-        for(int i = 0; i < filteredResolutions.Count; i++){
-            string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRate + " Hz";
+        List<string> options = new();
+        foreach (Resolution res in filteredResolutions)
+        {
+            string aspectRatio = GetAspectRatio(res.width, res.height);
+            string resolutionOption = res.width + "x" + res.height + " (" + aspectRatio + ") " + res.refreshRate + " Hz";
             options.Add(resolutionOption);
-            
-            if(filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height){
-                currentResolutionIndex = i;
+
+            if (res.width == screenWidth && res.height == screenHeight)
+            {
+                currentResolutionIndex = filteredResolutions.IndexOf(res);
             }
         }
 
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
+        // Set the resolution based on PlayerPrefs or current screen resolution
+        Screen.SetResolution(screenWidth, screenHeight, true);
     }
 
-    public void SetResolution(int resolutionIndex){
+    private string GetAspectRatio(int width, int height)
+    {
+        float aspectRatio = (float)width / height;
+        string aspectRatioString = aspectRatio.ToString("0.##");
+        return aspectRatioString;
+    }
+
+    public void SetResolution(int resolutionIndex)
+    {
         Resolution resolution = filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, true);
+
+        // Save selected resolution
+        PlayerPrefs.SetInt("ScreenWidth", resolution.width);
+        PlayerPrefs.SetInt("ScreenHeight", resolution.height);
+        PlayerPrefs.Save(); // Save PlayerPrefs to disk
     }
 }

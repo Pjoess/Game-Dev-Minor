@@ -6,6 +6,6 @@ public interface IDamageble
 {
     public int MaxHealthPoints { get; }
     public int HealthPoints { get; set; }
-    void Hit();
-    virtual void ApplyKnockback(){}
+    abstract void Hit(int damage);
+    virtual void ApplyKnockback() { }
 }

@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using TMPro; // Import the TextMeshPro namespace
 
-public class AIController : MonoBehaviour
+public class BuddyAI_Controller : MonoBehaviour
 {
     // References
     public NavMeshAgent agent;
@@ -24,6 +24,7 @@ public class AIController : MonoBehaviour
     public float shootingInterval = 0.5f;
     public float shootingRange = 10f;
     public bool toggleAttack;
+    public GameObject[] lights;
 
     // Public variables NavMeshAgent
     [HideInInspector] public float speed = 5f;
@@ -56,6 +57,7 @@ public class AIController : MonoBehaviour
     // Start method called when the script is initialized
     void Start()
     {
+        ChangeColor(Color.blue);
         if (toggleAttack)
         {
             shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
@@ -216,29 +218,39 @@ public class AIController : MonoBehaviour
         return Vector3.zero;
     }
 
-    void OnToggleBuddyAttack(InputValue value)
+    public void ToggleBehaviour()
     {
         // Toggle the text based on the value of toggleAttack
         toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Agressive";
 
-        // Toggle the attack behavior
-        if (value.isPressed)
-        {
-            // Toggle the value of toggleAttack
-            toggleAttack = !toggleAttack;
+        // Toggle the value of toggleAttack
+        toggleAttack = !toggleAttack;
 
-            // Start or stop the shooting routine based on toggleAttack
-            if (toggleAttack && shootingRoutine == null)
-            {
-                // If toggleAttack is true and shootingRoutine is not already running, start the routine
-                shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
-            }
-            else if (!toggleAttack && shootingRoutine != null)
-            {
-                // If toggleAttack is false and shootingRoutine is running, stop the routine
-                StopCoroutine(shootingRoutine);
-                shootingRoutine = null;
-            }
+        // Start or stop the shooting routine based on toggleAttack
+        if (toggleAttack && shootingRoutine == null)
+        {
+            ChangeColor(Color.red);
+            // If toggleAttack is true and shootingRoutine is not already running, start the routine
+            shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
+        }
+        else if (!toggleAttack && shootingRoutine != null)
+        {
+            ChangeColor(Color.blue);
+            // If toggleAttack is false and shootingRoutine is running, stop the routine
+            StopCoroutine(shootingRoutine);
+            shootingRoutine = null;
         }
     }
+
+    private void ChangeColor(Color color)
+    {
+        foreach(GameObject l in lights)
+        {
+            MeshRenderer rend = l.GetComponent<MeshRenderer>();
+            rend.material.SetColor("_BaseColor", color);
+            rend.material.SetColor("_EmissionColor", (color * 25));
+        }
+    }
+
+    
 }
