@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5788570474504112434}
   - component: {fileID: 6759260677609499864}
   - component: {fileID: 3133262992568084786}
+  - component: {fileID: 3544766640592048976}
   m_Layer: 6
   m_Name: Slime_Mini_Boss
   m_TagString: Enemy
@@ -179,6 +180,7 @@ MonoBehaviour:
   chaseRange: 10
   patrolWaitTime: 6
   chaseMusic: {fileID: 8300000, guid: 298ef463d347d24459db48b376042ff4, type: 3}
+  maxHealthPoints: 15
 --- !u!82 &3133262992568084786
 AudioSource:
   m_ObjectHideFlags: 0
@@ -191,7 +193,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 298ef463d347d24459db48b376042ff4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -302,6 +304,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3544766640592048976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028664314561310485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4849b67b1128da64fac94a3c3e788552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1163174746964331046, guid: 7e0b7ca625b7f544da9a0462bce9d714, type: 3}
 --- !u!1 &8909830968457477967
 GameObject:
   m_ObjectHideFlags: 0
