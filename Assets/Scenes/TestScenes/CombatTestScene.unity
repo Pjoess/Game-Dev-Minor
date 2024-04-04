@@ -7811,7 +7811,7 @@ MonoBehaviour:
   bulletLifetime: 3
   standStillTime: 2
   nextMoveTime: 2
-  shootingInterval: 0.5
+  shootingInterval: 2
   shootingRange: 10
   toggleAttack: 0
   lights:
@@ -10982,6 +10982,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8358824964871419130, guid: e6533a69197e5704884f15a3e58a931d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8842820748311795136, guid: e6533a69197e5704884f15a3e58a931d,
         type: 3}
       propertyPath: m_Layer
@@ -11537,17 +11542,17 @@ PrefabInstance:
     - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.63
+      value: -1.43
       objectReference: {fileID: 0}
     - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.666
+      value: 2.07
       objectReference: {fileID: 0}
     - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 101.903
+      value: 115.73
       objectReference: {fileID: 0}
     - target: {fileID: 1272683275738304655, guid: 1ecd2f3a79827264ba0f2fbff8118e97,
         type: 3}
@@ -11677,6 +11682,11 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3133262992568084786, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3553898783050386368, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
       propertyPath: m_IsKinematic
@@ -11686,6 +11696,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Speed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788570474504112434, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5788570474504112434, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
