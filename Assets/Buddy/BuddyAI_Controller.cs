@@ -154,7 +154,7 @@ public class BuddyAI_Controller : MonoBehaviour
 
         if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotationAngle)
         {
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
             bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
             Destroy(bullet, bulletLifetime);
         }
