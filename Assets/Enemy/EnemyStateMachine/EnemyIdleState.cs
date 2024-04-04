@@ -11,7 +11,8 @@ public class EnemyIdleState : EnemyState
         // if(enemy.Agent == null){
         //     Debug.Log("enemy is null");
         // }
-        enemy.Agent.isStopped = true;
+        // enemy.Agent.isStopped = true;
+        enemy.Idle();
     }
 
     public override void ExitState()

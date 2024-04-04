@@ -41,80 +41,63 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         public abstract void Hit(float damage);
 
         public abstract void InitializeStates();
+        public abstract void Awake();
     #endregion
 
     #region State Functions
-        public bool CheckAttack()
-        {
-            if(IsWithinStrikingDistance)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        public abstract bool CheckAttack();
+        public abstract bool CheckChase();
+        public abstract bool CheckFall();
+        public abstract bool CheckHit();
+        public abstract bool CheckIdle();
+        // public bool CheckAttack()
+        // {
+        //     if(IsWithinStrikingDistance)
+        //     {
+        //         return true;
+        //     }
+        //     else
+        //     {
+        //         return false;
+        //     }
+        // }
 
-        public bool CheckChase()
-        {
-            if(IsAggroed && !IsWithinStrikingDistance)
-            {
-                return true;
-            }
-            else 
-            {
-                return false;
-            }
-        }
+        // public bool CheckChase()
+        // {
+        //     if(IsAggroed && !IsWithinStrikingDistance)
+        //     {
+        //         return true;
+        //     }
+        //     else 
+        //     {
+        //         return false;
+        //     }
+        // }
 
-        public bool CheckFall()
-        {
-            throw new System.NotImplementedException();
-        }
+        // public bool CheckFall()
+        // {
+        //     throw new System.NotImplementedException();
+        // }
 
-        public bool CheckHit()
-        {
-            throw new System.NotImplementedException();
-        }
+        // public bool CheckHit()
+        // {
+        //     throw new System.NotImplementedException();
+        // }
 
-        public bool CheckIdle()
-        {
-            if (!IsAggroed && !IsWithinStrikingDistance)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        // public bool CheckIdle()
+        // {
+        //     if (!IsAggroed && !IsWithinStrikingDistance)
+        //     {
+        //         return true;
+        //     }
+        //     else
+        //     {
+        //         return false;
+        //     }
+        // }
     #endregion
 
-    public void Awake()
-    {
-        Agent = GetComponent<NavMeshAgent>();
-        enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
-        Target = GameObject.FindWithTag("Player").transform;
-        MaxHealth = 100;
-        HealthPoints = MaxHealth;
-        MovementSpeed = 10;
 
-        IsAggroed = false;
-        IsWithinStrikingDistance = false;
-                //STATES
-        enemyStateMachine = new EnemyStateMachine();
-
-        enemyChaseState = new EnemyChaseState(this, enemyStateMachine);
-        enemyFallState = new EnemyFallState(this, enemyStateMachine);
-        enemyHitState = new EnemyHitState(this, enemyStateMachine);
-        enemyIdleState = new EnemyIdleState(this, enemyStateMachine);
-        enemyAttackState = new EnemyAttackState(this, enemyStateMachine);
-        //END STATES
-
-        enemyStateMachine.Initialize(enemyIdleState);
-        // InitializeStates();
-    }
 
     public void Update()
     {

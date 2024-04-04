@@ -30,7 +30,7 @@ public class EnemyChaseState : EnemyState
             enemyStateMachine.ChangeState(enemy.enemyAttackState);
         }
 
-        // enemy.Chase();
-        enemy.CheckChase();
+        enemy.Chase();
+        // enemy.CheckChase();
     }
 }
