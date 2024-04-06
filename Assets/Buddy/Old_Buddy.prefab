@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 6887339174720617626}
   - component: {fileID: 985939141590032498}
   m_Layer: 10
-  m_Name: Buddy
+  m_Name: Old_Buddy
   m_TagString: Buddy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -241,7 +241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1078719514044017991}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.158071, y: -0.76494193, z: -3.1353226}
   m_LocalScale: {x: 0.46809, y: 1.0171, z: 0.41202262}
   m_ConstrainProportionsScale: 0
@@ -426,7 +426,7 @@ MonoBehaviour:
   bulletLifetime: 3
   standStillTime: 2
   nextMoveTime: 2
-  shootingInterval: 2
+  shootingInterval: 1
   shootingRange: 10
   toggleAttack: 0
   lights:
