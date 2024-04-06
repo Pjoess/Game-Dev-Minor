@@ -57,7 +57,7 @@ public class BuddyAI_Controller : MonoBehaviour
     // Start method called when the script is initialized
     void Start()
     {
-        ChangeColor(Color.blue);
+        // ChangeColor(Color.blue);
         if (toggleAttack)
         {
             shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
@@ -229,28 +229,28 @@ public class BuddyAI_Controller : MonoBehaviour
         // Start or stop the shooting routine based on toggleAttack
         if (toggleAttack && shootingRoutine == null)
         {
-            ChangeColor(Color.red);
+            //ChangeColor(Color.red);
             // If toggleAttack is true and shootingRoutine is not already running, start the routine
             shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
         }
         else if (!toggleAttack && shootingRoutine != null)
         {
-            ChangeColor(Color.blue);
+            // ChangeColor(Color.blue);
             // If toggleAttack is false and shootingRoutine is running, stop the routine
             StopCoroutine(shootingRoutine);
             shootingRoutine = null;
         }
     }
 
-    private void ChangeColor(Color color)
-    {
-        foreach(GameObject l in lights)
-        {
-            MeshRenderer rend = l.GetComponent<MeshRenderer>();
-            rend.material.SetColor("_BaseColor", color);
-            rend.material.SetColor("_EmissionColor", (color * 25));
-        }
-    }
+    // private void ChangeColor(Color color)
+    // {
+    //     foreach(GameObject l in lights)
+    //     {
+    //         MeshRenderer rend = l.GetComponent<MeshRenderer>();
+    //         rend.material.SetColor("_BaseColor", color);
+    //         rend.material.SetColor("_EmissionColor", (color * 25));
+    //     }
+    // }
 
     
 }
