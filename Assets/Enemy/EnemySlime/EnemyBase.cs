@@ -63,9 +63,7 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         // }
 
         // public bool CheckChase()
-        // {
-        //     if(IsAggroed && !IsWithinStrikingDistance)
-        //     {
+        // {            // Agent.Move(directionToPlayer);
         //         return true;
         //     }
         //     else 

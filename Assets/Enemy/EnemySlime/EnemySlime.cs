@@ -189,12 +189,26 @@ public class EnemySlime : EnemyBase
         }
         public IEnumerator AttackCoroutine()
         {
-            // yield return FacePlayer();
 
+
+            // yield return FacePlayer();
+            IsAttacking = true;
             Vector3 directionToPlayer = Target.position - transform.position;
             // Agent.acceleration = 5;
-            Agent.Move(directionToPlayer);
+            Agent.isStopped = true;
+            yield return new WaitForSeconds(2);
+            //change color
+            Agent.isStopped = false;
+
+            Agent.speed = 6f;
+            Agent.SetDestination(directionToPlayer);
+            Agent.speed = 3.5f;
+            yield return new WaitForSeconds(1);
+            // Agent.Move(directionToPlayer);
             // Agent.acceleration = 5;
+            Agent.isStopped = true;
+            CheckAttackCollision();
+            Agent.isStopped = false;
 
             yield return new WaitForSeconds(3);
             IsAttacking = false;
@@ -234,6 +248,18 @@ public class EnemySlime : EnemyBase
 
         public void EndCollisionCooldown() => isCollisionCooldown = false;
 
+        public void CheckAttackCollision(){
+
+        }
+
+        private void OnCollisionEnter(Collision other) {
+
+            if(other.transform.tag == "Player" && IsAttacking){
+                IDamageble damagable = other.collider.GetComponent<IDamageble>();
+                damagable.Hit(5);
+            }
+        }
+
     #endregion
 
 
@@ -247,7 +273,7 @@ public class EnemySlime : EnemyBase
         }
     }
 
-    
+
 
     private bool CheckChaseRange(){
         Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer);
