@@ -108,7 +108,7 @@ public class BuddyAI_Controller : MonoBehaviour
             Vector3 avoidanceDirection = Vector3.Cross(Vector3.up, directionToPlayer).normalized;
             Vector3 avoidancePoint = player.position + avoidanceDirection * avoidanceDistance;
 
-            NavMeshPath path = new NavMeshPath(); // Instantiate NavMeshPath
+            NavMeshPath path = new(); // Instantiate NavMeshPath
             if (NavMesh.CalculatePath(transform.position, avoidancePoint, NavMesh.AllAreas, path))
             {
                 if (path.corners.Length > 1 && Vector3.Distance(path.corners[1], player.position) > avoidanceDistance)
@@ -174,30 +174,6 @@ public class BuddyAI_Controller : MonoBehaviour
                 }
             }
         }
-
-        // // Method for moving to the next destination
-        // void MoveToNextDestination()
-        // {
-        //     Invoke(nameof(CalculateNextMove), nextMoveTime);
-        // }
-
-        // // Method for calculating the next move
-        // void CalculateNextMove()
-        // {
-        //     Vector3 avoidancePoint = CalculateAvoidancePoint();
-
-        //     if (avoidancePoint != Vector3.zero)
-        //     {
-        //         buddy.SetDestination(avoidancePoint);
-        //     }
-        //     else
-        //     {
-        //         if (RandomPoint(patrolCenterPoint.position, buddyToPlayerDistance, out Vector3 point))
-        //         {
-        //             buddy.SetDestination(point);
-        //         }
-        //     }
-        // }
 
         // Timer for standing still
         void StandStillTimer()
