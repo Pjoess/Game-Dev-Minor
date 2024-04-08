@@ -6,13 +6,12 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 {
     #region Variables & References
         [Header("Object References")]
+        [SerializeField] private LayerMask ChaseLayerObject;
         [SerializeField] private Transform patrolCenterPoint;
-        [SerializeField] private LayerMask playerLayer;
-        [SerializeField] private SphereCollider patrolCenterPointRadiusCollider;
+        [SerializeField] private SphereCollider patrolCenterPointRadiusCollider;        
         
         [Header("Audio References")]
-        [SerializeField] private AudioClip chaseMusic;
-        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioSource chaseMusic;
 
         [Header("NavMesh Agent")]
         [HideInInspector] private NavMeshAgent agent;
@@ -37,7 +36,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
-            audioSource = GetComponent<AudioSource>();
+            chaseMusic = GetComponent<AudioSource>();
             patrolCenterPointRadiusCollider = patrolCenterPoint.GetComponent<SphereCollider>();
         }
 
@@ -59,7 +58,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         private void CheckChaseRange()
         {
             // Check if player is within chase range
-            Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, ChaseLayerObject);
             if (colliders.Length > 0)
             {
                 // Player detected, chase and attack
@@ -68,8 +67,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 if (!isChasingPlayer) // If not already chasing
                 {
                     isChasingPlayer = true;
-                    audioSource.clip = chaseMusic;
-                    audioSource.Play();
+                    chaseMusic.Play();
                 }
 
                 // Check if AI is close enough to attack
@@ -84,7 +82,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 if (isChasingPlayer) // If stopped chasing
                 {
                     isChasingPlayer = false;
-                    audioSource.Stop();
+                    chaseMusic.Stop();
                 }
             }
         }
