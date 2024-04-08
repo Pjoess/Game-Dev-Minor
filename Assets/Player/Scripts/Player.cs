@@ -200,18 +200,17 @@ public partial class Player : MonoBehaviour, IDamageble
         void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
         void OnSprint(InputValue value)
-    {
-        if(!isSprinting) isSprinting = true;
-        else isSprinting = false;
-    }
-
-
-        void OnJump(InputValue value)
         {
-            if (value.isPressed && IsGrounded()) {
-                hasJumped = true;
-            }
+            if(!isSprinting) isSprinting = true;
+            else isSprinting = false;
         }
+
+        // void OnJump(InputValue value)
+        // {
+        //     if (value.isPressed && IsGrounded()) {
+        //         hasJumped = true;
+        //     }
+        // }
 
         void OnAttack(InputValue value)
         {

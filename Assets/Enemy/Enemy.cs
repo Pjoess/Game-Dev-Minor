@@ -93,7 +93,7 @@ public partial class Enemy : MonoBehaviour, IDamageble
                 GetComponent<Rigidbody>().AddForce(Vector3.up * pushUpForce, ForceMode.VelocityChange);
                 if (slimeJumpSound != null)
                 {
-                    slimeJumpSound.Play();
+                    //slimeJumpSound.Play();
                 }
             }
         }
