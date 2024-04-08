@@ -19,15 +19,16 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private float avoidanceDistance = 6f;
         [SerializeField] private float isStandingStillTimer = 2f;
         [HideInInspector] private bool isStandingStill = false;
-        [SerializeField] private float nextMoveTime = 2f;
+        [SerializeField] private float nextMoveTime = 3f;
 
         [Header("Rotation")]
         [SerializeField] private float rotationSpeed = 750f;
         [SerializeField] private float maxRotationAngle = 6f;
 
         [Header("Attack")]
-        [SerializeField] private float shootingInterval = 0.5f;
+        [SerializeField] private float shootingInterval = 0.3f;
         [SerializeField] private float shootingRange = 10f;
+        [SerializeField] private bool hasShot = false;
 
         [Header("Projectiles")]
         [SerializeField] private float bulletSpeed = 8f;
@@ -57,7 +58,7 @@ public class BuddyAI_Controller : MonoBehaviour
 
         void Start()
         {
-            ToggleShooting();
+            
         }
 
         private void ToggleShooting()
@@ -136,7 +137,24 @@ public class BuddyAI_Controller : MonoBehaviour
         // Method for moving to the next destination
         void MoveToNextDestination()
         {
-            Invoke(nameof(CalculateNextMove), nextMoveTime);
+            // Stop the buddy's movement
+            buddy.isStopped = true;
+
+            // Start coroutine to wait and then move
+            StartCoroutine(WaitAndMove());
+        }
+
+        // Coroutine to wait and then move
+        IEnumerator WaitAndMove()
+        {
+            // Wait for 3 seconds
+            yield return new WaitForSeconds(3f);
+
+            // Calculate the next move after waiting
+            CalculateNextMove();
+
+            // Resume movement after waiting
+            buddy.isStopped = false;
         }
 
         // Method for calculating the next move
@@ -156,6 +174,30 @@ public class BuddyAI_Controller : MonoBehaviour
                 }
             }
         }
+
+        // // Method for moving to the next destination
+        // void MoveToNextDestination()
+        // {
+        //     Invoke(nameof(CalculateNextMove), nextMoveTime);
+        // }
+
+        // // Method for calculating the next move
+        // void CalculateNextMove()
+        // {
+        //     Vector3 avoidancePoint = CalculateAvoidancePoint();
+
+        //     if (avoidancePoint != Vector3.zero)
+        //     {
+        //         buddy.SetDestination(avoidancePoint);
+        //     }
+        //     else
+        //     {
+        //         if (RandomPoint(patrolCenterPoint.position, buddyToPlayerDistance, out Vector3 point))
+        //         {
+        //             buddy.SetDestination(point);
+        //         }
+        //     }
+        // }
 
         // Timer for standing still
         void StandStillTimer()
@@ -211,22 +253,54 @@ public class BuddyAI_Controller : MonoBehaviour
                 Destroy(bullet, bulletLifetime);
             }
         }
-
-        // Coroutine for shooting at the enemy
+        
         IEnumerator ShootAtEnemyRoutine()
         {
             while (true)
             {
+                // Find all enemies within shooting range
                 Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+
+                // Track the nearest enemy and its distance
+                Transform nearestEnemy = null;
+                float nearestEnemyDistance = Mathf.Infinity;
+
+                // Iterate through all enemies to find the nearest one
                 foreach (Collider collider in hitColliders)
                 {
                     // Check if the enemy is within line of sight
                     if (IsInLineOfSight(collider.transform))
                     {
-                        ShootAtEnemy(collider.transform.position);
-                        buddy.SetDestination(collider.transform.position);
+                        // Calculate the distance to the current enemy
+                        float distanceToEnemy = Vector3.Distance(transform.position, collider.transform.position);
+
+                        // Update the nearest enemy if the current one is closer
+                        if (distanceToEnemy < nearestEnemyDistance)
+                        {
+                            nearestEnemy = collider.transform;
+                            nearestEnemyDistance = distanceToEnemy;
+                        }
                     }
                 }
+
+                // If a nearest enemy is found, engage
+                if (nearestEnemy != null)
+                {
+                    // Stop the buddy's movement
+                    buddy.isStopped = true;
+
+                    // Look at the nearest enemy
+                    Vector3 directionToEnemy = nearestEnemy.position - transform.position;
+                    Quaternion lookRotation = Quaternion.LookRotation(directionToEnemy);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, maxRotationAngle);
+
+                    // Shoot at the nearest enemy
+                    ShootAtEnemy(nearestEnemy.position);
+                }
+
+                // Resume movement after shooting
+                buddy.isStopped = false;
+
                 yield return new WaitForSeconds(shootingInterval);
             }
         }
