@@ -5,34 +5,35 @@ using UnityEngine.AI;
 public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 {
     #region Variables & References
-    [Header("NavMesh Agent")]
-    [HideInInspector] private NavMeshAgent miniBossAgent;
-    [HideInInspector] private Vector3 originalPosition;
+        [Header("NavMesh Agent")]
+        [HideInInspector] private NavMeshAgent miniBossAgent;
+        [HideInInspector] private Vector3 originalPosition;
 
-    [Header("Object References")]
-    [SerializeField] private Transform player;
-    [SerializeField] private GameObject patrolCenterPoint;
+        [Header("Object References")]
+        [SerializeField] private Transform player;
+        [SerializeField] private GameObject patrolCenterPoint;
 
-    [Header("Movement")]
-    [SerializeField] private float movementSpeed = 2f;
-    [SerializeField] private float patrolWaitTime = 4f;
-    [SerializeField] private float patrolRange = 10f;
-    [SerializeField] private float chaseRange = 15f;
-    [SerializeField] private bool isChasingPlayer = false;
-    [SerializeField] private bool isPatrolling = false;
+        [Header("Movement")]
+        [SerializeField] private float movementSpeed = 2f;
+        [SerializeField] private float patrolWaitTime = 4f;
+        [SerializeField] private float patrolRange = 10f;
+        [SerializeField] private float chaseRange = 15f;
+        [SerializeField] private bool isChasingPlayer = false;
+        [SerializeField] private bool isPatrolling = false;
 
-    [Header("Movement")]
-    [SerializeField] private float attackRange = 4f;
-    [SerializeField] private bool isAttacking = false;
+        [Header("Movement")]
+        [SerializeField] private float attackRange = 4f;
+        [SerializeField] private bool isAttacking = false;
 
-    [Header("Stats")]
-    [SerializeField] private int healthPoints;
-    [SerializeField] private int maxHealthPoints = 15;
+        [Header("Stats")]
+        [SerializeField] private int healthPoints;
+        [SerializeField] private int maxHealthPoints = 15;
+    
+
+        // --- IDamagable --- ///
+        public int MaxHealthPoints { get { return maxHealthPoints; } }
+        [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     #endregion
-
-    // From IDamagable
-    public int MaxHealthPoints { get { return maxHealthPoints; } }
-    [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
     #region Default Functions
         void Start()
