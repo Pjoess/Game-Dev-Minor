@@ -29,7 +29,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [SerializeField] private int healthPoints;
         [SerializeField] private int maxHealthPoints = 15;
     
-
         // --- IDamagable --- ///
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
@@ -122,6 +121,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 isAttacking = true;
                 miniBossAgent.SetDestination(player.position);
                 Debug.Log("Attacking Player!");
+                
             }
             else
             {
