@@ -99,60 +99,6 @@ public class BuddyAI_Controller : MonoBehaviour
         }
     #endregion
 
-    #region Buddy Attack
-        // Method to check if an enemy is in line of sight
-        bool IsInLineOfSight(Transform enemyTransform)
-        {
-            Vector3 direction = enemyTransform.position - transform.position;
-
-            // Cast a ray towards the enemy
-            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
-            {
-                if (hit.transform == enemyTransform)
-                {
-                    // Enemy is in line of sight
-                    return true;
-                }
-            }
-            // Enemy is not in line of sight
-            return false;
-        }
-
-        // Method for shooting at the enemy
-        void ShootAtEnemy(Vector3 targetPosition)
-        {
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-            
-            if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotationAngle)
-            {
-                GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-                bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
-                Destroy(bullet, bulletLifetime);
-            }
-        }
-
-        // Coroutine for shooting at the enemy
-        IEnumerator ShootAtEnemyRoutine()
-        {
-            while (true)
-            {
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
-                foreach (Collider collider in hitColliders)
-                {
-                    // Check if the enemy is within line of sight
-                    if (IsInLineOfSight(collider.transform))
-                    {
-                        ShootAtEnemy(collider.transform.position);
-                        buddy.SetDestination(collider.transform.position);
-                    }
-                }
-                yield return new WaitForSeconds(shootingInterval);
-            }
-        }
-    #endregion
-
     #region Buddy Movement
         // Method for calculating an avoidance point to avoid the player
         Vector3 CalculateAvoidancePoint()
@@ -229,6 +175,60 @@ public class BuddyAI_Controller : MonoBehaviour
             yield return new WaitForSeconds(isStandingStillTimer);
             isStandingStill = false;
             MoveToNextDestination();
+        }
+    #endregion
+
+    #region Buddy Attack
+        // Method to check if an enemy is in line of sight
+        bool IsInLineOfSight(Transform enemyTransform)
+        {
+            Vector3 direction = enemyTransform.position - transform.position;
+
+            // Cast a ray towards the enemy
+            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
+            {
+                if (hit.transform == enemyTransform)
+                {
+                    // Enemy is in line of sight
+                    return true;
+                }
+            }
+            // Enemy is not in line of sight
+            return false;
+        }
+
+        // Method for shooting at the enemy
+        void ShootAtEnemy(Vector3 targetPosition)
+        {
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+            
+            if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotationAngle)
+            {
+                GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+                bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+                Destroy(bullet, bulletLifetime);
+            }
+        }
+
+        // Coroutine for shooting at the enemy
+        IEnumerator ShootAtEnemyRoutine()
+        {
+            while (true)
+            {
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+                foreach (Collider collider in hitColliders)
+                {
+                    // Check if the enemy is within line of sight
+                    if (IsInLineOfSight(collider.transform))
+                    {
+                        ShootAtEnemy(collider.transform.position);
+                        buddy.SetDestination(collider.transform.position);
+                    }
+                }
+                yield return new WaitForSeconds(shootingInterval);
+            }
         }
     #endregion
 
