@@ -128,10 +128,13 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 isAttacking = false;
             }
         }
+    #endregion
 
+    #region IDamagable
+        // Enemy Receives Damage
         public void Hit(int damage)
         {
-            Debug.Log("Boss hit");
+            Debug.Log("Boss receives damage");
             HealthPoints -= damage;
             CheckDeath();
         }
