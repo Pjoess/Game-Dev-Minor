@@ -21,6 +21,10 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     [SerializeField] private bool isChasingPlayer = false;
     [SerializeField] private bool isPatrolling = false;
 
+    [Header("Movement")]
+    [SerializeField] private float attackRange = 5f;
+    [SerializeField] private bool isAttacking = false;
+
     [Header("Stats")]
     [SerializeField] private int healthPoints;
     [SerializeField] private int maxHealthPoints = 15;
@@ -96,8 +100,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         Vector3 randomDestination = patrolCenterPoint.transform.position + randomDirection;
 
         // Use overlapsphere to find a valid position within the NavMesh
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomDestination, out hit, patrolRadius, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(randomDestination, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas))
         {
             return hit.position;
         }
@@ -113,8 +116,12 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         Gizmos.DrawWireSphere(transform.position, patrolRange);
 
         // Draw a wire sphere to represent the chase range
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+        // Draw a wire sphere to represent the attack range
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
     #endregion
 
