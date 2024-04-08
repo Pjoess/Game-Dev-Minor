@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MemoryStickScripts : MonoBehaviour
+public class CastleScript : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            QuestEvents.MemoryStickPickUp();
-            Destroy(gameObject);
+            QuestEvents.ReachedCastle();
         }
     }
 }
