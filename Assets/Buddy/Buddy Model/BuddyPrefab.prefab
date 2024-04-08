@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 50a074cfa2f05ea43ad5010b2da60c13,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 1.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 50a074cfa2f05ea43ad5010b2da60c13,
         type: 3}
@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 50a074cfa2f05ea43ad5010b2da60c13,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 50a074cfa2f05ea43ad5010b2da60c13,
         type: 3}
@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 50a074cfa2f05ea43ad5010b2da60c13,
         type: 3}
       propertyPath: m_Name
-      value: Buddy
+      value: Buddy_Prefab
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 50a074cfa2f05ea43ad5010b2da60c13,
         type: 3}
@@ -207,11 +207,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf5a23f3dae18c4590cf3d663784758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  player: {fileID: 0}
+  buddyAgent: {fileID: 0}
+  player: {fileID: 750365235278553012, guid: 9a3aa3012e2a5924b9845c95b29ea8c6, type: 3}
   bulletPrefab: {fileID: 6183946527980881328, guid: b3ffb05800933a44f951aec45acd7114,
     type: 3}
-  centrePoint: {fileID: 0}
+  centerPointObject: {fileID: 0}
   attackLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -225,12 +225,8 @@ MonoBehaviour:
   shootingInterval: 1
   shootingRange: 10
   toggleAttack: 0
-  lights:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  speed: 5
-  angularSpeed: 1200
-  acceleration: 20
+  navMeshAgent_Speed: 5
+  navMeshAngular_Speed: 750
+  navMeshAcceleration_Speed: 20
   rotationSpeed: 750
   maxRotationAngle: 5
