@@ -35,13 +35,14 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     #region Default Functions
         void Awake()
         {
-            agent = GetComponent<NavMeshAgent>();
-            chaseMusic = GetComponent<AudioSource>();
-            patrolCenterPointRadiusCollider = patrolCenterPoint.GetComponent<SphereCollider>();
+            
         }
 
         void Start()
         {
+            agent = GetComponent<NavMeshAgent>();
+            chaseMusic = GetComponent<AudioSource>();
+            patrolCenterPointRadiusCollider = patrolCenterPoint.GetComponent<SphereCollider>();
             originalPosition = transform.position;
             HealthPoints = MaxHealthPoints;
         }
@@ -86,15 +87,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 }
             }
         }
-
-        private void CheckDeath()
-        {
-            if(HealthPoints <= 0)
-            {
-                GetComponent<MemoryDropScipt>().DropItem(transform.position);
-                Destroy(gameObject);
-            }
-        }
     #endregion
 
     #region Patrol
@@ -107,7 +99,10 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 {
                     // AI is outside the patrolling area, return to center
                     agent.SetDestination(patrolCenterPoint.position);
-                    yield return new WaitForSeconds(patrolWaitTime); // Wait for AI to reach the center
+                    // Wait for AI to reach the center
+                    yield return new WaitUntil(() => agent.remainingDistance < 0.1f);
+                    // Add some extra delay to ensure the AI stays at the center for a moment
+                    yield return new WaitForSeconds(patrolWaitTime);
                     continue; // Skip the rest of the loop iteration
                 }
 
@@ -119,10 +114,39 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 // Set destination to the selected point
                 agent.SetDestination(finalPoint);
 
+                // Wait until the AI reaches the destination or a timeout
+                yield return new WaitUntil(() => agent.remainingDistance < 0.1f || agent.pathStatus == NavMeshPathStatus.PathPartial || agent.pathStatus == NavMeshPathStatus.PathInvalid);
+
                 // Wait for patrolWaitTime seconds
                 yield return new WaitForSeconds(patrolWaitTime);
             }
         }
+
+        // IEnumerator PatrolRoutine()
+        // {
+        //     while (true)
+        //     {
+        //         // Check if AI is outside the patrolling area
+        //         if (!patrolCenterPointRadiusCollider.bounds.Contains(transform.position))
+        //         {
+        //             // AI is outside the patrolling area, return to center
+        //             agent.SetDestination(patrolCenterPoint.position);
+        //             yield return new WaitForSeconds(patrolWaitTime); // Wait for AI to reach the center
+        //             continue; // Skip the rest of the loop iteration
+        //         }
+
+        //         // Randomly select a point within patrol range around center point
+        //         Vector3 randomPoint = patrolCenterPoint.position + Random.insideUnitSphere * patrolRange;
+        //         NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, patrolRange, 1);
+        //         Vector3 finalPoint = hit.position;
+
+        //         // Set destination to the selected point
+        //         agent.SetDestination(finalPoint);
+
+        //         // Wait for patrolWaitTime seconds
+        //         yield return new WaitForSeconds(patrolWaitTime);
+        //     }
+        // }
     #endregion
 
     #region Attack
@@ -136,6 +160,15 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         {
             Debug.Log("Boss hit");
             HealthPoints -= damage;
+        }
+
+        private void CheckDeath()
+        {
+            if(HealthPoints <= 0)
+            {
+                GetComponent<MemoryDropScipt>().DropItem(transform.position);
+                Destroy(gameObject);
+            }
         }
     #endregion
 }
