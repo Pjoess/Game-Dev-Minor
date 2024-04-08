@@ -4,118 +4,140 @@ using UnityEngine.AI;
 
 public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 {
-    public Transform centerPoint; // Center point for patrolling
-    public float patrolRange = 5f; // Range of patrolling
-    public LayerMask playerLayer; // Layer mask for detecting player
-    public float chaseRange = 10f; // Range at which AI starts chasing player
-    public float patrolWaitTime = 2f; // Time to wait at patrol destination
-    public AudioClip chaseMusic; // Music to play while chasing
-    private NavMeshAgent agent;
-    private Vector3 originalPosition; // Original position for patrolling
-    private SphereCollider centerCollider; // Collider to detect when AI leaves patrolling area
-    private AudioSource audioSource;
-    private bool isChasingPlayer = false;
+    #region Variables & References
+        [Header("Object References")]
+        [SerializeField] private Transform patrolCenterPoint;
+        [SerializeField] private LayerMask playerLayer;
+        [SerializeField] private SphereCollider patrolCenterPointRadiusCollider;
+        
+        [Header("Audio References")]
+        [SerializeField] private AudioClip chaseMusic;
+        [SerializeField] private AudioSource audioSource;
 
-    [SerializeField] private int maxHealthPoints = 15;
-    private int healthPoints;
+        [Header("NavMesh Agent")]
+        [HideInInspector] private NavMeshAgent agent;
+        [HideInInspector] private Vector3 originalPosition;
+
+        [Header("Movement")]
+        [SerializeField] private float patrolRange = 5f;
+        [SerializeField] private float patrolWaitTime = 2f;
+        [SerializeField] private float chaseRange = 10f;
+        [SerializeField] private bool isChasingPlayer = false;
+
+        [Header("Stats")]
+        [SerializeField] private int healthPoints;
+        [SerializeField] private int maxHealthPoints = 15;
+    #endregion
 
     // From IDamagable
     public int MaxHealthPoints { get { return maxHealthPoints; } }
     [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
-    void Start()
-    {
-        agent = GetComponent<NavMeshAgent>();
-        originalPosition = transform.position;
-        centerCollider = centerPoint.GetComponent<SphereCollider>();
-        audioSource = GetComponent<AudioSource>();
-        HealthPoints = MaxHealthPoints;
-        StartCoroutine(PatrolRoutine());
-    }
-
-    void Update()
-    {
-        CheckChaseRange();
-        CheckDeath();
-    }
-
-    private void CheckChaseRange()
-    {
-        // Check if player is within chase range
-        Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer);
-        if (colliders.Length > 0)
+    #region Default Functions
+        void Awake()
         {
-            // Player detected, chase and attack
-            Transform player = colliders[0].transform;
-            agent.SetDestination(player.position);
-            if (!isChasingPlayer) // If not already chasing
-            {
-                isChasingPlayer = true;
-                audioSource.clip = chaseMusic;
-                audioSource.Play();
-            }
+            agent = GetComponent<NavMeshAgent>();
+            audioSource = GetComponent<AudioSource>();
+            patrolCenterPointRadiusCollider = patrolCenterPoint.GetComponent<SphereCollider>();
+        }
 
-            // Check if AI is close enough to attack
-            if (Vector3.Distance(transform.position, player.position) <= agent.stoppingDistance)
+        void Start()
+        {
+            originalPosition = transform.position;
+            HealthPoints = MaxHealthPoints;
+        }
+
+        void Update()
+        {
+            CheckChaseRange();
+            CheckDeath();
+            StartCoroutine(PatrolRoutine());
+        }
+    #endregion
+
+    #region Checks
+        private void CheckChaseRange()
+        {
+            // Check if player is within chase range
+            Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer);
+            if (colliders.Length > 0)
             {
-                // Implement attack logic here
-                AttackPlayer();
+                // Player detected, chase and attack
+                Transform player = colliders[0].transform;
+                agent.SetDestination(player.position);
+                if (!isChasingPlayer) // If not already chasing
+                {
+                    isChasingPlayer = true;
+                    audioSource.clip = chaseMusic;
+                    audioSource.Play();
+                }
+
+                // Check if AI is close enough to attack
+                if (Vector3.Distance(transform.position, player.position) <= agent.stoppingDistance)
+                {
+                    // Implement attack logic here
+                    AttackPlayer();
+                }
+            }
+            else
+            {
+                if (isChasingPlayer) // If stopped chasing
+                {
+                    isChasingPlayer = false;
+                    audioSource.Stop();
+                }
             }
         }
-        else
+
+        private void CheckDeath()
         {
-            if (isChasingPlayer) // If stopped chasing
+            if(HealthPoints <= 0)
             {
-                isChasingPlayer = false;
-                audioSource.Stop();
+                GetComponent<MemoryDropScipt>().DropItem(transform.position);
+                Destroy(gameObject);
             }
         }
-    }
+    #endregion
 
-    IEnumerator PatrolRoutine()
-    {
-        while (true)
+    #region Patrol
+        IEnumerator PatrolRoutine()
         {
-            // Check if AI is outside the patrolling area
-            if (!centerCollider.bounds.Contains(transform.position))
+            while (true)
             {
-                // AI is outside the patrolling area, return to center
-                agent.SetDestination(centerPoint.position);
-                yield return new WaitForSeconds(patrolWaitTime); // Wait for AI to reach the center
-                continue; // Skip the rest of the loop iteration
+                // Check if AI is outside the patrolling area
+                if (!patrolCenterPointRadiusCollider.bounds.Contains(transform.position))
+                {
+                    // AI is outside the patrolling area, return to center
+                    agent.SetDestination(patrolCenterPoint.position);
+                    yield return new WaitForSeconds(patrolWaitTime); // Wait for AI to reach the center
+                    continue; // Skip the rest of the loop iteration
+                }
+
+                // Randomly select a point within patrol range around center point
+                Vector3 randomPoint = patrolCenterPoint.position + Random.insideUnitSphere * patrolRange;
+                NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, patrolRange, 1);
+                Vector3 finalPoint = hit.position;
+
+                // Set destination to the selected point
+                agent.SetDestination(finalPoint);
+
+                // Wait for patrolWaitTime seconds
+                yield return new WaitForSeconds(patrolWaitTime);
             }
-
-            // Randomly select a point within patrol range around center point
-            Vector3 randomPoint = centerPoint.position + Random.insideUnitSphere * patrolRange;
-            NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, patrolRange, 1);
-            Vector3 finalPoint = hit.position;
-
-            // Set destination to the selected point
-            agent.SetDestination(finalPoint);
-
-            // Wait for patrolWaitTime seconds
-            yield return new WaitForSeconds(patrolWaitTime);
         }
-    }
+    #endregion
 
-    void AttackPlayer()
-    {
-        // Implement attack logic here
-        Debug.Log("Attacking Player!");
-    }
-
-    public void Hit(int damage)
-    {
-        Debug.Log("Boss hit");
-        HealthPoints -= damage;
-    }
-
-    private void CheckDeath()
-    {
-        if(HealthPoints <= 0)
+    #region Attack
+        void AttackPlayer()
         {
-            GetComponent<MemoryDropScipt>().DropItem(transform.position);
-            Destroy(gameObject);
+            // Implement attack logic here
+            Debug.Log("Attacking Player!");
         }
-    }
+
+        public void Hit(int damage)
+        {
+            Debug.Log("Boss hit");
+            HealthPoints -= damage;
+        }
+    #endregion
 }

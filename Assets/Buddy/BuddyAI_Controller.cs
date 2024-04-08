@@ -10,7 +10,7 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private NavMeshAgent buddy;
         [SerializeField] private Transform player;
         [SerializeField] private GameObject bulletPrefab;
-        [SerializeField] private Transform centerPointObject;
+        [SerializeField] private Transform patrolCenterPoint;
         [SerializeField] private LayerMask attackLayer;
         [SerializeField] private TextMeshProUGUI toggleBuddyAttackText;
 
@@ -74,28 +74,30 @@ public class BuddyAI_Controller : MonoBehaviour
         }
     #endregion
 
-    private void BuddyChecker()
-    {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+    #region Buddy Checks
+        private void BuddyChecker()
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer > buddyToPlayerDistance)
-        {
-            buddy.SetDestination(player.position);
-            return;
-        }
-
-        if (isStandingStill)
-        {
-            StandStillTimer();
-        }
-        else if (buddy.remainingDistance <= buddy.stoppingDistance)
-        {
-            if (!isStandingStill)
+            if (distanceToPlayer > buddyToPlayerDistance)
             {
-                StartCoroutine(StandStillCoroutine());
+                buddy.SetDestination(player.position);
+                return;
+            }
+
+            if (isStandingStill)
+            {
+                StandStillTimer();
+            }
+            else if (buddy.remainingDistance <= buddy.stoppingDistance)
+            {
+                if (!isStandingStill)
+                {
+                    StartCoroutine(StandStillCoroutine());
+                }
             }
         }
-    }
+    #endregion
 
     #region Buddy Attack
         // Method to check if an enemy is in line of sight
@@ -202,7 +204,7 @@ public class BuddyAI_Controller : MonoBehaviour
             }
             else
             {
-                if (RandomPoint(centerPointObject.position, buddyToPlayerDistance, out Vector3 point))
+                if (RandomPoint(patrolCenterPoint.position, buddyToPlayerDistance, out Vector3 point))
                 {
                     buddy.SetDestination(point);
                 }
