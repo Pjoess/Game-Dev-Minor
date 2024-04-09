@@ -78,7 +78,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
                     miniBossAgent.ResetPath(); // Reset patrolling
                 }
-
                 yield return null;
             }
         }
