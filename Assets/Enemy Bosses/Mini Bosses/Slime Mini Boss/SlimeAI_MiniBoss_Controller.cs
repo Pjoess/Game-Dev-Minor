@@ -120,9 +120,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             {
                 isAttacking = true;
                 miniBossAgent.SetDestination(player.transform.position);
-                Hit(5); // this one hits hisself.
-                Debug.Log("Attacking Player!");
-                transform.localScale *= 0.5f;
                 StartCoroutine(AttackWait());
             }
         }
@@ -131,6 +128,9 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     // wait 3 seconds before next attack
     IEnumerator AttackWait()
     {
+        Debug.Log("Attacking Player!");
+        Hit(5); // this one hits hisself.
+        transform.localScale *= 0.5f; // become 50% smaller
         yield return new WaitForSeconds(3);
         Debug.Log("Slime will attack again...");
         isAttacking = false;
