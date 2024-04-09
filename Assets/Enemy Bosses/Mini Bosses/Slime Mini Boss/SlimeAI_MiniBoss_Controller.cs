@@ -10,8 +10,11 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [HideInInspector] private Vector3 originalPosition;
 
         [Header("Object References")]
-         private Player player;
+        private Player player;
         [SerializeField] private GameObject patrolCenterPoint;
+
+        [Header("Audio Reference")]
+        [SerializeField] private AudioSource musicMiniBoss;
 
         [Header("Movement")]
         [SerializeField] private float movementSpeed = 2f;
@@ -38,14 +41,18 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     #endregion
 
     #region Default Functions
+        void Awake(){
+            miniBossAgent = GetComponent<NavMeshAgent>();
+            player = FindObjectOfType<Player>();
+        }
+
         void Start()
         {
-            miniBossAgent = GetComponent<NavMeshAgent>();
             miniBossAgent.speed = movementSpeed;
             originalPosition = transform.position;
             HealthPoints = MaxHealthPoints;
 
-            player = FindObjectOfType<Player>();
+            // musicMiniBoss.Play();
             
             // Start patrolling
             StartCoroutine(PatrolRoutine());
@@ -55,7 +62,12 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         {
             CheckChasePlayer();
             AttackPlayer();
+
+            // if(isChasingPlayer == false){
+            //     musicMiniBoss.Play();
+            // }
         }
+        
     #endregion
     
     #region Movement
