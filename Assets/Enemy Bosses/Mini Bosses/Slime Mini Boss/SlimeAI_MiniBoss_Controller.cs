@@ -14,10 +14,11 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
         [Header("Movement")]
         [SerializeField] private float movementSpeed = 2f;
-        [SerializeField] private float patrolWaitTime = 4f;
-        [SerializeField] private float patrolRange = 10f;
+        [SerializeField] private float rotationSpeed = 1f; // to make it slow also edit it in the Nav Mesh Agent to 1 to make it (1 : 1)
 
         [Header("Patrol")]
+        [SerializeField] private float patrolWaitTime = 4f;
+        [SerializeField] private float patrolRange = 10f;
         [SerializeField] private bool isPatrolling;
 
         [Header("Chase")]
@@ -51,6 +52,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         void Start()
         {
             miniBossAgent.speed = movementSpeed;
+            miniBossAgent.angularSpeed = rotationSpeed;
             HealthPoints = MaxHealthPoints;
             StartCoroutine(PatrolRoutine()); // Start and Always patrol by default
         }
@@ -114,7 +116,13 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                     chaseMusic.Play();
                 }
                 isChasingPlayer = true;
-                miniBossAgent.SetDestination(player.transform.position);
+                
+                // Calculate direction to the player then Rotate the enemy towards the playe
+                Vector3 directionToPlayer = (player.transform.position - transform.position).normalized; 
+                Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+
+                miniBossAgent.SetDestination(player.transform.position); // Move to player
             }
             else
             {
@@ -162,16 +170,20 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             if (distanceToPlayer <= attackRange && isAttacking == false)
             {
                 isAttacking = true;
-                StartCoroutine(AttackWait());
+                StartCoroutine(AttackAndWait());
             }
         }
 
-        IEnumerator AttackWait()
+        IEnumerator AttackAndWait()
         {
-            Debug.Log("Attacking Player!");
-            player.Hit(miniBossDamage);  
-            yield return new WaitForSeconds(3);
-            Debug.Log("Slime will attack again...");
+            yield return new WaitForSeconds(1); // Wait before starting an attack
+
+            // Check again if the Player is still within its range to attack
+            if(Vector3.Distance(transform.position, player.transform.position) <= attackRange)
+            {
+                player.Hit(miniBossDamage);  
+                yield return new WaitForSeconds(3); // Attack again after 3s
+            }
             isAttacking = false;
         }
     #endregion
@@ -179,7 +191,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     #region IDamagable
         public void Hit(int damage)
         {
-            Debug.Log("Boss receives damage");
             HealthPoints -= damage;
             CheckDeath();
         }
