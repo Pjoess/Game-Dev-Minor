@@ -18,7 +18,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [SerializeField] private float patrolRange = 10f;
 
         [Header("Patrol")]
-        [SerializeField] private bool isPatrolling = false;
+        [SerializeField] private bool isPatrolling;
 
         [Header("Chase")]
         [SerializeField] private AudioSource chaseMusic;
@@ -27,7 +27,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
         [Header("Attack")]
         [SerializeField] private float attackRange = 4f;
-        [SerializeField] private bool isAttacking = false;
+        [SerializeField] private bool isAttacking;
 
         [Header("Stats")]
         [SerializeField] private int healthPoints;
@@ -45,24 +45,20 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         void Awake(){
             miniBossAgent = GetComponent<NavMeshAgent>();
             player = FindObjectOfType<Player>();
+            chaseMusic = GetComponent<AudioSource>();
         }
 
         void Start()
         {
             miniBossAgent.speed = movementSpeed;
             HealthPoints = MaxHealthPoints;
-
             StartCoroutine(PatrolRoutine());
         }
 
         void Update()
         {
             CheckChasePlayer();
-            AttackPlayer();
-
-            if(isChasingPlayer == false){
-                chaseMusic.Play();
-            }
+            AttackPlayer();      
         }
         
     #endregion
@@ -114,12 +110,53 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             // Check if the player is within the chase range
             if (distanceToPlayer <= chaseRange)
             {
+                if (!isChasingPlayer)
+                {
+                    // Pause all other audio sources
+                    PauseAllOtherMusic();
+                    
+                    // Start playing the chase music only if it's not already playing
+                    chaseMusic.Play();
+                }
                 isChasingPlayer = true;
                 miniBossAgent.SetDestination(player.transform.position);
             }
             else
             {
+                // Stop the chase music if it's currently playing
+                if (isChasingPlayer)
+                {
+                    chaseMusic.Stop();
+                }
+                
+                // Resume all other audio sources
+                ResumeAllOtherMusic();
+                
                 isChasingPlayer = false;
+            }
+        }
+
+        void PauseAllOtherMusic()
+        {
+            AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+            foreach (AudioSource audioSource in allAudioSources)
+            {
+                if (audioSource != chaseMusic)
+                {
+                    audioSource.Pause();
+                }
+            }
+        }
+
+        void ResumeAllOtherMusic()
+        {
+            AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+            foreach (AudioSource audioSource in allAudioSources)
+            {
+                if (audioSource != chaseMusic)
+                {
+                    audioSource.UnPause();
+                }
             }
         }
     #endregion
@@ -137,9 +174,8 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 StartCoroutine(AttackWait());
             }
         }
-    #endregion
 
-    IEnumerator AttackWait()
+        IEnumerator AttackWait()
     {
         Debug.Log("Attacking Player!");
         player.Hit(miniBossDamage);  
@@ -147,6 +183,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         Debug.Log("Slime will attack again...");
         isAttacking = false;
     }
+    #endregion
 
     #region IDamagable
         public void Hit(int damage)
