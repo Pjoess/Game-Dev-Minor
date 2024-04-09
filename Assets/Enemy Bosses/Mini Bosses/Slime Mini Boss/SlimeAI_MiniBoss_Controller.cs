@@ -52,13 +52,13 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         {
             miniBossAgent.speed = movementSpeed;
             HealthPoints = MaxHealthPoints;
-            StartCoroutine(PatrolRoutine());
+            StartCoroutine(PatrolRoutine()); // Start and Always patrol by default
         }
 
         void Update()
         {
-            CheckChasePlayer();
-            AttackPlayer();      
+            CheckChasePlayer(); // Check if enemy is chasing
+            AttackPlayer(); // Check everytime if enemy is not attacking
         }
         
     #endregion
@@ -158,11 +158,10 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-            // Check if the player is within the chase range
+            // Check if the player is within the chase range and did not attack yet
             if (distanceToPlayer <= attackRange && isAttacking == false)
             {
                 isAttacking = true;
-                miniBossAgent.SetDestination(player.transform.position);
                 StartCoroutine(AttackWait());
             }
         }
