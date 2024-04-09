@@ -17,7 +17,7 @@ public class EnemyIdleState : EnemyState
 
     public override void ExitState()
     {
-        
+        enemy.ExitIdle();
     }
 
     public override void UpdateState()

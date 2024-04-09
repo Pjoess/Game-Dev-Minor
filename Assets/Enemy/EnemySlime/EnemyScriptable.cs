@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 
 [CreateAssetMenu(fileName = "EnemyScriptable", menuName = "Stats", order = 0)]
 public class EnemyScriptable : ScriptableObject 
 {
-    public float HealthPoints { get; set; }
-    public float MaxHealth { get; set; }
-    public float MovementSpeed { get; set; }
+    public float MaxHealth;
+    public float MovementSpeed;
 }

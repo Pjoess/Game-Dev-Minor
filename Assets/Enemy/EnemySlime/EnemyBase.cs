@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttackDistanceTriggerCheckable
 {
+    [SerializeField]
+    public ScriptableObject variables;
     #region Variables
         //
         public float HealthPoints { get; set; }
@@ -38,6 +40,7 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         public abstract void Chase();
         public abstract void Attack();
         public abstract void Idle();
+        public abstract void ExitIdle();
         public abstract void Hit(float damage);
 
         public abstract void InitializeStates();

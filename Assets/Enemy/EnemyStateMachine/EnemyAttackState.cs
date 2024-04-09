@@ -19,6 +19,10 @@ public class EnemyAttackState : EnemyState
 
     public override void UpdateState()
     {
+        if(enemy.CheckAttack() && !enemy.IsAttacking)
+        {
+            EnterState();
+        }
         if(enemy.CheckChase() && !enemy.IsAttacking)
         {
             enemyStateMachine.ChangeState(enemy.enemyChaseState);
@@ -27,9 +31,6 @@ public class EnemyAttackState : EnemyState
         {
             enemyStateMachine.ChangeState(enemy.enemyIdleState);
         }
-        if(enemy.CheckAttack() && !enemy.IsAttacking)
-        {
-            EnterState();
-        }
+
     }
 }

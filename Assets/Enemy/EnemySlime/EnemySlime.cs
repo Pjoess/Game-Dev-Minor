@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class EnemySlime : EnemyBase
 {
     #region Variables
         public bool isChasingPlayer = false;
+        public bool attackCollision = false;
         public float chaseRange = 10f;
         [SerializeField]
         public LayerMask playerLayer;
@@ -14,6 +16,7 @@ public class EnemySlime : EnemyBase
         public float patrolWaitTime = 5f;
         public float patrolRange = 5f;
         private SphereCollider centerCollider;
+        public Coroutine idling;
     #endregion
 
     #region CheckStates
@@ -71,7 +74,7 @@ public class EnemySlime : EnemyBase
 
         public override bool CheckIdle()
         {
-            if(!CheckChaseRange()){
+            if(!CheckChaseRange() && !CheckAttackRange()){
                 return true;
             }
             else{
@@ -157,7 +160,10 @@ public class EnemySlime : EnemyBase
 
         public override void Idle()
         {
-            StartCoroutine(PatrolRoutine());
+            idling = StartCoroutine(PatrolRoutine());
+        }
+        public override void ExitIdle(){
+            StopCoroutine(idling);
         }
     #endregion
 
@@ -190,36 +196,73 @@ public class EnemySlime : EnemyBase
         public IEnumerator AttackCoroutine()
         {
 
-
-            // yield return FacePlayer();
-            IsAttacking = true;
             Vector3 directionToPlayer = Target.position - transform.position;
-            // Agent.acceleration = 5;
+
             Agent.isStopped = true;
-            yield return new WaitForSeconds(2);
-            //change color
+            yield return new WaitForSeconds(1f);
             Agent.isStopped = false;
 
-            Agent.speed = 6f;
-            Agent.SetDestination(directionToPlayer);
-            Agent.speed = 3.5f;
-            yield return new WaitForSeconds(1);
+            bool x = true;
+
+            // StartCoroutine(FacePlayer());
+            // yield return new WaitForSeconds(1f);
+            Vector3 playerPosition = Target.position;
+            float distance;
+            // Agent.updateRotation = false;
+            // Agent.speed = 7f;
+            // Agent.SetDestination(directionToPlayer);
             // Agent.Move(directionToPlayer);
-            // Agent.acceleration = 5;
-            Agent.isStopped = true;
-            CheckAttackCollision();
-            Agent.isStopped = false;
+            FacePlayer();
+            while(x){
+                distance = Vector3.Distance(playerPosition, transform.position);
+                // Debug.Log(distance);
+                Agent.Move(transform.forward * Agent.speed * Time.deltaTime);
+                // Agent.Move(directionToPlayer);
+                // Agent.SetDestination(playerPosition);
 
-            yield return new WaitForSeconds(3);
+                if(distance <= 1f){
+                    Debug.Log("disstance reached");
+                    x = false;
+                    Agent.isStopped = true;
+                    yield return new WaitForSeconds(2f);
+                    Agent.isStopped = false;
+                    
+                    // Agent.velocity = Vector3.zero;
+                    // break;
+                }
+                yield return null;
+            }
+            // Agent.speed = 3.5f;
+            // Agent.isStopped = true;
+            // yield return new WaitForSeconds(2f);
+            // Agent.isStopped = false;
+            Agent.updateRotation = true;
             IsAttacking = false;
+            // yield return FacePlayer();
+
+
+            
+            // StartCoroutine(FacePlayer());
+            // Agent.Move(directionToPlayer * Time.deltaTime);
+            // Agent.Move(directionToPlayer * 0.1f);
+            
+            // while(!attackCollision){
+            //     Debug.Log("Moving dash");
+            //     Agent.velocity =new Vector3()* 6f * Time.fixedDeltaTime;
+            // }
+
+            // Vector3.MoveTowards(transform.position, Target.position, Time.deltaTime * 10f);
+
+            
+
         }
 
-        public IEnumerator FacePlayer()
+        public void FacePlayer()
         {
             Vector3 directionToPlayer = (Target.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0f, directionToPlayer.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10);
-            yield return null;
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 200);
+            // yield return null;
         }
 
     #endregion
@@ -248,15 +291,18 @@ public class EnemySlime : EnemyBase
 
         public void EndCollisionCooldown() => isCollisionCooldown = false;
 
-        public void CheckAttackCollision(){
-
+        public IEnumerator AttackCollisionTimer(){
+            attackCollision = true;
+            yield return new WaitForSeconds(3);
+            attackCollision = false;
         }
 
         private void OnCollisionEnter(Collision other) {
 
-            if(other.transform.tag == "Player" && IsAttacking){
+            if(other.transform.tag == "Player" && IsAttacking && !attackCollision){
                 IDamageble damagable = other.collider.GetComponent<IDamageble>();
                 damagable.Hit(5);
+                StartCoroutine(AttackCollisionTimer());
             }
         }
 
@@ -280,7 +326,7 @@ public class EnemySlime : EnemyBase
 
         if (colliders.Length > 0)
         {
-            Debug.Log("THERE IS");
+            // Debug.Log("THERE IS");
 
             foreach (var collider in colliders){
                 // Player detected, chase and attack
