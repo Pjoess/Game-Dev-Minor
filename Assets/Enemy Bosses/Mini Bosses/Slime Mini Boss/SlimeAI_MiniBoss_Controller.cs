@@ -14,7 +14,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
         [Header("Movement")]
         [SerializeField] private float movementSpeed = 2f;
-        [SerializeField] private float rotationSpeed = 1f; // to make it slow also edit it in the Nav Mesh Agent to 1 to make it (1 : 1)
+        // [SerializeField] private float rotationSpeed = 500f;
 
         [Header("Patrol")]
         [SerializeField] private float patrolWaitTime = 4f;
@@ -52,7 +52,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         void Start()
         {
             miniBossAgent.speed = movementSpeed;
-            miniBossAgent.angularSpeed = rotationSpeed;
+            // miniBossAgent.angularSpeed = rotationSpeed;
             HealthPoints = MaxHealthPoints;
             StartCoroutine(PatrolRoutine()); // Start and Always patrol by default
         }
@@ -119,8 +119,8 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 
                 // Calculate direction to the player then Rotate the enemy towards the playe
                 Vector3 directionToPlayer = (player.transform.position - transform.position).normalized; 
-                Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+                // Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+                // transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
 
                 miniBossAgent.SetDestination(player.transform.position); // Move to player
             }
@@ -170,6 +170,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             if (distanceToPlayer <= attackRange && isAttacking == false)
             {
                 isAttacking = true;
+                GetComponent<MeshRenderer>().material.color = new Color32(255, 28, 8, 255);
                 StartCoroutine(AttackAndWait());
             }
         }
@@ -181,9 +182,11 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             // Check again if the Player is still within its range to attack
             if(Vector3.Distance(transform.position, player.transform.position) <= attackRange)
             {
-                player.Hit(miniBossDamage);  
+                player.Hit(miniBossDamage);
+                GetComponent<MeshRenderer>().material.color = new Color32(255, 138, 8, 255);
                 yield return new WaitForSeconds(3); // Attack again after 3s
             }
+            GetComponent<MeshRenderer>().material.color = new Color32(255, 138, 8, 255);
             isAttacking = false;
         }
     #endregion
