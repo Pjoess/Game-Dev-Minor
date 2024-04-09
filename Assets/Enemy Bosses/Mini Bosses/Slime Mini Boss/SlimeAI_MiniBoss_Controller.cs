@@ -116,19 +116,25 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
             // Check if the player is within the chase range
-            if (distanceToPlayer <= attackRange)
+            if (distanceToPlayer <= attackRange && isAttacking == false)
             {
                 isAttacking = true;
                 miniBossAgent.SetDestination(player.position);
                 Debug.Log("Attacking Player!");
-                
-            }
-            else
-            {
-                isAttacking = false;
+                Hit(5);
+                transform.localScale *= 0.5f;
+                StartCoroutine(AttackWait());
             }
         }
     #endregion
+
+    // wait 3 seconds before next attack
+    IEnumerator AttackWait()
+    {
+        yield return new WaitForSeconds(3);
+        Debug.Log("You may attack Again");
+        isAttacking = false;
+    }
 
     #region IDamagable
         // Enemy Receives Damage
