@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,7 +10,7 @@ public class EnemySlime : EnemyBase
     #region Variables
         public bool isChasingPlayer = false;
         public bool attackCollision = false;
-        public float chaseRange = 10f;
+        public float chaseRange = 15f;
         [SerializeField]
         public LayerMask playerLayer;
         public Transform centerPoint;
@@ -195,8 +196,10 @@ public class EnemySlime : EnemyBase
         }
         public IEnumerator AttackCoroutine()
         {
-
-            Vector3 directionToPlayer = Target.position - transform.position;
+            Vector3 playerPosition = Target.position;
+            float distance;
+            FacePlayer(playerPosition);
+            // Vector3 directionToPlayer = Target.position - transform.position;
 
             Agent.isStopped = true;
             yield return new WaitForSeconds(1f);
@@ -206,13 +209,15 @@ public class EnemySlime : EnemyBase
 
             // StartCoroutine(FacePlayer());
             // yield return new WaitForSeconds(1f);
-            Vector3 playerPosition = Target.position;
-            float distance;
+
             // Agent.updateRotation = false;
             // Agent.speed = 7f;
             // Agent.SetDestination(directionToPlayer);
             // Agent.Move(directionToPlayer);
-            FacePlayer();
+            // NavMeshHit hit;
+            // bool y = Agent.Raycast(transform.position, playerPosition, out hit, playerLayer);
+
+
             while(x){
                 distance = Vector3.Distance(playerPosition, transform.position);
                 // Debug.Log(distance);
@@ -228,7 +233,7 @@ public class EnemySlime : EnemyBase
                     Agent.isStopped = false;
                     
                     // Agent.velocity = Vector3.zero;
-                    // break;
+                    break;
                 }
                 yield return null;
             }
@@ -257,11 +262,11 @@ public class EnemySlime : EnemyBase
 
         }
 
-        public void FacePlayer()
+        public void FacePlayer(Vector3 playerPosition)
         {
-            Vector3 directionToPlayer = (Target.position - transform.position).normalized;
+            Vector3 directionToPlayer = (playerPosition - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0f, directionToPlayer.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 200);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 400);
             // yield return null;
         }
 
@@ -322,44 +327,50 @@ public class EnemySlime : EnemyBase
 
 
     private bool CheckChaseRange(){
-        Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer);
-
-        if (colliders.Length > 0)
-        {
-            // Debug.Log("THERE IS");
-
-            foreach (var collider in colliders){
-                // Player detected, chase and attack
-                // if(collider == Target);
-                if(collider.gameObject.tag == "Player"){
-                    if (!isChasingPlayer) // If not already chasing
-                    {
-                        isChasingPlayer = true;
-                    }
-                    // Transform player = colliders[0].transform;
-                    // Agent.SetDestination(player.position);
-                }
-                // if (!isChasingPlayer) // If not already chasing
-                // {
-                //     isChasingPlayer = true;
-                // }
-            }
-
-        }
-        else
-        {
-            if (isChasingPlayer) // If stopped chasing
-            {
-                isChasingPlayer = false;
-            }
-        }
-
-        if(isChasingPlayer){
+        if(Vector3.Distance(transform.position, Target.position) <= chaseRange){
             return true;
         }
         else{
             return false;
         }
+        // Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer);
+
+        // if (colliders.Length > 0)
+        // {
+        //     // Debug.Log("THERE IS");
+
+        //     foreach (var collider in colliders){
+        //         // Player detected, chase and attack
+        //         // if(collider == Target);
+        //         if(collider.gameObject.tag == "Player"){
+        //             if (!isChasingPlayer) // If not already chasing
+        //             {
+        //                 isChasingPlayer = true;
+        //             }
+        //             // Transform player = colliders[0].transform;
+        //             // Agent.SetDestination(player.position);
+        //         }
+        //         // if (!isChasingPlayer) // If not already chasing
+        //         // {
+        //         //     isChasingPlayer = true;
+        //         // }
+        //     }
+
+        // }
+        // else
+        // {
+        //     if (isChasingPlayer) // If stopped chasing
+        //     {
+        //         isChasingPlayer = false;
+        //     }
+        // }
+
+        // if(isChasingPlayer){
+        //     return true;
+        // }
+        // else{
+        //     return false;
+        // }
     }
 
     // private void CheckChaseRange()

@@ -15,7 +15,7 @@ public class EnemyChaseState : EnemyState
 
     public override void ExitState()
     {
-        
+
     }
 
     public override void UpdateState()
@@ -23,14 +23,14 @@ public class EnemyChaseState : EnemyState
         if(enemy.CheckIdle())
         {
             enemyStateMachine.ChangeState(enemy.enemyIdleState);
-        }
-
-        if(enemy.CheckAttack())
-        {
+        }else if(enemy.CheckAttack()){
             enemyStateMachine.ChangeState(enemy.enemyAttackState);
+        }else{
+            enemy.Chase();
         }
 
-        enemy.Chase();
+
+
         // enemy.CheckChase();
     }
 }

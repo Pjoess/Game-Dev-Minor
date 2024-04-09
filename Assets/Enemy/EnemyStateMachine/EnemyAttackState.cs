@@ -7,7 +7,7 @@ public class EnemyAttackState : EnemyState
 
     public override void EnterState()
     {
-        enemy.Agent.isStopped = true;
+        enemy.Agent.ResetPath();
         Debug.Log("Attacking...");
         enemy.Attack();
     }
