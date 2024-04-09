@@ -27,8 +27,10 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [SerializeField] private bool isChasingPlayer = false;
 
         [Header("Attack")]
-        [SerializeField] private float attackRange = 4f;
+        [SerializeField] private float attackRange = 3f;
+        [SerializeField] private float offsetDistance = 2f;
         [SerializeField] private bool isAttacking;
+        
 
         [Header("Stats")]
         [SerializeField] private int healthPoints;
@@ -221,7 +223,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
             // Draw a wire sphere to represent the attack range
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.DrawWireSphere(transform.position + transform.forward * offsetDistance, attackRange);
         }
     #endregion
 }
