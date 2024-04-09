@@ -2066,6 +2066,12 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1257659979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3672546096532821932, guid: 9a3aa3012e2a5924b9845c95b29ea8c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2973578740971417685}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1359025717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5023,7 +5029,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 2973578740971417685}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1257659979}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16cfdb5adc81c7746a6a39bc7e8f7bab, type: 3}
@@ -5406,7 +5412,7 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 4203495997657207637}
+      objectReference: {fileID: 1257659979}
     - target: {fileID: 6759260677609499864, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
       propertyPath: chaseMusic

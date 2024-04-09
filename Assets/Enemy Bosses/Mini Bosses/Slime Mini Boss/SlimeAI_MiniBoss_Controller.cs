@@ -10,7 +10,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [HideInInspector] private Vector3 originalPosition;
 
         [Header("Object References")]
-        [SerializeField] private Transform player;
+        [SerializeField] private GameObject player;
         [SerializeField] private GameObject patrolCenterPoint;
 
         [Header("Movement")]
@@ -95,13 +95,13 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     #region Chasing
         void CheckChasePlayer()
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
             // Check if the player is within the chase range
             if (distanceToPlayer <= chaseRange)
             {
                 isChasingPlayer = true;
-                miniBossAgent.SetDestination(player.position);
+                miniBossAgent.SetDestination(player.transform.position);
             }
             else
             {
@@ -113,15 +113,15 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     #region Attack
         void AttackPlayer()
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
             // Check if the player is within the chase range
             if (distanceToPlayer <= attackRange && isAttacking == false)
             {
                 isAttacking = true;
-                miniBossAgent.SetDestination(player.position);
+                miniBossAgent.SetDestination(player.transform.position);
+                Hit(5); // this one hits hisself.
                 Debug.Log("Attacking Player!");
-                Hit(5);
                 transform.localScale *= 0.5f;
                 StartCoroutine(AttackWait());
             }
@@ -132,7 +132,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     IEnumerator AttackWait()
     {
         yield return new WaitForSeconds(3);
-        Debug.Log("You may attack Again");
+        Debug.Log("Slime will attack again...");
         isAttacking = false;
     }
 
