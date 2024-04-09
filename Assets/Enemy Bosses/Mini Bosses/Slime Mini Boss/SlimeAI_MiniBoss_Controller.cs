@@ -28,6 +28,9 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [Header("Stats")]
         [SerializeField] private int healthPoints;
         [SerializeField] private int maxHealthPoints = 15;
+
+        [Header("Slime Damage")]
+        [SerializeField] private int miniBossDamage = 25;
     
         // --- IDamagable --- ///
         public int MaxHealthPoints { get { return maxHealthPoints; } }
@@ -131,7 +134,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     IEnumerator AttackWait()
     {
         Debug.Log("Attacking Player!");
-        player.Hit(5); // this one hits hisself.        
+        player.Hit(miniBossDamage); // this one hits hisself.        
         yield return new WaitForSeconds(3);
         Debug.Log("Slime will attack again...");
         isAttacking = false;
