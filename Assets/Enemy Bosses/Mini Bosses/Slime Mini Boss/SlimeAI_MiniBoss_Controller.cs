@@ -177,7 +177,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
         IEnumerator AttackAndWait()
         {
-            yield return new WaitForSeconds(1); // Wait before starting an attack
+            yield return new WaitForSeconds(2); // Wait before starting an attack
 
             // Check again if the Player is still within its range to attack
             if(Vector3.Distance(transform.position, player.transform.position) <= attackRange)
