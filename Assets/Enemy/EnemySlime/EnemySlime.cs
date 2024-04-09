@@ -10,6 +10,7 @@ public class EnemySlime : EnemyBase
     #region Variables
         public bool isChasingPlayer = false;
         public bool attackCollision = false;
+        public bool isDashing = false;
         public float chaseRange = 15f;
         [SerializeField]
         public LayerMask playerLayer;
@@ -18,6 +19,8 @@ public class EnemySlime : EnemyBase
         public float patrolRange = 5f;
         private SphereCollider centerCollider;
         public Coroutine idling;
+
+        public Coroutine attacking;
     #endregion
 
     #region CheckStates
@@ -132,7 +135,7 @@ public class EnemySlime : EnemyBase
             Agent.isStopped = true;
             IsAttacking = true;
 
-            StartCoroutine(AttackCoroutine());
+            attacking = StartCoroutine(AttackCoroutine());
         }
 
         public override void Chase()
@@ -219,6 +222,7 @@ public class EnemySlime : EnemyBase
 
 
             while(x){
+                isDashing = true;
                 distance = Vector3.Distance(playerPosition, transform.position);
                 // Debug.Log(distance);
                 Agent.Move(transform.forward * Agent.speed * Time.deltaTime);
@@ -237,12 +241,14 @@ public class EnemySlime : EnemyBase
                 }
                 yield return null;
             }
+            isDashing = false;
             // Agent.speed = 3.5f;
             // Agent.isStopped = true;
             // yield return new WaitForSeconds(2f);
             // Agent.isStopped = false;
             Agent.updateRotation = true;
             IsAttacking = false;
+            attackCollision = false;
             // yield return FacePlayer();
 
 
@@ -303,12 +309,23 @@ public class EnemySlime : EnemyBase
         }
 
         private void OnCollisionEnter(Collision other) {
-
-            if(other.transform.tag == "Player" && IsAttacking && !attackCollision){
+            
+            if(other.transform.tag == "Obstacle" && isDashing){
+                StopCoroutine(attacking);
+                isDashing = false;
+                Agent.updateRotation = true;
+                IsAttacking = false;
+                attackCollision = false;
+                enemyStateMachine.ChangeState(enemyChaseState);
+            }
+            if(other.transform.tag == "Player" && IsAttacking && !attackCollision && isDashing){
                 IDamageble damagable = other.collider.GetComponent<IDamageble>();
                 damagable.Hit(5);
-                StartCoroutine(AttackCollisionTimer());
+                attackCollision = true;
+                // StartCoroutine(AttackCollisionTimer());
             }
+
+
         }
 
     #endregion
