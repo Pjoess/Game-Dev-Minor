@@ -7,24 +7,25 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     #region Variables & References
         [Header("NavMesh Agent")]
         [HideInInspector] private NavMeshAgent miniBossAgent;
-        [HideInInspector] private Vector3 originalPosition;
 
         [Header("Object References")]
         private Player player;
         [SerializeField] private GameObject patrolCenterPoint;
 
-        [Header("Audio Reference")]
-        [SerializeField] private AudioSource musicMiniBoss;
-
         [Header("Movement")]
         [SerializeField] private float movementSpeed = 2f;
         [SerializeField] private float patrolWaitTime = 4f;
         [SerializeField] private float patrolRange = 10f;
-        [SerializeField] private float chaseRange = 15f;
-        [SerializeField] private bool isChasingPlayer = false;
+
+        [Header("Patrol")]
         [SerializeField] private bool isPatrolling = false;
 
-        [Header("Movement")]
+        [Header("Chase")]
+        [SerializeField] private AudioSource chaseMusic;
+        [SerializeField] private float chaseRange = 15f;
+        [SerializeField] private bool isChasingPlayer = false;
+
+        [Header("Attack")]
         [SerializeField] private float attackRange = 4f;
         [SerializeField] private bool isAttacking = false;
 
@@ -49,12 +50,8 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         void Start()
         {
             miniBossAgent.speed = movementSpeed;
-            originalPosition = transform.position;
             HealthPoints = MaxHealthPoints;
 
-            // musicMiniBoss.Play();
-            
-            // Start patrolling
             StartCoroutine(PatrolRoutine());
         }
 
@@ -63,9 +60,9 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             CheckChasePlayer();
             AttackPlayer();
 
-            // if(isChasingPlayer == false){
-            //     musicMiniBoss.Play();
-            // }
+            if(isChasingPlayer == false){
+                chaseMusic.Play();
+            }
         }
         
     #endregion
@@ -142,18 +139,16 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         }
     #endregion
 
-    // wait 3 seconds before next attack
     IEnumerator AttackWait()
     {
         Debug.Log("Attacking Player!");
-        player.Hit(miniBossDamage); // this one hits hisself.        
+        player.Hit(miniBossDamage);  
         yield return new WaitForSeconds(3);
         Debug.Log("Slime will attack again...");
         isAttacking = false;
     }
 
     #region IDamagable
-        // Enemy Receives Damage
         public void Hit(int damage)
         {
             Debug.Log("Boss receives damage");
