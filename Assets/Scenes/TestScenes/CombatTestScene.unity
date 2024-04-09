@@ -5515,6 +5515,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5788570474504112434, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
+      propertyPath: m_AngularSpeed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788570474504112434, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
+        type: 3}
       propertyPath: m_StoppingDistance
       value: 0
       objectReference: {fileID: 0}
@@ -5536,7 +5541,7 @@ PrefabInstance:
     - target: {fileID: 6759260677609499864, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
       propertyPath: attackRange
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6759260677609499864, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
@@ -5546,7 +5551,7 @@ PrefabInstance:
     - target: {fileID: 6759260677609499864, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
       propertyPath: offsetDistance
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6759260677609499864, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}

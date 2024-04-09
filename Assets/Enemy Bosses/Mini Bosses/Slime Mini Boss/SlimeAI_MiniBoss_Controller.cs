@@ -28,7 +28,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
         [Header("Attack")]
         [SerializeField] private float attackRange = 3f;
-        [SerializeField] private float offsetDistance = 2f;
+        [SerializeField] private float offsetDistance = 3f;
         [SerializeField] private bool isAttacking;
         
 
