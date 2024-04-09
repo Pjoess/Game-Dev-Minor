@@ -107,15 +107,11 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-            // Check if the player is within the chase range
             if (distanceToPlayer <= chaseRange)
             {
                 if (!isChasingPlayer)
                 {
-                    // Pause all other audio sources
                     PauseAllOtherMusic();
-                    
-                    // Start playing the chase music only if it's not already playing
                     chaseMusic.Play();
                 }
                 isChasingPlayer = true;
@@ -123,13 +119,10 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             }
             else
             {
-                // Stop the chase music if it's currently playing
                 if (isChasingPlayer)
                 {
                     chaseMusic.Stop();
                 }
-                
-                // Resume all other audio sources
                 ResumeAllOtherMusic();
                 
                 isChasingPlayer = false;
@@ -176,13 +169,13 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         }
 
         IEnumerator AttackWait()
-    {
-        Debug.Log("Attacking Player!");
-        player.Hit(miniBossDamage);  
-        yield return new WaitForSeconds(3);
-        Debug.Log("Slime will attack again...");
-        isAttacking = false;
-    }
+        {
+            Debug.Log("Attacking Player!");
+            player.Hit(miniBossDamage);  
+            yield return new WaitForSeconds(3);
+            Debug.Log("Slime will attack again...");
+            isAttacking = false;
+        }
     #endregion
 
     #region IDamagable
