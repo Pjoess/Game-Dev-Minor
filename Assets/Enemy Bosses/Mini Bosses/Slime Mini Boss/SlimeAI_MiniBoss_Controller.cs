@@ -10,7 +10,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [HideInInspector] private Vector3 originalPosition;
 
         [Header("Object References")]
-        [SerializeField] private GameObject player;
+         private Player player;
         [SerializeField] private GameObject patrolCenterPoint;
 
         [Header("Movement")]
@@ -41,6 +41,8 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             miniBossAgent.speed = movementSpeed;
             originalPosition = transform.position;
             HealthPoints = MaxHealthPoints;
+
+            player = FindObjectOfType<Player>();
             
             // Start patrolling
             StartCoroutine(PatrolRoutine());
@@ -129,8 +131,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     IEnumerator AttackWait()
     {
         Debug.Log("Attacking Player!");
-        Hit(5); // this one hits hisself.
-        transform.localScale *= 0.5f; // become 50% smaller
+        player.Hit(5); // this one hits hisself.        
         yield return new WaitForSeconds(3);
         Debug.Log("Slime will attack again...");
         isAttacking = false;
