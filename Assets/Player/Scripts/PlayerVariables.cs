@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public partial class Player
+public partial class PlayerB
 {
     #region Component References
         [SerializeField] private BuddyAI_Controller buddy;

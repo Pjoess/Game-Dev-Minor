@@ -283,7 +283,8 @@ public class EnemySlime : EnemyBase
         {
             if (IsWeaponCollisionValid(other))
             {
-                float damage = other.GetComponentInParent<Player>().attackDamage;
+                
+                float damage = 5;
 
                 Hit(damage);
             }

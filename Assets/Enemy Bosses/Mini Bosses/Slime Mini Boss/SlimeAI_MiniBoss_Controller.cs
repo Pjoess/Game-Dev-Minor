@@ -41,6 +41,8 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
+        public EnemyHealthBar enemyHealthBar;
+
         [Header("Testing Purpose")]
         [SerializeField] private Vector3 originalMiniBossScale;
     #endregion
@@ -50,6 +52,8 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             miniBossAgent = GetComponent<NavMeshAgent>();
             player = FindObjectOfType<Player>();
             chaseMusic = GetComponent<AudioSource>();
+
+            enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
         }
 
         void Start()
@@ -205,6 +209,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         {
             HealthPoints -= damage;
             ApplyDamageToMiniBoss();
+            enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
             CheckDeath();
         }
 
