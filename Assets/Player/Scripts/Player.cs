@@ -382,7 +382,7 @@ public class Player : MonoBehaviour, IDamageble
         // if(random == 1){
         //     healthPoints -= maxHealthPoints;
         // }
-        HealthPoints -= damage;
+        if(playerState != dashState) healthPoints -= damage;
     }
 
     public void ApplyKnockback(Vector3 pos)
