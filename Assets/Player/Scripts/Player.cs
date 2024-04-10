@@ -5,15 +5,13 @@ using UnityEngine.InputSystem;
     
 public class Player : MonoBehaviour, IDamageble
 {
-    #region Component References
+    #region Variables & References
         [SerializeField] private BuddyAI_Controller buddy;
         [HideInInspector] public Rigidbody rigidBody;
         CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
         [HideInInspector] public AudioSource jumpSound;
-    #endregion
 
-    #region Basic Variables for (Movements and Jumping)
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         [SerializeField] private int maxHealthPoints = 3;
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
@@ -26,43 +24,44 @@ public class Player : MonoBehaviour, IDamageble
         public float idleToFallTimer = 0.15f;
         [HideInInspector] public float idleToFallDelta;
 
-        // Moving
+        [Header("Player Move/Run/Jump")]
+        [HideInInspector] public Vector2 movement;
+        [HideInInspector] public Vector3 vectorDirection;
         public float walkSpeed = 3f;
         public float runSpeed = 6f;
-        public float dashForce  = 1.5f;
-        [HideInInspector] public bool isDashing = false;
-        public Vector3 dashDirection;
         public float speedChangeRate = 5f;
-        public float rotationSpeed = 600f;
-        [HideInInspector] public Vector2 movement;
-        [HideInInspector] public Vector3 direction;
         [HideInInspector] public bool isSprinting = false;
         [HideInInspector] public bool hasJumped = false;
-        public bool isStriking = false;
 
-        //Dash
+        [Header("Player Rotation")]
+        public float rotationSpeed = 600f;
+        
+        [Header("Player Dashing")]
+        public Vector3 dashDirection;
+        public float dashForce  = 1.5f;
         public float dashCooldown = 2f;
+        [HideInInspector] public bool isDashing = false;
         [HideInInspector] public float dashCooldownDelta;
+        
+        [Header("Player Attack")]
+        public float attackDistance = 0.15f;
+        public bool isStriking = false;
+        [HideInInspector] public event Action HasAttacked;
+        [HideInInspector] public bool struckAgain;
 
-        // UI Buttons
+        [Header("UI Button")]
         public bool isPaused = false;
-        [SerializeField] GameObject uiButton;
+        [SerializeField] GameObject pauseBtn;
         public float buttonCameraOffsetForward = -50f;
         public float buttonCameraOffsetRight = -50f;
         public float buttonCameraOffsetUp = -50f;
-
-        // UI CameraFollow
+        // --- UI CameraFollow --- //
         private CinemachineVirtualCamera virtualCamera;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
-    #endregion
 
-    #region Sword Attack and Collison
-        [HideInInspector] public event Action HasAttacked;
-        [HideInInspector] public bool struckAgain;
-        public float attackDistance = 0.15f;
-    #endregion
+        
 
-    #region Player States
+        // --- Player States --- //
         public PlayerBaseState playerState;
         public PlayerIdleState idleState = new();
         public PlayerWalkState walkState = new();
@@ -73,10 +72,9 @@ public class Player : MonoBehaviour, IDamageble
         public PlayerStrikeState strikeState = new();
         public PlayerStrike2State strike2State = new();
         public PlayerStrike3State strike3State = new();
-    #endregion
 
-    #region Player Animation
-    [HideInInspector] public Animator animator;
+        // --- Player Animation --- //
+        [HideInInspector] public Animator animator;
         [HideInInspector] public float animationBlend;
         // --- Animation parameters IDs --- //
         [HideInInspector] public int animIDSpeed;
@@ -118,7 +116,7 @@ public class Player : MonoBehaviour, IDamageble
         idleToFallDelta = idleToFallTimer;
         jumpCooldownDelta = 0f;
         // UI
-        uiButton.SetActive(false); // Make the button invisible
+        pauseBtn.SetActive(false); // Make the button invisible
         Time.timeScale = 1; // start game unPaused
         isPaused = false;
 
@@ -171,7 +169,7 @@ public class Player : MonoBehaviour, IDamageble
             if (animationBlend < 0.01f) animationBlend = 0f;
             animator.SetFloat(animIDSpeed, animationBlend);
 
-            direction = new(movement.x, 0, movement.y);
+            vectorDirection = new(movement.x, 0, movement.y);
 
             Vector3 cameraFaceForward = Camera.main.transform.forward;
             Vector3 cameraFaceRight = Camera.main.transform.right;
@@ -180,13 +178,13 @@ public class Player : MonoBehaviour, IDamageble
             cameraFaceForward = cameraFaceForward.normalized;
             cameraFaceRight = cameraFaceRight.normalized;
 
-            Vector3 moveDirection = cameraFaceForward * direction.z + cameraFaceRight * direction.x;
+            Vector3 moveDirection = cameraFaceForward * vectorDirection.z + cameraFaceRight * vectorDirection.x;
 
             transform.Translate(speed * Time.deltaTime * moveDirection, Space.World);
 
-            if(direction != Vector3.zero) 
+            if(vectorDirection != Vector3.zero) 
             {
-                Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+                Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * vectorDirection;
                 Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
@@ -325,14 +323,14 @@ public class Player : MonoBehaviour, IDamageble
                 Debug.Log("Game Paused");
                 Time.timeScale = 0;
                 isPaused = true;
-                uiButton.SetActive(true); // Make the button visible
+                pauseBtn.SetActive(true); // Make the button visible
             }
             else
             {
                 Debug.Log("Game Started");
                 Time.timeScale = 1;
                 isPaused = false;
-                uiButton.SetActive(false); // Make the button invisible
+                pauseBtn.SetActive(false); // Make the button invisible
             }
         }
 
