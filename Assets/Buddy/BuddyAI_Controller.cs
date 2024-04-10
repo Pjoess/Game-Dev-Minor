@@ -19,7 +19,7 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private float avoidanceDistance = 6f;
         [SerializeField] private float isStandingStillTimer = 1f;
         [HideInInspector] private bool isStandingStill = false;
-        [SerializeField] private float nextMoveTime = 2f;
+        [SerializeField] private float nextMoveTimer = 2f;
 
         [Header("Rotation")]
         [SerializeField] private float rotationSpeed = 750f;
@@ -140,7 +140,7 @@ public class BuddyAI_Controller : MonoBehaviour
         IEnumerator WaitAndMove()
         {
             // Wait for 3 seconds
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(nextMoveTimer);
 
             // Calculate the next move after waiting
             CalculateNextMove();
@@ -220,6 +220,7 @@ public class BuddyAI_Controller : MonoBehaviour
             {
                 GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
                 bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+                hasShot = true;
                 Destroy(bullet, bulletLifetime);
             }
         }
@@ -270,6 +271,7 @@ public class BuddyAI_Controller : MonoBehaviour
 
                 // Resume movement after shooting
                 buddy.isStopped = false;
+                hasShot = false;
 
                 yield return new WaitForSeconds(shootingInterval);
             }
@@ -277,7 +279,7 @@ public class BuddyAI_Controller : MonoBehaviour
     #endregion
 
     #region Toggle Buddy Attack
-        public void ToggleBehaviour()
+        public void ToggleAttackBehaviour()
         {
             toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
             toggleAttack = !toggleAttack;

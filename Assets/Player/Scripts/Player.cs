@@ -348,7 +348,7 @@ public class Player : MonoBehaviour, IDamageble
 
         void OnToggleBuddyAttack(InputValue value)
         {
-            buddy.ToggleBehaviour();
+            buddy.ToggleAttackBehaviour();
         }
 
 
