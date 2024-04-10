@@ -166,7 +166,9 @@ public class BuddyAI_Controller : MonoBehaviour
                 }
             }
         }
+    #endregion
 
+    #region Buddy Idle
         // Timer for standing still
         void StandStillTimer()
         {
