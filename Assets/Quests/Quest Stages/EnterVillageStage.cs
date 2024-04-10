@@ -12,7 +12,7 @@ public class EnterVillageStage : QuestStage
         villageTrigger.SetActive(true);
         Debug.Log("StartStage");
         isActive = true;
-        questLogText = "Enter the village";
+        questLogText = "Something feels wrong? \n" + $"-> Enter the Village.";
         QuestEvents.OnPlayerEnterVillage += EnteredVillage;
     }
 

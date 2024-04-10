@@ -9,5 +9,4 @@ public abstract class QuestStage : MonoBehaviour
     protected bool isActive = false;
     abstract public void StartStage();
     abstract public bool CheckStageCompleted();
-
 }

@@ -12,8 +12,7 @@ public class ReachCastleStage : QuestStage
         castleTrigger.SetActive(true);
         Debug.Log("StartStage");
         isActive = true;
-        questLogText = "The buddy detects another memory stick inside the castle. \n" +
-            "Go to the castle";
+        questLogText = "The Buddy is acting strange... and looks at the Castle, but why? \n" + "-> Go to the Castle.";
         QuestEvents.OnPlayerReachCastle += OnPlayerReachCastle;
     }
 
