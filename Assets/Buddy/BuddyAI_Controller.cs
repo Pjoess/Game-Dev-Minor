@@ -28,7 +28,6 @@ public class BuddyAI_Controller : MonoBehaviour
         [Header("Attack")]
         [SerializeField] private float shootingInterval = 0.3f;
         [SerializeField] private float shootingRange = 15f;
-        [SerializeField] private bool hasShot = false;
 
         [Header("Projectiles")]
         [SerializeField] private float bulletSpeed = 8f;
@@ -42,13 +41,11 @@ public class BuddyAI_Controller : MonoBehaviour
 
         // Private Variables & References
         [HideInInspector] private Coroutine shootingRoutine;
-        [HideInInspector] private Rigidbody rigidBody;
     #endregion
 
     #region Default Functions
         void Awake()
         {
-            rigidBody = GetComponent<Rigidbody>();
             buddy = GetComponent<NavMeshAgent>();
             // Override NavMesh Agent Variables
             buddy.speed = navMeshAgent_Speed;
@@ -220,7 +217,6 @@ public class BuddyAI_Controller : MonoBehaviour
             {
                 GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
                 bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
-                hasShot = true;
                 Destroy(bullet, bulletLifetime);
             }
         }
@@ -271,7 +267,6 @@ public class BuddyAI_Controller : MonoBehaviour
 
                 // Resume movement after shooting
                 buddy.isStopped = false;
-                hasShot = false;
 
                 yield return new WaitForSeconds(shootingInterval);
             }
