@@ -19,7 +19,7 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private float avoidanceDistance = 6f;
         [SerializeField] private float isStandingStillTimer = 1f;
         [HideInInspector] private bool isStandingStill = false;
-        [SerializeField] private float nextMoveTime = 3f;
+        [SerializeField] private float nextMoveTime = 2f;
 
         [Header("Rotation")]
         [SerializeField] private float rotationSpeed = 750f;
@@ -295,6 +295,10 @@ public class BuddyAI_Controller : MonoBehaviour
     #region Drawing Gizmos for checking Range
         private void OnDrawGizmosSelected()
         {
+            // Draw a wire sphere to represent the buddy to player range
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, buddyToPlayerDistance);
+
             // Draw a wire sphere to represent the attack range
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, shootingRange);

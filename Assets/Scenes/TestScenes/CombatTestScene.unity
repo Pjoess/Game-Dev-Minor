@@ -5147,7 +5147,7 @@ PrefabInstance:
     - target: {fileID: 46193231959190087, guid: b488edfedf421e24d8233f3d5e3da67e,
         type: 3}
       propertyPath: m_Radius
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1541979731846722624, guid: b488edfedf421e24d8233f3d5e3da67e,
         type: 3}
@@ -5261,7 +5261,7 @@ PrefabInstance:
     - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
       propertyPath: nextMoveTime
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
@@ -5283,6 +5283,11 @@ PrefabInstance:
       propertyPath: patrolCenterPoint
       value: 
       objectReference: {fileID: 4203495997657207637}
+    - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
+        type: 3}
+      propertyPath: isStandingStillTimer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
       propertyPath: buddyToPlayerDistance
