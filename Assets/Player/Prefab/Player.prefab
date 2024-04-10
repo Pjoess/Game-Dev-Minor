@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 596.0167
+      value: 0.6642387
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.120941
+      value: -1.9003088
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 556.49414
+      value: -1.5593491
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -62,6 +62,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 13a2dbb8e45c25044a820ee5966ca6df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -353,10 +358,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4535038048087651615}
     m_Modifications:
+    - target: {fileID: 3533493321594514663, guid: 96c0a666f10aea84a928edeb248e4663,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3758923570347227708, guid: 96c0a666f10aea84a928edeb248e4663,
         type: 3}
       propertyPath: m_Name
       value: 1HSword
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758923570347227708, guid: 96c0a666f10aea84a928edeb248e4663,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3758923570347255324, guid: 96c0a666f10aea84a928edeb248e4663,
         type: 3}
@@ -422,6 +437,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 102.176
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856548830635942661, guid: 96c0a666f10aea84a928edeb248e4663,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
