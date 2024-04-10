@@ -193,6 +193,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             {
                 GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 0, 255); // Red
                 yield return new WaitForSeconds(0.5f);
+            ScreenShakeManager.Instance.ShakeCamera(5, 1);
                 player.Hit(miniBossDamage);
                 yield return new WaitForSeconds(2f); // Attack again after amount of seconds
             }
