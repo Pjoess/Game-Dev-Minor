@@ -234,21 +234,21 @@ public class EnemySlime : EnemyBase
                     Agent.isStopped = true;
                     yield return new WaitForSeconds(2f);
                     Agent.isStopped = false;
-                    
+                    isDashing = false;
                     // Agent.velocity = Vector3.zero;
                     break;
                 }
                 yield return null;
             }
             // yield return new WaitForSeconds(0.5f);
-            isDashing = false;
+            // isDashing = false;
             // Agent.speed = 3.5f;
             // Agent.isStopped = true;
             // yield return new WaitForSeconds(2f);
             // Agent.isStopped = false;
             Agent.updateRotation = true;
             IsAttacking = false;
-            attackCollision = false;
+            // attackCollision = false;
             // yield return FacePlayer();
 
 
