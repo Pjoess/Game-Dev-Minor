@@ -14,7 +14,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
         [Header("Movement")]
         [SerializeField] private float movementSpeed = 2f;
-        // [SerializeField] private float rotationSpeed = 500f;
 
         [Header("Patrol")]
         [SerializeField] private float patrolWaitTime = 4f;
@@ -31,7 +30,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [SerializeField] private float offsetDistance = 3f;
         [SerializeField] private bool isAttacking;
         
-
         [Header("Stats")]
         [SerializeField] private int healthPoints;
         [SerializeField] private int maxHealthPoints = 15;
@@ -42,20 +40,25 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         // --- IDamagable --- ///
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
+
+        [Header("Testing Purpose")]
+        [SerializeField] private Vector3 originalMiniBossScale;
     #endregion
 
     #region Default Functions
         void Awake(){
             miniBossAgent = GetComponent<NavMeshAgent>();
             player = FindObjectOfType<Player>();
+
             chaseMusic = GetComponent<AudioSource>();
         }
 
         void Start()
         {
             miniBossAgent.speed = movementSpeed;
-            // miniBossAgent.angularSpeed = rotationSpeed;
             HealthPoints = MaxHealthPoints;
+            originalMiniBossScale = transform.localScale;
+
             StartCoroutine(PatrolRoutine()); // Start and Always patrol by default
         }
 
@@ -172,23 +175,25 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             if (distanceToPlayer <= attackRange && isAttacking == false)
             {
                 isAttacking = true;
-                GetComponent<MeshRenderer>().material.color = new Color32(255, 28, 8, 255);
                 StartCoroutine(AttackAndWait());
             }
         }
 
         IEnumerator AttackAndWait()
         {
-            yield return new WaitForSeconds(2); // Wait before starting an attack
+            yield return new WaitForSeconds(1f); // Wait before starting an attack
+            GetComponent<MeshRenderer>().material.color = new Color32(255, 153, 51, 255); // orange
+            yield return new WaitForSeconds(1f); // Wait before almost attacking
 
             // Check again if the Player is still within its range to attack
             if(Vector3.Distance(transform.position, player.transform.position) <= attackRange)
             {
+                GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 0, 255); // Red
+                yield return new WaitForSeconds(0.5f);
                 player.Hit(miniBossDamage);
-                GetComponent<MeshRenderer>().material.color = new Color32(255, 138, 8, 255);
-                yield return new WaitForSeconds(3); // Attack again after 3s
+                yield return new WaitForSeconds(2f); // Attack again after amount of seconds
             }
-            GetComponent<MeshRenderer>().material.color = new Color32(255, 138, 8, 255);
+            GetComponent<MeshRenderer>().material.color = new Color32(255, 235, 8, 255); // Yellow
             isAttacking = false;
         }
     #endregion
