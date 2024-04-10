@@ -6,7 +6,7 @@ public class MemoryStickScripts : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //code for picking up
+            QuestEvents.MemoryStickPickUp();
             Destroy(gameObject);
         }
     }
