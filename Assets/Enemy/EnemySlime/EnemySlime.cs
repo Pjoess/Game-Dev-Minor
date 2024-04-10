@@ -106,8 +106,7 @@ public class EnemySlime : EnemyBase
             Agent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             Target = GameObject.FindWithTag("Player").transform;
-            MaxHealth = 10;
-            HealthPoints = MaxHealth;
+            HealthPoints = MaxHealthPoints;
             MovementSpeed = 10;
 
             IsAggroed = false;
@@ -148,11 +147,11 @@ public class EnemySlime : EnemyBase
 
         }
 
-        public override void Hit(float damage)
+        public override void Hit(int damage)
         {
             HealthPoints -= damage;
 
-            enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealth);
+            enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
 
             if(HealthPoints <= 0)
             {
@@ -241,7 +240,7 @@ public class EnemySlime : EnemyBase
                 }
                 yield return null;
             }
-            yield return new WaitForSeconds(0.5f);
+            // yield return new WaitForSeconds(0.5f);
             isDashing = false;
             // Agent.speed = 3.5f;
             // Agent.isStopped = true;
@@ -280,35 +279,35 @@ public class EnemySlime : EnemyBase
     #endregion
 
     #region Triggers/Collisions
-        public void OnTriggerEnter(Collider other)
-        {
-            if (IsWeaponCollisionValid(other))
-            {
+        // public void OnTriggerEnter(Collider other)
+        // {
+        //     if (IsWeaponCollisionValid(other))
+        //     {
                 
-                float damage = 5;
+        //         int damage = 5;
 
-                Hit(damage);
-            }
-        }
+        //         Hit(damage);
+        //     }
+        // }
 
-        public bool IsWeaponCollisionValid(Collider other)
-        {
-            return other.gameObject.CompareTag("Weapon")&& !isCollisionCooldown;
-        }
+        // public bool IsWeaponCollisionValid(Collider other)
+        // {
+        //     return other.gameObject.CompareTag("Weapon")&& !isCollisionCooldown;
+        // }
 
-        public void StartCollisionCooldown()
-        {
-            isCollisionCooldown = true;
-            Invoke(nameof(EndCollisionCooldown), collisionCooldown);
-        }
+        // public void StartCollisionCooldown()
+        // {
+        //     isCollisionCooldown = true;
+        //     Invoke(nameof(EndCollisionCooldown), collisionCooldown);
+        // }
 
-        public void EndCollisionCooldown() => isCollisionCooldown = false;
+        // public void EndCollisionCooldown() => isCollisionCooldown = false;
 
-        public IEnumerator AttackCollisionTimer(){
-            attackCollision = true;
-            yield return new WaitForSeconds(3);
-            attackCollision = false;
-        }
+        // public IEnumerator AttackCollisionTimer(){
+        //     attackCollision = true;
+        //     yield return new WaitForSeconds(3);
+        //     attackCollision = false;
+        // }
 
         private void OnCollisionEnter(Collision other) {
             

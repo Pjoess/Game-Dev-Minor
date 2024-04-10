@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttackDistanceTriggerCheckable
+public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttackDistanceTriggerCheckable, IDamageble
 {
     [SerializeField]
     public ScriptableObject variables;
     #region Variables
         //
-        public float HealthPoints { get; set; }
-        public float MaxHealth { get; set; }
+
+        public int MaxHealthPoints { get { return maxHealthPoints; } }
+        [SerializeField] private int maxHealthPoints = 10;
+        public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
+        private int healthPoints;
+        // public int MaxHealthPoints{ get {}}
+        // public int HealthPoints { get; set;}
+        // public float HealthPoints { get; set; }
+        // public float MaxHealth { get; set; }
         public float MovementSpeed { get; set; }
 
         //Target nav
@@ -34,14 +41,18 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         public EnemyHitState enemyHitState { get; set; }
         public EnemyIdleState enemyIdleState { get; set; }
         public EnemyAttackState enemyAttackState { get; set; }
+
+
+
+
     #endregion
 
     #region Abstract Functions
-        public abstract void Chase();
+    public abstract void Chase();
         public abstract void Attack();
         public abstract void Idle();
         public abstract void ExitIdle();
-        public abstract void Hit(float damage);
+        public abstract void Hit(int damage);
 
         public abstract void InitializeStates();
         public abstract void Awake();
