@@ -35,7 +35,7 @@ public class MemoryStickStage : QuestStage
 
     private void UpdateText()
     {
-        questLogText = "Your buddy needs memory sticks. Find the large slimes inside the village and slay them to aquire memory sticks \n" +
-            $"Memory stick collected: {sticksCollected} / 3";
+        questLogText = "Your Buddy needs Memory Sticks. Large Slimes have eaten them, Find those Sticks and get them back! \n\n" +
+            $"-> Memory Sticks: {sticksCollected} / 3 obtained.";
     }
 }
