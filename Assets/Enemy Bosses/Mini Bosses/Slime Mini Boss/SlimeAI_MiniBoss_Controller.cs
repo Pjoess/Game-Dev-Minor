@@ -198,10 +198,14 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         }
     #endregion
 
+    // Mini Boss Receive damage
+    public void ApplyDamageToMiniBoss() => healthPoints--;
+
     #region IDamagable
         public void Hit(int damage)
         {
             HealthPoints -= damage;
+            ApplyDamageToMiniBoss();
             CheckDeath();
         }
 

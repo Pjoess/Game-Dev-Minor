@@ -1797,7 +1797,7 @@ Transform:
   m_GameObject: {fileID: 1088415917}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.8856769, y: 0.31, z: 1.7149547}
+  m_LocalPosition: {x: -2.8856769, y: 0.31, z: 1.72}
   m_LocalScale: {x: 26.056562, y: 0.20603025, z: 34.292675}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5144,10 +5144,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1751333916}
     m_Modifications:
+    - target: {fileID: 46193231959190087, guid: b488edfedf421e24d8233f3d5e3da67e,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1541979731846722624, guid: b488edfedf421e24d8233f3d5e3da67e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.54
+      value: 17.35
       objectReference: {fileID: 0}
     - target: {fileID: 1541979731846722624, guid: b488edfedf421e24d8233f3d5e3da67e,
         type: 3}
@@ -5261,7 +5266,7 @@ PrefabInstance:
     - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
       propertyPath: shootingRange
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
@@ -5278,6 +5283,11 @@ PrefabInstance:
       propertyPath: patrolCenterPoint
       value: 
       objectReference: {fileID: 4203495997657207637}
+    - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
+        type: 3}
+      propertyPath: buddyToPlayerDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
       propertyPath: toggleBuddyAttackText
@@ -5364,7 +5374,7 @@ PrefabInstance:
     - target: {fileID: 3038517742291339024, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.74
+      value: 19.99
       objectReference: {fileID: 0}
     - target: {fileID: 3038517742291339024, guid: 17ab73dc39d1bde4facddc21c0c6adfa,
         type: 3}

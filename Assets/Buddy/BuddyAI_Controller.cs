@@ -17,7 +17,7 @@ public class BuddyAI_Controller : MonoBehaviour
         [Header("Movement & Rotation")]
         [SerializeField] private float buddyToPlayerDistance = 8f;
         [SerializeField] private float avoidanceDistance = 6f;
-        [SerializeField] private float isStandingStillTimer = 2f;
+        [SerializeField] private float isStandingStillTimer = 1f;
         [HideInInspector] private bool isStandingStill = false;
         [SerializeField] private float nextMoveTime = 3f;
 
@@ -27,7 +27,7 @@ public class BuddyAI_Controller : MonoBehaviour
 
         [Header("Attack")]
         [SerializeField] private float shootingInterval = 0.3f;
-        [SerializeField] private float shootingRange = 10f;
+        [SerializeField] private float shootingRange = 15f;
         [SerializeField] private bool hasShot = false;
 
         [Header("Projectiles")]
@@ -36,9 +36,9 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private bool toggleAttack;
 
         // NavMeshAgent AI
-        [HideInInspector] private float navMeshAgent_Speed = 5f;
-        [HideInInspector] private float navMeshAngular_Speed = 750f;
-        [HideInInspector] private float navMeshAcceleration_Speed = 20f;
+        [HideInInspector] private readonly float navMeshAgent_Speed = 5f;
+        [HideInInspector] private readonly float navMeshAngular_Speed = 750f;
+        [HideInInspector] private readonly float navMeshAcceleration_Speed = 20f;
 
         // Private Variables & References
         [HideInInspector] private Coroutine shootingRoutine;
@@ -59,14 +59,6 @@ public class BuddyAI_Controller : MonoBehaviour
         void Start()
         {
             
-        }
-
-        private void ToggleShooting()
-        {
-            if (toggleAttack)
-            {
-                shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
-            }
         }
 
         void Update()
@@ -297,6 +289,15 @@ public class BuddyAI_Controller : MonoBehaviour
                 StopCoroutine(shootingRoutine);
                 shootingRoutine = null;
             }
+        }
+    #endregion
+
+    #region Drawing Gizmos for checking Range
+        private void OnDrawGizmosSelected()
+        {
+            // Draw a wire sphere to represent the attack range
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, shootingRange);
         }
     #endregion
 }
