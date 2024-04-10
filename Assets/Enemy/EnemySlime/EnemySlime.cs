@@ -106,7 +106,7 @@ public class EnemySlime : EnemyBase
             Agent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             Target = GameObject.FindWithTag("Player").transform;
-            MaxHealth = 100;
+            MaxHealth = 10;
             HealthPoints = MaxHealth;
             MovementSpeed = 10;
 
@@ -241,6 +241,7 @@ public class EnemySlime : EnemyBase
                 }
                 yield return null;
             }
+            yield return new WaitForSeconds(0.5f);
             isDashing = false;
             // Agent.speed = 3.5f;
             // Agent.isStopped = true;
@@ -311,15 +312,16 @@ public class EnemySlime : EnemyBase
 
         private void OnCollisionEnter(Collision other) {
             
-            if(other.transform.tag == "Obstacle" && isDashing){
-                StopCoroutine(attacking);
-                isDashing = false;
-                Agent.updateRotation = true;
-                IsAttacking = false;
-                attackCollision = false;
-                enemyStateMachine.ChangeState(enemyChaseState);
-            }
+            // if(other.transform.tag == "Obstacle" && isDashing){
+            //     StopCoroutine(attacking);
+            //     isDashing = false;
+            //     Agent.updateRotation = true;
+            //     IsAttacking = false;
+            //     attackCollision = false;
+            //     enemyStateMachine.ChangeState(enemyChaseState);
+            // }
             if(other.transform.tag == "Player" && IsAttacking && !attackCollision && isDashing){
+                Debug.Log("HIt player");
                 IDamageble damagable = other.collider.GetComponent<IDamageble>();
                 damagable.Hit(5);
                 attackCollision = true;
