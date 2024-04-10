@@ -47,6 +47,8 @@ public class BuddyAI_Controller : MonoBehaviour
         void Awake()
         {
             buddy = GetComponent<NavMeshAgent>();
+            patrolCenterPoint = GetComponent<Transform>();
+
             // Override NavMesh Agent Variables
             buddy.speed = navMeshAgent_Speed;
             buddy.angularSpeed = navMeshAngular_Speed;

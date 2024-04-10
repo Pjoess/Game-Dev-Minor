@@ -49,7 +49,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         void Awake(){
             miniBossAgent = GetComponent<NavMeshAgent>();
             player = FindObjectOfType<Player>();
-
             chaseMusic = GetComponent<AudioSource>();
         }
 
