@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyState
 {
-    public EnemyChaseState(NewEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    public EnemyChaseState(EnemyBase enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
 
@@ -15,20 +15,22 @@ public class EnemyChaseState : EnemyState
 
     public override void ExitState()
     {
-        
+
     }
 
     public override void UpdateState()
     {
-        enemy.Agent.SetDestination(enemy.Target.position);
+        if(enemy.CheckIdle())
+        {
+            enemyStateMachine.ChangeState(enemy.enemyIdleState);
+        }else if(enemy.CheckAttack()){
+            enemyStateMachine.ChangeState(enemy.enemyAttackState);
+        }else{
+            enemy.Chase();
+        }
 
-        if(enemy.IsWithinStrikingDistance)
-        {
-            enemyStateMachine.ChangeState(enemy.EnemyAttackState);
-        }
-        if(!enemy.IsAggroed)
-        {
-            enemyStateMachine.ChangeState(enemy.EnemyIdleState);
-        }
+
+
+        // enemy.CheckChase();
     }
 }

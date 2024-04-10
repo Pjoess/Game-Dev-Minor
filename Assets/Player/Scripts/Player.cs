@@ -377,6 +377,11 @@ public class Player : MonoBehaviour, IDamageble
 
     public void Hit(int damage)
     {
+        // int random = Random.Range(1,2);
+
+        // if(random == 1){
+        //     healthPoints -= maxHealthPoints;
+        // }
         HealthPoints -= damage;
     }
 

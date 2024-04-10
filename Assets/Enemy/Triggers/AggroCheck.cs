@@ -6,13 +6,17 @@ public class AggroCheck : MonoBehaviour
 {
 
     public GameObject PlayerTarget { get; set; }
-    private NewEnemy enemy;
+    private EnemyBase enemy;
 
     private void Awake()
     {
         PlayerTarget = GameObject.FindGameObjectWithTag("Player");
 
-        enemy = GetComponentInParent<NewEnemy>();
+        enemy = GetComponentInParent<EnemyBase>();
+
+        // if(EnemySlime == null){
+        //     Debug.Log("slime is here");
+        // }
     }
 
     private void OnTriggerStay(Collider collider)
