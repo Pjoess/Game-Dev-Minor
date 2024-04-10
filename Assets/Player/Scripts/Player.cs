@@ -59,8 +59,6 @@ public class Player : MonoBehaviour, IDamageble
         private CinemachineVirtualCamera virtualCamera;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
 
-        
-
         // --- Player States --- //
         public PlayerBaseState playerState;
         public PlayerIdleState idleState = new();
@@ -98,40 +96,44 @@ public class Player : MonoBehaviour, IDamageble
         animIDStrike3 = Animator.StringToHash("Strike3");
         animIDDash = Animator.StringToHash("Dash");
     }
-    
-    // Start is called before the first frame update
-    void Start()
-    { 
-        AssignAnimIDs();
-        // References
-        sword = GetComponentInChildren<Weapon>();
-        animator = GetComponent<Animator>();
-        rigidBody = GetComponent<Rigidbody>();
-        capsuleColider = GetComponent<CapsuleCollider>();
-        // Default state
-        playerState = idleState;
-        playerState.EnterState(this);
-        // Jumping
-        jumpSound = GetComponent<AudioSource>();
-        idleToFallDelta = idleToFallTimer;
-        jumpCooldownDelta = 0f;
-        // UI
-        pauseBtn.SetActive(false); // Make the button invisible
-        Time.timeScale = 1; // start game unPaused
-        isPaused = false;
 
-        // Get the Cinemachine Virtual Camera component
-        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+    #region Default Unity Function
+        // Load before starting the Game
+        void Awake(){
+            // Load Animations
+            AssignAnimIDs();
+            // References
+            sword = GetComponentInChildren<Weapon>();
+            animator = GetComponent<Animator>();
+            rigidBody = GetComponent<Rigidbody>();
+            capsuleColider = GetComponent<CapsuleCollider>();
+            // Get the Cinemachine Virtual Camera component
+            virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        }
+        
+        void Start()
+        { 
+            // Default state
+            playerState = idleState;
+            playerState.EnterState(this);
+            // Jumping
+            jumpSound = GetComponent<AudioSource>();
+            idleToFallDelta = idleToFallTimer;
+            jumpCooldownDelta = 0f;
+            // UI
+            pauseBtn.SetActive(false); // Make the button invisible
+            Time.timeScale = 1; // start game unPaused
+            isPaused = false;
+            // Health
+            healthPoints = maxHealthPoints;
+        }
 
-        healthPoints = maxHealthPoints;
-    }
+        void Update(){
+            playerState.UpdateState(this);
+        }
+    #endregion
 
-    // Update is called once per frame
-    void Update(){
-        playerState.UpdateState(this);
-    }
-
-    #region General Methods
+    #region General Functions
         public void ChangeState(PlayerBaseState state)
         {
             playerState.ExitState(this);
@@ -146,6 +148,7 @@ public class Player : MonoBehaviour, IDamageble
                 Physics.Raycast(transform.position + capsuleColider.center + new Vector3(-0.4f, 0.0f, -0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
                 Physics.Raycast(transform.position + capsuleColider.center + new Vector3(0.4f, 0.0f, 0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f);
         }
+
         public void FallCheck()
         {
             if(!IsGrounded())
@@ -160,7 +163,7 @@ public class Player : MonoBehaviour, IDamageble
         }
     #endregion
 
-    #region Movements and Facing Direction
+    #region Player Movement
         public void Movement()
         {
             float speed = isSprinting ? runSpeed : walkSpeed;
@@ -207,8 +210,7 @@ public class Player : MonoBehaviour, IDamageble
         {
         //When dashing while attacking, the dash is queued and happens immediately after finising the attack. Bug or feature?
         //You can dash through small spaces.
-
-            Vector3 moveDirection = new Vector3(movement.x, 0, movement.y);
+            Vector3 moveDirection = new(movement.x, 0, movement.y);
 
             if (isDashing && dashCooldownDelta <= 0)
             {
@@ -235,7 +237,7 @@ public class Player : MonoBehaviour, IDamageble
         }
     #endregion
 
-    #region Attacks Methods
+    #region Player Attack
 
     public void Attack()
     {
@@ -266,7 +268,7 @@ public class Player : MonoBehaviour, IDamageble
         }
     #endregion
 
-    #region Animation of Player
+    #region Player Animations
         public bool IsAnimPlaying(string animStateName)
         {
             bool isAnimPlaying = animator.GetCurrentAnimatorStateInfo(0).length > animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -292,7 +294,8 @@ public class Player : MonoBehaviour, IDamageble
             if(!isSprinting) isSprinting = true;
             else isSprinting = false;
         }
-
+        
+        // // Removed -- but kept for the future
         // void OnJump(InputValue value)
         // {
         //     if (value.isPressed && IsGrounded()) {
@@ -351,40 +354,44 @@ public class Player : MonoBehaviour, IDamageble
 
     #endregion --- End ---
 
-
-    public void EnableSwordCollision()
-    {
-        sword.DoSwordAttackEnableCollision();
-    }
-
-    public void DisableSwordCollision()
-    {
-        sword.SwordToDefault();
-    }
-
-
-    public void HealPlayer(int value)
-    {
-        if(healthPoints < maxHealthPoints)
+    #region Collision
+        public void EnableSwordCollision()
         {
-            healthPoints += value;
-            if (healthPoints > maxHealthPoints) healthPoints = maxHealthPoints;
+            sword.DoSwordAttackEnableCollision();
         }
-    }
 
-    public void Hit(int damage)
-    {
-        // int random = Random.Range(1,2);
+        public void DisableSwordCollision()
+        {
+            sword.SwordToDefault();
+        }
+    #endregion
 
-        // if(random == 1){
-        //     healthPoints -= maxHealthPoints;
-        // }
-        if(playerState != dashState) healthPoints -= damage;
-    }
+    #region Player Heal
+        public void HealPlayer(int value)
+        {
+            if(healthPoints < maxHealthPoints)
+            {
+                healthPoints += value;
+                if (healthPoints > maxHealthPoints) healthPoints = maxHealthPoints;
+            }
+        }
+    #endregion
+
+    #region IDamagable
+        public void Hit(int damage)
+        {
+            // int random = Random.Range(1,2);
+
+            // if(random == 1){
+            //     healthPoints -= maxHealthPoints;
+            // }
+            if(playerState != dashState) healthPoints -= damage;
+        }
+    #endregion
 
     public void ApplyKnockback(Vector3 pos)
     {
-        //Knockback code
+        // --- Knockback code not implemented yet
     }
 
     private void OnFootstep(AnimationEvent animationEvent){}
