@@ -49,9 +49,9 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
 
-        [Header("UI Button")]
-        public bool isPaused = false;
-        [SerializeField] GameObject pauseBtn;
+        [Header("UI Canvas and Buttons")]
+        public static bool isPaused = false;
+        [SerializeField] PauseMenu pauseMenu;
         public float buttonCameraOffsetForward = -50f;
         public float buttonCameraOffsetRight = -50f;
         public float buttonCameraOffsetUp = -50f;
@@ -100,6 +100,7 @@ public class Player : MonoBehaviour, IDamageble
     #region Default Unity Function
         // Load before starting the Game
         void Awake(){
+            pauseMenu = FindAnyObjectByType<PauseMenu>();
             // Load Animations
             AssignAnimIDs();
             // References
@@ -121,7 +122,6 @@ public class Player : MonoBehaviour, IDamageble
             idleToFallDelta = idleToFallTimer;
             jumpCooldownDelta = 0f;
             // UI
-            pauseBtn.SetActive(false); // Make the button invisible
             Time.timeScale = 1; // start game unPaused
             isPaused = false;
             // Health
@@ -326,14 +326,14 @@ public class Player : MonoBehaviour, IDamageble
                 Debug.Log("Game Paused");
                 Time.timeScale = 0;
                 isPaused = true;
-                pauseBtn.SetActive(true); // Make the button visible
+                pauseMenu.EnablePauseCanvas();
             }
             else
             {
                 Debug.Log("Game Started");
                 Time.timeScale = 1;
                 isPaused = false;
-                pauseBtn.SetActive(false); // Make the button invisible
+                pauseMenu.EnablePauseCanvas();
             }
         }
 
