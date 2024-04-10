@@ -17,13 +17,13 @@ public class BuddyAI_Controller : MonoBehaviour
         [Header("Movement & Rotation")]
         [SerializeField] private float buddyToPlayerDistance = 8f;
         [SerializeField] private float avoidanceDistance = 6f;
-        [SerializeField] private float isStandingStillTimer = 1f;
         [HideInInspector] private bool isStandingStill = false;
+        [SerializeField] private float isStandingStillTimer = 2f;
         [SerializeField] private float nextMoveTimer = 2f;
 
         [Header("Rotation")]
         [SerializeField] private float rotationSpeed = 750f;
-        [SerializeField] private float maxRotationAngle = 6f;
+        [SerializeField] private float maxRotateToAngleMove = 1f;
 
         [Header("Attack")]
         [SerializeField] private float shootingInterval = 0.3f;
@@ -213,7 +213,7 @@ public class BuddyAI_Controller : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
             
-            if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotationAngle)
+            if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotateToAngleMove)
             {
                 GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
                 bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
@@ -259,7 +259,7 @@ public class BuddyAI_Controller : MonoBehaviour
                     // Look at the nearest enemy
                     Vector3 directionToEnemy = nearestEnemy.position - transform.position;
                     Quaternion lookRotation = Quaternion.LookRotation(directionToEnemy);
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, maxRotationAngle);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, maxRotateToAngleMove);
 
                     // Shoot at the nearest enemy
                     ShootAtEnemy(nearestEnemy.position);
