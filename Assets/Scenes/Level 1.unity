@@ -2098,6 +2098,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlimeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6964539759021447025, guid: e6533a69197e5704884f15a3e58a931d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7958712138288525009, guid: e6533a69197e5704884f15a3e58a931d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5008,6 +5013,11 @@ PrefabInstance:
       propertyPath: patrolCenterPoint
       value: 
       objectReference: {fileID: 567170977}
+    - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
+        type: 3}
+      propertyPath: toggleBuddyAttackText
+      value: 
+      objectReference: {fileID: 1264028491}
     - target: {fileID: 6325125380951178029, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
       propertyPath: m_Name
@@ -6858,11 +6868,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 588736396855544339, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 588736396855544339, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
@@ -6876,6 +6881,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
+        type: 3}
+      propertyPath: buddy
+      value: 
+      objectReference: {fileID: 1919438257}
     - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
       propertyPath: uiButton
@@ -6894,11 +6904,6 @@ PrefabInstance:
     - target: {fileID: 5188116227629772384, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5188116227629772384, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8496,6 +8501,18 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1919438257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1176654777}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf5a23f3dae18c4590cf3d663784758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1931843175
 Mesh:
   m_ObjectHideFlags: 0
