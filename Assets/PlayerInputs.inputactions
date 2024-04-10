@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "8bedf1ac-83ef-4a23-aded-6ceb0d7faab0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Attack",
                     "type": "Button",
                     "id": "728ab906-aede-4891-ab34-5d97e381a672",
@@ -235,28 +226,6 @@
                 },
                 {
                     "name": "",
-                    "id": "aecc74ad-191a-4641-9030-ec833f48e96d",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c0d0167b-1741-4cd2-8c5e-6d5cec092834",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "498fac3c-8106-4f58-973e-9a90593a80e9",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -279,8 +248,8 @@
                 },
                 {
                     "name": "",
-                    "id": "d59ec0ac-33e2-4241-87c4-f1357c3c0abe",
-                    "path": "<Keyboard>/v",
+                    "id": "aecc74ad-191a-4641-9030-ec833f48e96d",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -290,8 +259,8 @@
                 },
                 {
                     "name": "",
-                    "id": "be824d47-5ea1-489c-a6fa-cd725bb8ab37",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "c0d0167b-1741-4cd2-8c5e-6d5cec092834",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",

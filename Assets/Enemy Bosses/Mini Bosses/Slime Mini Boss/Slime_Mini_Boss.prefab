@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 3553898783050386368}
   - component: {fileID: 5788570474504112434}
   - component: {fileID: 6759260677609499864}
-  - component: {fileID: 3133262992568084786}
   - component: {fileID: 3544766640592048976}
+  - component: {fileID: 7311590542776211803}
   m_Layer: 6
   m_Name: Slime_Mini_Boss
   m_TagString: Enemy
@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 2028664314561310485}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.6, y: 5.2, z: 8.89}
+  m_LocalPosition: {x: 21.78, y: 2.55, z: -6.03}
   m_LocalScale: {x: 2.7147, y: 2.7147, z: 2.7147}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -151,8 +151,8 @@ NavMeshAgent:
   m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 3
+  m_AngularSpeed: 60
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -172,16 +172,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea74cdb4ce5b00742a9b1c3f04d2cb02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerPoint: {fileID: 0}
+  patrolCenterPoint: {fileID: 0}
+  movementSpeed: 2
+  patrolWaitTime: 4
   patrolRange: 10
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  chaseRange: 10
-  patrolWaitTime: 6
-  chaseMusic: {fileID: 8300000, guid: 298ef463d347d24459db48b376042ff4, type: 3}
+  isPatrolling: 0
+  chaseMusic: {fileID: 7311590542776211803}
+  chaseRange: 15
+  isChasingPlayer: 0
+  attackRange: 3
+  offsetDistance: 3
+  isAttacking: 0
+  healthPoints: 0
   maxHealthPoints: 15
---- !u!82 &3133262992568084786
+  miniBossDamage: 25
+  originalMiniBossScale: {x: 0, y: 0, z: 0}
+--- !u!114 &3544766640592048976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028664314561310485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4849b67b1128da64fac94a3c3e788552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1163174746964331046, guid: 7e0b7ca625b7f544da9a0462bce9d714, type: 3}
+--- !u!82 &7311590542776211803
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,14 +214,14 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 10
+  MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -212,50 +231,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.17081985
-      value: 0.97916794
-      inSlope: -10.0039835
-      outSlope: -10.0039835
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.2
-      value: 0.5
-      inSlope: -2.5009959
-      outSlope: -2.5009959
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.4
-      value: 0.25
-      inSlope: -0.62524897
-      outSlope: -0.62524897
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.8
-      value: 0.125
-      inSlope: -0.15631224
-      outSlope: -0.15631224
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0.1
-      inSlope: -0.10003988
-      outSlope: -0.10003988
+      value: 0
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -304,19 +296,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3544766640592048976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2028664314561310485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4849b67b1128da64fac94a3c3e788552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 1163174746964331046, guid: 7e0b7ca625b7f544da9a0462bce9d714, type: 3}
 --- !u!1 &8909830968457477967
 GameObject:
   m_ObjectHideFlags: 0

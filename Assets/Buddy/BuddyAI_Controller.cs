@@ -1,256 +1,308 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
-using TMPro; // Import the TextMeshPro namespace
+using TMPro;
 
 public class BuddyAI_Controller : MonoBehaviour
 {
-    // References
-    public NavMeshAgent agent;
-    public Transform player;
-    public GameObject bulletPrefab;
-    public Transform centrePoint;
-    public LayerMask attackLayer;
-    public TextMeshProUGUI toggleBuddyAttackText; // Reference to the TextMeshPro UI Text component
+    #region Variables & References
+        [Header("Object References")]
+        [SerializeField] private NavMeshAgent buddy;
+        [SerializeField] private Transform player;
+        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private Transform patrolCenterPoint;
+        [SerializeField] private LayerMask attackLayer;
+        [SerializeField] private TextMeshProUGUI toggleBuddyAttackText;
 
-    // Public variables
-    public float buddyToPlayerDistance = 8f;
-    public float avoidanceDistance = 6f;
-    public float bulletSpeed = 8f;
-    public float bulletLifetime = 3f;
-    public float standStillTime = 2f;
-    public float nextMoveTime = 2f;
-    public float shootingInterval = 0.5f;
-    public float shootingRange = 10f;
-    public bool toggleAttack;
-    public GameObject[] lights;
+        [Header("Movement & Rotation")]
+        [SerializeField] private float buddyToPlayerDistance = 8f;
+        [SerializeField] private float avoidanceDistance = 6f;
+        [HideInInspector] private bool isStandingStill = false;
+        [SerializeField] private float isStandingStillTimer = 2f;
+        [SerializeField] private float nextMoveTimer = 2f;
 
-    // Public variables NavMeshAgent
-    [HideInInspector] public float speed = 5f;
-    [HideInInspector] public float angularSpeed = 750f;
-    [HideInInspector] public float acceleration = 20f;
+        [Header("Rotation")]
+        [SerializeField] private float rotationSpeed = 750f;
+        [SerializeField] private float maxRotateToAngleMove = 1f;
 
-    // Private
-    private bool isStandingStill = false;
-    private Coroutine shootingRoutine;
-    private Rigidbody rb; // Rigidbody component for jumping
+        [Header("Attack")]
+        [SerializeField] private float shootingInterval = 0.3f;
+        [SerializeField] private float shootingRange = 15f;
 
-    // Rotation variables
-    public float rotationSpeed = 750f;
-    public float maxRotationAngle = 5f;
+        [Header("Projectiles")]
+        [SerializeField] private float bulletSpeed = 8f;
+        [SerializeField] private float bulletLifetime = 3f;
+        [SerializeField] private bool toggleAttack;
 
-    // Awake method called when the script instance is being loaded
-    void Awake()
-    {
-        // Getting the NavMeshAgent component attached to the same GameObject
-        agent = GetComponent<NavMeshAgent>();
-        // Set move speed and acceleration
-        agent.speed = speed;
-        agent.angularSpeed = angularSpeed;
-        agent.acceleration = acceleration;
+        // NavMeshAgent AI
+        [HideInInspector] private readonly float navMeshAgent_Speed = 5f;
+        [HideInInspector] private readonly float navMeshAngular_Speed = 750f;
+        [HideInInspector] private readonly float navMeshAcceleration_Speed = 20f;
 
-        // Get the Rigidbody component
-        rb = GetComponent<Rigidbody>();
-    }
+        // Private Variables & References
+        [HideInInspector] private Coroutine shootingRoutine;
+    #endregion
 
-    // Start method called when the script is initialized
-    void Start()
-    {
-        ChangeColor(Color.blue);
-        if (toggleAttack)
+    #region Default Functions
+        void Awake()
         {
-            shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
-        }
-    }
+            buddy = GetComponent<NavMeshAgent>();
+            patrolCenterPoint = GetComponent<Transform>();
 
-    // Update method called once per frame
-    void Update()
-    {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer > buddyToPlayerDistance)
-        {
-            agent.SetDestination(player.position);
-            return;
+            // Override NavMesh Agent Variables
+            buddy.speed = navMeshAgent_Speed;
+            buddy.angularSpeed = navMeshAngular_Speed;
+            buddy.acceleration = navMeshAcceleration_Speed;
         }
 
-        if (isStandingStill)
+        void Start()
         {
-            StandStillTimer();
+            
         }
-        else if (agent.remainingDistance <= agent.stoppingDistance)
+
+        void Update()
         {
-            if (!isStandingStill)
+            BuddyChecker();
+        }
+    #endregion
+
+    #region Buddy Checks
+        private void BuddyChecker()
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+            if (distanceToPlayer > buddyToPlayerDistance)
             {
-                StartCoroutine(StandStillCoroutine());
+                buddy.SetDestination(player.position);
+                return;
+            }
+
+            if (isStandingStill)
+            {
+                StandStillTimer();
+            }
+            else if (buddy.remainingDistance <= buddy.stoppingDistance)
+            {
+                if (!isStandingStill)
+                {
+                    StartCoroutine(StandStillCoroutine());
+                }
             }
         }
-    }
+    #endregion
 
-    // Timer for standing still
-    void StandStillTimer()
-    {
-        standStillTime -= Time.deltaTime;
-        if (standStillTime <= 0f)
+    #region Buddy Movement
+        // Method for calculating an avoidance point to avoid the player
+        Vector3 CalculateAvoidancePoint()
         {
+            Vector3 directionToPlayer = player.position - transform.position;
+            Vector3 avoidanceDirection = Vector3.Cross(Vector3.up, directionToPlayer).normalized;
+            Vector3 avoidancePoint = player.position + avoidanceDirection * avoidanceDistance;
+
+            NavMeshPath path = new(); // Instantiate NavMeshPath
+            if (NavMesh.CalculatePath(transform.position, avoidancePoint, NavMesh.AllAreas, path))
+            {
+                if (path.corners.Length > 1 && Vector3.Distance(path.corners[1], player.position) > avoidanceDistance)
+                {
+                    return path.corners[1];
+                }
+            }
+            return Vector3.zero;
+        }
+
+        // Method for finding a random point on the navmesh
+        bool RandomPoint(Vector3 center, float range, out Vector3 result)
+        {
+            Vector3 randomPoint = center + Random.insideUnitSphere * range;
+
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+
+            result = Vector3.zero;
+            return false;
+        }
+
+        // Method for moving to the next destination
+        void MoveToNextDestination()
+        {
+            // Stop the buddy's movement
+            buddy.isStopped = true;
+
+            // Start coroutine to wait and then move
+            StartCoroutine(WaitAndMove());
+        }
+
+        // Coroutine to wait and then move
+        IEnumerator WaitAndMove()
+        {
+            // Wait for 3 seconds
+            yield return new WaitForSeconds(nextMoveTimer);
+
+            // Calculate the next move after waiting
+            CalculateNextMove();
+
+            // Resume movement after waiting
+            buddy.isStopped = false;
+        }
+
+        // Method for calculating the next move
+        void CalculateNextMove()
+        {
+            Vector3 avoidancePoint = CalculateAvoidancePoint();
+
+            if (avoidancePoint != Vector3.zero)
+            {
+                buddy.SetDestination(avoidancePoint);
+            }
+            else
+            {
+                if (RandomPoint(patrolCenterPoint.position, buddyToPlayerDistance, out Vector3 point))
+                {
+                    buddy.SetDestination(point);
+                }
+            }
+        }
+    #endregion
+
+    #region Buddy Idle
+        // Timer for standing still
+        void StandStillTimer()
+        {
+            isStandingStillTimer -= Time.deltaTime;
+            if (isStandingStillTimer <= 0f)
+            {
+                isStandingStill = false;
+                MoveToNextDestination();
+            }
+        }
+
+        // Coroutine for standing still for a certain time
+        IEnumerator StandStillCoroutine()
+        {
+            isStandingStill = true;
+            yield return new WaitForSeconds(isStandingStillTimer);
             isStandingStill = false;
             MoveToNextDestination();
         }
-    }
+    #endregion
 
-    // Coroutine for standing still for a certain time
-    IEnumerator StandStillCoroutine()
-    {
-        isStandingStill = true;
-        yield return new WaitForSeconds(standStillTime);
-        isStandingStill = false;
-        MoveToNextDestination();
-    }
-
-    // Coroutine for shooting at the enemy
-    IEnumerator ShootAtEnemyRoutine()
-    {
-        while (true)
+    #region Buddy Attack
+        // Method to check if an enemy is in line of sight
+        bool IsInLineOfSight(Transform enemyTransform)
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
-            foreach (Collider collider in hitColliders)
+            Vector3 direction = enemyTransform.position - transform.position;
+
+            // Cast a ray towards the enemy
+            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
             {
-                // Check if the enemy is within line of sight
-                if (IsInLineOfSight(collider.transform))
+                if (hit.transform == enemyTransform)
                 {
-                    ShootAtEnemy(collider.transform.position);
-                    agent.SetDestination(collider.transform.position);
+                    // Enemy is in line of sight
+                    return true;
                 }
             }
-            yield return new WaitForSeconds(shootingInterval);
+            // Enemy is not in line of sight
+            return false;
         }
-    }
 
-    // Method to check if an enemy is in line of sight
-    bool IsInLineOfSight(Transform enemyTransform)
-    {
-        Vector3 direction = enemyTransform.position - transform.position;
-
-        // Cast a ray towards the enemy
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
+        // Method for shooting at the enemy
+        void ShootAtEnemy(Vector3 targetPosition)
         {
-            if (hit.transform == enemyTransform)
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+            
+            if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotateToAngleMove)
             {
-                // Enemy is in line of sight
-                return true;
+                GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+                bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+                Destroy(bullet, bulletLifetime);
             }
         }
-        // Enemy is not in line of sight
-        return false;
-    }
-
-    // Method for shooting at the enemy
-    void ShootAtEnemy(Vector3 targetPosition)
-    {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
-        if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotationAngle)
+        
+        IEnumerator ShootAtEnemyRoutine()
         {
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-            bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
-            Destroy(bullet, bulletLifetime);
-        }
-    }
-
-    // Method for moving to the next destination
-    void MoveToNextDestination()
-    {
-        Invoke(nameof(CalculateNextMove), nextMoveTime);
-    }
-
-    // Method for calculating the next move
-    void CalculateNextMove()
-    {
-        Vector3 avoidancePoint = CalculateAvoidancePoint();
-
-        if (avoidancePoint != Vector3.zero)
-        {
-            agent.SetDestination(avoidancePoint);
-        }
-        else
-        {
-            if (RandomPoint(centrePoint.position, buddyToPlayerDistance, out Vector3 point))
+            while (true)
             {
-                agent.SetDestination(point);
+                // Find all enemies within shooting range
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+
+                // Track the nearest enemy and its distance
+                Transform nearestEnemy = null;
+                float nearestEnemyDistance = Mathf.Infinity;
+
+                // Iterate through all enemies to find the nearest one
+                foreach (Collider collider in hitColliders)
+                {
+                    // Check if the enemy is within line of sight
+                    if (IsInLineOfSight(collider.transform))
+                    {
+                        // Calculate the distance to the current enemy
+                        float distanceToEnemy = Vector3.Distance(transform.position, collider.transform.position);
+
+                        // Update the nearest enemy if the current one is closer
+                        if (distanceToEnemy < nearestEnemyDistance)
+                        {
+                            nearestEnemy = collider.transform;
+                            nearestEnemyDistance = distanceToEnemy;
+                        }
+                    }
+                }
+
+                // If a nearest enemy is found, engage
+                if (nearestEnemy != null)
+                {
+                    // Stop the buddy's movement
+                    buddy.isStopped = true;
+
+                    // Look at the nearest enemy
+                    Vector3 directionToEnemy = nearestEnemy.position - transform.position;
+                    Quaternion lookRotation = Quaternion.LookRotation(directionToEnemy);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, maxRotateToAngleMove);
+
+                    // Shoot at the nearest enemy
+                    ShootAtEnemy(nearestEnemy.position);
+                }
+
+                // Resume movement after shooting
+                buddy.isStopped = false;
+
+                yield return new WaitForSeconds(shootingInterval);
             }
         }
-    }
+    #endregion
 
-    // Method for finding a random point on the navmesh
-    bool RandomPoint(Vector3 center, float range, out Vector3 result)
-    {
-        Vector3 randomPoint = center + Random.insideUnitSphere * range;
-
-        if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+    #region Toggle Buddy Attack
+        public void ToggleAttackBehaviour()
         {
-            result = hit.position;
-            return true;
-        }
-
-        result = Vector3.zero;
-        return false;
-    }
-
-    // Method for calculating an avoidance point to avoid the player
-    Vector3 CalculateAvoidancePoint()
-    {
-        Vector3 directionToPlayer = player.position - transform.position;
-        Vector3 avoidanceDirection = Vector3.Cross(Vector3.up, directionToPlayer).normalized;
-        Vector3 avoidancePoint = player.position + avoidanceDirection * avoidanceDistance;
-
-        NavMeshPath path = new NavMeshPath();
-        if (NavMesh.CalculatePath(transform.position, avoidancePoint, NavMesh.AllAreas, path))
-        {
-            if (path.corners.Length > 1 && Vector3.Distance(path.corners[1], player.position) > avoidanceDistance)
+            toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
+            toggleAttack = !toggleAttack;
+            // Start or stop the shooting routine based on toggleAttack
+            if (toggleAttack && shootingRoutine == null)
             {
-                return path.corners[1];
+                shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
+            }
+            else if (!toggleAttack && shootingRoutine != null)
+            {
+                StopCoroutine(shootingRoutine);
+                shootingRoutine = null;
             }
         }
+    #endregion
 
-        return Vector3.zero;
-    }
-
-    public void ToggleBehaviour()
-    {
-        // Toggle the text based on the value of toggleAttack
-        toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Agressive";
-
-        // Toggle the value of toggleAttack
-        toggleAttack = !toggleAttack;
-
-        // Start or stop the shooting routine based on toggleAttack
-        if (toggleAttack && shootingRoutine == null)
+    #region Drawing Gizmos for checking Range
+        private void OnDrawGizmosSelected()
         {
-            ChangeColor(Color.red);
-            // If toggleAttack is true and shootingRoutine is not already running, start the routine
-            shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
-        }
-        else if (!toggleAttack && shootingRoutine != null)
-        {
-            ChangeColor(Color.blue);
-            // If toggleAttack is false and shootingRoutine is running, stop the routine
-            StopCoroutine(shootingRoutine);
-            shootingRoutine = null;
-        }
-    }
+            // Draw a wire sphere to represent the buddy to player range
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, buddyToPlayerDistance);
 
-    private void ChangeColor(Color color)
-    {
-        foreach(GameObject l in lights)
-        {
-            MeshRenderer rend = l.GetComponent<MeshRenderer>();
-            rend.material.SetColor("_BaseColor", color);
-            rend.material.SetColor("_EmissionColor", (color * 25));
+            // Draw a wire sphere to represent the attack range
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, shootingRange);
         }
-    }
-
-    
+    #endregion
 }

@@ -313,9 +313,9 @@ GameObject:
   - component: {fileID: 695782505608645617}
   - component: {fileID: 8022216748985876117}
   - component: {fileID: 340269919962956117}
-  - component: {fileID: 5857812731604123618}
-  - component: {fileID: 5577506840285225511}
-  m_Layer: 6
+  - component: {fileID: 5422289981724374384}
+  - component: {fileID: 6393520208853453522}
+  m_Layer: 0
   m_Name: SlimeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -351,6 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583a4d46edb789349b8a2ea9f3fad48e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealthPoints: 3
   maxHealthPoints: 3
   respawnTime: 2
   pushBackForce: 4
@@ -568,7 +569,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5857812731604123618
+--- !u!114 &5422289981724374384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -586,7 +587,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75b0506aa1a8335419ea37df2522e0b3, type: 2}
   - {fileID: 11400000, guid: ed7ddb331ea2bca4fba30797ffb5047a, type: 2}
   - {fileID: 11400000, guid: 1af193e9e93966e4598c63b2e47d7184, type: 2}
---- !u!114 &5577506840285225511
+--- !u!114 &6393520208853453522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

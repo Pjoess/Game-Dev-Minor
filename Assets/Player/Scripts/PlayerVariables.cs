@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public partial class Player
+public partial class PlayerB
 {
     #region Component References
         [SerializeField] private BuddyAI_Controller buddy;
@@ -64,6 +64,7 @@ public partial class Player
         [HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
         public float attackDistance = 0.15f;
+        public float attackDamage = 10f;
     #endregion
 
     #region Player States
