@@ -17,13 +17,6 @@ public class Player : MonoBehaviour, IDamageble
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
         private int healthPoints;
 
-        // Jumping and Falling
-        public float jumpForce = 5f;
-        public float jumpCooldown = 1f;
-        [HideInInspector] public float jumpCooldownDelta;
-        public float idleToFallTimer = 0.15f;
-        [HideInInspector] public float idleToFallDelta;
-
         [Header("Player Move/Run/Jump")]
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public Vector3 vectorDirection;
@@ -32,6 +25,11 @@ public class Player : MonoBehaviour, IDamageble
         public float speedChangeRate = 5f;
         [HideInInspector] public bool isSprinting = false;
         [HideInInspector] public bool hasJumped = false;
+        public float jumpForce = 5f;
+        public float jumpCooldown = 1f;
+        [HideInInspector] public float jumpCooldownDelta;
+        public float idleToFallTimer = 0.15f;
+        [HideInInspector] public float idleToFallDelta;
 
         [Header("Player Rotation")]
         public float rotationSpeed = 600f;
