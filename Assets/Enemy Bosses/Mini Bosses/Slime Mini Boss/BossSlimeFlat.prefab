@@ -76,7 +76,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 298ef463d347d24459db48b376042ff4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -350,7 +350,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 89323366fd46fcf43a330f82f653a5c5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -152.98
+      value: -65.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 89323366fd46fcf43a330f82f653a5c5,
         type: 3}
@@ -498,8 +498,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.6388664, y: 3.2946887, z: 4.638868}
-  m_Center: {x: -0.00000071525574, y: 1.8140752, z: -0.00000071525574}
+  m_Size: {x: 4.6388664, y: 4.8039455, z: 4.638868}
+  m_Center: {x: -0.00000071525574, y: 2.5687037, z: -0.00000071525574}
 --- !u!195 &5158241833534047218
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -519,7 +519,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: -0.1
+  m_BaseOffset: -0.2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &5178128474063091433
@@ -546,7 +546,7 @@ MonoBehaviour:
   offsetDistance: 3
   isAttacking: 0
   healthPoints: 0
-  maxHealthPoints: 60
+  maxHealthPoints: 50
   miniBossDamage: 25
   enemyHealthBar: {fileID: 0}
   originalMiniBossScale: {x: 0, y: 0, z: 0}
