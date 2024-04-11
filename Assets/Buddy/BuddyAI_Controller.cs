@@ -17,8 +17,8 @@ public class BuddyAI_Controller : MonoBehaviour
         [Header("Movement & Rotation")]
         [SerializeField] private float buddyToPlayerDistance = 8f;
         [SerializeField] private float avoidanceDistance = 6f;
-        [HideInInspector] private bool isStandingStill = false;
-        [SerializeField] private float isStandingStillTimer = 2f;
+        // [HideInInspector] private bool isStandingStill = false;
+        // [SerializeField] private float isStandingStillTimer = 2f;
         [SerializeField] private float nextMoveTimer = 2f;
 
         [Header("Rotation")]
@@ -77,17 +77,17 @@ public class BuddyAI_Controller : MonoBehaviour
                 return;
             }
 
-            if (isStandingStill)
-            {
-                StandStillTimer();
-            }
-            else if (buddy.remainingDistance <= buddy.stoppingDistance)
-            {
-                if (!isStandingStill)
-                {
-                    StartCoroutine(StandStillCoroutine());
-                }
-            }
+            // if (isStandingStill)
+            // {
+            //     StandStillTimer();
+            // }
+            // else if (buddy.remainingDistance <= buddy.stoppingDistance)
+            // {
+            //     if (!isStandingStill)
+            //     {
+            //         StartCoroutine(StandStillCoroutine());
+            //     }
+            // }
         }
     #endregion
 
@@ -128,9 +128,6 @@ public class BuddyAI_Controller : MonoBehaviour
         // Method for moving to the next destination
         void MoveToNextDestination()
         {
-            // Stop the buddy's movement
-            buddy.isStopped = true;
-
             // Start coroutine to wait and then move
             StartCoroutine(WaitAndMove());
         }
@@ -143,9 +140,6 @@ public class BuddyAI_Controller : MonoBehaviour
 
             // Calculate the next move after waiting
             CalculateNextMove();
-
-            // Resume movement after waiting
-            buddy.isStopped = false;
         }
 
         // Method for calculating the next move
@@ -169,128 +163,112 @@ public class BuddyAI_Controller : MonoBehaviour
 
     #region Buddy Idle
         // Timer for standing still
-        void StandStillTimer()
-        {
-            isStandingStillTimer -= Time.deltaTime;
-            if (isStandingStillTimer <= 0f)
-            {
-                isStandingStill = false;
-                MoveToNextDestination();
-            }
-        }
+        // void StandStillTimer()
+        // {
+        //     isStandingStillTimer -= Time.deltaTime;
+        //     if (isStandingStillTimer <= 0f)
+        //     {
+        //         isStandingStill = false;
+        //         MoveToNextDestination();
+        //     }
+        // }
 
-        // Coroutine for standing still for a certain time
-        IEnumerator StandStillCoroutine()
-        {
-            isStandingStill = true;
-            yield return new WaitForSeconds(isStandingStillTimer);
-            isStandingStill = false;
-            MoveToNextDestination();
-        }
+        // // Coroutine for standing still for a certain time
+        // IEnumerator StandStillCoroutine()
+        // {
+        //     isStandingStill = true;
+        //     yield return new WaitForSeconds(isStandingStillTimer);
+        //     isStandingStill = false;
+        //     MoveToNextDestination();
+        // }
     #endregion
 
-    #region Buddy Attack
-        // Method to check if an enemy is in line of sight
-        bool IsInLineOfSight(Transform enemyTransform)
-        {
-            Vector3 direction = enemyTransform.position - transform.position;
+        #region Buddy Attack
+    // Method to check if an enemy is in line of sight
+    bool IsInLineOfSight(Transform enemyTransform)
+    {
+        Vector3 direction = enemyTransform.position - transform.position;
 
-            // Cast a ray towards the enemy
-            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
-            {
-                if (hit.transform == enemyTransform)
-                {
-                    // Enemy is in line of sight
-                    return true;
-                }
-            }
-            // Enemy is not in line of sight
-            return false;
-        }
-
-        // Method for shooting at the enemy
-        void ShootAtEnemy(Vector3 targetPosition)
+        // Cast a ray towards the enemy
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
         {
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-            
-            if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotateToAngleMove)
+            if (hit.transform == enemyTransform)
             {
-                GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-                bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
-                Destroy(bullet, bulletLifetime);
+                // Enemy is in line of sight
+                return true;
             }
         }
-        
-        IEnumerator ShootAtEnemyRoutine()
+        // Enemy is not in line of sight
+        return false;
+    }
+
+    // Method for shooting at the enemy
+    void ShootAtEnemy(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+
+        if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotateToAngleMove)
         {
-            while (true)
-            {
-                // Find all enemies within shooting range
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
-
-                // Track the nearest enemy and its distance
-                Transform nearestEnemy = null;
-                float nearestEnemyDistance = Mathf.Infinity;
-
-                // Iterate through all enemies to find the nearest one
-                foreach (Collider collider in hitColliders)
-                {
-                    // Check if the enemy is within line of sight
-                    if (IsInLineOfSight(collider.transform))
-                    {
-                        // Calculate the distance to the current enemy
-                        float distanceToEnemy = Vector3.Distance(transform.position, collider.transform.position);
-
-                        // Update the nearest enemy if the current one is closer
-                        if (distanceToEnemy < nearestEnemyDistance)
-                        {
-                            nearestEnemy = collider.transform;
-                            nearestEnemyDistance = distanceToEnemy;
-                        }
-                    }
-                }
-
-                // If a nearest enemy is found, engage
-                if (nearestEnemy != null)
-                {
-                    // Stop the buddy's movement
-                    buddy.isStopped = true;
-
-                    // Look at the nearest enemy
-                    Vector3 directionToEnemy = nearestEnemy.position - transform.position;
-                    Quaternion lookRotation = Quaternion.LookRotation(directionToEnemy);
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, maxRotateToAngleMove);
-
-                    // Shoot at the nearest enemy
-                    ShootAtEnemy(nearestEnemy.position);
-                }
-
-                // Resume movement after shooting
-                buddy.isStopped = false;
-
-                yield return new WaitForSeconds(shootingInterval);
-            }
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+            Destroy(bullet, bulletLifetime);
         }
+    }
+
+    IEnumerator ShootAtEnemyRoutine()
+    {
+        while (true)
+        {
+            // Find all enemies within attack range
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+
+            // Track the nearest enemy and its distance
+            Transform nearestEnemy = null;
+            float nearestEnemyDistance = Mathf.Infinity;
+
+            // Iterate through all enemies to find the nearest one
+            foreach (Collider collider in hitColliders)
+            {
+                // Calculate the distance to the current enemy
+                float distanceToEnemy = Vector3.Distance(transform.position, collider.transform.position);
+
+                // Update the nearest enemy if the current one is closer
+                if (distanceToEnemy < nearestEnemyDistance)
+                {
+                    nearestEnemy = collider.transform;
+                    nearestEnemyDistance = distanceToEnemy;
+                }
+            }
+
+            // If a nearest enemy is found, shoot at it
+            if (nearestEnemy != null)
+            {
+                ShootAtEnemy(nearestEnemy.position);
+            }
+
+            yield return new WaitForSeconds(shootingInterval);
+        }
+    }
     #endregion
 
     #region Toggle Buddy Attack
-        public void ToggleAttackBehaviour()
+    public void ToggleAttackBehaviour()
+    {
+        toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
+        toggleAttack = !toggleAttack;
+        // Start or stop the shooting routine based on toggleAttack
+        if (toggleAttack && shootingRoutine == null)
         {
-            toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
-            toggleAttack = !toggleAttack;
-            // Start or stop the shooting routine based on toggleAttack
-            if (toggleAttack && shootingRoutine == null)
-            {
-                shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
-            }
-            else if (!toggleAttack && shootingRoutine != null)
-            {
-                StopCoroutine(shootingRoutine);
-                shootingRoutine = null;
-            }
+            shootingRoutine = StartCoroutine(ShootAtEnemyRoutine());
         }
+        else if (!toggleAttack && shootingRoutine != null)
+        {
+            StopCoroutine(shootingRoutine);
+            shootingRoutine = null;
+        }
+    }
     #endregion
 
     #region Drawing Gizmos for checking Range

@@ -1,16 +1,22 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
+    [Header("Quest")]
     private bool questCompleted = false;
     [SerializeField] private TMP_Text questLog;
 
+    [Header("Stage")]
     [SerializeField] QuestStage[] questStages;
     private int currentStage = 0;
+
+    [Header("Object Script References")]
+    [SerializeField] private VictoryScript victoryScript;
+
+    void Awake(){
+        victoryScript = FindAnyObjectByType<VictoryScript>();
+    }
 
     void Start()
     {
@@ -41,17 +47,16 @@ public class QuestManager : MonoBehaviour
             {
                 UpdateLog("Quest Completed");
                 questCompleted = true;
+                victoryScript.EnableVictoryCanvas(questCompleted);
             }
         }
-    }    
+    }
 
     private void UpdateLog(string text)
     {
         questLog.text = text;
     }
 }
-
-
 
 /* The quest has 4 stages:
  * -Enter the village
