@@ -22,6 +22,8 @@ public class EnemySlime : EnemyBase
         public float dashSpeedMultiplier = 1.5f;
 
         public Coroutine attacking;
+        public int Timer;
+        public Coroutine timer;
     #endregion
 
     #region CheckStates
@@ -200,6 +202,7 @@ public class EnemySlime : EnemyBase
         }
         public IEnumerator AttackCoroutine()
         {
+            timer = StartCoroutine(AttackCollisionTimer());
             Vector3 playerPosition = Target.position;
             Vector3 directionToPlayer = playerPosition - transform.position;
             Vector3 dashTargetPosition = playerPosition + directionToPlayer.normalized * 1.1f;
@@ -231,7 +234,9 @@ public class EnemySlime : EnemyBase
                 // Agent.Move(directionToPlayer);
                 // Agent.SetDestination(playerPosition);
 
-                if(distance <= 1f){
+                if(distance <= 1f || Timer >= 3){
+                    Timer = 0;
+                    StopCoroutine(timer);
                     Debug.Log("disstance reached");
                     Agent.isStopped = true;
                     yield return new WaitForSeconds(2f);
@@ -304,11 +309,16 @@ public class EnemySlime : EnemyBase
 
         // public void EndCollisionCooldown() => isCollisionCooldown = false;
 
-        // public IEnumerator AttackCollisionTimer(){
-        //     attackCollision = true;
-        //     yield return new WaitForSeconds(3);
-        //     attackCollision = false;
-        // }
+        public IEnumerator AttackCollisionTimer(){
+                // attackCollision = true;
+                // yield return new WaitForSeconds(3);
+                // StopCoroutine(attacking);
+
+            while(Timer < 3){
+                yield return new WaitForSeconds(1f);
+                Timer++;
+            }
+        }
 
         private void OnCollisionEnter(Collision other) {
             
