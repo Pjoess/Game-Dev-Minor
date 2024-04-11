@@ -22,9 +22,6 @@ public class QuestManager : MonoBehaviour
     {
         questStages[currentStage].StartStage();
         UpdateLog(questStages[currentStage].questLogText);
-
-        questCompleted = true;
-                victoryScript.EnableVictoryCanvas(questCompleted);
     }
 
     void Update()
