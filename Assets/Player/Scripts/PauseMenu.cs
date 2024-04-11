@@ -5,17 +5,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
 
     void Awake(){
-        pauseMenu = GameObject.Find("PauseMenuCanvas"); // Assuming the Pause Menu Canvas has this name
-    }
-    
-    void Start()
-    {
-        
-    }
-    
-    void Update()
-    {
-        
+        pauseMenu = GameObject.Find("PauseMenuCanvas");
     }
 
     public void EnablePauseCanvas(){
