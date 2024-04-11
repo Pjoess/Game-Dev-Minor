@@ -271,6 +271,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6073097441756191989}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 52fc27206791db94c928b4c0f92278ef,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3277164951253878161}
   m_SourcePrefab: {fileID: 100100000, guid: 52fc27206791db94c928b4c0f92278ef, type: 3}
 --- !u!1 &1693909490826098708 stripped
 GameObject:
@@ -369,6 +373,25 @@ MonoBehaviour:
   centerPoint: {fileID: 0}
   patrolWaitTime: 2
   patrolRange: 5
+  dashSpeedMultiplier: 1.5
+--- !u!114 &3277164951253878161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693909490826098708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0003d6daba133b4c864deacb6683ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droppedItemPrefab: {fileID: 2904413591401852843, guid: fd4599fb2cf46664f93d47ced4aec733,
+    type: 3}
+  healthItems:
+  - {fileID: 11400000, guid: 75b0506aa1a8335419ea37df2522e0b3, type: 2}
+  - {fileID: 11400000, guid: ed7ddb331ea2bca4fba30797ffb5047a, type: 2}
+  - {fileID: 11400000, guid: 1af193e9e93966e4598c63b2e47d7184, type: 2}
 --- !u!4 &2074515768139735726 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 52fc27206791db94c928b4c0f92278ef,

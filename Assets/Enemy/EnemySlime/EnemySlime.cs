@@ -156,6 +156,7 @@ public class EnemySlime : EnemyBase
 
             if(HealthPoints <= 0)
             {
+                GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
                 Destroy(this.gameObject);
             }
 
