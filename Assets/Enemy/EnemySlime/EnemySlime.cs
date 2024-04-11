@@ -19,6 +19,7 @@ public class EnemySlime : EnemyBase
         public float patrolRange = 5f;
         private SphereCollider centerCollider;
         public Coroutine idling;
+        public float dashSpeedMultiplier = 1.5f;
 
         public Coroutine attacking;
     #endregion
@@ -199,6 +200,9 @@ public class EnemySlime : EnemyBase
         public IEnumerator AttackCoroutine()
         {
             Vector3 playerPosition = Target.position;
+            Vector3 directionToPlayer = playerPosition - transform.position;
+            Vector3 dashTargetPosition = playerPosition + directionToPlayer.normalized * 1.1f;
+            // Vector3 playerPosition = Target.position;
             float distance;
             FacePlayer(playerPosition);
             // Vector3 directionToPlayer = Target.position - transform.position;
@@ -207,7 +211,6 @@ public class EnemySlime : EnemyBase
             yield return new WaitForSeconds(1f);
             Agent.isStopped = false;
 
-            bool x = true;
 
             // StartCoroutine(FacePlayer());
             // yield return new WaitForSeconds(1f);
@@ -219,18 +222,16 @@ public class EnemySlime : EnemyBase
             // NavMeshHit hit;
             // bool y = Agent.Raycast(transform.position, playerPosition, out hit, playerLayer);
 
-
-            while(x){
-                isDashing = true;
-                distance = Vector3.Distance(playerPosition, transform.position);
+            isDashing = true;
+            while(isDashing){
+                distance = Vector3.Distance(dashTargetPosition, transform.position);
                 // Debug.Log(distance);
-                Agent.Move(transform.forward * Agent.speed * Time.deltaTime);
+                Agent.Move(transform.forward * Agent.speed * dashSpeedMultiplier * Time.deltaTime);
                 // Agent.Move(directionToPlayer);
                 // Agent.SetDestination(playerPosition);
 
                 if(distance <= 1f){
                     Debug.Log("disstance reached");
-                    x = false;
                     Agent.isStopped = true;
                     yield return new WaitForSeconds(2f);
                     Agent.isStopped = false;
@@ -281,12 +282,11 @@ public class EnemySlime : EnemyBase
     #region Triggers/Collisions
         // public void OnTriggerEnter(Collider other)
         // {
-        //     if (IsWeaponCollisionValid(other))
-        //     {
-                
-        //         int damage = 5;
-
-        //         Hit(damage);
+        //     if(other.transform.tag == "Player" && IsAttacking && isDashing){
+        //         Debug.Log("HIt player");
+        //         IDamageble damagable = other.GetComponent<IDamageble>();
+        //         damagable.Hit(10);
+        //         // StartCoroutine(AttackCollisionTimer());
         //     }
         // }
 
@@ -311,19 +311,18 @@ public class EnemySlime : EnemyBase
 
         private void OnCollisionEnter(Collision other) {
             
-            // if(other.transform.tag == "Obstacle" && isDashing){
-            //     StopCoroutine(attacking);
-            //     isDashing = false;
-            //     Agent.updateRotation = true;
-            //     IsAttacking = false;
-            //     attackCollision = false;
-            //     enemyStateMachine.ChangeState(enemyChaseState);
-            // }
-            if(other.transform.tag == "Player" && IsAttacking && !attackCollision && isDashing){
+            if(other.transform.tag != "Player" && isDashing){
+                StopCoroutine(attacking);
+                isDashing = false;
+                Agent.updateRotation = true;
+                IsAttacking = false;
+                attackCollision = false;
+                enemyStateMachine.ChangeState(enemyChaseState);
+            }
+            if(other.transform.tag == "Player" && IsAttacking && isDashing){
                 Debug.Log("HIt player");
                 IDamageble damagable = other.collider.GetComponent<IDamageble>();
-                damagable.Hit(5);
-                attackCollision = true;
+                damagable.Hit(10);
                 // StartCoroutine(AttackCollisionTimer());
             }
 
