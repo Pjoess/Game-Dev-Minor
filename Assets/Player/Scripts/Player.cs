@@ -312,7 +312,7 @@ public class Player : MonoBehaviour, IDamageble
             }
         }
 
-        void OnDash(InputValue value)
+        void OnDodge(InputValue value)
         {
             if (value.isPressed && !isDashing)  isDashing = true;
         }
