@@ -30,7 +30,7 @@ public class DeathScript : MonoBehaviour
             AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
             foreach (AudioSource audioSource in allAudioSources)
             {
-                audioSource.Pause();
+                audioSource.Stop();
             }
         }
 
