@@ -8,18 +8,20 @@ public class Player : MonoBehaviour, IDamageble
     #region Variables & References
         [SerializeField] private BuddyAI_Controller buddy;
         [HideInInspector] public Rigidbody rigidBody;
-        CapsuleCollider capsuleColider;
+        [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
         [HideInInspector] public AudioSource jumpSound;
-
-        public int MaxHealthPoints { get { return maxHealthPoints; } }
-        [SerializeField] private int maxHealthPoints = 3;
-        public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
-        private int healthPoints;
-
-        [Header("Player Move/Run/Jump")]
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public Vector3 vectorDirection;
+
+        // --- IDamagable --- //
+        [Header("Player Healthpoint")]
+        [SerializeField] private int healthPoints;
+        [SerializeField] private int maxHealthPoints = 100;
+        public int MaxHealthPoints { get { return maxHealthPoints; } }
+        [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
+        
+        [Header("Player Move/Run/Jump")]
         public float walkSpeed = 3f;
         public float runSpeed = 6f;
         public float speedChangeRate = 5f;
@@ -49,7 +51,8 @@ public class Player : MonoBehaviour, IDamageble
 
         [Header("UI Canvas and Buttons")]
         public static bool isPaused = false;
-        [SerializeField] PauseMenu pauseMenu;
+        [SerializeField] private PauseMenu pauseMenu;
+        [SerializeField] private DeathScript deathScript;
         public float buttonCameraOffsetForward = -50f;
         public float buttonCameraOffsetRight = -50f;
         public float buttonCameraOffsetUp = -50f;
@@ -342,6 +345,10 @@ public class Player : MonoBehaviour, IDamageble
                 healthPoints -= 30;
                 if (healthPoints < 0)   healthPoints = 0;
             }
+            if(healthPoints <= 0){
+                Time.timeScale = 0;
+                deathScript.EnableDeathCanvas(healthPoints);
+            }
         }
 
         void OnToggleBuddyAttack(InputValue value)
@@ -383,7 +390,14 @@ public class Player : MonoBehaviour, IDamageble
             // if(random == 1){
             //     healthPoints -= maxHealthPoints;
             // }
-            if(playerState != dashState) healthPoints -= damage;
+            if(playerState != dashState) 
+            {
+                healthPoints -= damage;
+                if(healthPoints <= 0){
+                deathScript.EnableDeathCanvas(healthPoints);
+            }
+            }
+            
         }
     #endregion
 
