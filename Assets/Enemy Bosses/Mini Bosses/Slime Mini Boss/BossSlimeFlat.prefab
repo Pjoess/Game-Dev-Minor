@@ -426,7 +426,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89323366fd46fcf43a330f82f653a5c5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7571392537798379874}
+      addedObject: {fileID: 6824980905167866548}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89323366fd46fcf43a330f82f653a5c5,
         type: 3}
       insertIndex: -1
@@ -479,8 +479,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &7571392537798379874
-SphereCollider:
+--- !u!65 &6824980905167866548
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -498,7 +498,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2.319434
+  m_Size: {x: 4.6388664, y: 3.2946887, z: 4.638868}
   m_Center: {x: -0.00000071525574, y: 1.8140752, z: -0.00000071525574}
 --- !u!195 &5158241833534047218
 NavMeshAgent:
