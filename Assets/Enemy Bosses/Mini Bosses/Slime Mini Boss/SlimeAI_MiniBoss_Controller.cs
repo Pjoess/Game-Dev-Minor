@@ -32,7 +32,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         
         [Header("Stats")]
         [SerializeField] private int healthPoints;
-        [SerializeField] private int maxHealthPoints = 15;
+        [SerializeField] private int maxHealthPoints = 60;
 
         [Header("Slime Damage")]
         [SerializeField] private int miniBossDamage = 25;
