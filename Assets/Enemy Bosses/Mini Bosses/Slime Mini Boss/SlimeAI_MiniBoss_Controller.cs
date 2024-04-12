@@ -33,7 +33,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         // --- IDamagable --- //
         [Header("Stats")]
         [SerializeField] private int healthPoints;
-        [SerializeField] private int maxHealthPoints = 60;
+        [SerializeField] private int maxHealthPoints = 40;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
         
@@ -188,7 +188,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 0, 255); // Red
                 yield return new WaitForSeconds(0.5f);
                 ScreenShakeManager.Instance.ShakeCamera(5, 1);
-                player.Hit(miniBossDamage);
+                player.Hit(miniBossDamage); // Boss takes damage from player sword
                 yield return new WaitForSeconds(2f); // Attack again after amount of seconds
             }
             GetComponent<MeshRenderer>().material.color = new Color32(255, 235, 8, 255); // Yellow
@@ -197,7 +197,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     #endregion
 
     // Mini Boss Receive damage
-    public void ApplyDamageToMiniBoss() => healthPoints--;
+    public void ApplyDamageToMiniBoss() => healthPoints--; // Do damage to boss (with bullets)
 
     #region IDamagable
         public void Hit(int damage)
