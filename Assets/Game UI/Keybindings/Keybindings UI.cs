@@ -9,8 +9,10 @@ using static UnityEngine.InputSystem.InputActionRebindingExtensions;
 public class KeybindingsUI : MonoBehaviour
 {
     private PlayerInput input;
-    private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
+    private RebindingOperation rebindingOperation;
 
+
+    private KeybindingSO currentBinding;
     private InputAction currentAction;
 
     public Button[] allButtons;
@@ -30,26 +32,31 @@ public class KeybindingsUI : MonoBehaviour
 
     public void RebindButton(Button button)
     {
-        SetAction(button.name);
-        rebindingOperation = currentAction.PerformInteractiveRebinding().WithBindingGroup("Keyboard&Mouse").WithControlsHavingToMatchPath("<Keyboard>").WithControlsHavingToMatchPath("<Mouse>").WithCancelingThrough("<Keyboard>/escape")
-            .OnMatchWaitForAnother(0.1f).OnPotentialMatch(operation => CheckBinding(button.name)).OnComplete(operation => { RebindComplete(button); }).OnCancel(operation => { RebindCancel(button); });
+        SetBinding(button);
+
+        rebindingOperation = currentAction.PerformInteractiveRebinding().WithTargetBinding(currentBinding.compositeNumber).WithBindingGroup("Keyboard&Mouse").WithControlsHavingToMatchPath("<Keyboard>")
+            .WithControlsHavingToMatchPath("<Mouse>").WithCancelingThrough("<Keyboard>/escape").OnMatchWaitForAnother(0.1f).OnPotentialMatch(operation => CheckBinding())
+            .OnComplete(operation => { RebindComplete(button); }).OnCancel(operation => { RebindCancel(button); });
 
         button.GetComponentInChildren<TMP_Text>().text = "listening...";
         disableAllButtons();
         rebindingOperation.Start();
     }
 
-    private void CheckBinding(string actionName)
+    private void CheckBinding()
     {
-        foreach (Button button in allButtons) 
+        string displayName = rebindingOperation.selectedControl.displayName;
+        string shortDisplayName = rebindingOperation.selectedControl.shortDisplayName;
+
+        //foreach (var binding in input.actions.bindings)
+        foreach (var control in input.actions.bindings)
         {
-            if (!button.name.Equals("Back") && !button.name.Equals(actionName))
+            if(control.groups.Contains("Keyboard&Mouse"))
             {
-                string checkAgainst = (rebindingOperation.selectedControl.shortDisplayName == null) ? rebindingOperation.selectedControl.displayName :  rebindingOperation.selectedControl.shortDisplayName;
-                string key = input.actions.FindAction(button.name).GetBindingDisplayString();
-                if (checkAgainst.Equals(key))
+                if (control.ToDisplayString().Equals(displayName) || control.ToDisplayString().Equals(shortDisplayName))
                 {
                     rebindingOperation.Cancel();
+                    break;
                 }
             }
         }
@@ -58,7 +65,7 @@ public class KeybindingsUI : MonoBehaviour
 
     private void UpdateButton(Button button)
     {
-        button.GetComponentInChildren<TMP_Text>().text = currentAction.GetBindingDisplayString();
+        button.GetComponentInChildren<TMP_Text>().text = button.GetComponent<AssignedBinding>().binding.GetBinding(input);
     }
 
     private void UpdateAllButtons()
@@ -67,7 +74,7 @@ public class KeybindingsUI : MonoBehaviour
         {
             if(!button.name.Equals("Back"))
             {
-                button.GetComponentInChildren<TMP_Text>().text = input.actions.FindAction(button.name).GetBindingDisplayString();
+                button.GetComponentInChildren<TMP_Text>().text = button.GetComponent<AssignedBinding>().binding.GetBinding(input);
             }
         }
     }
@@ -102,6 +109,12 @@ public class KeybindingsUI : MonoBehaviour
         }
     }
 
+
+    private void SetBinding(Button button)
+    {
+        currentBinding = button.GetComponent<AssignedBinding>().binding;
+        SetAction(currentBinding.actionName);
+    }
     private void SetAction(string actionName)
     {
         currentAction = input.actions.FindAction(actionName);
