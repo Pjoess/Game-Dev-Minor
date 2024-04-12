@@ -17,8 +17,6 @@ public class BuddyAI_Controller : MonoBehaviour
         [Header("Movement & Rotation")]
         [SerializeField] private float buddyToPlayerDistance = 8f;
         [SerializeField] private float avoidanceDistance = 6f;
-        // [HideInInspector] private bool isStandingStill = false;
-        // [SerializeField] private float isStandingStillTimer = 2f;
         [SerializeField] private float nextMoveTimer = 2f;
 
         [Header("Rotation")]
@@ -144,70 +142,75 @@ public class BuddyAI_Controller : MonoBehaviour
         }
     #endregion
 
-    #region Buddy Attack
-    // Method to check if an enemy is in line of sight
-    bool IsInLineOfSight(Transform enemyTransform)
-    {
-        Vector3 direction = enemyTransform.position - transform.position;
+   #region Buddy Attack
+// Method to check if an enemy is in line of sight
+bool IsInLineOfSight(Transform enemyTransform)
+{
+    Vector3 direction = enemyTransform.position - transform.position;
 
-        // Cast a ray towards the enemy
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
+    // Cast a ray towards the enemy
+    if (Physics.Raycast(transform.position, direction, out RaycastHit hit, Mathf.Infinity, attackLayer))
+    {
+        if (hit.transform == enemyTransform)
         {
-            if (hit.transform == enemyTransform)
-            {
-                // Enemy is in line of sight
-                return true;
-            }
+            // Enemy is in line of sight
+            return true;
         }
-        // Enemy is not in line of sight
-        return false;
     }
+    // Enemy is not in line of sight
+    return false;
+}
 
-    // Method for shooting at the enemy
-    void ShootAtEnemy(Vector3 targetPosition)
+// Method for shooting at the enemy
+void ShootAtEnemy(Transform enemyTransform)
+{
+    // Check if the enemy is within shooting range and in line of sight
+    if (Vector3.Distance(transform.position, enemyTransform.position) <= shootingRange && IsInLineOfSight(enemyTransform))
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        Vector3 direction = (enemyTransform.position - transform.position).normalized;
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
         Destroy(bullet, bulletLifetime);
-
     }
+}
 
-    IEnumerator ShootAtEnemyRoutine()
+IEnumerator ShootAtEnemyRoutine()
+{
+    while (true)
     {
-        while (true)
+        // Find all enemies within attack range
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+
+        // Track the nearest enemy and its distance
+        Transform nearestEnemy = null;
+        float nearestEnemyDistance = Mathf.Infinity;
+
+        // Iterate through all enemies to find the nearest one
+        foreach (Collider collider in hitColliders)
         {
-            // Find all enemies within attack range
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+            // Calculate the distance to the current enemy
+            float distanceToEnemy = Vector3.Distance(transform.position, collider.transform.position);
 
-            // Track the nearest enemy and its distance
-            Transform nearestEnemy = null;
-            float nearestEnemyDistance = Mathf.Infinity;
-
-            // Iterate through all enemies to find the nearest one
-            foreach (Collider collider in hitColliders)
+            // Update the nearest enemy if the current one is closer
+            if (distanceToEnemy < nearestEnemyDistance)
             {
-                // Calculate the distance to the current enemy
-                float distanceToEnemy = Vector3.Distance(transform.position, collider.transform.position);
-
-                // Update the nearest enemy if the current one is closer
-                if (distanceToEnemy < nearestEnemyDistance)
-                {
-                    nearestEnemy = collider.transform;
-                    nearestEnemyDistance = distanceToEnemy;
-                }
+                nearestEnemy = collider.transform;
+                nearestEnemyDistance = distanceToEnemy;
             }
-
-            // If a nearest enemy is found, shoot at it
-            if (nearestEnemy != null)
-            {
-                ShootAtEnemy(nearestEnemy.position);
-            }
-
-            yield return new WaitForSeconds(shootingInterval);
         }
+
+        // If a nearest enemy is found, shoot at it
+        if (nearestEnemy != null)
+        {
+            ShootAtEnemy(nearestEnemy);
+        }
+
+        yield return new WaitForSeconds(shootingInterval);
     }
-    #endregion
+}
+#endregion
+
+
 
     #region Toggle Buddy Attack
     public void ToggleAttackBehaviour()
