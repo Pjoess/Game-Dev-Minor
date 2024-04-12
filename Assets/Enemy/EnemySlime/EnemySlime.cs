@@ -150,9 +150,17 @@ public class EnemySlime : EnemyBase
 
         }
 
+        public void BuddyDamage(){
+            HealthPoints--;
+        }
         public override void Hit(int damage)
         {
-            HealthPoints -= damage;
+            if(damage > 0){
+                HealthPoints -= damage;
+            }else{
+                BuddyDamage();
+            }
+
 
             enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
 
@@ -202,7 +210,7 @@ public class EnemySlime : EnemyBase
         }
         public IEnumerator AttackCoroutine()
         {
-            timer = StartCoroutine(AttackCollisionTimer());
+            timer = StartCoroutine(AttackDashTimer());
             Vector3 playerPosition = Target.position;
             Vector3 directionToPlayer = playerPosition - transform.position;
             Vector3 dashTargetPosition = playerPosition + directionToPlayer.normalized * 1.1f;
@@ -310,17 +318,20 @@ public class EnemySlime : EnemyBase
         // public void EndCollisionCooldown() => isCollisionCooldown = false;
 
         public IEnumerator AttackCollisionTimer(){
-                // attackCollision = true;
-                // yield return new WaitForSeconds(3);
-                // StopCoroutine(attacking);
+            attackCollision = true;
+            yield return new WaitForSeconds(3);
+            // StopCoroutine(attacking);
+            attackCollision = false;
+        }
 
+        public IEnumerator AttackDashTimer(){
             while(Timer < 3){
                 yield return new WaitForSeconds(1f);
                 Timer++;
             }
         }
 
-        private void OnCollisionEnter(Collision other) {
+        private void OnCollisionStay(Collision other) {
             
             if(other.transform.tag != "Player" && isDashing){
                 StopCoroutine(attacking);
@@ -330,11 +341,11 @@ public class EnemySlime : EnemyBase
                 attackCollision = false;
                 enemyStateMachine.ChangeState(enemyChaseState);
             }
-            if(other.transform.tag == "Player" && IsAttacking && isDashing){
+            if(other.transform.tag == "Player" && IsAttacking && isDashing && !attackCollision && Agent.isStopped == false){
                 Debug.Log("HIt player");
                 IDamageble damagable = other.collider.GetComponent<IDamageble>();
                 damagable.Hit(10);
-                // StartCoroutine(AttackCollisionTimer());
+                StartCoroutine(AttackCollisionTimer());
             }
 
 
