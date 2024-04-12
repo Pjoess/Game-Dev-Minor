@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -10,28 +8,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         sphereCollider = GetComponent<SphereCollider>();
-        //EnableBullit();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     if(other.CompareTag("Enemy")){
-    //         DisableBullet();
-    //     }
-    // }
-
-    // void OnTriggerExit(Collider other)
-    // {
-    //     if(other.CompareTag("Enemy")){
-    //         EnableBullit();
-    //     }
-    // }
 
     void OnTriggerEnter(Collider other)
     {

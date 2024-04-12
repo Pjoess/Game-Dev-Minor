@@ -15,10 +15,8 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private TextMeshProUGUI toggleBuddyAttackText;
 
         [Header("Movement & Rotation")]
-        [SerializeField] private float buddyToPlayerDistance = 8f;
-        [SerializeField] private float avoidanceDistance = 6f;
-        // [HideInInspector] private bool isStandingStill = false;
-        // [SerializeField] private float isStandingStillTimer = 2f;
+        [SerializeField] private float buddyToPlayerDistance = 6f;
+        [SerializeField] private float avoidanceDistance = 7f;
         [SerializeField] private float nextMoveTimer = 2f;
 
         [Header("Rotation")]
@@ -26,16 +24,17 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private float maxRotateToAngleMove = 1f;
 
         [Header("Attack")]
-        [SerializeField] private float shootingInterval = 0.3f;
+        [SerializeField] private float shootingInterval = 2f;
         [SerializeField] private float shootingRange = 15f;
 
         [Header("Projectiles")]
         [SerializeField] private float bulletSpeed = 8f;
         [SerializeField] private float bulletLifetime = 3f;
+        [SerializeField] private float bulletShootHeight = 1f;
         [SerializeField] private bool toggleAttack;
 
         // NavMeshAgent AI
-        [HideInInspector] private readonly float navMeshAgent_Speed = 5f;
+        [HideInInspector] private readonly float navMeshAgent_Speed = 8f;
         [HideInInspector] private readonly float navMeshAngular_Speed = 750f;
         [HideInInspector] private readonly float navMeshAcceleration_Speed = 20f;
 
@@ -55,19 +54,14 @@ public class BuddyAI_Controller : MonoBehaviour
             buddy.acceleration = navMeshAcceleration_Speed;
         }
 
-        void Start()
-        {
-            
-        }
-
         void Update()
         {
-            BuddyChecker();
+            BuddyToPlayerDistanceCheck();
         }
     #endregion
 
     #region Buddy Checks
-        private void BuddyChecker()
+        private void BuddyToPlayerDistanceCheck()
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -76,38 +70,33 @@ public class BuddyAI_Controller : MonoBehaviour
                 buddy.SetDestination(player.position);
                 return;
             }
-
-            // if (isStandingStill)
-            // {
-            //     StandStillTimer();
-            // }
-            // else if (buddy.remainingDistance <= buddy.stoppingDistance)
-            // {
-            //     if (!isStandingStill)
-            //     {
-            //         StartCoroutine(StandStillCoroutine());
-            //     }
-            // }
         }
     #endregion
 
     #region Buddy Movement
-        // Method for calculating an avoidance point to avoid the player
+        // Method for calculating an avoidance point to avoid nearby obstacles
         Vector3 CalculateAvoidancePoint()
         {
-            Vector3 directionToPlayer = player.position - transform.position;
-            Vector3 avoidanceDirection = Vector3.Cross(Vector3.up, directionToPlayer).normalized;
-            Vector3 avoidancePoint = player.position + avoidanceDirection * avoidanceDistance;
+            Collider[] nearbyObstacles = Physics.OverlapSphere(transform.position, avoidanceDistance, attackLayer);
 
-            NavMeshPath path = new(); // Instantiate NavMeshPath
-            if (NavMesh.CalculatePath(transform.position, avoidancePoint, NavMesh.AllAreas, path))
+            foreach (Collider obstacle in nearbyObstacles)
             {
-                if (path.corners.Length > 1 && Vector3.Distance(path.corners[1], player.position) > avoidanceDistance)
+                if (obstacle.transform != transform) // Avoid itself
                 {
-                    return path.corners[1];
+                    Vector3 avoidanceDirection = (transform.position - obstacle.transform.position).normalized;
+                    Vector3 avoidancePoint = transform.position + avoidanceDirection * avoidanceDistance;
+                    
+                    NavMeshPath path = new NavMeshPath(); // Instantiate NavMeshPath
+                    if (NavMesh.CalculatePath(transform.position, avoidancePoint, NavMesh.AllAreas, path))
+                    {
+                        if (path.corners.Length > 1 && Vector3.Distance(path.corners[1], obstacle.transform.position) > avoidanceDistance)
+                        {
+                            return path.corners[1];
+                        }
+                    }
                 }
             }
-            return Vector3.zero;
+            return Vector3.zero; // No nearby obstacles found
         }
 
         // Method for finding a random point on the navmesh
@@ -161,29 +150,7 @@ public class BuddyAI_Controller : MonoBehaviour
         }
     #endregion
 
-    #region Buddy Idle
-        // Timer for standing still
-        // void StandStillTimer()
-        // {
-        //     isStandingStillTimer -= Time.deltaTime;
-        //     if (isStandingStillTimer <= 0f)
-        //     {
-        //         isStandingStill = false;
-        //         MoveToNextDestination();
-        //     }
-        // }
-
-        // // Coroutine for standing still for a certain time
-        // IEnumerator StandStillCoroutine()
-        // {
-        //     isStandingStill = true;
-        //     yield return new WaitForSeconds(isStandingStillTimer);
-        //     isStandingStill = false;
-        //     MoveToNextDestination();
-        // }
-    #endregion
-
-        #region Buddy Attack
+   #region Buddy Attack
     // Method to check if an enemy is in line of sight
     bool IsInLineOfSight(Transform enemyTransform)
     {
@@ -203,19 +170,19 @@ public class BuddyAI_Controller : MonoBehaviour
     }
 
     // Method for shooting at the enemy
-    void ShootAtEnemy(Vector3 targetPosition)
+    void ShootAtEnemy(Transform enemyTransform)
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
-        if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotateToAngleMove)
+        // Check if the enemy is within shooting range and in line of sight
+        if (Vector3.Distance(transform.position, enemyTransform.position) <= shootingRange && IsInLineOfSight(enemyTransform))
         {
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+            Vector3 direction = (enemyTransform.position - transform.position).normalized;
+            Vector3 bulletSpawnPosition = transform.position + bulletShootHeight * Vector3.up;
+            GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.LookRotation(direction)); // Point bullet in the direction
             bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
             Destroy(bullet, bulletLifetime);
         }
     }
+
 
     IEnumerator ShootAtEnemyRoutine()
     {
@@ -245,7 +212,7 @@ public class BuddyAI_Controller : MonoBehaviour
             // If a nearest enemy is found, shoot at it
             if (nearestEnemy != null)
             {
-                ShootAtEnemy(nearestEnemy.position);
+                ShootAtEnemy(nearestEnemy);
             }
 
             yield return new WaitForSeconds(shootingInterval);
@@ -281,6 +248,10 @@ public class BuddyAI_Controller : MonoBehaviour
             // Draw a wire sphere to represent the attack range
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, shootingRange);
+
+            // Draw a wire sphere to represent the avoidance range
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position, avoidanceDistance);
         }
     #endregion
 }

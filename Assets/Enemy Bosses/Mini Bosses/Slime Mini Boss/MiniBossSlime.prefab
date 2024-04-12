@@ -79,7 +79,7 @@ AudioSource:
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -318,6 +318,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8875055356640619105, guid: 1245e34888246654e8353fcf896114fe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -340,7 +345,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 89323366fd46fcf43a330f82f653a5c5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 80.97
+      value: 79.94
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 89323366fd46fcf43a330f82f653a5c5,
         type: 3}
@@ -350,7 +355,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 89323366fd46fcf43a330f82f653a5c5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -143.51
+      value: -64.84
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 89323366fd46fcf43a330f82f653a5c5,
         type: 3}
@@ -548,7 +553,7 @@ MonoBehaviour:
   offsetDistance: 3
   isAttacking: 0
   healthPoints: 0
-  maxHealthPoints: 20
+  maxHealthPoints: 40
   miniBossDamage: 25
   enemyHealthBar: {fileID: 0}
   originalMiniBossScale: {x: 0, y: 0, z: 0}

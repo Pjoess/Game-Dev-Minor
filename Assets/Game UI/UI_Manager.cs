@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -8,10 +7,6 @@ public class UI_Manager : MonoBehaviour
 
     void Awake(){
         buttonClick = GetComponent<AudioSource>();
-    }
-
-    void Start(){
-        
     }
 
     public void PlayGame(){
