@@ -10,10 +10,6 @@ public class UI_Manager : MonoBehaviour
         buttonClick = GetComponent<AudioSource>();
     }
 
-    void Start(){
-        
-    }
-
     public void PlayGame(){
         SceneManager.LoadSceneAsync(1);
     }
