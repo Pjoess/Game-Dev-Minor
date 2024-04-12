@@ -26,6 +26,9 @@ public class BuddyAI_Controller : MonoBehaviour
         [Header("Attack")]
         [SerializeField] private float shootingInterval = 2f;
         [SerializeField] private float shootingRange = 15f;
+        
+        [Header("Sound Effects")]
+        [SerializeField] private AudioSource shootSound;
 
         [Header("Projectiles")]
         [SerializeField] private float bulletSpeed = 8f;
@@ -179,6 +182,7 @@ public class BuddyAI_Controller : MonoBehaviour
             Vector3 bulletSpawnPosition = transform.position + bulletShootHeight * Vector3.up;
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.LookRotation(direction)); // Point bullet in the direction
             bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+            shootSound.Play();
             Destroy(bullet, bulletLifetime);
         }
     }

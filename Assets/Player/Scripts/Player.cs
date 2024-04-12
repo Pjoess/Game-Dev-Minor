@@ -65,6 +65,7 @@ public class Player : MonoBehaviour, IDamageble
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
 
         // --- Buddy --- //
+        [Header("Buddy Controls")]
         [SerializeField] private AudioSource buddySwitchMode;
 
         // --- Player States --- //

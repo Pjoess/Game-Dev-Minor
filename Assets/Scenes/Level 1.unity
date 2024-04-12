@@ -4907,6 +4907,11 @@ PrefabInstance:
       objectReference: {fileID: 567170977}
     - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 1176654779}
+    - target: {fileID: 4071847991212066175, guid: 7263f7724f1239543b1ca07d265605b4,
+        type: 3}
       propertyPath: shootingInterval
       value: 2
       objectReference: {fileID: 0}
@@ -4954,6 +4959,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998135855421625139, guid: 7263f7724f1239543b1ca07d265605b4,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6325125380951178029, guid: 7263f7724f1239543b1ca07d265605b4,
         type: 3}
@@ -5043,6 +5053,12 @@ PrefabInstance:
 --- !u!4 &1176654778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6668859806676590999, guid: 7263f7724f1239543b1ca07d265605b4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1176654777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1176654779 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5998135855421625139, guid: 7263f7724f1239543b1ca07d265605b4,
     type: 3}
   m_PrefabInstance: {fileID: 1176654777}
   m_PrefabAsset: {fileID: 0}
