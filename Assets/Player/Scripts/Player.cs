@@ -260,7 +260,14 @@ public class Player : MonoBehaviour, IDamageble
             }
         }
 
-        public void OnAttackStruck() => struckAgain = true;
+        public void OnAttackStruck()
+        {
+            //if anim has player over 70%
+            if(IsAnimFinished(0.7f))
+            {
+                struckAgain = true;
+            }
+        }
 
         public void MoveForwardOnAttack(){
             // Move a little bit forward when attacking
@@ -285,10 +292,16 @@ public class Player : MonoBehaviour, IDamageble
             }
             else return false;
         }
+
+        public bool IsAnimFinished(float timePlayed)
+        {
+            AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+            return info.normalizedTime >= timePlayed;
+        }
     #endregion
 
     #region New Input System Methods
-        void OnMove(InputValue value) => movement = value.Get<Vector2>();
+    void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
         void OnSprint(InputValue value)
         {
