@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IDamageble
         public AudioSource jumpSound;
         public AudioSource ouchSound;
         public AudioSource rollSound;
+        public AudioSource footStepSound;
 
         // --- IDamagable --- //
         [Header("Player Healthpoint")]
@@ -131,7 +132,7 @@ public class Player : MonoBehaviour, IDamageble
             idleToFallDelta = idleToFallTimer;
             jumpCooldownDelta = 0f;
             // UI
-            Time.timeScale = 1; // start game unPaused
+            Time.timeScale = 0; // start game paused
             isPaused = false;
             // Health
             healthPoints = maxHealthPoints;

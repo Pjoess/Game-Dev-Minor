@@ -20,7 +20,7 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private float nextMoveTimer = 2f;
 
         [Header("Rotation")]
-        [SerializeField] private float rotationSpeed = 750f;
+        // [SerializeField] private float rotationSpeed = 750f;
         [SerializeField] private float maxRotateToAngleMove = 1f;
 
         [Header("Attack")]

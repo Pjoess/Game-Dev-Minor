@@ -35,7 +35,8 @@ namespace GOReplacer
 			Init();
 		}
 
-		private void OnScene(SceneView sceneView)
+        [System.Obsolete]
+        private void OnScene(SceneView sceneView)
 		{
 			GameObjects = Selection.gameObjects;
 
@@ -50,7 +51,8 @@ namespace GOReplacer
 			Handles.EndGUI();
 		}
 
-		public void OnGUI()
+        [System.Obsolete]
+        public void OnGUI()
 		{
 			GameObjects = Selection.gameObjects;
 			GUI.skin.font = ((GUIStyle)"ShurikenLabel").font;
@@ -72,7 +74,8 @@ namespace GOReplacer
 			SceneView.RepaintAll();
 		}
 
-		private void Replace()
+        [System.Obsolete]
+        private void Replace()
 		{
 
 			string prefabType = PrefabUtility.GetPrefabType(GameObjectReplacement).ToString();
@@ -148,7 +151,8 @@ namespace GOReplacer
 			}
 		}
 
-		private void GetLayoutFields(bool isSceneView = false)
+        [System.Obsolete]
+        private void GetLayoutFields(bool isSceneView = false)
 		{
 			EditorGUIUtility.labelWidth = 100;
 

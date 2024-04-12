@@ -4,12 +4,14 @@ public class PlayerRunState : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
-
+        // player.footStepSound.pitch = 1.25f;
+        // player.footStepSound.Play();
     }
 
     public override void ExitState(Player player)
     {
-
+        // player.footStepSound.pitch = 1.0f;
+        // player.footStepSound.Stop();
     }
 
     public override void UpdateState(Player player)

@@ -6875,6 +6875,11 @@ PrefabInstance:
       objectReference: {fileID: 2000622198}
     - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
+      propertyPath: footStepSound
+      value: 
+      objectReference: {fileID: 1511746848}
+    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
+        type: 3}
       propertyPath: buddySwitchMode
       value: 
       objectReference: {fileID: 365917028}
@@ -6893,6 +6898,16 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 1385193d73fdae948b8c8baf19acaf36, type: 3}
+    - target: {fileID: 3154074400707004757, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
+        type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3154074400707004757, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 5188116227629772384, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -6908,6 +6923,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6961977104996585968, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6916,6 +6936,12 @@ PrefabInstance:
 --- !u!82 &1511746847 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 2530774772826494316, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1511746846}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1511746848 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3154074400707004757, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
     type: 3}
   m_PrefabInstance: {fileID: 1511746846}
   m_PrefabAsset: {fileID: 0}
