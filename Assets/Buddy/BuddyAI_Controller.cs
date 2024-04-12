@@ -26,7 +26,7 @@ public class BuddyAI_Controller : MonoBehaviour
         [SerializeField] private float maxRotateToAngleMove = 1f;
 
         [Header("Attack")]
-        [SerializeField] private float shootingInterval = 0.3f;
+        [SerializeField] private float shootingInterval = 1f;
         [SerializeField] private float shootingRange = 15f;
 
         [Header("Projectiles")]
@@ -206,15 +206,10 @@ public class BuddyAI_Controller : MonoBehaviour
     void ShootAtEnemy(Vector3 targetPosition)
     {
         Vector3 direction = (targetPosition - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+        Destroy(bullet, bulletLifetime);
 
-        if (Quaternion.Angle(transform.rotation, lookRotation) < maxRotateToAngleMove)
-        {
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-            bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
-            Destroy(bullet, bulletLifetime);
-        }
     }
 
     IEnumerator ShootAtEnemyRoutine()
