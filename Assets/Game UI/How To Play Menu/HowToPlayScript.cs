@@ -4,6 +4,10 @@ public class HowToPlayScript : MonoBehaviour
 {
     [SerializeField] private GameObject closePanel;
 
+    void Start(){
+        closePanel.SetActive(true);
+    }
+
     public void ClosePanel()
     {
         if(closePanel != null){
