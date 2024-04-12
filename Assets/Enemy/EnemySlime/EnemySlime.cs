@@ -8,11 +8,10 @@ using UnityEngine.AI;
 public class EnemySlime : EnemyBase
 {
     #region Variables
-        private bool isChasingPlayer = false;
+        // private bool isChasingPlayer = false;
         private bool attackCollision = false;
         private bool isDashing = false;
         private float chaseRange = 15f;
-        [SerializeField]
         public LayerMask playerLayer;
         public Transform centerPoint;
         private float patrolWaitTime = 5f;

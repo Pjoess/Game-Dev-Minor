@@ -10,7 +10,6 @@ public class EnemyChaseState : EnemyState
     public override void EnterState()
     {
         enemy.Agent.isStopped = false;
-        Debug.Log("Chase state");
     }
 
     public override void ExitState()

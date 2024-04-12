@@ -8,7 +8,6 @@ public class EnemyAttackState : EnemyState
     public override void EnterState()
     {
         enemy.Agent.ResetPath();
-        Debug.Log("Attacking...");
         enemy.Attack();
     }
 

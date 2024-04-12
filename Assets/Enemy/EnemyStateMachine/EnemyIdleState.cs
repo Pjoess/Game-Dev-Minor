@@ -7,7 +7,6 @@ public class EnemyIdleState : EnemyState
 
     public override void EnterState()
     {
-        Debug.Log("enter IDLE ENEMY");
         // if(enemy.Agent == null){
         //     Debug.Log("enemy is null");
         // }
