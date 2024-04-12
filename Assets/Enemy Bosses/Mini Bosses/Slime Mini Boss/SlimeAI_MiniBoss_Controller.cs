@@ -213,6 +213,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             if (HealthPoints <= 0)
             {
                 GetComponent<MemoryDropScipt>().DropItem(transform.position);
+                ResumeAllOtherMusic();
                 Destroy(gameObject);
             }
         }
