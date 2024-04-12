@@ -6,6 +6,8 @@ public class DeathScript : MonoBehaviour
     [Header("Game Object References")]
     [SerializeField] private GameObject deathPanel;
 
+    [SerializeField] private AudioSource deathMusic;
+
     public void EnableDeathCanvas(int healthPoints){
         if(healthPoints <= 0){
             deathPanel.SetActive(true);
@@ -18,20 +20,21 @@ public class DeathScript : MonoBehaviour
 
     IEnumerator WaitSeconds()
     {
-        //victoryMedievalSound.Play();
+        deathMusic.Play();
         PauseAllOtherMusic();
         yield return new WaitForSeconds(0f);
-        //victoryCongratulations.Play();
         Time.timeScale = 0;
     }
 
     void PauseAllOtherMusic()
+    {
+        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource audioSource in allAudioSources)
         {
-            AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
-            foreach (AudioSource audioSource in allAudioSources)
+            if (audioSource != deathMusic)
             {
                 audioSource.Stop();
             }
-        }
-
+        } 
+    }
 }

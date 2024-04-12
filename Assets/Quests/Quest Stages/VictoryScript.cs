@@ -22,9 +22,22 @@ public class VictoryScript : MonoBehaviour
 
     IEnumerator WaitSeconds()
     {
+        PauseAllOtherMusic();
         victoryMedievalSound.Play();
         yield return new WaitForSeconds(4f);
         victoryCongratulations.Play();
         Time.timeScale = 0;
+    }
+
+    void PauseAllOtherMusic()
+    {
+        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource audioSource in allAudioSources)
+        {
+            if (audioSource != victoryMedievalSound && audioSource != victoryCongratulations)
+            {
+                audioSource.Stop();
+            }
+        }
     }
 }
