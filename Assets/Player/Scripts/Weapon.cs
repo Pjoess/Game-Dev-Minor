@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     private CapsuleCollider swordCollider;
     public AudioSource swordSlashSound;
     public bool colliderSwitchOn_Off = false;
-    private readonly List<GameObject> enemiesHit = new List<GameObject>();
+    private readonly List<GameObject> enemiesHit = new();
     private bool strongAttack = false;
 
     public bool StrongAttack { get => strongAttack; set => strongAttack = value; }
