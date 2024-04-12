@@ -17,6 +17,19 @@ public class Volume_Manager : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        if (!PlayerPrefs.HasKey("musicVolume"))
+        {
+            PlayerPrefs.SetFloat("musicVolume", 1);
+            Load();
+        }
+        else
+        {
+            Load();
+        }
+    }
+
     public void ChangeVolume(){
         AudioListener.volume = volumeSlider.value;
         Save();
@@ -25,6 +38,7 @@ public class Volume_Manager : MonoBehaviour
     // Load and Save data
     public void Load(){
         volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        AudioListener.volume = volumeSlider.value;
     }
 
     public void Save(){

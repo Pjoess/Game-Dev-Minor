@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -7,6 +8,15 @@ public class UI_Manager : MonoBehaviour
 
     void Awake(){
         buttonClick = GetComponent<AudioSource>();
+        if (!PlayerPrefs.HasKey("musicVolume"))
+        {
+            PlayerPrefs.SetFloat("musicVolume", 1);
+            AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
+        }
+        else
+        {
+            AudioListener.volume = AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
+        }
     }
 
     public void PlayGame(){
