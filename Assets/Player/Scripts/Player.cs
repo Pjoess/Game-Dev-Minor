@@ -10,9 +10,13 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public Rigidbody rigidBody;
         [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
-        [HideInInspector] public AudioSource jumpSound;
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public Vector3 vectorDirection;
+
+        [Header("Sound Effects")]
+        public AudioSource jumpSound;
+        public AudioSource ouchSound;
+        public AudioSource rollSound;
 
         // --- IDamagable --- //
         [Header("Player Healthpoint")]
@@ -59,6 +63,9 @@ public class Player : MonoBehaviour, IDamageble
         // --- UI CameraFollow --- //
         private CinemachineVirtualCamera virtualCamera;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
+
+        // --- Buddy --- //
+        [SerializeField] private AudioSource buddySwitchMode;
 
         // --- Player States --- //
         public PlayerBaseState playerState;
@@ -128,7 +135,6 @@ public class Player : MonoBehaviour, IDamageble
             // Health
             healthPoints = maxHealthPoints;
             // Stop freeze alles on start
-            Time.timeScale = 0;
         }
 
         void Update(){
@@ -368,6 +374,7 @@ public class Player : MonoBehaviour, IDamageble
 
         void OnToggleBuddyAttack(InputValue value)
         {
+            buddySwitchMode.Play();
             buddy.ToggleAttackBehaviour();
         }
 
@@ -407,6 +414,7 @@ public class Player : MonoBehaviour, IDamageble
             // }
             if(playerState != dashState) 
             {
+                ouchSound.Play();
                 healthPoints -= damage;
                 if(healthPoints <= 0){
                 deathScript.EnableDeathCanvas(healthPoints);

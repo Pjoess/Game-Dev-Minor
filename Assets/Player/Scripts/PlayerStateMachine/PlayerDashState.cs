@@ -10,6 +10,7 @@ public class PlayerDashState : PlayerBaseState
 
     public override void EnterState(Player player)
     {
+        player.rollSound.Play();
         player.animator.SetBool(player.animIDDash, true);
         elapsed = 0f;
     }
