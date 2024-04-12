@@ -127,6 +127,8 @@ public class Player : MonoBehaviour, IDamageble
             isPaused = false;
             // Health
             healthPoints = maxHealthPoints;
+            // Stop freeze alles on start
+            Time.timeScale = 0;
         }
 
         void Update(){
