@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,7 +8,6 @@ public class KeybindingsUI : MonoBehaviour
 {
     private PlayerInput input;
     private RebindingOperation rebindingOperation;
-
 
     private KeybindingSO currentBinding;
     private InputAction currentAction;

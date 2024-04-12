@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
     public AudioSource buttonClick;
 
     void Awake(){
-        buttonClick = GetComponent<AudioSource>();
         if (!PlayerPrefs.HasKey("musicVolume"))
         {
             PlayerPrefs.SetFloat("musicVolume", 1);
