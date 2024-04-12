@@ -18,6 +18,7 @@ public class Player : MonoBehaviour, IDamageble
         public AudioSource ouchSound;
         public AudioSource rollSound;
         public AudioSource footStepSound;
+        public AudioSource pauseSound;
 
         // --- IDamagable --- //
         [Header("Player Healthpoint")]
@@ -345,6 +346,7 @@ public class Player : MonoBehaviour, IDamageble
 
         void OnPause(InputValue value)
         {
+            pauseSound.Play();
             if (value.isPressed && !isPaused)
             {
                 Debug.Log("Game Paused");
