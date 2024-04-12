@@ -8,22 +8,22 @@ using UnityEngine.AI;
 public class EnemySlime : EnemyBase
 {
     #region Variables
-        public bool isChasingPlayer = false;
-        public bool attackCollision = false;
-        public bool isDashing = false;
-        public float chaseRange = 15f;
+        private bool isChasingPlayer = false;
+        private bool attackCollision = false;
+        private bool isDashing = false;
+        private float chaseRange = 15f;
         [SerializeField]
         public LayerMask playerLayer;
         public Transform centerPoint;
-        public float patrolWaitTime = 5f;
-        public float patrolRange = 5f;
+        private float patrolWaitTime = 5f;
+        private float patrolRange = 5f;
         private SphereCollider centerCollider;
-        public Coroutine idling;
+        private Coroutine idling;
         public float dashSpeedMultiplier = 1.5f;
 
-        public Coroutine attacking;
-        public int Timer;
-        public Coroutine timer;
+        private Coroutine attacking;
+        private int Timer;
+        private Coroutine timer;
     #endregion
 
     #region CheckStates
@@ -214,7 +214,6 @@ public class EnemySlime : EnemyBase
             Vector3 playerPosition = Target.position;
             Vector3 directionToPlayer = playerPosition - transform.position;
             Vector3 dashTargetPosition = playerPosition + directionToPlayer.normalized * 1.1f;
-            // Vector3 playerPosition = Target.position;
             float distance;
             FacePlayer(playerPosition);
             // Vector3 directionToPlayer = Target.position - transform.position;
@@ -242,7 +241,7 @@ public class EnemySlime : EnemyBase
                 // Agent.Move(directionToPlayer);
                 // Agent.SetDestination(playerPosition);
 
-                if(distance <= 1f || Timer >= 3){
+                if(distance <= 1f || Timer >= 2){
                     Timer = 0;
                     StopCoroutine(timer);
                     Debug.Log("disstance reached");
@@ -325,7 +324,7 @@ public class EnemySlime : EnemyBase
         }
 
         public IEnumerator AttackDashTimer(){
-            while(Timer < 3){
+            while(Timer < 2){
                 yield return new WaitForSeconds(1f);
                 Timer++;
             }
