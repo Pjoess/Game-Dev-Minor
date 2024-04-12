@@ -121,13 +121,8 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                     chaseMusic.Play();
                 }
                 isChasingPlayer = true;
-                
-                // Calculate direction to the player then Rotate the enemy towards the playe
-                Vector3 directionToPlayer = (player.transform.position - transform.position).normalized; 
-                // Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-                // transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
 
-                miniBossAgent.SetDestination(player.transform.position); // Move to player
+                miniBossAgent.SetDestination(player.transform.position);
             }
             else
             {
@@ -140,7 +135,9 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 isChasingPlayer = false;
             }
         }
-
+    #endregion
+        
+    #region Music & Audio
         void PauseAllOtherMusic()
         {
             AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
