@@ -55,19 +55,14 @@ public class BuddyAI_Controller : MonoBehaviour
             buddy.acceleration = navMeshAcceleration_Speed;
         }
 
-        void Start()
-        {
-            
-        }
-
         void Update()
         {
-            BuddyChecker();
+            BuddyToPlayerDistanceCheck();
         }
     #endregion
 
     #region Buddy Checks
-        private void BuddyChecker()
+        private void BuddyToPlayerDistanceCheck()
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -76,18 +71,6 @@ public class BuddyAI_Controller : MonoBehaviour
                 buddy.SetDestination(player.position);
                 return;
             }
-
-            // if (isStandingStill)
-            // {
-            //     StandStillTimer();
-            // }
-            // else if (buddy.remainingDistance <= buddy.stoppingDistance)
-            // {
-            //     if (!isStandingStill)
-            //     {
-            //         StartCoroutine(StandStillCoroutine());
-            //     }
-            // }
         }
     #endregion
 
@@ -161,29 +144,7 @@ public class BuddyAI_Controller : MonoBehaviour
         }
     #endregion
 
-    #region Buddy Idle
-        // Timer for standing still
-        // void StandStillTimer()
-        // {
-        //     isStandingStillTimer -= Time.deltaTime;
-        //     if (isStandingStillTimer <= 0f)
-        //     {
-        //         isStandingStill = false;
-        //         MoveToNextDestination();
-        //     }
-        // }
-
-        // // Coroutine for standing still for a certain time
-        // IEnumerator StandStillCoroutine()
-        // {
-        //     isStandingStill = true;
-        //     yield return new WaitForSeconds(isStandingStillTimer);
-        //     isStandingStill = false;
-        //     MoveToNextDestination();
-        // }
-    #endregion
-
-        #region Buddy Attack
+    #region Buddy Attack
     // Method to check if an enemy is in line of sight
     bool IsInLineOfSight(Transform enemyTransform)
     {
