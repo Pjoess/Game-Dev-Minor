@@ -4769,7 +4769,7 @@ PrefabInstance:
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -65.3
+      value: -61.77
       objectReference: {fileID: 0}
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -4809,7 +4809,7 @@ PrefabInstance:
     - target: {fileID: 5178128474063091433, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: maxHealthPoints
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5178128474063091433, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -4820,6 +4820,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MiniBossSlime (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338769895306187088, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -6805,6 +6810,11 @@ PrefabInstance:
       propertyPath: deathScript
       value: 
       objectReference: {fileID: 2000622198}
+    - target: {fileID: 2154555186973364919, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
+        type: 3}
+      propertyPath: m_Mass
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5188116227629772384, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -9282,7 +9292,7 @@ PrefabInstance:
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -65.3
+      value: -62.69
       objectReference: {fileID: 0}
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -9322,7 +9332,7 @@ PrefabInstance:
     - target: {fileID: 5178128474063091433, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: maxHealthPoints
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5178128474063091433, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -9333,6 +9343,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MiniBossSlime (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338769895306187088, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -11470,6 +11485,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1581407085}
     m_Modifications:
+    - target: {fileID: 2168172891850476084, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Drag
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11483,7 +11503,7 @@ PrefabInstance:
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -65.3
+      value: -62.04
       objectReference: {fileID: 0}
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -11522,6 +11542,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5178128474063091433, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
+      propertyPath: maxHealthPoints
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5178128474063091433, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
       propertyPath: patrolCenterPoint
       value: 
       objectReference: {fileID: 267235345}
@@ -11530,6 +11555,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: MiniBossSlime
       objectReference: {fileID: 0}
+    - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 5.2300415
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 3.4752808
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 4.926758
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.045928955
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1.9043713
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.026245117
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824980905167866548, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 660ec57f725a7f7438f7eaf61af7b62a,
+        type: 2}
     - target: {fileID: 8739416582713608805, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: m_AnchorMax.x
