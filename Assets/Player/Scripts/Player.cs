@@ -284,7 +284,7 @@ public class Player : MonoBehaviour, IDamageble
         public void OnAttackStruck()
         {
             //if anim has player over 70%
-            if(IsAnimFinished(0.7f))
+            if(IsAnimFinished(0.75f))
             {
                 struckAgain = true;
             }
