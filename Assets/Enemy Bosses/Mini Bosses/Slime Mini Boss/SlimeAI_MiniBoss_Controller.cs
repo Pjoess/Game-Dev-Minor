@@ -129,8 +129,9 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
                 if (isChasingPlayer)
                 {
                     chaseMusic.Stop();
+                    ResumeAllOtherMusic();
                 }
-                ResumeAllOtherMusic();
+                
                 
                 isChasingPlayer = false;
             }
