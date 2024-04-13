@@ -142,6 +142,8 @@ public class Player : MonoBehaviour, IDamageble
             // Health
             healthPoints = maxHealthPoints;
             // Stop freeze alles on start
+
+            animator.SetFloat(animIDMoveSpeed, 1);
         }
 
         void Update(){
