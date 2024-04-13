@@ -12,6 +12,7 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public Weapon sword;
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public Vector3 vectorDirection;
+        private PlayerInput input;
 
         [Header("Sound Effects")]
         public AudioSource jumpSound;
@@ -94,6 +95,7 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public int animIDStrike2;
         [HideInInspector] public int animIDStrike3;
         [HideInInspector] public int animIDDash;
+        [HideInInspector] public int animIDMoveSpeed;
     #endregion
 
     private void AssignAnimIDs()
@@ -106,6 +108,7 @@ public class Player : MonoBehaviour, IDamageble
         animIDStrike2 = Animator.StringToHash("Strike2");
         animIDStrike3 = Animator.StringToHash("Strike3");
         animIDDash = Animator.StringToHash("Dash");
+        animIDMoveSpeed = Animator.StringToHash("MoveSpeed");
     }
 
     #region Default Unity Function
@@ -121,6 +124,7 @@ public class Player : MonoBehaviour, IDamageble
             capsuleColider = GetComponent<CapsuleCollider>();
             // Get the Cinemachine Virtual Camera component
             virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            input = GetComponent<PlayerInput>();
         }
         
         void Start()
@@ -183,8 +187,14 @@ public class Player : MonoBehaviour, IDamageble
             animationBlend = Mathf.Lerp(animationBlend, speed, Time.deltaTime * speedChangeRate);
             if (animationBlend < 0.01f) animationBlend = 0f;
             animator.SetFloat(animIDSpeed, animationBlend);
+            
+            if(!input.currentControlScheme.Equals("Keyboard&Mouse"))
+            {
+                animator.SetFloat(animIDMoveSpeed, movement.magnitude);
+            }
+            else animator.SetFloat(animIDMoveSpeed, 1);
 
-            vectorDirection = new(movement.x, 0, movement.y);
+        vectorDirection = new(movement.x, 0, movement.y);
 
             Vector3 cameraFaceForward = Camera.main.transform.forward;
             Vector3 cameraFaceRight = Camera.main.transform.right;
