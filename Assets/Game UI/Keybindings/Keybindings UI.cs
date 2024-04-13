@@ -16,7 +16,7 @@ public class KeybindingsUI : MonoBehaviour
 
     void Start()
     {
-        input = GetComponent<PlayerInput>();
+        input = GetComponentInParent<PlayerInput>();
         allButtons = FindObjectsByType<Button>(FindObjectsSortMode.InstanceID);
 
         if (PlayerPrefs.HasKey("controls"))
@@ -65,7 +65,7 @@ public class KeybindingsUI : MonoBehaviour
         button.GetComponentInChildren<TMP_Text>().text = button.GetComponent<AssignedBinding>().binding.GetBinding(input);
     }
 
-    private void UpdateAllButtons()
+    public void UpdateAllButtons()
     {
         foreach (Button button in allButtons)
         {

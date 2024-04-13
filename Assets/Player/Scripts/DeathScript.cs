@@ -1,16 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DeathScript : MonoBehaviour
 {
     [Header("Game Object References")]
     [SerializeField] private GameObject deathPanel;
+    [SerializeField] private GameObject deathButton;
 
     [SerializeField] private AudioSource deathMusic;
 
     public void EnableDeathCanvas(int healthPoints){
         if(healthPoints <= 0){
             deathPanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(deathButton);
             StartCoroutine(WaitSeconds());
         } else {
             deathPanel.SetActive(false);

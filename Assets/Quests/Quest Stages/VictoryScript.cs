@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class VictoryScript : MonoBehaviour
 {
     [Header("Game Object References")]
-    [SerializeField] private GameObject VictoryMenuPanel;
+    [SerializeField] private GameObject victoryMenuPanel;
+    [SerializeField] private GameObject victoryButton;
 
     [Header("Audio Source References")]
     [SerializeField] private AudioSource victoryMedievalSound;
@@ -12,10 +14,11 @@ public class VictoryScript : MonoBehaviour
 
     public void EnableVictoryCanvas(bool quesCompleted){
         if(quesCompleted == true){
-            VictoryMenuPanel.SetActive(true);
+            victoryMenuPanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(victoryButton);
             StartCoroutine(WaitSeconds());
         } else {
-            VictoryMenuPanel.SetActive(false);
+            victoryMenuPanel.SetActive(false);
             Time.timeScale = 1;
         }
     }

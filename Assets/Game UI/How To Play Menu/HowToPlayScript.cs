@@ -1,10 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class HowToPlayScript : MonoBehaviour
 {
     [SerializeField] private GameObject closePanel;
+    [SerializeField] private GameObject closeButton;
     private PlayerInput input;
 
     [SerializeField] TMP_Text forwardsText;
@@ -30,6 +32,7 @@ public class HowToPlayScript : MonoBehaviour
         sprintText.text = input.actions.FindAction("Sprint").GetBindingDisplayString();
         input.SwitchCurrentActionMap("UI");
         Debug.Log(input.currentActionMap);
+        EventSystem.current.SetSelectedGameObject(closeButton);
     }
 
     public void ClosePanel()
