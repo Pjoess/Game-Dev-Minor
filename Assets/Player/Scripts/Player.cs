@@ -32,13 +32,17 @@ public class Player : MonoBehaviour, IDamageble
         public float walkSpeed = 3f;
         public float runSpeed = 6f;
         public float speedChangeRate = 5f;
-        [HideInInspector] public bool isSprinting = false;
         [HideInInspector] public bool hasJumped = false;
         public float jumpForce = 5f;
         public float jumpCooldown = 1f;
         [HideInInspector] public float jumpCooldownDelta;
         public float idleToFallTimer = 0.15f;
         [HideInInspector] public float idleToFallDelta;
+
+        [Header("Player Sprinting")]
+        private float lastWKeyPressTime = 0f;
+        public float doublePressTimeWindow = 0.5f;
+        public bool isSprinting = false;
 
         [Header("Player Rotation")]
         public float rotationSpeed = 600f;
@@ -184,19 +188,31 @@ public class Player : MonoBehaviour, IDamageble
     #region Player Movement
         public void Movement()
         {
+            // Check for double press of the 'W' key
+            // --- Saved for now need to look for a better solution ---
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                float currentTime = Time.time;
+                if (currentTime - lastWKeyPressTime <= doublePressTimeWindow)
+                {
+                    isSprinting = !isSprinting;
+                }
+                lastWKeyPressTime = currentTime;
+            }
+
             float speed = isSprinting ? runSpeed : walkSpeed;
-            
+
             animationBlend = Mathf.Lerp(animationBlend, speed, Time.deltaTime * speedChangeRate);
             if (animationBlend < 0.01f) animationBlend = 0f;
             animator.SetFloat(animIDSpeed, animationBlend);
-            
-            if(!input.currentControlScheme.Equals("Keyboard&Mouse"))
+
+            if (!input.currentControlScheme.Equals("Keyboard&Mouse"))
             {
                 animator.SetFloat(animIDMoveSpeed, movement.magnitude);
             }
             else animator.SetFloat(animIDMoveSpeed, 1);
 
-        vectorDirection = new(movement.x, 0, movement.y);
+            vectorDirection = new Vector3(movement.x, 0, movement.y);
 
             Vector3 cameraFaceForward = Camera.main.transform.forward;
             Vector3 cameraFaceRight = Camera.main.transform.right;
@@ -209,7 +225,7 @@ public class Player : MonoBehaviour, IDamageble
 
             transform.Translate(speed * Time.deltaTime * moveDirection, Space.World);
 
-            if(vectorDirection != Vector3.zero) 
+            if (vectorDirection != Vector3.zero)
             {
                 Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * vectorDirection;
                 Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
