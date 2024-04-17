@@ -39,9 +39,9 @@ public class Player : MonoBehaviour, IDamageble
         public float idleToFallTimer = 0.15f;
         [HideInInspector] public float idleToFallDelta;
 
-        [Header("Player Sprinting")]
-        private float lastWKeyPressTime = 0f;
-        public float doublePressTimeWindow = 0.5f;
+        [Header("Player Sprinting Keyboard Exclusive")]
+        public float lastWKeyPressTime = 0f;
+        public float doublePressTimeWindow = 0.2f;
         public bool isSprinting = false;
 
         [Header("Player Rotation")]
@@ -188,7 +188,7 @@ public class Player : MonoBehaviour, IDamageble
     #region Player Movement
         public void Movement()
         {
-            // Check for double press of the 'W' key
+            // Check for double press of the 'W' or other keys depends where you point
             // --- Saved for now need to look for a better solution ---
             if (Input.GetKeyDown(KeyCode.W))
             {
