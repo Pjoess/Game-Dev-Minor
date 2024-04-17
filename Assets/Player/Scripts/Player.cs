@@ -411,40 +411,6 @@ public class Player : MonoBehaviour, IDamageble
             buddySwitchMode.Play();
             // Toggle the attack behavior
             buddy.ToggleAttackBehaviour();
-
-            // If the buddy is in attack mode, start a coroutine to switch back after 5 seconds
-            if (buddy.isAttacking)
-            {
-                StartCoroutine(SwitchBuddyToPassive());
-            }
-        }
-
-        // Coroutine to switch the buddy back to passive mode after 5 seconds
-        private IEnumerator SwitchBuddyToPassive()
-        {
-            yield return new WaitForSeconds(5f);
-
-            // Switch the buddy back to passive mode
-            buddy.ToggleAttackBehaviour();
-
-            // Start the cooldown before the buddy can attack again
-            StartCoroutine(BuddyAttackCooldown());
-        }
-
-        // Coroutine for the cooldown before the buddy can attack again
-        private IEnumerator BuddyAttackCooldown()
-        {
-            // Add your cooldown duration here (e.g., 10 seconds)
-            float cooldownDuration = 10f;
-
-            // Disable the buddy's attack behavior during the cooldown
-            buddy.canAttack = false;
-
-            // Wait for the cooldown duration
-            yield return new WaitForSeconds(cooldownDuration);
-
-            // Enable the buddy's attack behavior after the cooldown
-            buddy.canAttack = true;
         }
 
     #endregion --- End ---
