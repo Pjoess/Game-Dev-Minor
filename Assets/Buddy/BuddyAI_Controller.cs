@@ -1,12 +1,13 @@
 // --- Behaviour Tree --- //
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class BuddyAI_Controller : MonoBehaviour
 {
-    // Variables & References
+    #region Variables & References
+
     [Header("Object References")]
     [SerializeField] private NavMeshAgent buddy;
     [SerializeField] private Transform player;
@@ -30,6 +31,10 @@ public class BuddyAI_Controller : MonoBehaviour
 
     private Coroutine behaviorCoroutine;
 
+    #endregion
+
+    #region MonoBehaviour Callbacks
+
     void Awake()
     {
         buddy = GetComponent<NavMeshAgent>();
@@ -46,6 +51,10 @@ public class BuddyAI_Controller : MonoBehaviour
         if (behaviorCoroutine != null)
             StopCoroutine(behaviorCoroutine);
     }
+
+    #endregion
+
+    #region Behavior Tree
 
     IEnumerator BehaviorTree()
     {
@@ -102,11 +111,19 @@ public class BuddyAI_Controller : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Toggle Attack Behavior
+
     public void ToggleAttackBehaviour()
     {
         toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
         toggleAttack = !toggleAttack;
     }
+
+    #endregion
+
+    #region Drawing Gizmos
 
     private void OnDrawGizmosSelected()
     {
@@ -122,7 +139,10 @@ public class BuddyAI_Controller : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, avoidanceDistance);
     }
+
+    #endregion
 }
+
 
 // --- Old Code --- //
 // using System.Collections;
