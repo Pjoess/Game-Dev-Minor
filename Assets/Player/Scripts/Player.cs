@@ -143,7 +143,7 @@ public class Player : MonoBehaviour, IDamageble
             idleToFallDelta = idleToFallTimer;
             jumpCooldownDelta = 0f;
             // UI
-            Time.timeScale = 0; // start game paused
+            Time.timeScale = 1; // start game paused
             isPaused = false;
             // Health
             healthPoints = maxHealthPoints;
