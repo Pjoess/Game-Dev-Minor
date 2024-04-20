@@ -1438,7 +1438,7 @@ GameObject:
   - component: {fileID: 1589594552493417504}
   - component: {fileID: 6670838432205181522}
   m_Layer: 0
-  m_Name: Canvas_Victory
+  m_Name: Canvas Vcitory Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1457,7 +1457,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2483843499267390239}
-  m_Father: {fileID: 171684238629942363}
+  m_Father: {fileID: 3771856954495510220}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2193,10 +2193,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3311254273182505015}
-  - {fileID: 2770613836420816665}
-  - {fileID: 442691248457855561}
-  - {fileID: 8489839475883217761}
-  - {fileID: 1784543856324158537}
+  - {fileID: 3771856954495510220}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 101.011, z: 0}
 --- !u!20 &5526064465801198260
@@ -2350,7 +2347,7 @@ GameObject:
   - component: {fileID: 6757953374111101736}
   - component: {fileID: 3900308856393949401}
   m_Layer: 0
-  m_Name: Canvas How To Play
+  m_Name: Canvas How To Play Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2369,7 +2366,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7397948720268132878}
-  m_Father: {fileID: 171684238629942363}
+  m_Father: {fileID: 3771856954495510220}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2460,6 +2457,41 @@ MonoBehaviour:
   attackText: {fileID: 0}
   dodgeText: {fileID: 0}
   sprintText: {fileID: 0}
+--- !u!1 &4081920476707789271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3771856954495510220}
+  m_Layer: 0
+  m_Name: '- Menu UI -'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3771856954495510220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4081920476707789271}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.2639621, y: 0.000000016596124, z: -0.0000000045418327, w: 0.9645331}
+  m_LocalPosition: {x: 2.4471443, y: 0.86880493, z: 25.615732}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2770613836420816665}
+  - {fileID: 442691248457855561}
+  - {fileID: 8489839475883217761}
+  - {fileID: 1784543856324158537}
+  m_Father: {fileID: 171684238629942363}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4096670060981985668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2913,7 +2945,7 @@ GameObject:
   - component: {fileID: 1193806676558488281}
   - component: {fileID: 1476646596849236090}
   m_Layer: 0
-  m_Name: Canvas_Death
+  m_Name: Canvas Death Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2932,7 +2964,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6392534848611295497}
-  m_Father: {fileID: 171684238629942363}
+  m_Father: {fileID: 3771856954495510220}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5047,7 +5079,7 @@ GameObject:
   - component: {fileID: 3276608979062711615}
   - component: {fileID: 8275474860674777432}
   m_Layer: 5
-  m_Name: Canvas_HPBar
+  m_Name: Canvas HPBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5379,7 +5411,7 @@ GameObject:
   - component: {fileID: 760930162373281388}
   - component: {fileID: 5909498890581388105}
   m_Layer: 5
-  m_Name: Canvas UI
+  m_Name: Canvas Pause Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5398,7 +5430,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8679981414216052562}
-  m_Father: {fileID: 171684238629942363}
+  m_Father: {fileID: 3771856954495510220}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
