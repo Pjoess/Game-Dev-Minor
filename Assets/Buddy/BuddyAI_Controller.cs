@@ -27,7 +27,8 @@ public class BuddyAI_Controller : MonoBehaviour
     [SerializeField] private float bulletShootHeight = 1f;
     [SerializeField] private bool toggleAttack;
 
-    // Other variables...
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public int walk;
 
     private Coroutine behaviorCoroutine;
 
@@ -38,7 +39,6 @@ public class BuddyAI_Controller : MonoBehaviour
     void Awake()
     {
         buddy = GetComponent<NavMeshAgent>();
-        // Set other references...
     }
 
     void Start()
