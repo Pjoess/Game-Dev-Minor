@@ -30,8 +30,8 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
         
         [Header("Player Move/Run/Jump")]
-        public float walkSpeed = 3f;
-        public float runSpeed = 6f;
+        public float walkSpeed = 7f;
+        public float runSpeed = 10f;
         public float speedChangeRate = 5f;
         [HideInInspector] public bool hasJumped = false;
         public float jumpForce = 5f;
