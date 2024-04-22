@@ -8,20 +8,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9160175107593118007, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 599.6114
+      value: -4.1019897
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.120959
+      value: 0.06078911
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 566.67773
+      value: -35.8526
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
@@ -31,17 +36,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
@@ -58,16 +63,71 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6792753173688149775, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -5767547074039685263, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -908799420511431689, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -200195200219256731, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
       propertyPath: m_Name
       value: buddy with walk animation
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_TagString
+      value: Buddy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5133833762308725606, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: a825f311008e4f947916b91c000e8d63,
         type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8fc42597a256be48a68359385a9d210, type: 2}
+    - target: {fileID: 6898489461742444408, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136903659124275366, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8800545420875869709, guid: a825f311008e4f947916b91c000e8d63,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -214,7 +274,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   toggleBuddyAttackText: {fileID: 0}
-  shootSound: {fileID: 0}
+  shootSound: {fileID: 9199752558544824881}
   buddyToPlayerDistance: 8
   avoidanceDistance: 6
   nextMoveTimer: 2
@@ -224,8 +284,6 @@ MonoBehaviour:
   bulletLifetime: 3
   bulletShootHeight: 1
   toggleAttack: 0
-  animator: {fileID: 0}
-  walk: 0
 --- !u!82 &9199752558544824881
 AudioSource:
   m_ObjectHideFlags: 0
