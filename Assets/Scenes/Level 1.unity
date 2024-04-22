@@ -5692,6 +5692,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51091c60746f33148940282f9978db8a, type: 3}
+--- !u!114 &1070325488 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 980435300840119645, guid: 53f93d13a95cbfd4cb1590fd03da83b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6223997274897979491}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1070588234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8865,7 +8877,7 @@ PrefabInstance:
         type: 3}
       propertyPath: buddy
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7756571919350318616}
     - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
       propertyPath: pauseBtn
@@ -14374,12 +14386,12 @@ PrefabInstance:
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000016596124
+      value: -0.000000016596124
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000045418327
+      value: 0.0000000045418327
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
@@ -14568,12 +14580,12 @@ PrefabInstance:
     - target: {fileID: 171684238629942363, guid: 53f93d13a95cbfd4cb1590fd03da83b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000016596124
+      value: -0.000000016596124
       objectReference: {fileID: 0}
     - target: {fileID: 171684238629942363, guid: 53f93d13a95cbfd4cb1590fd03da83b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000045418327
+      value: 0.0000000045418327
       objectReference: {fileID: 0}
     - target: {fileID: 171684238629942363, guid: 53f93d13a95cbfd4cb1590fd03da83b5,
         type: 3}
@@ -15893,6 +15905,16 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 567170977}
+    - target: {fileID: 4108385831906718368, guid: 5bc45640178ebe445ac0fc8c041e1927,
+        type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 7756571919350318615}
+    - target: {fileID: 4108385831906718368, guid: 5bc45640178ebe445ac0fc8c041e1927,
+        type: 3}
+      propertyPath: toggleBuddyAttackText
+      value: 
+      objectReference: {fileID: 1070325488}
     - target: {fileID: 4317387362832879460, guid: 5bc45640178ebe445ac0fc8c041e1927,
         type: 3}
       propertyPath: m_Name
@@ -15909,6 +15931,24 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7756571919350318613}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &7756571919350318615 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 9199752558544824881, guid: 5bc45640178ebe445ac0fc8c041e1927,
+    type: 3}
+  m_PrefabInstance: {fileID: 7756571919350318613}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7756571919350318616 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4108385831906718368, guid: 5bc45640178ebe445ac0fc8c041e1927,
+    type: 3}
+  m_PrefabInstance: {fileID: 7756571919350318613}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf5a23f3dae18c4590cf3d663784758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8349481078942567414
 PrefabInstance:
   m_ObjectHideFlags: 0
