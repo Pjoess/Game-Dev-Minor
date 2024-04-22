@@ -9,8 +9,8 @@ public class BuddyAI_Controller : MonoBehaviour
     #region Variables & References
 
     [Header("Object References")]
-    [SerializeField] private NavMeshAgent buddy;
-    [SerializeField] private Transform player;
+    private NavMeshAgent buddy;
+    private Transform player;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private LayerMask attackLayer;
     [SerializeField] private TextMeshProUGUI toggleBuddyAttackText;
@@ -61,8 +61,7 @@ public class BuddyAI_Controller : MonoBehaviour
             // Check if player is within buddy's follow distance
             if (IsPlayerWithinFollowDistance())
             {
-                // Follow player
-                buddy.SetDestination(player.position);
+                
                 if (toggleAttack)
                 {
                     // Check if enemy is within shooting range and line of sight
@@ -82,6 +81,8 @@ public class BuddyAI_Controller : MonoBehaviour
                 Patrol();
             }
 
+            // Follow player
+            buddy.SetDestination(player.position);
             yield return new WaitForSeconds(0.5f); // Adjust frequency of behavior tree updates
         }
     }
