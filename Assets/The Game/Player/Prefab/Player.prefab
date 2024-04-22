@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 596.607
+      value: -6.74
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.120935
+      value: 0.060765266
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 558.3
+      value: -44.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -185,7 +185,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &6374588513176910958
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -257,23 +257,25 @@ MonoBehaviour:
   sword: {fileID: 0}
   movement: {x: 0, y: 0}
   vectorDirection: {x: 0, y: 0, z: 0}
-  jumpSound: {fileID: 0}
-  ouchSound: {fileID: 0}
-  rollSound: {fileID: 0}
-  footStepSound: {fileID: 0}
-  pauseSound: {fileID: 0}
+  jumpSound: {fileID: 6961977104996585968}
+  ouchSound: {fileID: 6915279083833147340}
+  rollSound: {fileID: 2530774772826494316}
+  footStepSound: {fileID: 3154074400707004757}
+  pauseSound: {fileID: 7462105227262679010}
   healthPoints: 0
   maxHealthPoints: 100
-  walkSpeed: 2
-  runSpeed: 5
+  walkSpeed: 7
+  runSpeed: 10
   speedChangeRate: 5
-  isSprinting: 0
   hasJumped: 0
   jumpForce: 5
   jumpCooldown: 1
   jumpCooldownDelta: 0
   idleToFallTimer: 0.15
   idleToFallDelta: 0
+  lastWKeyPressTime: 0
+  doublePressTimeWindow: 0.2
+  isSprinting: 0
   rotationSpeed: 600
   dashDirection: {x: 0, y: 0, z: 0}
   dashForce: 7.5
@@ -300,6 +302,7 @@ MonoBehaviour:
   animIDStrike2: 0
   animIDStrike3: 0
   animIDDash: 0
+  animIDMoveSpeed: 0
 --- !u!82 &6961977104996585968
 AudioSource:
   m_ObjectHideFlags: 0
@@ -312,7 +315,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 819e2f053f519464e849bc23b7615789, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -502,9 +505,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: aed89c1397742a34fb3c77454dcd63df, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1385193d73fdae948b8c8baf19acaf36, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -600,9 +603,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b9b8dac78d23c0f448c01a542205b6a5, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0.04
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -696,7 +699,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 180c8d816b147fd418ebd87f8883fc98, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -879,11 +882,27 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5179788970003796591, guid: 96c0a666f10aea84a928edeb248e4663,
+        type: 3}
+      propertyPath: swordSlashSound
+      value: 
+      objectReference: {fileID: 1769203790580608777}
+    - target: {fileID: 8359646835408954401, guid: 96c0a666f10aea84a928edeb248e4663,
+        type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96c0a666f10aea84a928edeb248e4663, type: 3}
+--- !u!82 &1769203790580608777 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8359646835408954401, guid: 96c0a666f10aea84a928edeb248e4663,
+    type: 3}
+  m_PrefabInstance: {fileID: 7822215957657422632}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6387360920740572468 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3758923570347255324, guid: 96c0a666f10aea84a928edeb248e4663,
