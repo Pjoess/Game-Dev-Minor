@@ -7,27 +7,36 @@ using TMPro;
 public class BuddyAI_Controller : MonoBehaviour
 {
     #region Variables & References
-    [Header("Object References")]
+    [Header("References")]
     private NavMeshAgent buddy;
     private Transform player;
     public GameObject bulletPrefab;
     public LayerMask attackLayer;
     public AudioSource shootSound;
 
-    [Header("Movement & Rotation")]
-    public int shotsFired = 0;
-    public float shootingRange = 15f;
-    public float bulletSpeed = 8f;
-    public float bulletLifetime = 3f;
-    public float bulletShootHeight = 1f;
+    [Header("Attack")]
+    [SerializeField] private int shotsFired;
+    [SerializeField] private float shootingRange;
+    private float bulletSpeed = 8f;
+    private float bulletLifetime = 3f;
+    private float bulletShootHeight = 1f;
 
     private Coroutine behaviorCoroutine;
-
     #endregion
+
+    private void BuddyStatsOnAwake()
+    {
+        shotsFired = 0;
+        shootingRange = 10f;
+        bulletSpeed = 8f;
+        bulletLifetime = 3f;
+        bulletShootHeight = 1f;
+    }
 
     #region MonoBehaviour Callbacks
     void Awake()
     {
+        BuddyStatsOnAwake();
         buddy = this.GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
