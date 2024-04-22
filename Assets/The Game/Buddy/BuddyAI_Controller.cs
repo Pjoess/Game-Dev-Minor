@@ -13,7 +13,7 @@ public class BuddyAI_Controller : MonoBehaviour
     private Transform player;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private LayerMask attackLayer;
-    [SerializeField] private TextMeshProUGUI toggleBuddyAttackText;
+    // [SerializeField] private TextMeshProUGUI toggleBuddyAttackText;
     [SerializeField] private AudioSource shootSound;
 
     [Header("Movement & Rotation")]
@@ -61,17 +61,13 @@ public class BuddyAI_Controller : MonoBehaviour
             // Check if player is within buddy's follow distance
             if (IsPlayerWithinFollowDistance())
             {
-                
-                if (toggleAttack)
+                // Check if enemy is within shooting range and line of sight
+                Collider[] enemies = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+                foreach (Collider enemy in enemies)
                 {
-                    // Check if enemy is within shooting range and line of sight
-                    Collider[] enemies = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
-                    foreach (Collider enemy in enemies)
+                    if (enemy.CompareTag("Enemy"))
                     {
-                        if (enemy.CompareTag("Enemy"))
-                        {
-                            ShootAtEnemy(enemy.transform);
-                        }
+                        ShootAtEnemy(enemy.transform);
                     }
                 }
             }
@@ -114,11 +110,11 @@ public class BuddyAI_Controller : MonoBehaviour
 
     #region Toggle Attack Behavior
 
-    public void ToggleAttackBehaviour()
-    {
-        toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
-        toggleAttack = !toggleAttack;
-    }
+    // public void ToggleAttackBehaviour()
+    // {
+    //     toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
+    //     toggleAttack = !toggleAttack;
+    // }
 
     #endregion
 

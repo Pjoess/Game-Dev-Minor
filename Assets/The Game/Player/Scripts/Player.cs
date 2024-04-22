@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour, IDamageble
 {
     #region Variables & References
-        [SerializeField] private BuddyAI_Controller buddy;
+        private BuddyAI_Controller buddy;
         [HideInInspector] public Rigidbody rigidBody;
         [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
@@ -405,12 +405,12 @@ public class Player : MonoBehaviour, IDamageble
             }
         }
 
-        void OnToggleBuddyAttack(InputValue value)
-        {
-            buddySwitchMode.Play();
-            // Toggle the attack behavior
-            buddy.ToggleAttackBehaviour();
-        }
+        // void OnToggleBuddyAttack(InputValue value)
+        // {
+        //     buddySwitchMode.Play();
+        //     // Toggle the attack behavior
+        //     buddy.ToggleAttackBehaviour();
+        // }
 
     #endregion --- End ---
 
