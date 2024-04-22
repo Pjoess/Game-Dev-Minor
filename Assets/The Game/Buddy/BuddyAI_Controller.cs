@@ -7,28 +7,25 @@ using TMPro;
 public class BuddyAI_Controller : MonoBehaviour
 {
     #region Variables & References
-
     [Header("Object References")]
     private NavMeshAgent buddy;
     private Transform player;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private LayerMask attackLayer;
-    // [SerializeField] private TextMeshProUGUI toggleBuddyAttackText;
-    [SerializeField] private AudioSource shootSound;
+    public GameObject bulletPrefab;
+    public LayerMask attackLayer;
+    public AudioSource shootSound;
 
     [Header("Movement & Rotation")]
-    [SerializeField] private float shootingInterval = 2f;
-    [SerializeField] private float shootingRange = 15f;
-    [SerializeField] private float bulletSpeed = 8f;
-    [SerializeField] private float bulletLifetime = 3f;
-    [SerializeField] private float bulletShootHeight = 1f;
+    public float shootingInterval = 2f;
+    public float shootingRange = 15f;
+    public float bulletSpeed = 8f;
+    public float bulletLifetime = 3f;
+    public float bulletShootHeight = 1f;
 
     private Coroutine behaviorCoroutine;
 
     #endregion
 
     #region MonoBehaviour Callbacks
-
     void Awake()
     {
         buddy = this.GetComponent<NavMeshAgent>();
@@ -45,11 +42,9 @@ public class BuddyAI_Controller : MonoBehaviour
         if (behaviorCoroutine != null)
             StopCoroutine(behaviorCoroutine);
     }
-
     #endregion
 
     #region Behavior Tree
-
     IEnumerator SimpleBehaviourTree()
     {
         while (true)
@@ -73,19 +68,6 @@ public class BuddyAI_Controller : MonoBehaviour
                 Patrol();
             }
 
-            
-            // buddyToPlayerDistance = Vector3.Distance(buddy.transform.position, player.position);
-
-            // if (buddyToPlayerDistance <= buddy.stoppingDistance)
-            // {
-            //     buddy.isStopped = true;
-            // }
-            // else 
-            // {
-            //     buddy.isStopped = false;
-            //     buddy.SetDestination(player.position);
-            // }
-
             yield return new WaitForSeconds(0.5f); // Adjust frequency of behavior tree updates
         }
     }
@@ -97,8 +79,7 @@ public class BuddyAI_Controller : MonoBehaviour
 
     void Patrol()
     {
-        Vector3 randomPoint;
-        if (RandomPoint(player.position, 5f, out randomPoint))
+        if (RandomPoint(player.position, 5f, out Vector3 randomPoint))
         {
             buddy.SetDestination(randomPoint);
         }
@@ -122,28 +103,29 @@ public class BuddyAI_Controller : MonoBehaviour
         if (Vector3.Distance(transform.position, enemyTransform.position) <= shootingRange)
         {
             Vector3 direction = (enemyTransform.position - transform.position).normalized;
+
             Vector3 bulletSpawnPosition = transform.position + bulletShootHeight * Vector3.up;
+
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.LookRotation(direction));
+
             bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+
             shootSound.Play();
+            
             Destroy(bullet, bulletLifetime);
         }
     }
-
     #endregion
 
     #region Toggle Attack Behavior
-
     // public void ToggleAttackBehaviour()
     // {
     //     toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
     //     toggleAttack = !toggleAttack;
     // }
-
     #endregion
 
     #region Drawing Gizmos
-
     private void OnDrawGizmosSelected()
     {
         if (buddy != null)
@@ -158,6 +140,5 @@ public class BuddyAI_Controller : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, buddy.stoppingDistance); // Stoppingdistance
         }
     }
-
     #endregion
 }

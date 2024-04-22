@@ -13,7 +13,6 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public Vector3 vectorDirection;
         private PlayerInput input;
-        private bool isAttacking = false;
 
         [Header("Sound Effects")]
         public AudioSource jumpSound;
