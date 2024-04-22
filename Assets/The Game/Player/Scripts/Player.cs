@@ -6,14 +6,13 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour, IDamageble
 {
     #region Variables & References
-        [SerializeField] private BuddyAI_Controller buddy;
+        private BuddyAI_Controller buddy;
         [HideInInspector] public Rigidbody rigidBody;
         [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public Vector3 vectorDirection;
         private PlayerInput input;
-        private bool isAttacking = false;
 
         [Header("Sound Effects")]
         public AudioSource jumpSound;
@@ -30,8 +29,8 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
         
         [Header("Player Move/Run/Jump")]
-        public float walkSpeed = 7f;
-        public float runSpeed = 10f;
+        public float walkSpeed = 5f;
+        public float runSpeed = 7f;
         public float speedChangeRate = 5f;
         [HideInInspector] public bool hasJumped = false;
         public float jumpForce = 5f;
@@ -405,12 +404,12 @@ public class Player : MonoBehaviour, IDamageble
             }
         }
 
-        void OnToggleBuddyAttack(InputValue value)
-        {
-            buddySwitchMode.Play();
-            // Toggle the attack behavior
-            buddy.ToggleAttackBehaviour();
-        }
+        // void OnToggleBuddyAttack(InputValue value)
+        // {
+        //     buddySwitchMode.Play();
+        //     // Toggle the attack behavior
+        //     buddy.ToggleAttackBehaviour();
+        // }
 
     #endregion --- End ---
 

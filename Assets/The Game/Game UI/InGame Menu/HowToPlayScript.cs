@@ -19,18 +19,18 @@ public class HowToPlayScript : MonoBehaviour
     [SerializeField] TMP_Text sprintText;
 
     void Start(){
-        closePanel.SetActive(true);
-        input = FindObjectOfType<Player>().GetComponent<PlayerInput>();
-        forwardsText.text = input.actions.FindAction("Move").GetBindingDisplayString(2);
-        backwardsText.text = input.actions.FindAction("Move").GetBindingDisplayString(3);
-        leftText.text = input.actions.FindAction("Move").GetBindingDisplayString(4);
-        rightText.text = input.actions.FindAction("Move").GetBindingDisplayString(5);
-        attackText.text = input.actions.FindAction("Attack").GetBindingDisplayString();
-        dodgeText.text = input.actions.FindAction("Dodge").GetBindingDisplayString();
-        sprintText.text = input.actions.FindAction("Sprint").GetBindingDisplayString();
-        input.SwitchCurrentActionMap("UI");
-        Debug.Log(input.currentActionMap);
-        EventSystem.current.SetSelectedGameObject(closeButton);
+        //closePanel.SetActive(true);
+        // input = FindObjectOfType<Player>().GetComponent<PlayerInput>();
+        // forwardsText.text = input.actions.FindAction("Move").GetBindingDisplayString(2);
+        // backwardsText.text = input.actions.FindAction("Move").GetBindingDisplayString(3);
+        // leftText.text = input.actions.FindAction("Move").GetBindingDisplayString(4);
+        // rightText.text = input.actions.FindAction("Move").GetBindingDisplayString(5);
+        // attackText.text = input.actions.FindAction("Attack").GetBindingDisplayString();
+        // dodgeText.text = input.actions.FindAction("Dodge").GetBindingDisplayString();
+        // sprintText.text = input.actions.FindAction("Sprint").GetBindingDisplayString();
+        // input.SwitchCurrentActionMap("UI");
+        // Debug.Log(input.currentActionMap);
+        // EventSystem.current.SetSelectedGameObject(closeButton);
     }
 
     public void ClosePanel()
