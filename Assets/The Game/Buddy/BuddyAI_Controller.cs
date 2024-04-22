@@ -135,13 +135,15 @@ public class BuddyAI_Controller : MonoBehaviour
         if(shotsFired < 3)
         {
             shotsFired++;
+            buddy.isStopped = true;
             ShootAtEnemy(enemyTransform);
         }
         else
-        {
+        {   
             yield return new WaitForSeconds(3f);
             shotsFired = 0;
         }
+        buddy.isStopped = false;
     }
 
     // Method for shooting at the enemy
