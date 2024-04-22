@@ -15,7 +15,7 @@ public class BuddyAI_Controller : MonoBehaviour
     public AudioSource shootSound;
 
     [Header("Movement & Rotation")]
-    public float shootingInterval = 2f;
+    public int shotsFired = 0;
     public float shootingRange = 15f;
     public float bulletSpeed = 8f;
     public float bulletLifetime = 3f;
@@ -52,22 +52,18 @@ public class BuddyAI_Controller : MonoBehaviour
             // Check if player is within buddy's follow distance
             if (IsPlayerWithinFollowDistance())
             {
-                // Check if enemy is within shooting range and line of sight
-                Collider[] enemies = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
-                foreach (Collider enemy in enemies)
+                Transform closestEnemy = FindClosestEnemy();
+
+                if (closestEnemy != null)
                 {
-                    if (enemy.CompareTag("Enemy"))
-                    {
-                        ShootAtEnemy(enemy.transform);
-                    }
+                    StartShootingRoutine(closestEnemy);
                 }
             }
             else
             {
-                // Patrol around the player
+                // Move and Patrol around the player
                 Patrol();
             }
-
             yield return new WaitForSeconds(0.5f); // Adjust frequency of behavior tree updates
         }
     }
@@ -76,7 +72,9 @@ public class BuddyAI_Controller : MonoBehaviour
     {
         return Vector3.Distance(transform.position, player.position) <= buddy.stoppingDistance;
     }
+    #endregion
 
+    #region Patrol
     void Patrol()
     {
         if (RandomPoint(player.position, 5f, out Vector3 randomPoint))
@@ -97,23 +95,76 @@ public class BuddyAI_Controller : MonoBehaviour
         result = Vector3.zero;
         return false;
     }
+    #endregion
 
+    #region Shooting
+    // Find closest enemy first
+    Transform FindClosestEnemy()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+
+        Transform closestEnemy = null;
+        float closestEnemyDistance = Mathf.Infinity;
+
+        foreach (Collider enemyCollider in enemies)
+        {
+            if (enemyCollider.CompareTag("Enemy"))
+            {
+                Transform enemyTransform = enemyCollider.transform;
+                float distanceToEnemy = Vector3.Distance(transform.position, enemyTransform.position);
+
+                if (distanceToEnemy < closestEnemyDistance)
+                {
+                    closestEnemy = enemyTransform;
+                    closestEnemyDistance = distanceToEnemy;
+                }
+            }
+        }
+        return closestEnemy;
+    }
+
+    // Method to start shooting coroutine
+    void StartShootingRoutine(Transform enemyTransform)
+    {
+        StartCoroutine(ShootRoutine(enemyTransform));
+    }
+    
+    // Coroutine for shooting behavior
+    IEnumerator ShootRoutine(Transform enemyTransform)
+    {
+        if(shotsFired < 3)
+        {
+            shotsFired++;
+            ShootAtEnemy(enemyTransform);
+        }
+        else
+        {
+            shotsFired = 0;
+            yield return new WaitForSeconds(3f);
+        }
+    }
+
+    // Method for shooting at the enemy
     void ShootAtEnemy(Transform enemyTransform)
     {
-        if (Vector3.Distance(transform.position, enemyTransform.position) <= shootingRange)
+        // Check if the enemyTransform is null or has been destroyed
+        if (enemyTransform != null)
         {
-            Vector3 direction = (enemyTransform.position - transform.position).normalized;
+            if (Vector3.Distance(transform.position, enemyTransform.position) <= shootingRange)
+            {
+                Vector3 direction = (enemyTransform.position - transform.position).normalized;
 
-            Vector3 bulletSpawnPosition = transform.position + bulletShootHeight * Vector3.up;
+                Vector3 bulletSpawnPosition = transform.position + bulletShootHeight * Vector3.up;
 
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.LookRotation(direction));
+                GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.LookRotation(direction));
 
-            bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
+                bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
 
-            shootSound.Play();
-            
-            Destroy(bullet, bulletLifetime);
-        }
+                shootSound.Play();
+
+                Destroy(bullet, bulletLifetime);
+            }
+        } 
     }
     #endregion
 
