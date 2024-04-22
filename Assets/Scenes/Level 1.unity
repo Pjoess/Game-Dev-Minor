@@ -8978,7 +8978,7 @@ PrefabInstance:
     - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
       propertyPath: walkSpeed
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
@@ -11583,18 +11583,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 557583800298203046, guid: 5bc45640178ebe445ac0fc8c041e1927,
         type: 3}
-      propertyPath: m_Speed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 557583800298203046, guid: 5bc45640178ebe445ac0fc8c041e1927,
-        type: 3}
-      propertyPath: m_Radius
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 557583800298203046, guid: 5bc45640178ebe445ac0fc8c041e1927,
-        type: 3}
       propertyPath: m_StoppingDistance
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3504258190631654878, guid: 5bc45640178ebe445ac0fc8c041e1927,
         type: 3}
@@ -11648,18 +11638,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4108385831906718368, guid: 5bc45640178ebe445ac0fc8c041e1927,
         type: 3}
-      propertyPath: buddy
-      value: 
+      propertyPath: shotsFired
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4317387362832879460, guid: 5bc45640178ebe445ac0fc8c041e1927,
         type: 3}
       propertyPath: m_Name
-      value: Buddy
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843914680237593976, guid: 5bc45640178ebe445ac0fc8c041e1927,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
+      value: BuddyWalk
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
