@@ -140,7 +140,7 @@ public class BuddyAI_Controller : MonoBehaviour
         }
         else
         {   
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
             shotsFired = 0;
         }
         buddy.isStopped = false;
@@ -154,6 +154,9 @@ public class BuddyAI_Controller : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, enemyTransform.position) <= shootingRange)
             {
+                // Rotate towards the enemy
+                transform.LookAt(enemyTransform);
+
                 Vector3 direction = (enemyTransform.position - transform.position).normalized;
 
                 Vector3 bulletSpawnPosition = transform.position + bulletShootHeight * Vector3.up;
