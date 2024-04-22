@@ -41,7 +41,7 @@ public class BuddyAI_Controller : MonoBehaviour
 
     void Start()
     {
-        behaviorCoroutine = StartCoroutine(BehaviorTree());
+        behaviorCoroutine = StartCoroutine(SimpleBehaviourTree());
     }
 
     void OnDestroy()
@@ -54,7 +54,7 @@ public class BuddyAI_Controller : MonoBehaviour
 
     #region Behavior Tree
 
-    IEnumerator BehaviorTree()
+    IEnumerator SimpleBehaviourTree()
     {
         while (true)
         {
