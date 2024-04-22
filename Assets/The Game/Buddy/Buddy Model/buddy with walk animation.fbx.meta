@@ -24,7 +24,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -111,7 +111,62 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: buddy with walk animation(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: body only
+      parentName: buddy with walk animation(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: buddy with walk animation(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.00028246403, y: 0.13288298, z: 0.00051893713, w: 0.99113154}
+      scale: {x: 1, y: 1, z: 1}
+    - name: middle
+      parentName: Armature
+      position: {x: -0, y: 0.19208059, z: -0.000000008396109}
+      rotation: {x: -0.000000021855694, y: -0.00000011920929, z: 2.6054018e-15, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 0.9999999}
+    - name: neck
+      parentName: middle
+      position: {x: 0.000000007683411, y: 0.38669232, z: 2.1827873e-10}
+      rotation: {x: 5.3290705e-15, y: 0.00000011920929, z: -6.352747e-22, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: arm.L
+      parentName: middle
+      position: {x: -0.25488132, y: 0.33153695, z: 0.00000011550833}
+      rotation: {x: -0.027343035, y: -0.11438086, z: 0.80122614, w: 0.5866907}
+      scale: {x: 1.0000012, y: 1.0000005, z: 1.0000004}
+    - name: hand.L
+      parentName: arm.L
+      position: {x: 0.0000000037252903, y: 0.2565527, z: -0.00000002142042}
+      rotation: {x: -0.000000010986385, y: -0.0000007753689, z: 0.2052208, w: 0.9787158}
+      scale: {x: 1.0000002, y: 1, z: 0.9999999}
+    - name: arm.R
+      parentName: middle
+      position: {x: 0.2555303, y: 0.33086076, z: -0.0000000033323886}
+      rotation: {x: -0.027305271, y: 0.11422745, z: 0.80182344, w: -0.5859059}
+      scale: {x: 1.0000014, y: 0.9999999, z: 1.0000002}
+    - name: hand.R
+      parentName: arm.R
+      position: {x: 0.000000007450581, y: 0.25655273, z: 0.000000007450581}
+      rotation: {x: -0.000000010986259, y: 0.00000077536885, z: -0.2052208, w: 0.9787158}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000001}
+    - name: leg.R.002
+      parentName: Armature
+      position: {x: 0.18327177, y: 0.0005004861, z: 0.10827275}
+      rotation: {x: 0.000000030908613, y: 0.7071067, z: 0.7071068, w: 0.000000030908616}
+      scale: {x: 1, y: 0.9999996, z: 0.9999998}
+    - name: leg.L.002
+      parentName: Armature
+      position: {x: -0.18327177, y: 0.0005004861, z: -0.10802476}
+      rotation: {x: 0.000000030908613, y: 0.7071067, z: 0.7071068, w: 0.000000030908616}
+      scale: {x: 1, y: 0.9999996, z: 0.9999998}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -120,15 +175,15 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: Armature
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0

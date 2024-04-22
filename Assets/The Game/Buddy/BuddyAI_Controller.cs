@@ -27,9 +27,6 @@ public class BuddyAI_Controller : MonoBehaviour
     [SerializeField] private float bulletShootHeight = 1f;
     [SerializeField] private bool toggleAttack;
 
-    [HideInInspector] public Animator animator;
-    [HideInInspector] public int walk;
-
     private Coroutine behaviorCoroutine;
 
     #endregion
