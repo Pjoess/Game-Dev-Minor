@@ -139,8 +139,8 @@ public class BuddyAI_Controller : MonoBehaviour
         }
         else
         {
-            shotsFired = 0;
             yield return new WaitForSeconds(3f);
+            shotsFired = 0;
         }
     }
 
