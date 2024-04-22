@@ -28,16 +28,18 @@ public class Player : MonoBehaviour, IDamageble
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
         
-        [Header("Player Move/Run/Jump")]
-        public float walkSpeed = 5f;
-        public float runSpeed = 7f;
-        public float speedChangeRate = 5f;
-        [HideInInspector] public bool hasJumped = false;
+        [Header("Player Move")]
+        public float walkSpeed;
+        public float runSpeed;
+        public float speedChangeRate;
+        public float idleToFallTimer = 0.15f;
+        public float idleToFallDelta;
+
+        [Header("Player Jump")]
+        public bool hasJumped = false;
         public float jumpForce = 5f;
         public float jumpCooldown = 1f;
-        [HideInInspector] public float jumpCooldownDelta;
-        public float idleToFallTimer = 0.15f;
-        [HideInInspector] public float idleToFallDelta;
+        public float jumpCooldownDelta;
 
         [Header("Player Sprinting Keyboard Exclusive")]
         public float lastWKeyPressTime = 0f;
@@ -62,8 +64,8 @@ public class Player : MonoBehaviour, IDamageble
 
         [Header("UI Canvas and Buttons")]
         public static bool isPaused = false;
-        [SerializeField] private PauseMenu pauseMenu;
-        [SerializeField] private DeathScript deathScript;
+        private PauseMenu pauseMenu;
+        private readonly DeathScript deathScript;
         public float buttonCameraOffsetForward = -50f;
         public float buttonCameraOffsetRight = -50f;
         public float buttonCameraOffsetUp = -50f;
@@ -116,8 +118,17 @@ public class Player : MonoBehaviour, IDamageble
     }
 
     #region Default Unity Function
+        // By Default on Start this will be the stats of the player
+        private void StatsOnAwake()
+        {
+            walkSpeed = 5f;
+            runSpeed = 7f;
+            speedChangeRate = 5f;
+        }
+
         // Load before starting the Game
         void Awake(){
+            StatsOnAwake();
             pauseMenu = FindAnyObjectByType<PauseMenu>();
             // Load Animations
             AssignAnimIDs();

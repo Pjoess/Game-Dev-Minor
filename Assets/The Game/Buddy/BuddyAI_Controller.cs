@@ -24,7 +24,7 @@ public class BuddyAI_Controller : MonoBehaviour
     private Coroutine behaviorCoroutine;
     #endregion
 
-    private void BuddyStatsOnAwake()
+    private void StatsOnAwake()
     {
         shotsFired = 0;
         shootingRange = 10f;
@@ -36,7 +36,7 @@ public class BuddyAI_Controller : MonoBehaviour
     #region MonoBehaviour Callbacks
     void Awake()
     {
-        BuddyStatsOnAwake();
+        StatsOnAwake();
         buddy = this.GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
