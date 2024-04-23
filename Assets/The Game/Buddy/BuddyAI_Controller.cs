@@ -17,9 +17,11 @@ public class BuddyAI_Controller : MonoBehaviour
     [Header("Attack")]
     [SerializeField] private int shotsFired;
     [SerializeField] private float shootingRange;
-    private float bulletSpeed = 8f;
-    private float bulletLifetime = 3f;
-    private float bulletShootHeight = 1f;
+    private float bulletSpeed;
+    private float bulletLifetime;
+    private float bulletShootHeight;
+    private float mortarSpeed;
+    private float distanceToMove;
 
     private Coroutine behaviorCoroutine;
     #endregion
@@ -29,8 +31,10 @@ public class BuddyAI_Controller : MonoBehaviour
         shotsFired = 0;
         shootingRange = 10f;
         bulletSpeed = 8f;
-        bulletLifetime = 3f;
+        bulletLifetime = 5f;
         bulletShootHeight = 1f;
+        mortarSpeed = 5f;
+        distanceToMove = 5f;
     }
 
     #region MonoBehaviour Callbacks
@@ -44,6 +48,11 @@ public class BuddyAI_Controller : MonoBehaviour
     void Start()
     {
         behaviorCoroutine = StartCoroutine(SimpleBehaviourTree());
+    }
+
+    void Update(){
+        Transform closestEnemy = FindClosestEnemy();
+        ShootMortar(closestEnemy);
     }
 
     void OnDestroy()
@@ -106,7 +115,7 @@ public class BuddyAI_Controller : MonoBehaviour
     }
     #endregion
 
-    #region Shooting
+    #region Shooting Bullet
     // Find closest enemy first
     Transform FindClosestEnemy()
     {
@@ -179,6 +188,64 @@ public class BuddyAI_Controller : MonoBehaviour
                 Destroy(bullet, bulletLifetime);
             }
         } 
+    }
+    #endregion
+
+    #region Shooting Mortar
+    void ShootMortar(Transform enemyTransform)
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (enemyTransform != null)
+            {
+                Vector3 spawnPosition = enemyTransform.position + Vector3.up * 5f; // Calculate spawn position 5 units above the enemy
+                GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
+                bullet.transform.localScale += new Vector3(2f, 2f, 2f); // Increase the size of the bulletPrefab by 5 units in all directions
+                Destroy(bullet, bulletLifetime);
+                
+                StartCoroutine(MoveBulletDownwards(bullet));
+            }
+        }
+    }
+
+    IEnumerator MoveBulletDownwards(GameObject bullet)
+    {
+        // Check if the bullet object is null
+        if (bullet == null)
+        {
+            yield break; // Exit the coroutine if the bullet is null
+        }
+
+        
+        Vector3 initialPosition = bullet.transform.position; // Initial position of the bullet
+        Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove; // Target position to move downwards
+        Quaternion initialRotation = Quaternion.LookRotation(Vector3.down); // Initial rotation of the bullet (pointing downwards)
+        bullet.transform.rotation = initialRotation; // Set initial rotation of the bullet
+
+        // Current time elapsed
+        float elapsedTime = 0f;
+
+        // Move the bullet downwards over its lifetime
+        while (elapsedTime < bulletLifetime)
+        {
+            if (bullet == null)
+            {
+                yield break; // Exit the coroutine if the bullet is null
+            }
+            
+            Vector3 newPosition = bullet.transform.position - mortarSpeed * Time.deltaTime * Vector3.up; // Calculate the position to move towards
+            bullet.transform.position = newPosition; // Move the bullet downwards
+            elapsedTime += Time.deltaTime; // Update elapsed time
+
+            // Wait for the next frame
+            yield return null;
+        }
+
+        // Ensure the bullet reaches the target position
+        if (bullet != null)
+        {
+            bullet.transform.position = targetPosition;
+        }
     }
     #endregion
 
