@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Mortar : MonoBehaviour
 {
     [HideInInspector] private SphereCollider sphereCollider;
 
@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<IDamageble>().Hit(1);
+            other.gameObject.GetComponent<IDamageble>().Hit(20);
             Destroy(this.gameObject);
         }
     }

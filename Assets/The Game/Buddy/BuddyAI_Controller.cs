@@ -11,6 +11,7 @@ public class BuddyAI_Controller : MonoBehaviour
     private NavMeshAgent buddy;
     private Transform player;
     public GameObject bulletPrefab;
+    public GameObject mortarPrefab;
     public LayerMask attackLayer;
     public AudioSource shootSound;
 
@@ -22,6 +23,7 @@ public class BuddyAI_Controller : MonoBehaviour
     private float bulletShootHeight;
     private float mortarSpeed;
     private float distanceToMove;
+    private float mortarSpawnHeight;
 
     private Coroutine behaviorCoroutine;
     #endregion
@@ -35,6 +37,7 @@ public class BuddyAI_Controller : MonoBehaviour
         bulletShootHeight = 1f;
         mortarSpeed = 5f;
         distanceToMove = 5f;
+        mortarSpawnHeight = 8f;
     }
 
     #region MonoBehaviour Callbacks
@@ -198,28 +201,28 @@ public class BuddyAI_Controller : MonoBehaviour
         {
             if (enemyTransform != null)
             {
-                Vector3 spawnPosition = enemyTransform.position + Vector3.up * 5f; // Calculate spawn position 5 units above the enemy
-                GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
-                bullet.transform.localScale += new Vector3(2f, 2f, 2f); // Increase the size of the bulletPrefab by 5 units in all directions
-                Destroy(bullet, bulletLifetime);
+                Vector3 spawnPosition = enemyTransform.position + Vector3.up * mortarSpawnHeight; // Calculate spawn position 5 units above the enemy
+                GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
+                mortar.transform.localScale += new Vector3(2f, 2f, 2f); // Increase the size of the bulletPrefab by 5 units in all directions
+                Destroy(mortar, bulletLifetime);
 
-                StartCoroutine(MoveBulletDownwards(bullet));
+                StartCoroutine(MoveBulletDownwards(mortar));
             }
         }
     }
 
-    IEnumerator MoveBulletDownwards(GameObject bullet)
+    IEnumerator MoveBulletDownwards(GameObject mortar)
     {
         // Check if the bullet object is null
-        if (bullet == null)
+        if (mortar == null)
         {
             yield break; // Exit the coroutine if the bullet is null
         }
         
-        Vector3 initialPosition = bullet.transform.position; // Initial position of the bullet
+        Vector3 initialPosition = mortar.transform.position; // Initial position of the bullet
         Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove; // Target position to move downwards
         Quaternion initialRotation = Quaternion.LookRotation(Vector3.down); // Initial rotation of the bullet (pointing downwards)
-        bullet.transform.rotation = initialRotation; // Set initial rotation of the bullet
+        mortar.transform.rotation = initialRotation; // Set initial rotation of the bullet
 
         // Current time elapsed
         float elapsedTime = 0f;
@@ -227,13 +230,13 @@ public class BuddyAI_Controller : MonoBehaviour
         // Move the bullet downwards over its lifetime
         while (elapsedTime < bulletLifetime)
         {
-            if (bullet == null)
+            if (mortar == null)
             {
                 yield break; // Exit the coroutine if the bullet is null
             }
             
-            Vector3 newPosition = bullet.transform.position - mortarSpeed * Time.deltaTime * Vector3.up; // Calculate the position to move towards
-            bullet.transform.position = newPosition; // Move the bullet downwards
+            Vector3 newPosition = mortar.transform.position - mortarSpeed * Time.deltaTime * Vector3.up; // Calculate the position to move towards
+            mortar.transform.position = newPosition; // Move the bullet downwards
             elapsedTime += Time.deltaTime; // Update elapsed time
 
             // Wait for the next frame
@@ -241,9 +244,9 @@ public class BuddyAI_Controller : MonoBehaviour
         }
 
         // Ensure the bullet reaches the target position
-        if (bullet != null)
+        if (mortar != null)
         {
-            bullet.transform.position = targetPosition;
+            mortar.transform.position = targetPosition;
         }
     }
     #endregion

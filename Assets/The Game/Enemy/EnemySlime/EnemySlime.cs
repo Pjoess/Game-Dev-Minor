@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -168,8 +165,6 @@ public class EnemySlime : EnemyBase
                 GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
                 Destroy(this.gameObject);
             }
-
-
         }
 
         public override void Idle()
