@@ -202,7 +202,7 @@ public class BuddyAI_Controller : MonoBehaviour
                 GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
                 bullet.transform.localScale += new Vector3(2f, 2f, 2f); // Increase the size of the bulletPrefab by 5 units in all directions
                 Destroy(bullet, bulletLifetime);
-                
+
                 StartCoroutine(MoveBulletDownwards(bullet));
             }
         }
@@ -215,7 +215,6 @@ public class BuddyAI_Controller : MonoBehaviour
         {
             yield break; // Exit the coroutine if the bullet is null
         }
-
         
         Vector3 initialPosition = bullet.transform.position; // Initial position of the bullet
         Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove; // Target position to move downwards
