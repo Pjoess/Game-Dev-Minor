@@ -44,7 +44,7 @@ public class BuddyAI_Controller : MonoBehaviour
     void Awake()
     {
         StatsOnAwake();
-        buddy = this.GetComponent<NavMeshAgent>();
+        buddy = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
