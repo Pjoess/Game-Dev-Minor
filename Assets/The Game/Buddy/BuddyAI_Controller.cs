@@ -182,7 +182,7 @@ public class BuddyAI_Controller : MonoBehaviour
     }
     #endregion
 
-    #region Toggle Attack Behavior
+    #region Toggle Attack Behaviour
     // public void ToggleAttackBehaviour()
     // {
     //     toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
