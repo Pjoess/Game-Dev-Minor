@@ -146,8 +146,6 @@ public class EnemySlime : EnemyBase
 
         }
 
-
-
         public override void Hit(int damage)
         {
             HealthPoints -= damage;
