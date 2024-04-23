@@ -146,19 +146,13 @@ public class EnemySlime : EnemyBase
 
         }
 
-        public void BuddyDamage(){
-            HealthPoints--;
-        }
+
+
         public override void Hit(int damage)
         {
-            if(damage > 0){
-                HealthPoints -= damage;
-            }else{
-                BuddyDamage();
-            }
-
-
-            enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
+            HealthPoints -= damage;
+            enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
+            Debug.Log(damage);
 
             if(HealthPoints <= 0)
             {
@@ -166,6 +160,33 @@ public class EnemySlime : EnemyBase
                 Destroy(this.gameObject);
             }
         }
+        
+
+        // public void BuddyDamage(){
+        //     HealthPoints--;
+        // }
+
+        // public override void Hit(int damage)
+        // {
+        //     if(damage > 0){
+        //         HealthPoints -= damage;
+        //     }else{
+        //         BuddyDamage();
+        //     }
+
+        //     enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
+
+        //     if(HealthPoints <= 0)
+        //     {
+        //         GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
+        //         Destroy(this.gameObject);
+        //     }
+        // }
+
+
+
+
+
 
         public override void Idle()
         {
