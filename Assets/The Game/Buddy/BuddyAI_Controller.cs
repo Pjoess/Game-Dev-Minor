@@ -25,6 +25,7 @@ public class BuddyAI_Controller : MonoBehaviour
     private float mortarSpawnHeight;
 
     [Header("Cooldown")]
+    public TextMeshProUGUI buddyCooldownText;
     [SerializeField] private float mortarCooldown = 3f;
     private float nextMortarTime = 0f;
     #endregion
@@ -52,6 +53,11 @@ public class BuddyAI_Controller : MonoBehaviour
     void Start()
     {
         StartCoroutine(SimpleBehaviourTree());
+    }
+
+    void Update()
+    {
+        ShootMortar();
     }
     #endregion
 
@@ -185,7 +191,7 @@ public class BuddyAI_Controller : MonoBehaviour
     #endregion
 
     #region Shooting Mortar
-    void Update()
+    private void ShootMortar()
     {
         // Check if the cooldown period has passed
         if (Time.time >= nextMortarTime)
