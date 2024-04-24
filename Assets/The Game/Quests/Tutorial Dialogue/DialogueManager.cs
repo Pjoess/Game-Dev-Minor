@@ -3,20 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.UI; 
 
-public class TutorialDialogue : MonoBehaviour
+public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public float textSpeed;
-    public string[] lines;
-
     private int index;
+    public string[] lines;
     Coroutine coroutine;
 
-    void Start(){
+    IDialogueTrigger dialogue;
+
+
+    void Awake(){
         textComponent.text = string.Empty;
-        StartDialogue();
+        gameObject.SetActive(false);
     }
 
     void Update(){
@@ -28,9 +31,12 @@ public class TutorialDialogue : MonoBehaviour
                 textComponent.text = lines[index];
             }
         }
+
     }
 
-    void StartDialogue(){
+    public void StartDialogue(){
+        gameObject.SetActive(true);
+        textComponent.text = string.Empty;
         index = 0;
         coroutine = StartCoroutine(TextCoroutine());
     }
