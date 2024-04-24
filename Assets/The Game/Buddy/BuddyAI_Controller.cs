@@ -13,6 +13,7 @@ public class BuddyAI_Controller : MonoBehaviour
     public GameObject mortarPrefab;
     public LayerMask attackLayer;
     public AudioSource shootSound;
+    private Rigidbody rigidBody;
 
     [Header("Attack")]
     [SerializeField] private int shotsFired;
@@ -29,11 +30,18 @@ public class BuddyAI_Controller : MonoBehaviour
     [SerializeField] private float mortarCooldownTime = 3f;
     private float nextMortarTime = 0f;
 
+    private Animator animator;
+    [HideInInspector] public int animIDWalk;
+    [HideInInspector] public int animIDShooting;
+    [HideInInspector] public int animIDShootingMortar;
+
     #endregion
 
     private void AssignAnimIDs()
     {
-        // No null reference issues expected in this method
+        animIDWalk = Animator.StringToHash("isWalking");
+        animIDShooting = Animator.StringToHash("isShooting");
+        animIDShootingMortar = Animator.StringToHash("isShootingMortar");
     }
 
     private void DefaultStatsOnAwake()
@@ -54,7 +62,8 @@ public class BuddyAI_Controller : MonoBehaviour
     {
         AssignAnimIDs();
         DefaultStatsOnAwake();
-        
+        animator = GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody>();
         // Assign references
         buddy = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform; // Ensure player exists
@@ -75,8 +84,18 @@ public class BuddyAI_Controller : MonoBehaviour
 
     void Update()
     {
+        // Check if the object is not moving
+        if (buddy.velocity.magnitude <= 0.2f)
+        {
+            animator.SetBool(animIDWalk, false);
+        }
+        else
+        {
+            animator.SetBool(animIDWalk, true);
+        }
+
         ShootMortar();
-        // No null reference issues expected here
+        // No null reference issues expected here        
     }
     #endregion
 
@@ -168,12 +187,16 @@ public class BuddyAI_Controller : MonoBehaviour
     {
         if (shotsFired < 3)
         {
+            animator.SetBool(animIDShooting, true);
             shotsFired++;
             buddy.isStopped = true;
             ShootAtEnemy(enemyTransform);
+            
         }
         else
         {
+            animator.SetBool(animIDShooting, false);
+            animator.SetBool(animIDWalk, false);
             yield return new WaitForSeconds(2f);
             shotsFired = 0;
         }
