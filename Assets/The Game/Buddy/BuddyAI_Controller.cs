@@ -201,9 +201,9 @@ public class BuddyAI_Controller : MonoBehaviour
         {
             if (enemyTransform != null)
             {
-                Vector3 spawnPosition = enemyTransform.position + Vector3.up * mortarSpawnHeight; // Calculate spawn position 5 units above the enemy
+                Vector3 spawnPosition = enemyTransform.position + Vector3.up * mortarSpawnHeight; // Calculate spawn position above the enemy
                 GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
-                mortar.transform.localScale += new Vector3(2f, 2f, 2f); // Increase the size of the bulletPrefab by 5 units in all directions
+                mortar.transform.localScale += new Vector3(2f, 2f, 2f); // Make the mortar bigger
                 Destroy(mortar, bulletLifetime);
 
                 StartCoroutine(MoveBulletDownwards(mortar));
