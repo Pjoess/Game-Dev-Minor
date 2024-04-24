@@ -28,10 +28,17 @@ public class BuddyAI_Controller : MonoBehaviour
     [SerializeField] private TMP_Text buddyCooldownText;
     [SerializeField] private float mortarCooldownTime = 3f;
     private float nextMortarTime = 0f;
+
     #endregion
+
+    private void AssignAnimIDs()
+    {
+        // No null reference issues expected in this method
+    }
 
     private void DefaultStatsOnAwake()
     {
+        // Initialize variables to default values
         shotsFired = 0;
         shootingRange = 10f;
         bulletSpeed = 8f;
@@ -45,19 +52,31 @@ public class BuddyAI_Controller : MonoBehaviour
     #region MonoBehaviour Callbacks
     void Awake()
     {
+        AssignAnimIDs();
         DefaultStatsOnAwake();
+        
+        // Assign references
         buddy = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player")?.transform; // Ensure player exists
     }
 
     void Start()
     {
-        StartCoroutine(SimpleBehaviourTree());
+        // Ensure proper initialization before starting behavior tree
+        if (buddy != null && player != null)
+        {
+            StartCoroutine(SimpleBehaviourTree());
+        }
+        else
+        {
+            Debug.LogError("Buddy or player reference is null. Check initialization.");
+        }
     }
 
     void Update()
     {
         ShootMortar();
+        // No null reference issues expected here
     }
     #endregion
 
@@ -87,7 +106,8 @@ public class BuddyAI_Controller : MonoBehaviour
 
     bool IsPlayerWithinFollowDistance()
     {
-        return Vector3.Distance(transform.position, player.position) <= buddy.stoppingDistance;
+        // Ensure player reference is not null before using it
+        return player != null && Vector3.Distance(transform.position, player.position) <= buddy.stoppingDistance;
     }
     #endregion
 
@@ -115,7 +135,6 @@ public class BuddyAI_Controller : MonoBehaviour
     #endregion
 
     #region Shooting Bullet
-    // Find closest enemy first
     Transform FindClosestEnemy()
     {
         Collider[] enemies = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
@@ -140,13 +159,11 @@ public class BuddyAI_Controller : MonoBehaviour
         return closestEnemy;
     }
 
-    // Method to start shooting coroutine
     void StartShootingRoutine(Transform enemyTransform)
     {
         StartCoroutine(ShootRoutine(enemyTransform));
     }
 
-    // Coroutine for shooting behavior
     IEnumerator ShootRoutine(Transform enemyTransform)
     {
         if (shotsFired < 3)
@@ -163,28 +180,35 @@ public class BuddyAI_Controller : MonoBehaviour
         buddy.isStopped = false;
     }
 
-    // Method for shooting at the enemy
     void ShootAtEnemy(Transform enemyTransform)
     {
-        // Check if the enemyTransform is null or has been destroyed
         if (enemyTransform != null)
         {
-            if (Vector3.Distance(transform.position, enemyTransform.position) <= shootingRange)
+            // Ensure necessary components are not null before using them
+            if (bulletPrefab != null && shootSound != null)
             {
-                // Rotate towards the enemy
-                transform.LookAt(enemyTransform);
+                if (Vector3.Distance(transform.position, enemyTransform.position) <= shootingRange)
+                {
+                    transform.LookAt(enemyTransform);
 
-                Vector3 direction = (enemyTransform.position - transform.position).normalized;
+                    Vector3 direction = (enemyTransform.position - transform.position).normalized;
+                    Vector3 bulletSpawnPosition = transform.position + bulletShootHeight * Vector3.up;
 
-                Vector3 bulletSpawnPosition = transform.position + bulletShootHeight * Vector3.up;
+                    GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.LookRotation(direction));
 
-                GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.LookRotation(direction));
+                    Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
+                    if (bulletRigidbody != null)
+                    {
+                        bulletRigidbody.velocity = direction * bulletSpeed;
+                    }
 
-                bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
-
-                shootSound.Play();
-
-                Destroy(bullet, bulletLifetime);
+                    shootSound.Play();
+                    Destroy(bullet, bulletLifetime);
+                }
+            }
+            else
+            {
+                Debug.LogError("Bullet prefab or shoot sound reference is null.");
             }
         }
     }
@@ -193,34 +217,28 @@ public class BuddyAI_Controller : MonoBehaviour
     #region Shooting Mortar
     private void ShootMortar()
     {
-        // Check if the cooldown period has passed
         if (Time.time >= nextMortarTime)
         {
-            // If the cooldown period is over, display feedback that mortar is ready
             buddyCooldownText.text = "Mortar Ready! - (Press RMB)";
-            
-            // Allow the player to shoot mortar again
+
             if (Input.GetMouseButtonDown(1))
             {
                 Transform closestEnemy = FindClosestEnemy();
-                if (closestEnemy != null)
+                if (closestEnemy != null && mortarPrefab != null)
                 {
-                    // Shoot mortar
-                    Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight; // Calculate spawn position above the enemy
+                    Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight;
                     GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
-                    mortar.transform.localScale += new Vector3(2f, 2f, 2f); // Make the mortar bigger
+                    mortar.transform.localScale += new Vector3(2f, 2f, 2f);
                     Destroy(mortar, bulletLifetime);
 
                     StartCoroutine(MoveBulletDownwards(mortar));
 
-                    // Set the next available mortar shooting time
                     nextMortarTime = Time.time + mortarCooldownTime;
                 }
             }
         }
         else
         {
-            // If the cooldown period is not over, display the countdown
             float remainingTime = nextMortarTime - Time.time;
             buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(remainingTime) + "s";
         }
@@ -230,34 +248,30 @@ public class BuddyAI_Controller : MonoBehaviour
     {
         if (mortar == null)
         {
-            yield break; // Exit the coroutine if the bullet is null
+            yield break;
         }
 
-        Vector3 initialPosition = mortar.transform.position; // Initial position of the bullet
-        Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove; // Target position to move downwards
-        Quaternion initialRotation = Quaternion.LookRotation(Vector3.down); // Initial rotation of the bullet (pointing downwards)
-        mortar.transform.rotation = initialRotation; // Set initial rotation of the bullet
+        Vector3 initialPosition = mortar.transform.position;
+        Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove;
+        Quaternion initialRotation = Quaternion.LookRotation(Vector3.down);
+        mortar.transform.rotation = initialRotation;
 
-        // Current time elapsed
         float elapsedTime = 0f;
 
-        // Move the bullet downwards over its lifetime
         while (elapsedTime < bulletLifetime)
         {
             if (mortar == null)
             {
-                yield break; // Exit the coroutine if the bullet is null
+                yield break;
             }
 
-            Vector3 newPosition = mortar.transform.position - mortarSpeed * Time.deltaTime * Vector3.up; // Calculate the position to move towards
-            mortar.transform.position = newPosition; // Move the bullet downwards
-            elapsedTime += Time.deltaTime; // Update elapsed time
+            Vector3 newPosition = mortar.transform.position - mortarSpeed * Time.deltaTime * Vector3.up;
+            mortar.transform.position = newPosition;
+            elapsedTime += Time.deltaTime;
 
-            // Wait for the next frame
             yield return null;
         }
 
-        // Ensure the bullet reaches the target position
         if (mortar != null)
         {
             mortar.transform.position = targetPosition;
@@ -271,13 +285,13 @@ public class BuddyAI_Controller : MonoBehaviour
         if (buddy != null)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, buddy.radius); // Obstacle avoidance
+            Gizmos.DrawWireSphere(transform.position, buddy.radius);
 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, shootingRange); // Shooting range
+            Gizmos.DrawWireSphere(transform.position, shootingRange);
 
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, buddy.stoppingDistance); // Stoppingdistance
+            Gizmos.DrawWireSphere(transform.position, buddy.stoppingDistance);
         }
     }
     #endregion
