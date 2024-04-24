@@ -28,7 +28,7 @@ public class BuddyAI_Controller : MonoBehaviour
     private Coroutine behaviorCoroutine;
     #endregion
 
-    private void StatsOnAwake()
+    private void DefaultStatsOnAwake()
     {
         shotsFired = 0;
         shootingRange = 10f;
@@ -43,7 +43,7 @@ public class BuddyAI_Controller : MonoBehaviour
     #region MonoBehaviour Callbacks
     void Awake()
     {
-        StatsOnAwake();
+        DefaultStatsOnAwake();
         buddy = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -213,7 +213,6 @@ public class BuddyAI_Controller : MonoBehaviour
 
     IEnumerator MoveBulletDownwards(GameObject mortar)
     {
-        // Check if the bullet object is null
         if (mortar == null)
         {
             yield break; // Exit the coroutine if the bullet is null
