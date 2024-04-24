@@ -7,17 +7,49 @@ public class EnemySlime : EnemyBase
     #region Variables
         private bool attackCollision = false;
         private bool isDashing = false;
+
         private float chaseRange = 15f;
-        public LayerMask playerLayer;
-        public Transform centerPoint;
         private float patrolWaitTime = 5f;
         private float patrolRange = 5f;
+        public float dashSpeedMultiplier = 1.5f;
+        private int Timer;
+
+        public LayerMask playerLayer;
+        public Transform centerPoint;
         private SphereCollider centerCollider;
         private Coroutine idling;
-        public float dashSpeedMultiplier = 1.5f;
         private Coroutine attacking;
-        private int Timer;
         private Coroutine timer;
+    #endregion
+
+    #region Unity Start Functions
+        public override void Awake()
+        {
+            centerCollider = centerPoint.GetComponent<SphereCollider>();
+            Agent = GetComponent<NavMeshAgent>();
+            enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
+            Target = GameObject.FindWithTag("Player").transform;
+            HealthPoints = MaxHealthPoints;
+            MovementSpeed = 10;
+            IsAggroed = false;
+            IsWithinStrikingDistance = false;
+        }
+
+        public void Start()
+        {
+            InitializeStates();
+        }
+        
+        public override void InitializeStates()
+        {
+            enemyStateMachine = new EnemyStateMachine();
+            enemyChaseState = new EnemyChaseState(this, enemyStateMachine);
+            enemyFallState = new EnemyFallState(this, enemyStateMachine);
+            enemyHitState = new EnemyHitState(this, enemyStateMachine);
+            enemyIdleState = new EnemyIdleState(this, enemyStateMachine);
+            enemyAttackState = new EnemyAttackState(this, enemyStateMachine);
+            enemyStateMachine.Initialize(enemyIdleState);
+        }
     #endregion
 
     #region CheckStates
@@ -65,36 +97,6 @@ public class EnemySlime : EnemyBase
         }
     #endregion
 
-    #region Unity Start Functions
-        public void Start()
-        {
-            InitializeStates();
-        }
-        
-        public override void Awake()
-        {
-            centerCollider = centerPoint.GetComponent<SphereCollider>();
-            Agent = GetComponent<NavMeshAgent>();
-            enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
-            Target = GameObject.FindWithTag("Player").transform;
-            HealthPoints = MaxHealthPoints;
-            MovementSpeed = 10;
-            IsAggroed = false;
-            IsWithinStrikingDistance = false;
-        }
-
-        public override void InitializeStates()
-        {
-            enemyStateMachine = new EnemyStateMachine();
-            enemyChaseState = new EnemyChaseState(this, enemyStateMachine);
-            enemyFallState = new EnemyFallState(this, enemyStateMachine);
-            enemyHitState = new EnemyHitState(this, enemyStateMachine);
-            enemyIdleState = new EnemyIdleState(this, enemyStateMachine);
-            enemyAttackState = new EnemyAttackState(this, enemyStateMachine);
-            enemyStateMachine.Initialize(enemyIdleState);
-        }
-    #endregion
-
     #region State Logic Functions
         public override void Attack()
         {
@@ -108,18 +110,20 @@ public class EnemySlime : EnemyBase
             SetAgentDestination();
         }
 
-        public override void Hit(int damage)
-        {
-            HealthPoints -= damage;
-            enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
-            Debug.Log(damage);
-
-            if(HealthPoints <= 0)
+        #region Receive Damage
+            public override void Hit(int damage)
             {
-                GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
-                Destroy(this.gameObject);
+                HealthPoints -= damage;
+                enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
+                Debug.Log(damage);
+
+                if(HealthPoints <= 0)
+                {
+                    GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
+                    Destroy(this.gameObject);
+                }
             }
-        }
+        #endregion
 
         public override void Idle()
         {
@@ -203,7 +207,7 @@ public class EnemySlime : EnemyBase
                 Timer++;
             }
         }
-        
+
         private void OnCollisionStay(Collision other) 
         {
             if(!other.transform.CompareTag("Player") && isDashing){
