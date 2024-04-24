@@ -1,4 +1,3 @@
-// --- Simple Behaviour Tree --- //
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -25,7 +24,9 @@ public class BuddyAI_Controller : MonoBehaviour
     private float distanceToMove;
     private float mortarSpawnHeight;
 
-    private Coroutine behaviorCoroutine;
+    [Header("Cooldown")]
+    [SerializeField] private float mortarCooldown = 3f;
+    private float nextMortarTime = 0f;
     #endregion
 
     private void DefaultStatsOnAwake()
@@ -50,18 +51,7 @@ public class BuddyAI_Controller : MonoBehaviour
 
     void Start()
     {
-        behaviorCoroutine = StartCoroutine(SimpleBehaviourTree());
-    }
-
-    void Update(){
-        Transform closestEnemy = FindClosestEnemy();
-        ShootMortar(closestEnemy);
-    }
-
-    void OnDestroy()
-    {
-        if (behaviorCoroutine != null)
-            StopCoroutine(behaviorCoroutine);
+        StartCoroutine(SimpleBehaviourTree());
     }
     #endregion
 
@@ -149,18 +139,18 @@ public class BuddyAI_Controller : MonoBehaviour
     {
         StartCoroutine(ShootRoutine(enemyTransform));
     }
-    
+
     // Coroutine for shooting behavior
     IEnumerator ShootRoutine(Transform enemyTransform)
     {
-        if(shotsFired < 3)
+        if (shotsFired < 3)
         {
             shotsFired++;
             buddy.isStopped = true;
             ShootAtEnemy(enemyTransform);
         }
         else
-        {   
+        {
             yield return new WaitForSeconds(2f);
             shotsFired = 0;
         }
@@ -190,23 +180,36 @@ public class BuddyAI_Controller : MonoBehaviour
 
                 Destroy(bullet, bulletLifetime);
             }
-        } 
+        }
     }
     #endregion
 
     #region Shooting Mortar
-    void ShootMortar(Transform enemyTransform)
+    void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        // Check if the cooldown period has passed
+        if (Time.time >= nextMortarTime)
         {
-            if (enemyTransform != null)
+            // Allow the player to shoot mortar again
+            if (Input.GetMouseButtonDown(1))
             {
-                Vector3 spawnPosition = enemyTransform.position + Vector3.up * mortarSpawnHeight; // Calculate spawn position above the enemy
-                GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
-                mortar.transform.localScale += new Vector3(2f, 2f, 2f); // Make the mortar bigger
-                Destroy(mortar, bulletLifetime);
+                Transform closestEnemy = FindClosestEnemy();
+                if (closestEnemy != null)
+                {
+                    if (Time.time >= nextMortarTime)
+                    {
+                        // Shoot mortar
+                        Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight; // Calculate spawn position above the enemy
+                        GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
+                        mortar.transform.localScale += new Vector3(2f, 2f, 2f); // Make the mortar bigger
+                        Destroy(mortar, bulletLifetime);
 
-                StartCoroutine(MoveBulletDownwards(mortar));
+                        StartCoroutine(MoveBulletDownwards(mortar));
+
+                        // Set the next available mortar shooting time
+                        nextMortarTime = Time.time + mortarCooldown;
+                    }
+                }
             }
         }
     }
@@ -217,7 +220,7 @@ public class BuddyAI_Controller : MonoBehaviour
         {
             yield break; // Exit the coroutine if the bullet is null
         }
-        
+
         Vector3 initialPosition = mortar.transform.position; // Initial position of the bullet
         Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove; // Target position to move downwards
         Quaternion initialRotation = Quaternion.LookRotation(Vector3.down); // Initial rotation of the bullet (pointing downwards)
@@ -233,7 +236,7 @@ public class BuddyAI_Controller : MonoBehaviour
             {
                 yield break; // Exit the coroutine if the bullet is null
             }
-            
+
             Vector3 newPosition = mortar.transform.position - mortarSpeed * Time.deltaTime * Vector3.up; // Calculate the position to move towards
             mortar.transform.position = newPosition; // Move the bullet downwards
             elapsedTime += Time.deltaTime; // Update elapsed time
@@ -248,14 +251,6 @@ public class BuddyAI_Controller : MonoBehaviour
             mortar.transform.position = targetPosition;
         }
     }
-    #endregion
-
-    #region Toggle Attack Behaviour
-    // public void ToggleAttackBehaviour()
-    // {
-    //     toggleBuddyAttackText.text = toggleAttack ? "Buddy Passive" : "Buddy Aggressive";
-    //     toggleAttack = !toggleAttack;
-    // }
     #endregion
 
     #region Drawing Gizmos

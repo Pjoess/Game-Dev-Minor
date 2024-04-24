@@ -115,7 +115,6 @@ public class EnemySlime : EnemyBase
             {
                 HealthPoints -= damage;
                 enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
-                Debug.Log(damage);
 
                 if(HealthPoints <= 0)
                 {
