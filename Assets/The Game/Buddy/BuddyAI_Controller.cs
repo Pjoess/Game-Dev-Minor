@@ -286,17 +286,13 @@ public class BuddyAI_Controller : MonoBehaviour
             }
             else
             {
-                animator.SetBool(animIDShootingMortar, false); // anim
+                if(IsAnimFinished("mortar")){
+                    animator.SetBool(animIDShootingMortar, false); // anim
+                }
                 buddy.isStopped = false;
                 float remainingTime = nextMortarTime - Time.time;
                 buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(remainingTime) + "s";
             }
-            // if(IsAnimFinished("mortar"))
-            // {
-            //     animator.SetBool(animIDShootingMortar, false); // anim
-            //     buddy.isStopped = false;
-            //     Debug.Log("Mortar Done");
-            // }
         }
 
         IEnumerator MoveBulletDownwards(GameObject mortar)
