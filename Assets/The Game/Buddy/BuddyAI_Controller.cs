@@ -269,25 +269,18 @@ public class BuddyAI_Controller : MonoBehaviour
                     Transform closestEnemy = FindClosestEnemy();
                     if (closestEnemy != null && mortarPrefab != null)
                     {
-                        transform.LookAt(closestEnemy);
-                        buddy.isStopped = true;
-                        animator.SetBool(animIDShootingMortar, true); // anim
+                        if(!IsAnimPlaying("shoot")){
+                            transform.LookAt(closestEnemy);
+                            buddy.isStopped = true;
+                            animator.SetBool(animIDShootingMortar, true); // anim
 
-                        Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight;
-                        GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
-                        mortar.transform.localScale += new Vector3(2f, 2f, 2f);
-                        Destroy(mortar, bulletLifetime);
-                        nextMortarTime = Time.time + mortarCooldownTime;
-                        StartCoroutine(MoveBulletDownwards(mortar));
-                    }
-                }
-                else 
-                {
-                    if(IsAnimFinished("mortar"))
-                    {
-                        animator.SetBool(animIDShootingMortar, false); // anim
-                        buddy.isStopped = false;
-                        Debug.Log("Mortar Done ");
+                            Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight;
+                            GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
+                            mortar.transform.localScale += new Vector3(2f, 2f, 2f);
+                            Destroy(mortar, bulletLifetime);
+                            nextMortarTime = Time.time + mortarCooldownTime;
+                            StartCoroutine(MoveBulletDownwards(mortar));
+                        }
                     }
                 }
             }
@@ -296,40 +289,42 @@ public class BuddyAI_Controller : MonoBehaviour
                 float remainingTime = nextMortarTime - Time.time;
                 buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(remainingTime) + "s";
             }
+            if(IsAnimFinished("mortar"))
+            {
+                animator.SetBool(animIDShootingMortar, false); // anim
+                buddy.isStopped = false;
+                Debug.Log("Mortar Done");
+            }
         }
 
         IEnumerator MoveBulletDownwards(GameObject mortar)
         {
-            if (mortar == null)
-            {
-                yield break;
-            }
-
-            Vector3 initialPosition = mortar.transform.position;
-            Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove;
-            Quaternion initialRotation = Quaternion.LookRotation(Vector3.down);
-            mortar.transform.rotation = initialRotation;
-
-            float elapsedTime = 0f;
-
-            while (elapsedTime < bulletLifetime)
-            {
-                if (mortar == null)
-                {
-                    yield break;
-                }
-
-                Vector3 newPosition = mortar.transform.position - mortarSpeed * Time.deltaTime * Vector3.up;
-                mortar.transform.position = newPosition;
-                elapsedTime += Time.deltaTime;
-
-                yield return null;
-            }
-
             if (mortar != null)
             {
-                mortar.transform.position = targetPosition;
-            }
+                Vector3 initialPosition = mortar.transform.position;
+                Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove;
+                Quaternion initialRotation = Quaternion.LookRotation(Vector3.down);
+                mortar.transform.rotation = initialRotation;
+
+                float elapsedTime = 0f;
+
+                while (elapsedTime < bulletLifetime)
+                {
+                    if (mortar != null)
+                    {
+                        Vector3 newPosition = mortar.transform.position - mortarSpeed * Time.deltaTime * Vector3.up;
+                        mortar.transform.position = newPosition;
+                        elapsedTime += Time.deltaTime;
+                    }
+                    yield return null;
+                }
+
+                // Once the loop exits (when the bullet's lifetime is exceeded), set the bullet's position to the target position
+                if (mortar != null)
+                {
+                    mortar.transform.position = targetPosition;
+                }
+            }  
         }
     #endregion
 
