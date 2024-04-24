@@ -57,153 +57,149 @@ public class BuddyAI_Controller : MonoBehaviour
     }
 
     #region MonoBehaviour Callbacks
-    void Awake()
-    {
-        AssignAnimIDs();
-        DefaultStatsOnAwake();
-        animator = GetComponent<Animator>();
-        rigidBody = GetComponent<Rigidbody>();
-        // Assign references
-        buddy = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player")?.transform; // Ensure player exists
-    }
+        void Awake()
+        {
+            AssignAnimIDs();
+            DefaultStatsOnAwake();
+            animator = GetComponent<Animator>();
+            rigidBody = GetComponent<Rigidbody>();
+            // Assign references
+            buddy = GetComponent<NavMeshAgent>();
+            player = GameObject.FindGameObjectWithTag("Player")?.transform; // Ensure player exists
+        }
 
-    void Start()
-    {
-        // Ensure proper initialization before starting behavior tree
-        if (buddy != null && player != null)
+        void Start()
         {
-            StartCoroutine(SimpleBehaviourTree());
+            // Ensure proper initialization before starting behavior tree
+            if (buddy != null && player != null)
+            {
+                StartCoroutine(SimpleBehaviourTree());
+            }
+            else
+            {
+                Debug.LogError("Buddy or player reference is null. Check initialization.");
+            }
         }
-        else
-        {
-            Debug.LogError("Buddy or player reference is null. Check initialization.");
-        }
-    }
 
-    void Update()
-    {
-        // Check if the object is not moving
-        if (buddy.velocity.magnitude <= 0.2f)
+        void Update()
         {
-            animator.SetBool(animIDWalk, false);
+            // Check if the object is not moving
+            if (buddy.velocity.magnitude <= 0.2f)
+            {
+                animator.SetBool(animIDWalk, false);
+            }
+            else
+            {
+                animator.SetBool(animIDWalk, true);
+            }
+            ShootMortar();     
         }
-        else
-        {
-            animator.SetBool(animIDWalk, true);
-        }
-        ShootMortar();     
-    }
     #endregion
 
     #region Behavior Tree
-    IEnumerator SimpleBehaviourTree()
-    {
-        while (true)
+        IEnumerator SimpleBehaviourTree()
         {
-            // Check if player is within buddy's follow distance
-            if (IsPlayerWithinFollowDistance())
+            while (true)
             {
-                Transform closestEnemy = FindClosestEnemy();
-
-                if (closestEnemy != null)
+                // Check if player is within buddy's follow distance
+                if (IsPlayerWithinFollowDistance())
                 {
-                    StartShootingRoutine(closestEnemy);
+                    Transform closestEnemy = FindClosestEnemy();
+                    if (closestEnemy != null)
+                    {
+                        StartShootingRoutine(closestEnemy);
+                    }
+                }
+                else
+                {
+                    WalkToPlayerRandom();
+                }
+                yield return new WaitForSeconds(0.5f); // Adjust frequency of behavior tree updates
+            }
+        }
+
+        bool IsPlayerWithinFollowDistance()
+        {
+            // Ensure player reference is not null before using it
+            return player != null && Vector3.Distance(transform.position, player.position) <= buddy.stoppingDistance;
+        }
+    #endregion
+
+    #region Walk and Patrol
+        void WalkToPlayerRandom()
+        {
+            if (RandomPoint(player.position, 5f, out Vector3 randomPoint))
+            {
+                buddy.SetDestination(randomPoint);
+            }
+        }
+
+        bool RandomPoint(Vector3 center, float range, out Vector3 result)
+        {
+            Vector3 randomPoint = center + Random.insideUnitSphere * range;
+
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, range, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+            result = Vector3.zero;
+            return false;
+        }
+    #endregion
+
+    #region Shooting Bullet
+        Transform FindClosestEnemy()
+        {
+            Collider[] enemies = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
+
+            Transform closestEnemy = null;
+            float closestEnemyDistance = Mathf.Infinity;
+
+            foreach (Collider enemyCollider in enemies)
+            {
+                if (enemyCollider.CompareTag("Enemy"))
+                {
+                    Transform enemyTransform = enemyCollider.transform;
+                    float distanceToEnemy = Vector3.Distance(transform.position, enemyTransform.position);
+
+                    if (distanceToEnemy < closestEnemyDistance)
+                    {
+                        closestEnemy = enemyTransform;
+                        closestEnemyDistance = distanceToEnemy;
+                    }
+                }
+            }
+            return closestEnemy;
+        }
+
+        void StartShootingRoutine(Transform enemyTransform)
+        {
+            StartCoroutine(ShootRoutine(enemyTransform));
+        }
+
+        IEnumerator ShootRoutine(Transform enemyTransform)
+        {
+            if (shotsFired < 3)
+            {
+                animator.SetBool(animIDShooting, true); // anim
+                if(IsAnimFinished("shoot"))
+                {
+                    buddy.isStopped = true;
+                    shotsFired++;
+                    ShootAtEnemy(enemyTransform);
+                    animator.SetBool(animIDShooting, false); // anim
                 }
             }
             else
             {
-                // Move and Patrol around the player
-                WalkToPlayerRandom();
+                yield return new WaitForSeconds(2f);
+                shotsFired = 0;
             }
-            yield return new WaitForSeconds(0.5f); // Adjust frequency of behavior tree updates
+            buddy.isStopped = false;
         }
-    }
 
-    bool IsPlayerWithinFollowDistance()
-    {
-        // Ensure player reference is not null before using it
-        return player != null && Vector3.Distance(transform.position, player.position) <= buddy.stoppingDistance;
-    }
-    #endregion
-
-    #region Walk and Patrol
-    void WalkToPlayerRandom()
-    {
-        if (RandomPoint(player.position, 5f, out Vector3 randomPoint))
-        {
-            buddy.SetDestination(randomPoint);
-        }
-    }
-
-    bool RandomPoint(Vector3 center, float range, out Vector3 result)
-    {
-        Vector3 randomPoint = center + Random.insideUnitSphere * range;
-
-        if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, range, NavMesh.AllAreas))
-        {
-            result = hit.position;
-            return true;
-        }
-        result = Vector3.zero;
-        return false;
-    }
-    #endregion
-
-    #region Shooting Bullet
-    Transform FindClosestEnemy()
-    {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, shootingRange, attackLayer);
-
-        Transform closestEnemy = null;
-        float closestEnemyDistance = Mathf.Infinity;
-
-        foreach (Collider enemyCollider in enemies)
-        {
-            if (enemyCollider.CompareTag("Enemy"))
-            {
-                Transform enemyTransform = enemyCollider.transform;
-                float distanceToEnemy = Vector3.Distance(transform.position, enemyTransform.position);
-
-                if (distanceToEnemy < closestEnemyDistance)
-                {
-                    closestEnemy = enemyTransform;
-                    closestEnemyDistance = distanceToEnemy;
-                }
-            }
-        }
-        return closestEnemy;
-    }
-
-    void StartShootingRoutine(Transform enemyTransform)
-    {
-        StartCoroutine(ShootRoutine(enemyTransform));
-    }
-
-    IEnumerator ShootRoutine(Transform enemyTransform)
-    {
-        if (shotsFired < 3)
-        {
-            animator.SetBool(animIDShooting, true); // anim
-
-            shotsFired++;
-            buddy.isStopped = true;
-            ShootAtEnemy(enemyTransform);
-
-            // Wait for the shooting animation to complete
-            yield return new WaitForSeconds(1);
-            animator.SetBool(animIDShooting, false); // anim
-        }
-        else
-        {
-            yield return new WaitForSeconds(2f);
-            shotsFired = 0;
-        }
-        
-        buddy.isStopped = false;
-    }
-
-    void ShootAtEnemy(Transform enemyTransform)
+        void ShootAtEnemy(Transform enemyTransform)
     {
         if (enemyTransform != null)
         {
@@ -237,90 +233,120 @@ public class BuddyAI_Controller : MonoBehaviour
     }
     #endregion
 
-    #region Shooting Mortar
-    private void ShootMortar()
-    {
-        if (Time.time >= nextMortarTime)
+    #region Buddy Animations
+        public bool IsAnimPlaying(string animStateName)
         {
-            buddyCooldownText.text = "Mortar Ready! - (Press RMB)";
-            
-            if (Input.GetMouseButtonDown(1))
+            bool isAnimPlaying = animator.GetCurrentAnimatorStateInfo(0).length > animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            return isAnimPlaying && animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName);
+        }
+
+        public bool IsAnimFinished(string animStateName)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(animStateName))
             {
-                Transform closestEnemy = FindClosestEnemy();
-                if (closestEnemy != null && mortarPrefab != null)
+                AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+                return info.normalizedTime > 1.0f;
+            }
+            else return false;
+        }
+
+        public bool IsAnimFinished(float timePlayed)
+        {
+            AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+            return info.normalizedTime >= timePlayed;
+        }
+    #endregion
+
+    #region Shooting Mortar
+        private void ShootMortar()
+        {
+            if (Time.time >= nextMortarTime)
+            {
+                buddyCooldownText.text = "Mortar Ready! - (Press RMB)";
+                
+                if (Input.GetMouseButtonDown(1))
                 {
-                    animator.SetBool(animIDShootingMortar, true); // anim
+                    Transform closestEnemy = FindClosestEnemy();
+                    if (closestEnemy != null && mortarPrefab != null)
+                    {
+                        transform.LookAt(closestEnemy);
+                        buddy.isStopped = true;
+                        animator.SetBool(animIDShootingMortar, true); // anim
 
-                    Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight;
-                    GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
-                    mortar.transform.localScale += new Vector3(2f, 2f, 2f);
-                    Destroy(mortar, bulletLifetime);
-
-                    StartCoroutine(MoveBulletDownwards(mortar));
-
-                    nextMortarTime = Time.time + mortarCooldownTime;
-
-                    animator.SetBool(animIDShootingMortar, false); // anim
+                        Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight;
+                        GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
+                        mortar.transform.localScale += new Vector3(2f, 2f, 2f);
+                        Destroy(mortar, bulletLifetime);
+                        nextMortarTime = Time.time + mortarCooldownTime;
+                        StartCoroutine(MoveBulletDownwards(mortar));
+                    }
+                }
+                else 
+                {
+                    if(IsAnimFinished("mortar"))
+                    {
+                        animator.SetBool(animIDShootingMortar, false); // anim
+                        buddy.isStopped = false;
+                        Debug.Log("Mortar Done ");
+                    }
                 }
             }
-            
-        }
-        else
-        {
-            float remainingTime = nextMortarTime - Time.time;
-            buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(remainingTime) + "s";
-        }
-    }
-
-    IEnumerator MoveBulletDownwards(GameObject mortar)
-    {
-        if (mortar == null)
-        {
-            yield break;
+            else
+            {
+                float remainingTime = nextMortarTime - Time.time;
+                buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(remainingTime) + "s";
+            }
         }
 
-        Vector3 initialPosition = mortar.transform.position;
-        Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove;
-        Quaternion initialRotation = Quaternion.LookRotation(Vector3.down);
-        mortar.transform.rotation = initialRotation;
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < bulletLifetime)
+        IEnumerator MoveBulletDownwards(GameObject mortar)
         {
             if (mortar == null)
             {
                 yield break;
             }
 
-            Vector3 newPosition = mortar.transform.position - mortarSpeed * Time.deltaTime * Vector3.up;
-            mortar.transform.position = newPosition;
-            elapsedTime += Time.deltaTime;
+            Vector3 initialPosition = mortar.transform.position;
+            Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove;
+            Quaternion initialRotation = Quaternion.LookRotation(Vector3.down);
+            mortar.transform.rotation = initialRotation;
 
-            yield return null;
-        }
+            float elapsedTime = 0f;
 
-        if (mortar != null)
-        {
-            mortar.transform.position = targetPosition;
+            while (elapsedTime < bulletLifetime)
+            {
+                if (mortar == null)
+                {
+                    yield break;
+                }
+
+                Vector3 newPosition = mortar.transform.position - mortarSpeed * Time.deltaTime * Vector3.up;
+                mortar.transform.position = newPosition;
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+
+            if (mortar != null)
+            {
+                mortar.transform.position = targetPosition;
+            }
         }
-    }
     #endregion
 
     #region Drawing Gizmos
-    private void OnDrawGizmosSelected()
-    {
-        if (buddy != null)
+        private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, buddy.radius);
+            if (buddy != null)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(transform.position, buddy.radius);
 
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, shootingRange);
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(transform.position, shootingRange);
 
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, buddy.stoppingDistance);
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawWireSphere(transform.position, buddy.stoppingDistance);
+            }
         }
-    }
     #endregion
 }

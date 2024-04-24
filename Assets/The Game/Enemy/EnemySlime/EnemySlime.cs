@@ -172,7 +172,6 @@ public class EnemySlime : EnemyBase
                 if(distance <= 1f || Timer >= 2){
                     Timer = 0;
                     StopCoroutine(timer);
-                    Debug.Log("disstance reached");
                     Agent.isStopped = true;
                     yield return new WaitForSeconds(2f);
                     Agent.isStopped = false;
@@ -219,7 +218,6 @@ public class EnemySlime : EnemyBase
             }
 
             if(other.transform.CompareTag("Player") && IsAttacking && isDashing && !attackCollision && Agent.isStopped == false){
-                Debug.Log("HIt player");
                 IDamageble damagable = other.collider.GetComponent<IDamageble>();
                 damagable.Hit(10);
                 StartCoroutine(AttackCollisionTimer());
