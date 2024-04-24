@@ -25,8 +25,8 @@ public class BuddyAI_Controller : MonoBehaviour
     private float mortarSpawnHeight;
 
     [Header("Cooldown")]
-    public TextMeshProUGUI buddyCooldownText;
-    [SerializeField] private float mortarCooldown = 3f;
+    [SerializeField] private TMP_Text buddyCooldownText;
+    [SerializeField] private float mortarCooldownTime = 3f;
     private float nextMortarTime = 0f;
     #endregion
 
@@ -196,27 +196,33 @@ public class BuddyAI_Controller : MonoBehaviour
         // Check if the cooldown period has passed
         if (Time.time >= nextMortarTime)
         {
+            // If the cooldown period is over, display feedback that mortar is ready
+            buddyCooldownText.text = "Mortar Ready! - (Press RMB)";
+            
             // Allow the player to shoot mortar again
             if (Input.GetMouseButtonDown(1))
             {
                 Transform closestEnemy = FindClosestEnemy();
                 if (closestEnemy != null)
                 {
-                    if (Time.time >= nextMortarTime)
-                    {
-                        // Shoot mortar
-                        Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight; // Calculate spawn position above the enemy
-                        GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
-                        mortar.transform.localScale += new Vector3(2f, 2f, 2f); // Make the mortar bigger
-                        Destroy(mortar, bulletLifetime);
+                    // Shoot mortar
+                    Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight; // Calculate spawn position above the enemy
+                    GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
+                    mortar.transform.localScale += new Vector3(2f, 2f, 2f); // Make the mortar bigger
+                    Destroy(mortar, bulletLifetime);
 
-                        StartCoroutine(MoveBulletDownwards(mortar));
+                    StartCoroutine(MoveBulletDownwards(mortar));
 
-                        // Set the next available mortar shooting time
-                        nextMortarTime = Time.time + mortarCooldown;
-                    }
+                    // Set the next available mortar shooting time
+                    nextMortarTime = Time.time + mortarCooldownTime;
                 }
             }
+        }
+        else
+        {
+            // If the cooldown period is not over, display the countdown
+            float remainingTime = nextMortarTime - Time.time;
+            buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(remainingTime) + "s";
         }
     }
 
