@@ -96,7 +96,7 @@ public class BuddyAI_Controller : MonoBehaviour
         }
     #endregion
 
-    #region Behavior Tree
+    #region Behaviour Tree
         IEnumerator SimpleBehaviourTree()
         {
             while (true)
@@ -114,7 +114,7 @@ public class BuddyAI_Controller : MonoBehaviour
                 {
                     WalkToPlayerRandom();
                 }
-                yield return new WaitForSeconds(0.5f); // Adjust frequency of behavior tree updates
+                yield return new WaitForSeconds(0.5f); // Adjust frequency of behaviour tree updates
             }
         }
 
