@@ -6,35 +6,34 @@ using TMPro;
 public class BuddyAI_Controller : MonoBehaviour
 {
     #region Variables & References
-    [Header("References")]
-    private NavMeshAgent buddy;
-    private Transform player;
-    public GameObject bulletPrefab;
-    public GameObject mortarPrefab;
-    public LayerMask attackLayer;
-    public AudioSource shootSound;
-    private Rigidbody rigidBody;
+        [Header("References")]
+        private NavMeshAgent buddy;
+        private Transform player;
+        public GameObject bulletPrefab;
+        public GameObject mortarPrefab;
+        public LayerMask attackLayer;
+        public AudioSource shootSound;
+        private Rigidbody rigidBody;
 
-    [Header("Attack")]
-    [SerializeField] private int shotsFired;
-    [SerializeField] private float shootingRange;
-    private float bulletSpeed;
-    private float bulletLifetime;
-    private float bulletShootHeight;
-    private float mortarSpeed;
-    private float distanceToMove;
-    private float mortarSpawnHeight;
+        [Header("Attack")]
+        [SerializeField] private int shotsFired;
+        [SerializeField] private float shootingRange;
+        private float bulletSpeed;
+        private float bulletLifetime;
+        private float bulletShootHeight;
+        private float mortarSpeed;
+        private float distanceToMove;
+        private float mortarSpawnHeight;
 
-    [Header("Cooldown")]
-    [SerializeField] private TMP_Text buddyCooldownText;
-    [SerializeField] private float mortarCooldownTime = 3f;
-    private float nextMortarTime = 0f;
+        [Header("Cooldown")]
+        [SerializeField] private TMP_Text buddyCooldownText;
+        [SerializeField] private float mortarCooldownTime = 3f;
+        private float nextMortarTime = 0f;
 
-    private Animator animator;
-    [HideInInspector] public int animIDWalk;
-    [HideInInspector] public int animIDShooting;
-    [HideInInspector] public int animIDShootingMortar;
-
+        private Animator animator;
+        [HideInInspector] public int animIDWalk;
+        [HideInInspector] public int animIDShooting;
+        [HideInInspector] public int animIDShootingMortar;
     #endregion
 
     private void AssignAnimIDs()
@@ -93,9 +92,7 @@ public class BuddyAI_Controller : MonoBehaviour
         {
             animator.SetBool(animIDWalk, true);
         }
-
-        ShootMortar();
-        // No null reference issues expected here        
+        ShootMortar();     
     }
     #endregion
 
@@ -117,7 +114,7 @@ public class BuddyAI_Controller : MonoBehaviour
             else
             {
                 // Move and Patrol around the player
-                Patrol();
+                WalkToPlayerRandom();
             }
             yield return new WaitForSeconds(0.5f); // Adjust frequency of behavior tree updates
         }
@@ -130,8 +127,8 @@ public class BuddyAI_Controller : MonoBehaviour
     }
     #endregion
 
-    #region Patrol
-    void Patrol()
+    #region Walk and Patrol
+    void WalkToPlayerRandom()
     {
         if (RandomPoint(player.position, 5f, out Vector3 randomPoint))
         {
@@ -243,12 +240,13 @@ public class BuddyAI_Controller : MonoBehaviour
         if (Time.time >= nextMortarTime)
         {
             buddyCooldownText.text = "Mortar Ready! - (Press RMB)";
-
+            
             if (Input.GetMouseButtonDown(1))
             {
                 Transform closestEnemy = FindClosestEnemy();
                 if (closestEnemy != null && mortarPrefab != null)
                 {
+                    animator.SetBool(animIDShootingMortar, true);
                     Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight;
                     GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
                     mortar.transform.localScale += new Vector3(2f, 2f, 2f);
@@ -257,8 +255,10 @@ public class BuddyAI_Controller : MonoBehaviour
                     StartCoroutine(MoveBulletDownwards(mortar));
 
                     nextMortarTime = Time.time + mortarCooldownTime;
+                    animator.SetBool(animIDShootingMortar, false);
                 }
             }
+            
         }
         else
         {
