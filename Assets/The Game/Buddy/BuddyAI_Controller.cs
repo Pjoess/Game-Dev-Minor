@@ -184,19 +184,22 @@ public class BuddyAI_Controller : MonoBehaviour
     {
         if (shotsFired < 3)
         {
-            animator.SetBool(animIDShooting, true);
+            animator.SetBool(animIDShooting, true); // anim
+
             shotsFired++;
             buddy.isStopped = true;
             ShootAtEnemy(enemyTransform);
-            
+
+            // Wait for the shooting animation to complete
+            yield return new WaitForSeconds(1);
+            animator.SetBool(animIDShooting, false); // anim
         }
         else
         {
-            animator.SetBool(animIDShooting, false);
-            animator.SetBool(animIDWalk, false);
             yield return new WaitForSeconds(2f);
             shotsFired = 0;
         }
+        
         buddy.isStopped = false;
     }
 
@@ -246,7 +249,8 @@ public class BuddyAI_Controller : MonoBehaviour
                 Transform closestEnemy = FindClosestEnemy();
                 if (closestEnemy != null && mortarPrefab != null)
                 {
-                    animator.SetBool(animIDShootingMortar, true);
+                    animator.SetBool(animIDShootingMortar, true); // anim
+
                     Vector3 spawnPosition = closestEnemy.position + Vector3.up * mortarSpawnHeight;
                     GameObject mortar = Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
                     mortar.transform.localScale += new Vector3(2f, 2f, 2f);
@@ -255,7 +259,8 @@ public class BuddyAI_Controller : MonoBehaviour
                     StartCoroutine(MoveBulletDownwards(mortar));
 
                     nextMortarTime = Time.time + mortarCooldownTime;
-                    animator.SetBool(animIDShootingMortar, false);
+
+                    animator.SetBool(animIDShootingMortar, false); // anim
                 }
             }
             
