@@ -2,6 +2,7 @@ using System;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
     
 public class Player : MonoBehaviour, IDamageble
@@ -63,6 +64,7 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public bool canAttack = false;
         //[HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
+        private Vector3 hitPoint;
 
         [Header("UI Canvas and Buttons")]
         public static bool isPaused = false;
@@ -307,18 +309,25 @@ public class Player : MonoBehaviour, IDamageble
     }
         public void AttackRotation()
         {
-            Vector3 direction = new(movement.x, 0, movement.y);
-
-            if (direction != Vector3.zero)
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
-                Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * 0.5f * Time.deltaTime);
+                hitPoint = hit.point;
+                Vector3 direction = hit.point - transform.position;
+                direction.y = 0;
+                direction.Normalize();
+                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+                transform.rotation = rotation;
             }
         }
 
-        public void OnAttackPressed()
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(hitPoint, 1f);
+    }
+
+    public void OnAttackPressed()
         {
             if(canAttack)
             {
@@ -377,6 +386,7 @@ public class Player : MonoBehaviour, IDamageble
         void OnAttack(InputValue value)
         {
             if(value.isPressed && IsGrounded()){
+                AttackRotation();
                 if (isStriking) OnAttackPressed();
                 else if (!isStriking)
                 {

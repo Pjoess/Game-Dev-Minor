@@ -17,7 +17,6 @@ public class PlayerStrikeState : PlayerBaseState
 
     public override void UpdateState(Player player)
     {
-        player.AttackRotation();
         player.Dash();
     }
 }
