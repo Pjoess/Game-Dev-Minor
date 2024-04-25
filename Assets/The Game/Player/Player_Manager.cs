@@ -64,7 +64,6 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public bool canAttack = false;
         //[HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
-        private Vector3 hitPoint;
 
         [Header("UI Canvas and Buttons")]
         public static bool isPaused = false;
@@ -78,7 +77,6 @@ public class Player : MonoBehaviour, IDamageble
         private CinemachineOrbitalTransposer transposer;
         [SerializeField] float minCameraZoom = -10;
         [SerializeField] float maxCameraZoom = -30;
-        [SerializeField] float zoomSpeed = 0.2f;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
 
         // --- Buddy --- //
@@ -313,7 +311,6 @@ public class Player : MonoBehaviour, IDamageble
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                hitPoint = hit.point;
                 Vector3 direction = hit.point - transform.position;
                 direction.y = 0;
                 direction.Normalize();
@@ -321,11 +318,6 @@ public class Player : MonoBehaviour, IDamageble
                 transform.rotation = rotation;
             }
         }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(hitPoint, 1f);
-    }
 
     public void OnAttackPressed()
         {
