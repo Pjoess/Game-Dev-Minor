@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
     
@@ -72,6 +73,10 @@ public class Player : MonoBehaviour, IDamageble
         public float buttonCameraOffsetUp = -50f;
         // --- UI CameraFollow --- //
         private CinemachineVirtualCamera virtualCamera;
+        private CinemachineOrbitalTransposer transposer;
+        [SerializeField] float minCameraZoom = -10;
+        [SerializeField] float maxCameraZoom = -30;
+        [SerializeField] float zoomSpeed = 0.2f;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
 
         // --- Buddy --- //
@@ -142,6 +147,7 @@ public class Player : MonoBehaviour, IDamageble
             capsuleColider = GetComponent<CapsuleCollider>();
             // Get the Cinemachine Virtual Camera component
             virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            transposer = virtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
             input = GetComponent<PlayerInput>();
         }
         
@@ -383,6 +389,13 @@ public class Player : MonoBehaviour, IDamageble
         {
             if (value.isPressed && !isDashing)  isDashing = true;
         }
+
+       void OnZoom(InputValue value)
+       {
+            transposer.m_FollowOffset.z += (value.Get<float>() * Time.deltaTime);
+            if (transposer.m_FollowOffset.z > minCameraZoom) transposer.m_FollowOffset.z = minCameraZoom;
+            if (transposer.m_FollowOffset.z < maxCameraZoom) transposer.m_FollowOffset.z = maxCameraZoom;
+       }
 
         void OnPause(InputValue value)
         {
