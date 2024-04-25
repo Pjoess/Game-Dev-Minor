@@ -1,6 +1,8 @@
 using System;
 using Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
     
 public class Player : MonoBehaviour, IDamageble
@@ -53,13 +55,14 @@ public class Player : MonoBehaviour, IDamageble
         public Vector3 dashDirection;
         public float dashForce  = 1.5f;
         public float dashCooldown = 2f;
-        [HideInInspector] public bool isDashing = false;
+        public bool isDashing = false;
         [HideInInspector] public float dashCooldownDelta;
         
         [Header("Player Attack")]
         public float attackDistance = 0.15f;
         public bool isStriking = false;
-        [HideInInspector] public event Action HasAttacked;
+        [HideInInspector] public bool canAttack = false;
+        //[HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
 
         [Header("UI Canvas and Buttons")]
@@ -71,6 +74,9 @@ public class Player : MonoBehaviour, IDamageble
         public float buttonCameraOffsetUp = -50f;
         // --- UI CameraFollow --- //
         private CinemachineVirtualCamera virtualCamera;
+        private CinemachineOrbitalTransposer transposer;
+        [SerializeField] float minCameraZoom = -10;
+        [SerializeField] float maxCameraZoom = -30;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
 
         // --- Buddy --- //
@@ -86,8 +92,8 @@ public class Player : MonoBehaviour, IDamageble
         public PlayerRunState runState = new();
         public PlayerDashState dashState = new();
         public PlayerStrikeState strikeState = new();
-        public PlayerStrike2State strike2State = new();
-        public PlayerStrike3State strike3State = new();
+        //public PlayerStrike2State strike2State = new();
+        //public PlayerStrike3State strike3State = new();
 
         // --- Player Animation --- //
         [HideInInspector] public Animator animator;
@@ -97,9 +103,10 @@ public class Player : MonoBehaviour, IDamageble
         [HideInInspector] public int animIDGrounded;
         [HideInInspector] public int animIDFall;
         [HideInInspector] public int animIDJump;
-        [HideInInspector] public int animIDStrike1;
-        [HideInInspector] public int animIDStrike2;
-        [HideInInspector] public int animIDStrike3;
+        [HideInInspector] public int animIDStrike;
+        //[HideInInspector] public int animIDStrike1;
+        //[HideInInspector] public int animIDStrike2;
+        //[HideInInspector] public int animIDStrike3;
         [HideInInspector] public int animIDDash;
         [HideInInspector] public int animIDMoveSpeed;
     #endregion
@@ -110,9 +117,10 @@ public class Player : MonoBehaviour, IDamageble
         animIDGrounded = Animator.StringToHash("Grounded");
         animIDFall = Animator.StringToHash("Fall");
         animIDJump = Animator.StringToHash("Jump");
-        animIDStrike1 = Animator.StringToHash("Strike1");
-        animIDStrike2 = Animator.StringToHash("Strike2");
-        animIDStrike3 = Animator.StringToHash("Strike3");
+        animIDStrike = Animator.StringToHash("Strike");
+        //animIDStrike1 = Animator.StringToHash("Strike1");
+        //animIDStrike2 = Animator.StringToHash("Strike2");
+        //animIDStrike3 = Animator.StringToHash("Strike3");
         animIDDash = Animator.StringToHash("Dash");
         animIDMoveSpeed = Animator.StringToHash("MoveSpeed");
     }
@@ -121,7 +129,7 @@ public class Player : MonoBehaviour, IDamageble
         // By Default on Start this will be the stats of the player
         private void StatsOnAwake()
         {
-            walkSpeed = 5f;
+            walkSpeed = 3f;
             runSpeed = 7f;
             speedChangeRate = 5f;
         }
@@ -139,6 +147,7 @@ public class Player : MonoBehaviour, IDamageble
             capsuleColider = GetComponent<CapsuleCollider>();
             // Get the Cinemachine Virtual Camera component
             virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            transposer = virtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
             input = GetComponent<PlayerInput>();
         }
         
@@ -261,30 +270,29 @@ public class Player : MonoBehaviour, IDamageble
         {
         //When dashing while attacking, the dash is queued and happens immediately after finising the attack. Bug or feature?
         //You can dash through small spaces.
+
             Vector3 moveDirection = new(movement.x, 0, movement.y);
+            if (moveDirection == Vector3.zero) moveDirection = transform.forward;
 
             if (isDashing && dashCooldownDelta <= 0)
             {
                 if (moveDirection != Vector3.zero)
                 {
+                    animator.SetBool(animIDDash, true);
+                    ChangeState(dashState);
                     Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
                     Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
                     transform.rotation = rotation;
                     dashDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
                     dashDirection.y = 0; // Set the vertical component to zero to avoid moving up or down
                                          // Set isDashing to true to indicate the player is currently dashing
-                    ChangeState(dashState);
+                    
                 }
             }
             else if (dashCooldownDelta > 0)
             {
                 dashCooldownDelta -= Time.deltaTime;
-            }
-
-            if(moveDirection == Vector3.zero) 
-            {
-                isDashing = false;
-            }    
+            }  
         }
     #endregion
 
@@ -299,21 +307,21 @@ public class Player : MonoBehaviour, IDamageble
     }
         public void AttackRotation()
         {
-            Vector3 direction = new(movement.x, 0, movement.y);
-
-            if (direction != Vector3.zero)
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
-                Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * 0.5f * Time.deltaTime);
+                Vector3 direction = hit.point - transform.position;
+                direction.y = 0;
+                direction.Normalize();
+                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+                transform.rotation = rotation;
             }
         }
 
-        public void OnAttackStruck()
+    public void OnAttackPressed()
         {
-            //if anim has player over 70%
-            if(IsAnimFinished(0.75f))
+            if(canAttack)
             {
                 struckAgain = true;
             }
@@ -370,7 +378,8 @@ public class Player : MonoBehaviour, IDamageble
         void OnAttack(InputValue value)
         {
             if(value.isPressed && IsGrounded()){
-                if (HasAttacked != null) HasAttacked.Invoke();
+                AttackRotation();
+                if (isStriking) OnAttackPressed();
                 else if (!isStriking)
                 {
                     isStriking = true;
@@ -382,6 +391,13 @@ public class Player : MonoBehaviour, IDamageble
         {
             if (value.isPressed && !isDashing)  isDashing = true;
         }
+
+       void OnZoom(InputValue value)
+       {
+            transposer.m_FollowOffset.z += (value.Get<float>() * Time.deltaTime);
+            if (transposer.m_FollowOffset.z > minCameraZoom) transposer.m_FollowOffset.z = minCameraZoom;
+            if (transposer.m_FollowOffset.z < maxCameraZoom) transposer.m_FollowOffset.z = maxCameraZoom;
+       }
 
         void OnPause(InputValue value)
         {
@@ -425,15 +441,64 @@ public class Player : MonoBehaviour, IDamageble
 
     #endregion --- End ---
 
-    #region Collision
-        public void EnableSwordCollision()
+    #region AttackAnimationEvents
+        public void StartAttack()
         {
-            sword.DoSwordAttackEnableCollision();
+            if (isStriking)
+            {
+                struckAgain = false;
+                canAttack = true;
+                sword.DoSwordAttackEnableCollision();
+            }
+        }
+
+        public void EndAttack()
+        {
+            if (isStriking)
+            {
+                sword.SwordToDefault();
+                canAttack = false;
+                //Check if Dash is queued
+                if (isDashing)
+                {
+                    struckAgain = false;
+                    Dash();
+                }
+
+                if (!struckAgain)
+                {
+                    ChangeState(idleState);
+                }
+            }
+            
         }
 
         public void DisableSwordCollision()
         {
             sword.SwordToDefault();
+            if (isDashing)
+            {
+                canAttack = false;
+                struckAgain = false;
+                Dash();
+            }
+        }
+
+        public void EndAttackAnim()
+        {
+            sword.SwordToDefault();
+            canAttack = false;
+            struckAgain = false;
+            if (isDashing)
+            {
+                Dash();
+            }
+            ChangeState(idleState);
+        }
+
+        public void EndDash()
+        {
+            ChangeState(idleState);
         }
     #endregion
 

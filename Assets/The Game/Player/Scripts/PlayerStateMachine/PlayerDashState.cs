@@ -10,6 +10,7 @@ public class PlayerDashState : PlayerBaseState
 
     public override void EnterState(Player player)
     {
+        //Debug.Log("Dodge");
         player.rollSound.Play();
         player.animator.SetBool(player.animIDDash, true);
         elapsed = 0f;
@@ -24,7 +25,7 @@ public class PlayerDashState : PlayerBaseState
 
     public override void UpdateState(Player player)
     {
-        
+
         if (elapsed < duration)
         {
             player.transform.Translate(player.dashForce * Time.deltaTime * player.dashDirection, Space.World);
@@ -32,7 +33,7 @@ public class PlayerDashState : PlayerBaseState
         }
         else
         {
-            if(player.isSprinting) player.ChangeState(player.runState);
+            if (player.isSprinting) player.ChangeState(player.runState);
             else player.ChangeState(player.idleState);
         }
     }
