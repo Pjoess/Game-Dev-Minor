@@ -377,7 +377,7 @@ public class Player : MonoBehaviour, IDamageble
 
         void OnAttack(InputValue value)
         {
-            if(value.isPressed && IsGrounded()){
+            if(value.isPressed && playerState != dashState){
                 AttackRotation();
                 if (isStriking) OnAttackPressed();
                 else if (!isStriking)
