@@ -10,16 +10,22 @@ public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public float textSpeed;
-    private int index;
+    private int index = 0;
     public string[] lines;
     Coroutine coroutine;
 
-    IDialogueTrigger dialogue;
+    void Start(){
+        Dialogue.ChangeLines += ChangeLine;
+    }
 
-
+    void ChangeLine(string[] lines){
+        StopCoroutine(coroutine);
+        this.lines = lines;
+        StartDialogue();
+    }
     void Awake(){
         textComponent.text = string.Empty;
-        gameObject.SetActive(false);
+        StartDialogue();
     }
 
     void Update(){
@@ -42,6 +48,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     IEnumerator TextCoroutine(){
+        yield return new WaitForSeconds(textSpeed);
         foreach(char c in lines[index].ToCharArray()){
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
@@ -55,6 +62,7 @@ public class DialogueManager : MonoBehaviour
             coroutine = StartCoroutine(TextCoroutine());
         }else{
             gameObject.SetActive(false);
+            index = 0;
         }
     }
 }
