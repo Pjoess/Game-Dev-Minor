@@ -262,9 +262,9 @@ public class BuddyAI_Controller : MonoBehaviour
         {
             if (Time.time >= nextMortarTime)
             {
-                buddyCooldownText.text = "Mortar Ready! - (Press RMB)";
+                buddyCooldownText.text = "Mortar Ready! - (Press B)";
                 
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetKeyDown(KeyCode.B))
                 {
                     Transform closestEnemy = FindClosestEnemy();
                     if (closestEnemy != null && mortarPrefab != null)
