@@ -180,17 +180,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 52fc27206791db94c928b4c0f92278ef,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.7138672
+      value: 6.69
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52fc27206791db94c928b4c0f92278ef,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.6036634
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52fc27206791db94c928b4c0f92278ef,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 47.33185
+      value: 17.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52fc27206791db94c928b4c0f92278ef,
         type: 3}
@@ -338,11 +338,11 @@ MonoBehaviour:
   enemyHealthBar: {fileID: 0}
   isCollisionCooldown: 0
   collisionCooldown: 1
+  dashSpeedMultiplier: 2
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
   centerPoint: {fileID: 0}
-  dashSpeedMultiplier: 2
 --- !u!114 &3277164951253878161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0003d6daba133b4c864deacb6683ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droppedItemPrefab: {fileID: 2904413591401852843, guid: fd4599fb2cf46664f93d47ced4aec733,
+  droppedItemPrefab: {fileID: 7386968017279847, guid: 76cdeaaed97cfa94aa8f26459d76f4b4,
     type: 3}
   healthItems:
   - {fileID: 11400000, guid: 75b0506aa1a8335419ea37df2522e0b3, type: 2}
