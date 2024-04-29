@@ -2779,7 +2779,7 @@ PrefabInstance:
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 72.74243
+      value: 80.56
       objectReference: {fileID: 0}
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -2789,7 +2789,7 @@ PrefabInstance:
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5169678
+      value: 6.04
       objectReference: {fileID: 0}
     - target: {fileID: 4709866099929648106, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -2840,6 +2840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677973923221463784, guid: 51091c60746f33148940282f9978db8a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6791026232937883682, guid: 51091c60746f33148940282f9978db8a,
         type: 3}
@@ -6004,7 +6009,7 @@ GameObject:
   - component: {fileID: 1150853817}
   - component: {fileID: 1150853816}
   - component: {fileID: 1150853815}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
