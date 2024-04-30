@@ -90,17 +90,24 @@ namespace buddy
         {
             if (bulletPrefab != null)
             {
-                Debug.Log("Shot");
                 if (Vector3.Distance(agent.transform.position, enemyTransform.position) <= shootingRange)
                 {
-                    agent.transform.LookAt(enemyTransform);
-
+                    // Calculate the direction to the enemy
                     Vector3 direction = (enemyTransform.position - agent.transform.position).normalized;
+
+                    // Calculate the rotation to face the enemy
+                    Quaternion agentRotation = Quaternion.LookRotation(direction);
+
+                    // Rotate the agent to face the enemy
+                    agent.transform.rotation = agentRotation;
+
+                    // Calculate the spawn position of the bullet
                     Vector3 bulletSpawnPosition = agent.transform.position + bulletShootHeight * Vector3.up;
 
-                    // Instantiate the bullet prefab and set its velocity
-                    GameObject bullet = Object.Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.identity);
-                    if (bullet.TryGetComponent<Rigidbody>(out var bulletRigidbody))
+                    // Instantiate the bullet prefab with the calculated rotation
+                    GameObject bullet = Object.Instantiate(bulletPrefab, bulletSpawnPosition, agentRotation);
+                    Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
+                    if (bulletRigidbody != null)
                     {
                         bulletRigidbody.velocity = direction * bulletSpeed;
                     }

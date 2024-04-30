@@ -48,14 +48,13 @@ namespace buddy
         {
             List<IBaseNode> movement = new()
             {
-                // new FollowNode(agent),
-                // new IdleNode(agent),
-                new ShootBulletNode(agent,shootingRange,attackLayer,bulletShootHeight,bulletSpeed,bulletLifetime,bulletPrefab),
+                new FollowNode(agent),
+                new IdleNode(agent),
             };
 
             List<IBaseNode> enemyLineOfSight = new()
             {
-                
+                new ShootBulletNode(agent,shootingRange,attackLayer,bulletShootHeight,bulletSpeed,bulletLifetime,bulletPrefab),
             };
 
             List<IBaseNode> selectNode = new()

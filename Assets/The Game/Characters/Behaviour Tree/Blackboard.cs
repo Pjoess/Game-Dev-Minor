@@ -8,8 +8,6 @@ namespace buddy
         public static Blackboard instance;
         
         private Player_Manager player;
-        public GameObject bulletPrefab;
-        public GameObject mortarPrefab;
 
         public Animator animator;
         [HideInInspector] public int animIDWalk;
@@ -47,21 +45,5 @@ namespace buddy
                 return Vector3.zero;
             }
         }
-
-        #region Normal Bullet
-        // public GameObject InstantiateBullet(GameObject bulletPrefab, Vector3 bulletSpawnPosition, Vector3 direction)
-        // {
-        //     GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, Quaternion.LookRotation(direction));
-        //     Debug.Log("Shooting");
-        //     return bullet;
-        // }
-
-        // public GameObject DestroyBullet(GameObject bullet, float bulletLifetime)
-        // {
-        //     Destroy(bullet, bulletLifetime);
-        //     Debug.Log("Destroyed");
-        //     return bullet;
-        // }
-        #endregion
     }
 }
