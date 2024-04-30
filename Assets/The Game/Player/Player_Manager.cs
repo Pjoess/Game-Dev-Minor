@@ -68,7 +68,7 @@ public class Player : MonoBehaviour, IDamageble
         [Header("UI Canvas and Buttons")]
         public static bool isPaused = false;
         private PauseMenu pauseMenu;
-        private readonly DeathScript deathScript;
+        private DeathScript deathScript;
         public float buttonCameraOffsetForward = -50f;
         public float buttonCameraOffsetRight = -50f;
         public float buttonCameraOffsetUp = -50f;
@@ -149,6 +149,7 @@ public class Player : MonoBehaviour, IDamageble
             virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
             transposer = virtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
             input = GetComponent<PlayerInput>();
+            deathScript = FindObjectOfType<DeathScript>();
         }
         
         void Start()

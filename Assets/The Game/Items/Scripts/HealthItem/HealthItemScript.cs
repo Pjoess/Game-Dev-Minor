@@ -10,6 +10,7 @@ public class HealthItemScript : MonoBehaviour
     void Start()
     {
         GetComponent<MeshRenderer>().material.color = healthItem.color;
+        transform.rotation = Quaternion.Euler(-90, 0, 0);
     }
 
     private void OnTriggerEnter(Collider other)
