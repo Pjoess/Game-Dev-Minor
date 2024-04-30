@@ -3,18 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.UI; 
 
-public class TutorialDialogue : MonoBehaviour
+public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public float textSpeed;
+    private int index = 0;
     public string[] lines;
-
-    private int index;
     Coroutine coroutine;
 
     void Start(){
+        Dialogue.ChangeLines += ChangeLine;
+    }
+
+    void ChangeLine(string[] lines){
+        StopCoroutine(coroutine);
+        this.lines = lines;
+        StartDialogue();
+    }
+    void Awake(){
         textComponent.text = string.Empty;
         StartDialogue();
     }
@@ -28,14 +37,18 @@ public class TutorialDialogue : MonoBehaviour
                 textComponent.text = lines[index];
             }
         }
+
     }
 
-    void StartDialogue(){
+    public void StartDialogue(){
+        gameObject.SetActive(true);
+        textComponent.text = string.Empty;
         index = 0;
         coroutine = StartCoroutine(TextCoroutine());
     }
 
     IEnumerator TextCoroutine(){
+        yield return new WaitForSeconds(textSpeed);
         foreach(char c in lines[index].ToCharArray()){
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
@@ -49,6 +62,7 @@ public class TutorialDialogue : MonoBehaviour
             coroutine = StartCoroutine(TextCoroutine());
         }else{
             gameObject.SetActive(false);
+            index = 0;
         }
     }
 }
