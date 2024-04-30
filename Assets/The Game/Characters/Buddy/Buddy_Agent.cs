@@ -8,7 +8,7 @@ namespace buddy
 {
     public class Agent_Manager : MonoBehaviour
     {
-        private IBaseNode agentBT = null;
+        private IBaseNode buddyBT = null;
         private Rigidbody rigidBody;
         public NavMeshAgent agent;
         public LayerMask attackLayer;
@@ -44,12 +44,12 @@ namespace buddy
 
         void Update()
         {
-            agentBT?.Update();
+            buddyBT?.Update();
         }
 
         private void BuddyBehaviourTree()
         {
-            List<IBaseNode> agentMovement = new()
+            List<IBaseNode> buddyMovement = new()
             {
                 new FollowNode(agent),
                 new IdleNode(agent),
@@ -63,11 +63,11 @@ namespace buddy
 
             List<IBaseNode> selectNode = new()
             {
-                new SequenceNode(agentMovement),
+                new SequenceNode(buddyMovement),
                 new SequenceNode(enemyInLineOfSight),
             };
 
-            agentBT = new SelectorNode(selectNode);
+            buddyBT = new SelectorNode(selectNode);
         }
 
         void OnDrawGizmosSelected()
