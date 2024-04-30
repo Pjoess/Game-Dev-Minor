@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class PlayerRunState : PlayerBaseState
 {
-    public override void EnterState(Player player)
+    public override void EnterState(Player_Manager player)
     {
         // player.footStepSound.pitch = 1.25f;
         // player.footStepSound.Play();
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(Player_Manager player)
     {
         // player.footStepSound.pitch = 1.0f;
         // player.footStepSound.Stop();
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(Player_Manager player)
     {
         player.Movement();
         player.Jump();

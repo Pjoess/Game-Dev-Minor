@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerBaseState
 {
-    public override void EnterState(Player player)
+    public override void EnterState(Player_Manager player)
     {
         //Debug.Log("Idle");
         player.isSprinting = false;
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(Player_Manager player)
     {
         
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(Player_Manager player)
     {
         if (player.movement != Vector2.zero) player.ChangeState(player.walkState);
         player.Jump();

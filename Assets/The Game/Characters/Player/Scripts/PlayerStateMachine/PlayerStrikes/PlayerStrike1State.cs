@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class PlayerStrikeState : PlayerBaseState
 {
-    public override void EnterState(Player player)
+    public override void EnterState(Player_Manager player)
     {
         player.animator.SetBool(player.animIDStrike, true);
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(Player_Manager player)
     {
         player.animator.SetBool(player.animIDStrike, false);
         player.sword.SwordToDefault();
@@ -15,7 +15,7 @@ public class PlayerStrikeState : PlayerBaseState
         player.canAttack = false;
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(Player_Manager player)
     {
         player.Dash();
     }

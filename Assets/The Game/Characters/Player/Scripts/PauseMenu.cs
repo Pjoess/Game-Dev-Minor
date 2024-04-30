@@ -9,11 +9,11 @@ public class PauseMenu : MonoBehaviour
     private PlayerInput input;
     private void Start()
     {
-        input = FindObjectOfType<Player>().GetComponent<PlayerInput>();
+        input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
     }
 
     public void EnablePauseCanvas(){
-        if(Player.isPaused){
+        if(Player_Manager.isPaused){
             pauseMenu.SetActive(true);
             input.SwitchCurrentActionMap("UI");
             EventSystem.current.SetSelectedGameObject(mainMenuButton);

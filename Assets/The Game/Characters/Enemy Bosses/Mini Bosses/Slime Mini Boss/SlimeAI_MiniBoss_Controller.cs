@@ -9,7 +9,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [HideInInspector] private NavMeshAgent miniBossAgent;
 
         [Header("Object References")]
-        private Player player;
+        private Player_Manager player;
         [SerializeField] private GameObject patrolCenterPoint;
 
         [Header("Movement")]
@@ -49,7 +49,7 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
     #region Default Functions
         void Awake(){
             miniBossAgent = GetComponent<NavMeshAgent>();
-            player = FindObjectOfType<Player>();
+            player = FindObjectOfType<Player_Manager>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
         }
 

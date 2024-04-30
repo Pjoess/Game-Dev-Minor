@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
     
-public class Player : MonoBehaviour, IDamageble
+public class Player_Manager : MonoBehaviour, IDamageble
 {
     #region Variables & References
         private BuddyAI_Controller buddy;

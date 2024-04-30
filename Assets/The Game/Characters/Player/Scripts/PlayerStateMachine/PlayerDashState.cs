@@ -8,7 +8,7 @@ public class PlayerDashState : PlayerBaseState
     float elapsed = 0f;
     float duration = 0.5f;
 
-    public override void EnterState(Player player)
+    public override void EnterState(Player_Manager player)
     {
         //Debug.Log("Dodge");
         player.rollSound.Play();
@@ -16,14 +16,14 @@ public class PlayerDashState : PlayerBaseState
         elapsed = 0f;
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(Player_Manager player)
     {
         player.isDashing = false;
         player.dashCooldownDelta = player.dashCooldown;
         player.animator.SetBool(player.animIDDash, false);
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(Player_Manager player)
     {
 
         if (elapsed < duration)

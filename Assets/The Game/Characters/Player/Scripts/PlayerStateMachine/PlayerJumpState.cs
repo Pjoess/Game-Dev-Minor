@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerBaseState
 {
-    public override void EnterState(Player player)
+    public override void EnterState(Player_Manager player)
     {
         player.animator.SetBool(player.animIDJump, true);
         player.jumpCooldownDelta = player.jumpCooldown;
@@ -12,12 +12,12 @@ public class PlayerJumpState : PlayerBaseState
         player.jumpSound.Play();
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(Player_Manager player)
     {
         player.animator.SetBool(player.animIDJump, false);
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(Player_Manager player)
     {
         player.Movement();
         if (player.IsAnimFinished("JumpStart"))

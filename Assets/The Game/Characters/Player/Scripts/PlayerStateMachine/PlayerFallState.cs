@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PlayerFallState : PlayerBaseState
 {
-    public override void EnterState(Player player)
+    public override void EnterState(Player_Manager player)
     {
         Debug.Log("Fall");
         player.animator.SetBool(player.animIDGrounded, false);
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(Player_Manager player)
     {
         Debug.Log("Land");
         player.animator.SetBool(player.animIDGrounded, true);
@@ -16,7 +16,7 @@ public class PlayerFallState : PlayerBaseState
         player.hasJumped = false;
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(Player_Manager player)
     { 
         player.Movement();
         if (player.IsGrounded())
