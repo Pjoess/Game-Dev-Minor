@@ -14,7 +14,6 @@ namespace buddy
         public GameObject mortarPrefab;
         public LayerMask attackLayer;
         public AudioSource shootSound;
-        
 
         [Header("Attack")]
         public int shotsFired = 0;
@@ -30,18 +29,6 @@ namespace buddy
         [SerializeField] private TMP_Text buddyCooldownText;
         [SerializeField] private float mortarCooldownTime = 3f;
         private float nextMortarTime = 0f;
-
-        private Animator animator;
-        [HideInInspector] public int animIDWalk;
-        [HideInInspector] public int animIDShooting;
-        [HideInInspector] public int animIDShootingMortar;
-
-        private void AssignAnimIDs()
-        {
-            animIDWalk = Animator.StringToHash("isWalking");
-            animIDShooting = Animator.StringToHash("isShooting");
-            animIDShootingMortar = Animator.StringToHash("isShootingMortar");
-        }
 
         private void Awake()
         {
@@ -62,8 +49,8 @@ namespace buddy
         {
             List<IBaseNode> movement = new()
             {
-                new IdleNode(agent),
                 new FollowNode(agent),
+                new IdleNode(agent),
             };
 
             List<IBaseNode> enemyLineOfSight = new()

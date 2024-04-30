@@ -20,6 +20,10 @@ namespace buddy
                 if (RandomPoint(Blackboard.instance.GetPlayerPosition(), 5f, out Vector3 randomPoint))
                 {
                     agent.SetDestination(randomPoint);
+                    if(agent.remainingDistance > 0.5f){
+                        Debug.Log("Moving");
+                        Blackboard.instance.animator.SetBool(Blackboard.instance.animIDWalk, true);
+                    }
                 }
                 return true;
             }

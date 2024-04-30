@@ -14,7 +14,7 @@ namespace buddy
 
         public virtual bool Update()
         {
-            if (agent.velocity.magnitude < 0.1f)
+            if (agent.velocity.magnitude < 1f)
             {
                 Debug.Log("Idle");
                 return true;

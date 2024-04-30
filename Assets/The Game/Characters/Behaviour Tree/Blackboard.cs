@@ -1,30 +1,48 @@
 using UnityEngine;
 
-public class Blackboard : MonoBehaviour
+namespace buddy
 {
-    public static Blackboard instance;
-    private Player_Manager player;
-
-    private void Awake()
+    public class Blackboard : MonoBehaviour
     {
-        instance = this;
-    }
+        public static Blackboard instance;
 
-    private void Start()
-    {
-        player = FindObjectOfType<Player_Manager>();
-    }
+        private Player_Manager player;
 
-    public Vector3 GetPlayerPosition()
-    {
-        if (player != null)
+        public Animator animator;
+        [HideInInspector] public int animIDWalk;
+        [HideInInspector] public int animIDShooting;
+        [HideInInspector] public int animIDShootingMortar;
+
+        public void AssignAnimIDs()
         {
-            return player.transform.position;
+            animIDWalk = Animator.StringToHash("isWalking");
+            animIDShooting = Animator.StringToHash("isShooting");
+            animIDShootingMortar = Animator.StringToHash("isShootingMortar");
         }
-        else
+
+        private void Awake()
         {
-            Debug.LogError("Player_Manager not found!");
-            return Vector3.zero;
+            AssignAnimIDs();
+            instance = this;
+        }
+
+        private void Start()
+        {
+            animator = GetComponent<Animator>();
+            player = FindObjectOfType<Player_Manager>();
+        }
+
+        public Vector3 GetPlayerPosition()
+        {
+            if (player != null)
+            {
+                return player.transform.position;
+            }
+            else
+            {
+                Debug.LogError("Player_Manager not found!");
+                return Vector3.zero;
+            }
         }
     }
 }
