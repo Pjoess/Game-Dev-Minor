@@ -8,24 +8,33 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static DialogueManager instance;
+
+    private PlayerInput input;
     public TextMeshProUGUI textComponent;
     public float textSpeed;
     private int index = 0;
     public string[] lines;
+    public bool isActive = false;
     Coroutine coroutine;
 
     void Start(){
+        instance = this;
+        input = FindObjectOfType<Player>().GetComponent<PlayerInput>();
+        Debug.Log("Start");
         Dialogue.ChangeLines += ChangeLine;
+        StartDialogue();
     }
 
     void ChangeLine(string[] lines){
-        StopCoroutine(coroutine);
+        if(coroutine!=null){
+            StopCoroutine(coroutine);
+        }
         this.lines = lines;
         StartDialogue();
     }
     void Awake(){
         textComponent.text = string.Empty;
-        StartDialogue();
     }
 
     void Update(){
@@ -41,6 +50,9 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void StartDialogue(){
+        Debug.Log("Start Dialogue");
+        input.SwitchCurrentActionMap("UI");
+        isActive = true;
         gameObject.SetActive(true);
         textComponent.text = string.Empty;
         index = 0;
@@ -62,6 +74,8 @@ public class DialogueManager : MonoBehaviour
             coroutine = StartCoroutine(TextCoroutine());
         }else{
             gameObject.SetActive(false);
+            input.SwitchCurrentActionMap("Player");
+            isActive = false;
             index = 0;
         }
     }
