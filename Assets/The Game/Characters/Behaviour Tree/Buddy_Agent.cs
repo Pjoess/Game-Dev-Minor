@@ -13,6 +13,7 @@ namespace buddy
         public LayerMask attackLayer;
         public AudioSource shootSound;
         public GameObject bulletPrefab;
+        public GameObject mortarPrefab; // Added mortar prefab
 
         [Header("Attack")]
         public int shotsFired = 0;
@@ -21,11 +22,11 @@ namespace buddy
         public float bulletLifetime = 5f;
         public float bulletShootHeight = 1f;
         public float mortarSpeed = 5f;
-        public float distanceToMove = 5f;
         public float mortarSpawnHeight = 8f;
+        public float distanceToMove = 5f;
 
         [Header("Cooldown")]
-        [SerializeField] private TMP_Text buddyCooldownText;
+        public TMP_Text buddyCooldownText;
         [SerializeField] private float mortarCooldownTime = 3f;
         private float nextMortarTime = 0f;
 
@@ -46,18 +47,20 @@ namespace buddy
 
         private void CreateBehaviourTree()
         {
-            List<IBaseNode> movement = new()
+            List<IBaseNode> movement = new List<IBaseNode>
             {
                 new FollowNode(agent),
                 new IdleNode(agent),
             };
 
-            List<IBaseNode> enemyLineOfSight = new()
+            List<IBaseNode> enemyLineOfSight = new List<IBaseNode>
             {
-                new ShootBulletNode(agent,shootingRange,attackLayer,bulletShootHeight,bulletSpeed,bulletLifetime,bulletPrefab),
+                new ShootBulletNode(agent, shootingRange, attackLayer, bulletShootHeight, bulletSpeed, bulletLifetime, bulletPrefab),
+                // Fixing the constructor of ShootMortarNode
+                new ShootMortarNode(agent, shootingRange, attackLayer, mortarSpeed, mortarSpawnHeight, mortarPrefab, buddyCooldownText, mortarCooldownTime)
             };
 
-            List<IBaseNode> selectNode = new()
+            List<IBaseNode> selectNode = new List<IBaseNode>
             {
                 new SequenceNode(movement),
                 new SequenceNode(enemyLineOfSight),

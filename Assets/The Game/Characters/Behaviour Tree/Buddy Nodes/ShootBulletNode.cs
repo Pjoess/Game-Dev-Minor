@@ -18,7 +18,7 @@ namespace buddy
         private GameObject bulletPrefab;
         
         private float shootTimer = 0f;
-        private const float timeBetweenShots = 0.5f; // Time between each shot
+        private const float timeBetweenShots = 2f; // Time between each shot
 
         public ShootBulletNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, float bulletShootHeight, float bulletSpeed, float bulletLifetime, GameObject bulletPrefab)
         {
@@ -69,11 +69,8 @@ namespace buddy
                     float distanceToEnemy = Vector3.Distance(agent.transform.position, enemyTransform.position);
                     if (distanceToEnemy <= shootingRange)
                     {
-                        // Perform a raycast to check if there are any obstacles between the agent and the enemy
-                        RaycastHit hit;
-                        if (Physics.Raycast(agent.transform.position, (enemyTransform.position - agent.transform.position).normalized, out hit, distanceToEnemy, attackLayer))
+                        if (Physics.Raycast(agent.transform.position, (enemyTransform.position - agent.transform.position).normalized, out RaycastHit hit, distanceToEnemy, attackLayer))
                         {
-                            // If the raycast hits an enemy, update closestEnemy and closestEnemyDistance
                             if (hit.collider.CompareTag("Enemy") && distanceToEnemy < closestEnemyDistance)
                             {
                                 closestEnemy = enemyTransform;
@@ -92,27 +89,17 @@ namespace buddy
             {
                 if (Vector3.Distance(agent.transform.position, enemyTransform.position) <= shootingRange)
                 {
-                    // Calculate the direction to the enemy
                     Vector3 direction = (enemyTransform.position - agent.transform.position).normalized;
-
-                    // Calculate the rotation to face the enemy
                     Quaternion agentRotation = Quaternion.LookRotation(direction);
-
-                    // Rotate the agent to face the enemy
                     agent.transform.rotation = agentRotation;
-
-                    // Calculate the spawn position of the bullet
                     Vector3 bulletSpawnPosition = agent.transform.position + bulletShootHeight * Vector3.up;
 
                     // Instantiate the bullet prefab with the calculated rotation
                     GameObject bullet = Object.Instantiate(bulletPrefab, bulletSpawnPosition, agentRotation);
-                    Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
-                    if (bulletRigidbody != null)
+                    if (bullet.TryGetComponent<Rigidbody>(out var bulletRigidbody))
                     {
                         bulletRigidbody.velocity = direction * bulletSpeed;
                     }
-
-                    // Destroy the bullet after its lifetime
                     Object.Destroy(bullet, bulletLifetime);
                 }
             }
