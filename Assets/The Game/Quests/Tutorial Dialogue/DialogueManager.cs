@@ -20,7 +20,7 @@ public class DialogueManager : MonoBehaviour
 
     void Start(){
         instance = this;
-        input = FindObjectOfType<Player>().GetComponent<PlayerInput>();
+        input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
         Debug.Log("Start");
         Dialogue.ChangeLines += ChangeLine;
         StartDialogue();
