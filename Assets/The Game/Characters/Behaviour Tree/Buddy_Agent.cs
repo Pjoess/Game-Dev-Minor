@@ -10,10 +10,9 @@ namespace buddy
         private IBaseNode agentBT = null;
         private Rigidbody rigidBody;
         public NavMeshAgent agent;
-        public GameObject bulletPrefab;
-        public GameObject mortarPrefab;
         public LayerMask attackLayer;
         public AudioSource shootSound;
+        public GameObject bulletPrefab;
 
         [Header("Attack")]
         public int shotsFired = 0;
@@ -49,8 +48,9 @@ namespace buddy
         {
             List<IBaseNode> movement = new()
             {
-                new FollowNode(agent),
-                new IdleNode(agent),
+                // new FollowNode(agent),
+                // new IdleNode(agent),
+                new ShootBulletNode(agent,shootingRange,attackLayer,bulletShootHeight,bulletSpeed,bulletLifetime,bulletPrefab),
             };
 
             List<IBaseNode> enemyLineOfSight = new()
@@ -67,21 +67,23 @@ namespace buddy
             agentBT = new SelectorNode(selectNode);
         }
 
-        // Draw Gizmos to visualize the detection cones
-        void OnDrawGizmosSelected()
-        {
-            if (agent != null)
-            {
-            
-            }
-        }
-
         void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
 
             }
+        }
+
+        void OnDrawGizmosSelected()
+        {
+            // Draw a wire sphere to represent the shooting range
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, shootingRange);
+
+            // Draw a wire sphere to represent the distance to move
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, distanceToMove);
         }
     }
 }
