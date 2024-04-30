@@ -33,6 +33,7 @@ namespace buddy
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
+            rigidBody = GetComponent<Rigidbody>();
         }
 
         void Start()
