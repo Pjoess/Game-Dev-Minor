@@ -39,7 +39,7 @@ namespace buddy
 
         void Start()
         {
-            CreateBehaviourTree();
+            BuddyBehaviourTree();
         }
 
         void Update()
@@ -47,7 +47,7 @@ namespace buddy
             agentBT?.Update();
         }
 
-        private void CreateBehaviourTree()
+        private void BuddyBehaviourTree()
         {
             List<IBaseNode> movement = new()
             {
