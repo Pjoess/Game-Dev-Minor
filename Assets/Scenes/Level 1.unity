@@ -5063,12 +5063,6 @@ AudioSource:
     type: 3}
   m_PrefabInstance: {fileID: 8243405040465347499}
   m_PrefabAsset: {fileID: 0}
---- !u!195 &978851617 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 879930828139187992, guid: f8db1c86389f58e4da2b5ab9a18372b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 8243405040465347499}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &986582554 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5975211044782689814, guid: 0708d410ceaf54740ba86aa9668506c3,
@@ -15167,7 +15161,7 @@ PrefabInstance:
         type: 3}
       propertyPath: agent
       value: 
-      objectReference: {fileID: 978851617}
+      objectReference: {fileID: 0}
     - target: {fileID: 8972407748793277439, guid: f8db1c86389f58e4da2b5ab9a18372b0,
         type: 3}
       propertyPath: shootSound
