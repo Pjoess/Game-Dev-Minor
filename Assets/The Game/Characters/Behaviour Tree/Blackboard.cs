@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class Blackboard : MonoBehaviour
 {
     public static Blackboard instance;
