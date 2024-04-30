@@ -15,13 +15,11 @@ namespace buddy
         private float mortarCooldownTime;
         private float mortarSpawnHeight;
         private float bulletLifetime;
-        private float distanceToMove;
-        private float mortarSpeed;
         private float nextMortarTime = 0f;
         private bool isShooting = false;
         private Transform targetEnemy;
 
-        public ShootMortarNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, float mortarSpeed, float mortarSpawnHeight, GameObject mortarPrefab, TMP_Text buddyCooldownText, float mortarCooldownTime)
+        public ShootMortarNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, float mortarSpawnHeight, GameObject mortarPrefab, TMP_Text buddyCooldownText, float mortarCooldownTime)
         {
             this.agent = agent;
             this.shootingRange = shootingRange;
@@ -29,10 +27,8 @@ namespace buddy
             this.mortarPrefab = mortarPrefab;
             this.buddyCooldownText = buddyCooldownText;
             this.mortarCooldownTime = mortarCooldownTime;
-            this.mortarSpeed = mortarSpeed;
             this.mortarSpawnHeight = mortarSpawnHeight;
             this.bulletLifetime = 5f; // Set the default bullet lifetime
-            this.distanceToMove = 5f; // Set the default distance to move
         }
 
         public bool Update()
@@ -73,9 +69,6 @@ namespace buddy
             nextMortarTime = Time.time + mortarCooldownTime;
             isShooting = false;
             agent.isStopped = false;
-
-            // Calculate mortar movement over time
-            MoveBulletOverTime(mortar);
         }
 
         private Transform FindClosestEnemy()
@@ -100,28 +93,6 @@ namespace buddy
                 }
             }
             return closestEnemy;
-        }
-
-        private IEnumerator MoveBulletOverTime(GameObject mortar)
-        {
-            Vector3 initialPosition = mortar.transform.position;
-            Vector3 targetPosition = initialPosition - Vector3.up * distanceToMove;
-
-            float startTime = Time.time;
-            float journeyLength = Vector3.Distance(initialPosition, targetPosition);
-
-            while (mortar != null && (Time.time - startTime) * mortarSpeed < journeyLength)
-            {
-                float distCovered = (Time.time - startTime) * mortarSpeed;
-                float fracJourney = distCovered / journeyLength;
-                mortar.transform.position = Vector3.Lerp(initialPosition, targetPosition, fracJourney);
-                yield return null;
-            }
-
-            if (mortar != null)
-            {
-                mortar.transform.position = targetPosition;
-            }
         }
     }
 }

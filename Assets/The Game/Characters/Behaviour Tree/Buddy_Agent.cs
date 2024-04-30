@@ -57,7 +57,7 @@ namespace buddy
             {
                 new ShootBulletNode(agent, shootingRange, attackLayer, bulletShootHeight, bulletSpeed, bulletLifetime, bulletPrefab),
                 // Fixing the constructor of ShootMortarNode
-                new ShootMortarNode(agent, shootingRange, attackLayer, mortarSpeed, mortarSpawnHeight, mortarPrefab, buddyCooldownText, mortarCooldownTime)
+                new ShootMortarNode(agent, shootingRange, attackLayer, mortarSpawnHeight, mortarPrefab, buddyCooldownText, mortarCooldownTime)
             };
 
             List<IBaseNode> selectNode = new List<IBaseNode>
