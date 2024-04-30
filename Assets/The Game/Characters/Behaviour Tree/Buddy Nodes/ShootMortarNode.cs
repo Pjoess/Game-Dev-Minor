@@ -20,7 +20,8 @@ namespace buddy
         private float nextMortarTime = 0f;
         private bool isShooting = false;
         
-        public ShootMortarNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, float mortarSpawnHeight, GameObject mortarPrefab, TMP_Text buddyCooldownText, float mortarCooldownTime)
+        public ShootMortarNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, 
+            float mortarSpawnHeight, GameObject mortarPrefab, TMP_Text buddyCooldownText, float mortarCooldownTime)
         {
             this.agent = agent;
             this.shootingRange = shootingRange;
