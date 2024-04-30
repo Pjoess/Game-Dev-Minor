@@ -47,34 +47,25 @@ namespace buddy
 
         private void CreateBehaviourTree()
         {
-            List<IBaseNode> movement = new List<IBaseNode>
+            List<IBaseNode> movement = new()
             {
                 new FollowNode(agent),
                 new IdleNode(agent),
             };
 
-            List<IBaseNode> enemyLineOfSight = new List<IBaseNode>
+            List<IBaseNode> enemyLineOfSight = new()
             {
                 new ShootBulletNode(agent, shootingRange, attackLayer, bulletShootHeight, bulletSpeed, bulletLifetime, bulletPrefab),
-                // Fixing the constructor of ShootMortarNode
                 new ShootMortarNode(agent, shootingRange, attackLayer, mortarSpawnHeight, mortarPrefab, buddyCooldownText, mortarCooldownTime)
             };
 
-            List<IBaseNode> selectNode = new List<IBaseNode>
+            List<IBaseNode> selectNode = new()
             {
                 new SequenceNode(movement),
                 new SequenceNode(enemyLineOfSight),
             };
 
             agentBT = new SelectorNode(selectNode);
-        }
-
-        void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-
-            }
         }
 
         void OnDrawGizmosSelected()
