@@ -49,13 +49,13 @@ namespace buddy
 
         private void BuddyBehaviourTree()
         {
-            List<IBaseNode> movement = new()
+            List<IBaseNode> agentMovement = new()
             {
                 new FollowNode(agent),
                 new IdleNode(agent),
             };
 
-            List<IBaseNode> enemyLineOfSight = new()
+            List<IBaseNode> enemyInLineOfSight = new()
             {
                 new ShootBulletNode(agent, shootingRange, attackLayer, bulletShootHeight, bulletSpeed, bulletLifetime, bulletPrefab),
                 new ShootMortarNode(agent, shootingRange, attackLayer, mortarSpawnHeight, mortarPrefab, buddyCooldownText, mortarCooldownTime)
@@ -63,8 +63,8 @@ namespace buddy
 
             List<IBaseNode> selectNode = new()
             {
-                new SequenceNode(movement),
-                new SequenceNode(enemyLineOfSight),
+                new SequenceNode(agentMovement),
+                new SequenceNode(enemyInLineOfSight),
             };
 
             agentBT = new SelectorNode(selectNode);
