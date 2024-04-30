@@ -8,17 +8,18 @@ namespace buddy
     public class ShootMortarNode : IBaseNode
     {
         private NavMeshAgent agent;
-        private float shootingRange;
+        private Transform targetEnemy;
         private LayerMask attackLayer;
         private GameObject mortarPrefab;
         private TMP_Text buddyCooldownText;
+
+        private float shootingRange;
         private float mortarCooldownTime;
         private float mortarSpawnHeight;
         private float bulletLifetime;
         private float nextMortarTime = 0f;
         private bool isShooting = false;
-        private Transform targetEnemy;
-
+        
         public ShootMortarNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, float mortarSpawnHeight, GameObject mortarPrefab, TMP_Text buddyCooldownText, float mortarCooldownTime)
         {
             this.agent = agent;
@@ -55,7 +56,6 @@ namespace buddy
             {
                 buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(nextMortarTime - Time.time) + "s";
             }
-
             return true;
         }
 
