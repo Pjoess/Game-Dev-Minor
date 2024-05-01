@@ -25,7 +25,7 @@ namespace buddy
 
         [Header("Ranges")]
         public float shootingRange = 10f;
-        public float playerOutOfRadius = 8f;
+        public float maxAgentToPlayerDistance = 8f;
 
         [Header("Cooldown")]
         public TMP_Text buddyCooldownText;
@@ -51,7 +51,7 @@ namespace buddy
         {
             List<IBaseNode> buddyMovement = new()
             {
-                new FollowNode(agent, playerOutOfRadius),
+                new FollowNode(agent, maxAgentToPlayerDistance),
                 new IdleNode(agent),
             };
 
@@ -78,7 +78,7 @@ namespace buddy
 
             // Draw a wire sphere to represent the distance to move
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, playerOutOfRadius);
+            Gizmos.DrawWireSphere(transform.position, maxAgentToPlayerDistance);
         }
     }
 }

@@ -7,12 +7,12 @@ namespace buddy
     public class FollowNode : IBaseNode
     {   
         private NavMeshAgent agent;
-        private float playerOutOfRadius;
+        private float maxAgentToPlayerDistance;
 
-        public FollowNode(NavMeshAgent agent, float playerOutOfRadius)
+        public FollowNode(NavMeshAgent agent, float maxAgentToPlayerDistance)
         {
             this.agent = agent;
-            this.playerOutOfRadius = playerOutOfRadius;
+            this.maxAgentToPlayerDistance = maxAgentToPlayerDistance;
         }
 
         public virtual bool Update()
@@ -23,11 +23,11 @@ namespace buddy
 
                 if (playerPosition != Vector3.zero)
                 {
-                    float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
+                    float agentToPlayerDistance = Vector3.Distance(agent.transform.position, playerPosition);
 
-                    if (distanceToPlayer >= playerOutOfRadius)
+                    if (agentToPlayerDistance >= maxAgentToPlayerDistance)
                     {
-                        Debug.Log(playerOutOfRadius);
+                        Debug.Log(maxAgentToPlayerDistance);
                         agent.SetDestination(playerPosition);
                         Debug.Log("Moving");
                         Blackboard.instance.animator.SetBool(Blackboard.instance.animIDWalk, true);
