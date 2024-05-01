@@ -3,7 +3,6 @@ using UnityEngine.AI;
 
 namespace SlimeMiniBoss
 {
-    // Node for chasing the player
     public class ChasePlayerNode : IBaseNode
     {
         private NavMeshAgent agent;
