@@ -14,7 +14,7 @@ namespace SlimeMiniBoss
         private float coneWidth;
         private float coneLength;
         private float damageTimer = 0f;
-        private float damageCooldown = 3f;
+        private float damageCooldown = 1f;
 
         public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, LayerMask attackLayer, float coneWidth, float coneLength)
         {
@@ -59,7 +59,6 @@ namespace SlimeMiniBoss
                 Blackboard.instance.Hit(10);
                 return true;
             }
-
             return false;
         }
 

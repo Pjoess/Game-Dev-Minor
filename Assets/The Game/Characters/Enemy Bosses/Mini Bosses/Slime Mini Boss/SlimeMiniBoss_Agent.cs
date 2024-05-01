@@ -11,7 +11,7 @@ namespace SlimeMiniBoss
         private NavMeshAgent miniBossAgent;
 
         [Header("Patrol Center Point")]
-        private GameObject patrolCenterPoint;
+        public GameObject patrolCenterPoint;
 
         [Header("Chase")]
         private float chaseRange = 15f;
@@ -29,9 +29,6 @@ namespace SlimeMiniBoss
         public int maxHealthPoints = 100;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
-        
-        [Header("Slime Damage")]
-        private int miniBossDamage = 25;
     
         [Header("Cone Settings")]
         private float coneWidth = 40f;

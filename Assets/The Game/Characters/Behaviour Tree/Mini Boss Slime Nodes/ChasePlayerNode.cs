@@ -40,8 +40,6 @@ namespace SlimeMiniBoss
             }
             else
             {
-                // If player is out of range, set destination again until it reaches stop distance from player
-                agent.SetDestination(playerPosition);
                 return false;
             }
         }
