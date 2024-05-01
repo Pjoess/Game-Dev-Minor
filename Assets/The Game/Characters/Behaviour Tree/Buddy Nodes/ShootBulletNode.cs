@@ -1,6 +1,3 @@
-using System.Collections;
-using buddy;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
