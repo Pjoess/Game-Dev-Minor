@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,12 +8,9 @@ namespace SlimeMiniBoss
     {
         private IBaseNode slimeBT = null;
         public LayerMask attackLayer;
-
-        [Header("NavMesh Agent")]
         private NavMeshAgent miniBossAgent;
 
-        [Header("Object References")]
-        private Player_Manager player;
+        [Header("Patrol Center Point")]
         private GameObject patrolCenterPoint;
 
         [Header("Chase")]
@@ -28,6 +24,7 @@ namespace SlimeMiniBoss
         
         // --- IDamagable --- //
         [Header("Stats")]
+        public EnemyHealthBar enemyHealthBar;
         public int healthPoints;
         public int maxHealthPoints = 100;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
@@ -35,13 +32,15 @@ namespace SlimeMiniBoss
         
         [Header("Slime Damage")]
         private int miniBossDamage = 25;
-        
-        public EnemyHealthBar enemyHealthBar;
+    
+        [Header("Cone Settings")]
+        private float coneWidth = 30f;
+        private float coneLength = 5f;
+        private float thickness = 2f;
 
         private void Awake()
         {
             miniBossAgent = GetComponent<NavMeshAgent>();
-            player = FindObjectOfType<Player_Manager>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
         }
 
@@ -54,23 +53,89 @@ namespace SlimeMiniBoss
         void Update()
         {
             slimeBT?.Update(); // Update the boss behavior tree
+
+            // Check for objects in a cone shape
+            CheckConeRaycast(transform.forward, coneWidth, coneLength);
         }
 
         private void MiniBossSlimeBehaviourTree()
         {
             List<IBaseNode> bossNodes = new()
             {
-                new ChasePlayerNode(miniBossAgent, player.transform, chaseRange),
-                new AttackPlayerNode(miniBossAgent, player.transform, attackRange, offsetDistance, miniBossDamage, attackLayer),
+                new ChasePlayerNode(miniBossAgent, chaseRange),
+                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, miniBossDamage, attackLayer),
             };
 
             slimeBT = new SelectorNode(bossNodes);
         }
 
-    // Mini Boss Receive damage
-    public void ApplyDamageToMiniBoss() => healthPoints -= 3; // Do damage to boss (with bullets)
+        // Method to check for objects in a cone-shaped raycast
+        private void CheckConeRaycast(Vector3 direction, float coneWidth, float coneLength)
+        {
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, coneLength);
 
-    #region IDamagable
+            foreach (RaycastHit hit in hits)
+            {
+                // Check if the object is within the cone width
+                Vector3 directionToHit = hit.point - transform.position;
+                float angle = Vector3.Angle(direction, directionToHit);
+                if (angle <= coneWidth / 2f)
+                {
+                    // The hit object is within the cone
+                    Debug.Log("Object detected within cone: " + hit.collider.name);
+                }
+            }
+        }
+
+        // Draw Gizmos for cone shape
+        private void OnDrawGizmos()
+        {
+            // Draw cone shape in Gizmos
+            DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
+        }
+
+        // Draw cone shape in Gizmos
+        private void DrawCone(Vector3 origin, Vector3 direction, float coneWidth, float coneLength, float thickness)
+        {
+            // Store the current Gizmos color
+            Color previousColor = Gizmos.color;
+
+            // Set the desired color
+            Gizmos.color = Color.red;
+
+            // Calculate half width
+            float halfWidth = coneWidth / 2f;
+
+            // Calculate offset for thickness
+            Vector3 offset = Vector3.up * thickness;
+
+            // Draw cone base with thickness
+            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset);
+            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength - offset);
+            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength + offset);
+            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength + offset);
+
+            // Draw cone sides with thickness
+            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) - offset);
+            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) - offset);
+            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) + offset);
+            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) + offset);
+
+            // Draw lines to connect cone sides to cone base with thickness
+            Gizmos.DrawLine(origin - offset, origin - offset);
+            Gizmos.DrawLine(origin + offset, origin + offset);
+            Gizmos.DrawLine(origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength + offset);
+            Gizmos.DrawLine(origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength + offset);
+
+            // Restore the previous Gizmos color
+            Gizmos.color = previousColor;
+        }
+
+
+        // Mini Boss Receive damage
+        public void ApplyDamageToMiniBoss() => healthPoints -= 3; // Do damage to boss (with bullets)
+
+        #region IDamagable
         public void Hit(int damage)
         {
             HealthPoints -= damage;
@@ -89,6 +154,6 @@ namespace SlimeMiniBoss
                 Destroy(gameObject);
             }
         }
-    #endregion
+        #endregion
     }
 }
