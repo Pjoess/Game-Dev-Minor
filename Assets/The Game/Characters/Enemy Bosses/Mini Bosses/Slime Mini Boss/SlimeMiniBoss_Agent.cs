@@ -1,11 +1,11 @@
-using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace SlimeMiniBoss
 {
-    public class SlimeMiniBoss_Agent : MonoBehaviour
+    public class SlimeMiniBoss_Agent : MonoBehaviour, IDamageble
     {
         private IBaseNode slimeBT = null;
         public LayerMask attackLayer;
@@ -16,14 +16,6 @@ namespace SlimeMiniBoss
         [Header("Object References")]
         private Player_Manager player;
         [SerializeField] private GameObject patrolCenterPoint;
-
-        [Header("Movement")]
-        [SerializeField] private float movementSpeed = 2f;
-
-        [Header("Patrol")]
-        [SerializeField] private float patrolWaitTime = 4f;
-        [SerializeField] private float patrolRange = 10f;
-        [SerializeField] private bool isPatrolling;
 
         [Header("Chase")]
         [SerializeField] private float chaseRange = 15f;
@@ -56,7 +48,6 @@ namespace SlimeMiniBoss
         void Start()
         {
             HealthPoints = MaxHealthPoints;
-            miniBossAgent.speed = 2f;
             MiniBossSlimeBehaviourTree();
         }
 
@@ -76,14 +67,15 @@ namespace SlimeMiniBoss
             slimeBT = new SelectorNode(bossNodes);
         }
 
-    #region IDamagable
-        // Mini Boss Receive damage
-        public void ApplyDamageToMiniBoss(int damage) => HealthPoints -= damage; // Do damage to boss (with bullets)
+    // Mini Boss Receive damage
+    public void ApplyDamageToMiniBoss() => healthPoints -= 3; // Do damage to boss (with bullets)
 
+    #region IDamagable
         public void Hit(int damage)
         {
-            ApplyDamageToMiniBoss(damage);
-            enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
+            HealthPoints -= damage;
+            ApplyDamageToMiniBoss();
+            enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
             CheckDeath();
         }
 
