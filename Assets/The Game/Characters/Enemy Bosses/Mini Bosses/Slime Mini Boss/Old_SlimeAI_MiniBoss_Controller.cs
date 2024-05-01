@@ -21,7 +21,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
         [SerializeField] private bool isPatrolling;
 
         [Header("Chase")]
-        [SerializeField] private AudioSource chaseMusic;
         [SerializeField] private float chaseRange = 15f;
         [SerializeField] private bool isChasingPlayer = false;
 
@@ -115,51 +114,12 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
 
             if (distanceToPlayer <= chaseRange)
             {
-                if (!isChasingPlayer)
-                {
-                    PauseAllOtherMusic();
-                    chaseMusic.Play();
-                }
                 isChasingPlayer = true;
-
                 miniBossAgent.SetDestination(player.transform.position);
             }
             else
             {
-                if (isChasingPlayer)
-                {
-                    chaseMusic.Stop();
-                    ResumeAllOtherMusic();
-                }
-                
-                
                 isChasingPlayer = false;
-            }
-        }
-    #endregion
-        
-    #region Music & Audio
-        void PauseAllOtherMusic()
-        {
-            AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
-            foreach (AudioSource audioSource in allAudioSources)
-            {
-                if (audioSource != chaseMusic)
-                {
-                    audioSource.Pause();
-                }
-            }
-        }
-
-        void ResumeAllOtherMusic()
-        {
-            AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
-            foreach (AudioSource audioSource in allAudioSources)
-            {
-                if (audioSource != chaseMusic)
-                {
-                    audioSource.UnPause();
-                }
             }
         }
     #endregion
@@ -214,7 +174,6 @@ public class SlimeAI_MiniBoss_Controller : MonoBehaviour, IDamageble
             if (HealthPoints <= 0)
             {
                 GetComponent<MemoryDropScipt>().DropItem(transform.position);
-                ResumeAllOtherMusic();
                 Destroy(gameObject);
             }
         }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace buddy
+namespace miniBossSlime
 {
     public class Blackboard : MonoBehaviour
     {

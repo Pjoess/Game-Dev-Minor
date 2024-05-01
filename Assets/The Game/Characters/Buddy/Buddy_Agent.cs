@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace buddy
 {
-    public class Agent_Manager : MonoBehaviour
+    public class Buddy_Agent : MonoBehaviour
     {
         private IBaseNode buddyBT = null;
         private Rigidbody rigidBody; // this is important otherwise the Bullets don't work
@@ -13,7 +13,7 @@ namespace buddy
         public LayerMask attackLayer;
         public AudioSource shootSound;
         public GameObject bulletPrefab;
-        public GameObject mortarPrefab; // Added mortar prefab
+        public GameObject mortarPrefab;
 
         [Header("Attack")]
         public int shotsFired = 0;
@@ -31,8 +31,22 @@ namespace buddy
         public TMP_Text buddyCooldownText;
         [SerializeField] private float mortarCooldownTime = 3f;
 
+        public Animator animator;
+        public int animIDWalk;
+        public int animIDShooting;
+        public int animIDShootingMortar;
+
+        public void AssignAnimIDs()
+        {
+            animIDWalk = Animator.StringToHash("isWalking");
+            animIDShooting = Animator.StringToHash("isShooting");
+            animIDShootingMortar = Animator.StringToHash("isShootingMortar");
+        }
+
         private void Awake()
         {
+            AssignAnimIDs();
+            animator = GetComponent<Animator>();
             agent = GetComponent<NavMeshAgent>();
             rigidBody = GetComponent<Rigidbody>();
         }
@@ -51,14 +65,14 @@ namespace buddy
         {
             List<IBaseNode> buddyMovement = new()
             {
-                new FollowNode(agent, maxAgentToPlayerDistance),
+                new FollowNode(agent, maxAgentToPlayerDistance, animator, animIDWalk),
                 new IdleNode(agent),
             };
 
             List<IBaseNode> enemyInLineOfSight = new()
             {
-                new ShootBulletNode(agent, shootingRange, attackLayer, bulletShootHeight, bulletSpeed, bulletLifetime, bulletPrefab),
-                new ShootMortarNode(agent, shootingRange, attackLayer, mortarSpawnHeight, mortarPrefab, buddyCooldownText, mortarCooldownTime)
+                new ShootBulletNode(agent, shootingRange, attackLayer, bulletShootHeight, bulletSpeed, bulletLifetime, bulletPrefab, animator, animIDShooting),
+                new ShootMortarNode(agent, shootingRange, attackLayer, mortarSpawnHeight, mortarPrefab, buddyCooldownText, mortarCooldownTime, animator, animIDShootingMortar)
             };
 
             List<IBaseNode> selectNode = new()
