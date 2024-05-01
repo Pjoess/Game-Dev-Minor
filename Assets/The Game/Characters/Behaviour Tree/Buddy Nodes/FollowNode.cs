@@ -1,12 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace buddy
 {
     public class FollowNode : IBaseNode
-    {   
+    {
         private NavMeshAgent agent;
         private float maxAgentToPlayerDistance;
         private Animator animator;
@@ -16,8 +14,8 @@ namespace buddy
         {
             this.agent = agent;
             this.maxAgentToPlayerDistance = maxAgentToPlayerDistance;
-            this.animator = animator; // Assign animator reference
-            this.animIDWalk = animIDWalk; // Assign animIDWalk reference
+            this.animator = animator;
+            this.animIDWalk = animIDWalk;
         }
 
         public virtual bool Update()
@@ -30,13 +28,15 @@ namespace buddy
                 {
                     float agentToPlayerDistance = Vector3.Distance(agent.transform.position, playerPosition);
 
-                    if (agentToPlayerDistance >= maxAgentToPlayerDistance)
+                    if (agentToPlayerDistance > maxAgentToPlayerDistance)
                     {
                         agent.SetDestination(playerPosition);
                         animator.SetBool(animIDWalk, true);
                     }
                     else
                     {
+                        // Stop agent when within maxAgentToPlayerDistance
+                        agent.ResetPath();
                         animator.SetBool(animIDWalk, false);
                     }
                     return true;

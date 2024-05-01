@@ -19,9 +19,13 @@ namespace buddy
         private float bulletLifetime;
         private float nextMortarTime = 0f;
         private bool isShooting = false;
+
+        public Animator animator;
+        public int animIDShootingMortar;
         
         public ShootMortarNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, 
-            float mortarSpawnHeight, GameObject mortarPrefab, TMP_Text buddyCooldownText, float mortarCooldownTime)
+            float mortarSpawnHeight, GameObject mortarPrefab, TMP_Text buddyCooldownText, float mortarCooldownTime,
+            Animator animator,int animIDShootingMortar)
         {
             this.agent = agent;
             this.shootingRange = shootingRange;
@@ -31,6 +35,8 @@ namespace buddy
             this.mortarCooldownTime = mortarCooldownTime;
             this.mortarSpawnHeight = mortarSpawnHeight;
             this.bulletLifetime = 5f; // Set the default bullet lifetime
+            this.animator = animator;
+            this.animIDShootingMortar = animIDShootingMortar;
         }
 
         public bool Update()
@@ -51,11 +57,13 @@ namespace buddy
             }
             else if (isShooting)
             {
+                animator.SetBool(animIDShootingMortar, true);
                 ShootMortar();
             }
             else
             {
                 buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(nextMortarTime - Time.time) + "s";
+                animator.SetBool(animIDShootingMortar, false);
             }
             return true;
         }

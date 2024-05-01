@@ -17,7 +17,12 @@ namespace buddy
         private float shootTimer = 0f;
         private const float timeBetweenShots = 1f; // Time between each shot
 
-        public ShootBulletNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, float bulletShootHeight, float bulletSpeed, float bulletLifetime, GameObject bulletPrefab)
+        private Animator animator;
+        private int animIDShoot;
+
+        public ShootBulletNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, 
+            float bulletShootHeight, float bulletSpeed, float bulletLifetime, GameObject bulletPrefab,
+            Animator animator, int animIDShoot)
         {
             this.agent = agent;
             this.shootingRange = shootingRange;
@@ -26,6 +31,8 @@ namespace buddy
             this.bulletSpeed = bulletSpeed;
             this.bulletLifetime = bulletLifetime;
             this.bulletPrefab = bulletPrefab;
+            this.animator = animator;
+            this.animIDShoot = animIDShoot;
         }
 
         public bool Update()
@@ -38,14 +45,17 @@ namespace buddy
                 if (shootTimer >= timeBetweenShots)
                 {
                     ShootAtEnemy(enemyTransform);
+                    animator.SetBool(animIDShoot, true);
                     shootTimer = 0f; // Reset the timer
                 }
                 else
                 {
+                    animator.SetBool(animIDShoot, false);
                     shootTimer += Time.deltaTime; // Increment the timer
                 }
+                return true;
             }
-            return true;
+            return false;
         }
 
         Transform FindClosestEnemy()
