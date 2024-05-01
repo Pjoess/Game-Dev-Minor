@@ -13,7 +13,7 @@ namespace buddy
         public LayerMask attackLayer;
         public AudioSource shootSound;
         public GameObject bulletPrefab;
-        public GameObject mortarPrefab; // Added mortar prefab
+        public GameObject mortarPrefab;
 
         [Header("Attack")]
         public int shotsFired = 0;
@@ -65,7 +65,7 @@ namespace buddy
         {
             List<IBaseNode> buddyMovement = new()
             {
-                new FollowNode(agent, maxAgentToPlayerDistance, animator, animIDWalk), // Pass animator and animIDWalk
+                new FollowNode(agent, maxAgentToPlayerDistance, animator, animIDWalk),
                 new IdleNode(agent),
             };
 
