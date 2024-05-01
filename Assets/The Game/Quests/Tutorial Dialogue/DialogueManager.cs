@@ -74,7 +74,7 @@ public class DialogueManager : MonoBehaviour
             coroutine = StartCoroutine(TextCoroutine());
         }else{
             gameObject.SetActive(false);
-            input.SwitchCurrentActionMap("Player");
+            input.SwitchCurrentActionMap("PlayerFull");
             isActive = false;
             index = 0;
         }
