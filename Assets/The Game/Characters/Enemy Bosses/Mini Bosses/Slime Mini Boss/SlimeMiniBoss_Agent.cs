@@ -24,7 +24,7 @@ namespace SlimeMiniBoss
         
         // --- IDamagable --- //
         [Header("Stats")]
-        public EnemyHealthBar enemyHealthBar;
+        private EnemyHealthBar enemyHealthBar;
         public int healthPoints;
         public int maxHealthPoints = 100;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
