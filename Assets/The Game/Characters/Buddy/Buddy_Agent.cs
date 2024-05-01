@@ -9,7 +9,7 @@ namespace buddy
     public class Agent_Manager : MonoBehaviour
     {
         private IBaseNode buddyBT = null;
-        private Rigidbody rigidBody;
+        private Rigidbody rigidBody; // this is important otherwise the Bullets don't work
         public NavMeshAgent agent;
         public LayerMask attackLayer;
         public AudioSource shootSound;
@@ -29,7 +29,6 @@ namespace buddy
         [Header("Cooldown")]
         public TMP_Text buddyCooldownText;
         [SerializeField] private float mortarCooldownTime = 3f;
-        private float nextMortarTime = 0f;
 
         private void Awake()
         {
