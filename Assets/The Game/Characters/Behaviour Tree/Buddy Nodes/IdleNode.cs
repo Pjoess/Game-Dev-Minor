@@ -16,7 +16,6 @@ namespace buddy
         {
             if (agent.velocity.magnitude < 1f)
             {
-                Debug.Log("Idle");
                 return false;
             }
             return true;

@@ -402,6 +402,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6930212431197799513}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89323366fd46fcf43a330f82f653a5c5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3153546158852734589}
   m_SourcePrefab: {fileID: 100100000, guid: 89323366fd46fcf43a330f82f653a5c5, type: 3}
 --- !u!4 &4709866099929648106 stripped
 Transform:
@@ -494,7 +498,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5338769895306187088}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea74cdb4ce5b00742a9b1c3f04d2cb02, type: 3}
   m_Name: 
@@ -504,7 +508,6 @@ MonoBehaviour:
   patrolWaitTime: 4
   patrolRange: 10
   isPatrolling: 0
-  chaseMusic: {fileID: 0}
   chaseRange: 25
   isChasingPlayer: 0
   attackRange: 3
@@ -528,6 +531,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6532429823763967923, guid: b41a9442dfcb39042a005b23c7dbb2fd, type: 3}
+--- !u!114 &3153546158852734589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338769895306187088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70826d1789f3b18479ba163f6467321a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  patrolCenterPoint: {fileID: 0}
+  movementSpeed: 2
+  patrolWaitTime: 4
+  patrolRange: 10
+  isPatrolling: 0
+  chaseRange: 15
+  isChasingPlayer: 0
+  attackRange: 3
+  offsetDistance: 3
+  isAttacking: 0
+  healthPoints: 100
+  maxHealthPoints: 100
+  miniBossDamage: 1
+  enemyHealthBar: {fileID: 0}
 --- !u!1001 &5979662577222331111
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace buddy
 {
-    public class Agent_Manager : MonoBehaviour
+    public class Buddy_Agent : MonoBehaviour
     {
         private IBaseNode buddyBT = null;
         private Rigidbody rigidBody; // this is important otherwise the Bullets don't work
