@@ -42,7 +42,6 @@ namespace SlimeMiniBoss
                     return true;
                 }
             }
-
             return false;
         }
 
