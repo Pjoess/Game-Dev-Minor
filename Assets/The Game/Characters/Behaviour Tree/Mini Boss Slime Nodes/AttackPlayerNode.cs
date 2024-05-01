@@ -7,6 +7,7 @@ namespace SlimeMiniBoss
     public class AttackPlayerNode : IBaseNode
     {
         private NavMeshAgent agent;
+        private Vector3 playerPosition;
         private float attackRange;
         private float offsetDistance; // Added offsetDistance parameter
         private LayerMask attackLayer;
@@ -23,31 +24,21 @@ namespace SlimeMiniBoss
             this.attackLayer = attackLayer;
             this.coneWidth = coneWidth;
             this.coneLength = coneLength;
+            playerPosition = Blackboard.instance.GetPlayerPosition();
         }
 
         public virtual bool Update()
         {
-            // Get the player's position
-            Vector3 playerPosition = Blackboard.instance.GetPlayerPosition();
-
-            // Calculate distance to the player
             float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
-
-            // Update damage timer
-            damageTimer += Time.deltaTime;
+            damageTimer += Time.deltaTime; // Update damage timer
 
             // Check if the player is within attack range and the damage cooldown has passed
             if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
             {
-                // Check if the player is within the cone
                 if (IsPlayerWithinCone(agent.transform.forward, coneWidth, coneLength))
                 {
-                    // Apply damage to the player
-                    Blackboard.instance.Hit(20);
-
-                    // Reset damage timer
-                    damageTimer = 0f;
-
+                    Blackboard.instance.Hit(20); // Apply damage to the player
+                    damageTimer = 0f; // Reset damage timer
                     return true;
                 }
             }
@@ -58,10 +49,6 @@ namespace SlimeMiniBoss
         // Method to check if the player is within the cone
         private bool IsPlayerWithinCone(Vector3 direction, float coneWidth, float coneLength)
         {
-            // Get the player's position
-            Vector3 playerPosition = Blackboard.instance.GetPlayerPosition();
-
-            // Calculate the direction to the player
             Vector3 directionToPlayer = playerPosition - agent.transform.position;
 
             // Calculate the angle between the direction the agent is facing and the direction to the player
@@ -70,7 +57,6 @@ namespace SlimeMiniBoss
             // Check if the player is within the cone width and cone length
             if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
             {
-                Debug.Log("Player within cone!");
                 Blackboard.instance.Hit(10);
                 return true;
             }
