@@ -35,6 +35,6 @@ public class Blackboard : MonoBehaviour, IDamageble
 
     public void Hit(int damage)
     {
-        player.GetComponent<Player_Manager>().Hit(damage);
+        player.Hit(damage);
     }
 }

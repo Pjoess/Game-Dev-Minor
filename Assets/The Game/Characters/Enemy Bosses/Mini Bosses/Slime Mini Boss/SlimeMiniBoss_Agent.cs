@@ -18,7 +18,7 @@ namespace SlimeMiniBoss
         private bool isChasingPlayer = false;
 
         [Header("Attack")]
-        private float attackRange = 3f;
+        private float attackRange = 5f;
         private float offsetDistance = 3f;
         private bool isAttacking;
         
@@ -34,7 +34,7 @@ namespace SlimeMiniBoss
         private int miniBossDamage = 25;
     
         [Header("Cone Settings")]
-        private float coneWidth = 30f;
+        private float coneWidth = 40f;
         private float coneLength = 5f;
         private float thickness = 2f;
 
@@ -53,40 +53,21 @@ namespace SlimeMiniBoss
         void Update()
         {
             slimeBT?.Update(); // Update the boss behavior tree
-
-            // Check for objects in a cone shape
-            CheckConeRaycast(transform.forward, coneWidth, coneLength);
         }
-
+#region Behaviour Tree
         private void MiniBossSlimeBehaviourTree()
         {
             List<IBaseNode> bossNodes = new()
             {
+                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength),
                 new ChasePlayerNode(miniBossAgent, chaseRange),
-                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, miniBossDamage, attackLayer),
             };
 
             slimeBT = new SelectorNode(bossNodes);
         }
+#endregion
 
-        // Method to check for objects in a cone-shaped raycast
-        private void CheckConeRaycast(Vector3 direction, float coneWidth, float coneLength)
-        {
-            RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, coneLength);
-
-            foreach (RaycastHit hit in hits)
-            {
-                // Check if the object is within the cone width
-                Vector3 directionToHit = hit.point - transform.position;
-                float angle = Vector3.Angle(direction, directionToHit);
-                if (angle <= coneWidth / 2f)
-                {
-                    // The hit object is within the cone
-                    Debug.Log("Object detected within cone: " + hit.collider.name);
-                }
-            }
-        }
-
+#region Cone Raycast
         // Draw Gizmos for cone shape
         private void OnDrawGizmos()
         {
@@ -130,18 +111,17 @@ namespace SlimeMiniBoss
             // Restore the previous Gizmos color
             Gizmos.color = previousColor;
         }
+#endregion
 
-
+        #region IDamagable
         // Mini Boss Receive damage
         public void ApplyDamageToMiniBoss() => healthPoints -= 3; // Do damage to boss (with bullets)
 
-        #region IDamagable
         public void Hit(int damage)
         {
             HealthPoints -= damage;
-            Debug.Log("" + healthPoints);
-
-            ApplyDamageToMiniBoss();
+            //ApplyDamageToMiniBoss();
+            //Debug.Log("Healthpoints : " + HealthPoints);
             enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
             CheckDeath();
         }
