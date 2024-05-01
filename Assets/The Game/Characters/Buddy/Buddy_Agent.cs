@@ -51,7 +51,7 @@ namespace buddy
         {
             List<IBaseNode> buddyMovement = new()
             {
-                new FollowNode(agent),
+                new FollowNode(agent, distanceToMove),
                 new IdleNode(agent),
             };
 

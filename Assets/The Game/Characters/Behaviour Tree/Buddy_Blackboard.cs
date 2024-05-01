@@ -23,6 +23,7 @@ namespace buddy
 
         private void Awake()
         {
+            player = FindAnyObjectByType<Player_Manager>();
             AssignAnimIDs();
             instance = this;
         }
