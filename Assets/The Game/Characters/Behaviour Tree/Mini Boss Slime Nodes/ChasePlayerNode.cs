@@ -15,13 +15,12 @@ namespace SlimeMiniBoss
         {
             this.agent = agent;
             this.chaseRange = chaseRange;
-            playerPosition = Blackboard.instance.GetPlayerPosition();
         }
 
         public virtual bool Update()
         {
             // Get the player's position
-            Vector3 playerPosition = Blackboard.instance.GetPlayerPosition();
+            playerPosition = Blackboard.instance.GetPlayerPosition();
 
             // Calculate the distance to the player
             float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);

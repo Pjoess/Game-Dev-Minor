@@ -24,11 +24,13 @@ namespace SlimeMiniBoss
             this.attackLayer = attackLayer;
             this.coneWidth = coneWidth;
             this.coneLength = coneLength;
-            playerPosition = Blackboard.instance.GetPlayerPosition();
         }
 
         public virtual bool Update()
         {
+            // Update the player's position
+            playerPosition = Blackboard.instance.GetPlayerPosition();
+
             float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
             damageTimer += Time.deltaTime; // Update damage timer
 
