@@ -11,30 +11,30 @@ namespace SlimeMiniBoss
         public LayerMask attackLayer;
 
         [Header("NavMesh Agent")]
-        [HideInInspector] private NavMeshAgent miniBossAgent;
+        private NavMeshAgent miniBossAgent;
 
         [Header("Object References")]
         private Player_Manager player;
-        [SerializeField] private GameObject patrolCenterPoint;
+        private GameObject patrolCenterPoint;
 
         [Header("Chase")]
-        [SerializeField] private float chaseRange = 15f;
-        [SerializeField] private bool isChasingPlayer = false;
+        private float chaseRange = 15f;
+        private bool isChasingPlayer = false;
 
         [Header("Attack")]
-        [SerializeField] private float attackRange = 3f;
-        [SerializeField] private float offsetDistance = 3f;
-        [SerializeField] private bool isAttacking;
+        private float attackRange = 3f;
+        private float offsetDistance = 3f;
+        private bool isAttacking;
         
         // --- IDamagable --- //
         [Header("Stats")]
-        [SerializeField] private int healthPoints;
-        [SerializeField] private int maxHealthPoints = 40;
+        public int healthPoints;
+        public int maxHealthPoints = 100;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
-        [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
+        public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
         
         [Header("Slime Damage")]
-        [SerializeField] private int miniBossDamage = 25;
+        private int miniBossDamage = 25;
         
         public EnemyHealthBar enemyHealthBar;
 
@@ -74,6 +74,8 @@ namespace SlimeMiniBoss
         public void Hit(int damage)
         {
             HealthPoints -= damage;
+            Debug.Log("" + healthPoints);
+
             ApplyDamageToMiniBoss();
             enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
             CheckDeath();

@@ -17,7 +17,7 @@ namespace SlimeMiniBoss
             this.chaseRange = chaseRange;
         }
 
-        public bool Update()
+        public virtual bool Update()
         {
             float distanceToPlayer = Vector3.Distance(agent.transform.position, playerTransform.position);
 
