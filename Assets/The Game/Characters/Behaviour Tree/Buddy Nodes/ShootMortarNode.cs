@@ -43,9 +43,9 @@ namespace buddy
         {
             if (!isShooting && Time.time >= nextMortarTime)
             {
-                buddyCooldownText.text = "Mortar Ready! - (Press B)";
+                buddyCooldownText.text = "Mortar Ready! - (Press F)";
 
-                if (Input.GetKeyDown(KeyCode.B))
+                if (Input.GetKeyDown(KeyCode.F))
                 {
                     targetEnemy = FindClosestEnemy();
                     if (targetEnemy != null && mortarPrefab != null)

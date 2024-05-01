@@ -234,6 +234,9 @@ public class Player_Manager : MonoBehaviour, IDamageble
             else animator.SetFloat(animIDMoveSpeed, 1);
 
             vectorDirection = new Vector3(movement.x, 0, movement.y);
+            // Added Rigid Body Velocity for movement, to fix some bug fixes going through objects
+            rigidBody.velocity = vectorDirection * walkSpeed;
+            rigidBody.velocity = vectorDirection * runSpeed;
 
             Vector3 cameraFaceForward = Camera.main.transform.forward;
             Vector3 cameraFaceRight = Camera.main.transform.right;

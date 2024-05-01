@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,39 +7,61 @@ namespace SlimeMiniBoss
     public class AttackPlayerNode : IBaseNode
     {
         private NavMeshAgent agent;
-        private Transform playerTransform;
+        private Vector3 playerPosition;
         private float attackRange;
         private float offsetDistance;
-        private int damage;
         private LayerMask attackLayer;
+        private float coneWidth;
+        private float coneLength;
+        private float damageTimer = 0f;
+        private float damageCooldown = 1f;
 
-        public AttackPlayerNode(NavMeshAgent agent, Transform playerTransform, float attackRange, float offsetDistance, int damage, LayerMask attackLayer)
+        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, LayerMask attackLayer, float coneWidth, float coneLength)
         {
             this.agent = agent;
-            this.playerTransform = playerTransform;
             this.attackRange = attackRange;
             this.offsetDistance = offsetDistance;
-            this.damage = damage;
             this.attackLayer = attackLayer;
+            this.coneWidth = coneWidth;
+            this.coneLength = coneLength;
         }
 
-        public bool Update()
+        public virtual bool Update()
         {
-            float distanceToPlayer = Vector3.Distance(agent.transform.position, playerTransform.position);
+            // Update the player's position
+            playerPosition = Blackboard.instance.GetPlayerPosition();
 
-            if (distanceToPlayer <= attackRange)
+            float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
+            damageTimer += Time.deltaTime; // Update damage timer
+
+            // Check if the player is within attack range and the damage cooldown has passed
+            if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
             {
-                // Check if the player is still within attack range and not behind an obstacle
-                if (Physics.Raycast(agent.transform.position, (playerTransform.position - agent.transform.position).normalized, out RaycastHit hit, distanceToPlayer, attackLayer))
+                if (IsPlayerWithinCone(agent.transform.forward, coneWidth, coneLength))
                 {
-                    if (hit.collider.CompareTag("Player"))
-                    {
-                        playerTransform.GetComponent<Player_Manager>().Hit(damage);
-                        return true;
-                    }
+                    damageTimer = 0f; // Reset damage timer
+                    return true;
                 }
             }
             return false;
         }
+
+        // Method to check if the player is within the cone
+        private bool IsPlayerWithinCone(Vector3 direction, float coneWidth, float coneLength)
+        {
+            Vector3 directionToPlayer = playerPosition - agent.transform.position;
+
+            // Calculate the angle between the direction the agent is facing and the direction to the player
+            float angleToPlayer = Vector3.Angle(direction, directionToPlayer);
+
+            // Check if the player is within the cone width and cone length
+            if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
+            {
+                Blackboard.instance.Hit(10);
+                return true;
+            }
+            return false;
+        }
+
     }
 }

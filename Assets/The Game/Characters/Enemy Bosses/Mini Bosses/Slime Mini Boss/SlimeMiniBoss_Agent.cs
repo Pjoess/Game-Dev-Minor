@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,39 +8,40 @@ namespace SlimeMiniBoss
     {
         private IBaseNode slimeBT = null;
         public LayerMask attackLayer;
+        private NavMeshAgent miniBossAgent;
 
-        [Header("NavMesh Agent")]
-        [HideInInspector] private NavMeshAgent miniBossAgent;
-
-        [Header("Object References")]
-        private Player_Manager player;
-        [SerializeField] private GameObject patrolCenterPoint;
+        [Header("Patrol Center Point")]
+        public GameObject patrolCenterPoint;
 
         [Header("Chase")]
-        [SerializeField] private float chaseRange = 15f;
-        [SerializeField] private bool isChasingPlayer = false;
+        private float chaseRange = 15f;
+        private bool isChasingPlayer = false;
 
         [Header("Attack")]
-        [SerializeField] private float attackRange = 3f;
-        [SerializeField] private float offsetDistance = 3f;
-        [SerializeField] private bool isAttacking;
+        private float attackRange = 5f;
+        private float offsetDistance = 1f;
+        private bool isAttacking;
         
         // --- IDamagable --- //
         [Header("Stats")]
-        [SerializeField] private int healthPoints;
-        [SerializeField] private int maxHealthPoints = 40;
+        private EnemyHealthBar enemyHealthBar;
+        public int healthPoints;
+        public int maxHealthPoints = 100;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
-        [HideInInspector] public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
-        
-        [Header("Slime Damage")]
-        [SerializeField] private int miniBossDamage = 25;
-        
-        public EnemyHealthBar enemyHealthBar;
+        public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
+    
+        [Header("Cone Settings")]
+        private float coneWidth = 40f;
+        private float coneLength = 5f;
+        private float thickness = 2f;
+
+        [Header("Patrol Settings")]
+        public float patrolRadius = 20f;
+        public float stopDistance = 4f;
 
         private void Awake()
         {
             miniBossAgent = GetComponent<NavMeshAgent>();
-            player = FindObjectOfType<Player_Manager>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
         }
 
@@ -56,25 +56,97 @@ namespace SlimeMiniBoss
             slimeBT?.Update(); // Update the boss behavior tree
         }
 
+        #region Behaviour Tree
         private void MiniBossSlimeBehaviourTree()
         {
-            List<IBaseNode> bossNodes = new()
+            List<IBaseNode> aggresiveNodes = new()
             {
-                new ChasePlayerNode(miniBossAgent, player.transform, chaseRange),
-                new AttackPlayerNode(miniBossAgent, player.transform, attackRange, offsetDistance, miniBossDamage, attackLayer),
+                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength),
+                new ChasePlayerNode(miniBossAgent, chaseRange),
             };
 
-            slimeBT = new SelectorNode(bossNodes);
+            List<IBaseNode> passiveNodes = new()
+            {
+                new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
+            };
+
+            List<IBaseNode> selectNode = new()
+            {
+                new SequenceNode(aggresiveNodes),
+                //new SequenceNode(passiveNodes),
+            };
+
+            slimeBT = new SelectorNode(aggresiveNodes);
+        }
+        #endregion
+
+        #region Cone Raycast
+        // Draw Gizmos for cone shape and chase range
+        private void OnDrawGizmos()
+        {
+            // Draw cone shape in Gizmos
+            DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
+
+            // Draw chase range sphere
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+            if(patrolCenterPoint != null){
+                // Draw patrol radius
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(patrolCenterPoint.transform.position, patrolRadius);
+            }
+
+            // Draw stop distance
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, stopDistance);
         }
 
-    // Mini Boss Receive damage
-    public void ApplyDamageToMiniBoss() => healthPoints -= 3; // Do damage to boss (with bullets)
+        // Draw cone shape in Gizmos
+        private void DrawCone(Vector3 origin, Vector3 direction, float coneWidth, float coneLength, float thickness)
+        {
+            // Store the current Gizmos color
+            Color previousColor = Gizmos.color;
 
-    #region IDamagable
+            // Set the desired color
+            Gizmos.color = Color.red;
+
+            // Calculate half width
+            float halfWidth = coneWidth / 2f;
+
+            // Calculate offset for thickness
+            Vector3 offset = Vector3.up * thickness;
+
+            // Draw cone base with thickness
+            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset);
+            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength - offset);
+            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength + offset);
+            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength + offset);
+
+            // Draw cone sides with thickness
+            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) - offset);
+            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) - offset);
+            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) + offset);
+            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) + offset);
+
+            // Draw lines to connect cone sides to cone base with thickness
+            Gizmos.DrawLine(origin - offset, origin - offset);
+            Gizmos.DrawLine(origin + offset, origin + offset);
+            Gizmos.DrawLine(origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength + offset);
+            Gizmos.DrawLine(origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength + offset);
+
+            // Restore the previous Gizmos color
+            Gizmos.color = previousColor;
+        }
+        #endregion
+
+        #region IDamagable
+        // Mini Boss Receive damage
+        public void ApplyDamageToMiniBoss() => healthPoints -= 3; // Do damage to boss (with bullets)
+
         public void Hit(int damage)
         {
             HealthPoints -= damage;
-            ApplyDamageToMiniBoss();
             enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
             CheckDeath();
         }
@@ -87,6 +159,6 @@ namespace SlimeMiniBoss
                 Destroy(gameObject);
             }
         }
-    #endregion
+        #endregion
     }
 }
