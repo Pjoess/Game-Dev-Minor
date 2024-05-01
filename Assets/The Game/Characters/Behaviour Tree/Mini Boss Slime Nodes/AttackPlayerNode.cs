@@ -37,7 +37,6 @@ namespace SlimeMiniBoss
             {
                 if (IsPlayerWithinCone(agent.transform.forward, coneWidth, coneLength))
                 {
-                    Blackboard.instance.Hit(20); // Apply damage to the player
                     damageTimer = 0f; // Reset damage timer
                     return true;
                 }
