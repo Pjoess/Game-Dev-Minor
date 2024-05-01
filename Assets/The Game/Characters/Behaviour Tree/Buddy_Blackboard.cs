@@ -1,35 +1,32 @@
 using System;
 using UnityEngine;
 
-namespace buddy
+public class Blackboard : MonoBehaviour
 {
-    public class Blackboard : MonoBehaviour
+    public static Blackboard instance;
+    private Player_Manager player;
+
+    private void Awake()
     {
-        public static Blackboard instance;
-        private Player_Manager player;
+        player = FindAnyObjectByType<Player_Manager>();
+        instance = this;
+    }
 
-        private void Awake()
+    private void Start()
+    {
+        player = FindObjectOfType<Player_Manager>();
+    }
+
+    public Vector3 GetPlayerPosition()
+    {
+        if (player != null)
         {
-            player = FindAnyObjectByType<Player_Manager>();
-            instance = this;
+            return player.transform.position;
         }
-
-        private void Start()
+        else
         {
-            player = FindObjectOfType<Player_Manager>();
-        }
-
-        public Vector3 GetPlayerPosition()
-        {
-            if (player != null)
-            {
-                return player.transform.position;
-            }
-            else
-            {
-                Debug.LogError("Player_Manager not found!");
-                return Vector3.zero;
-            }
+            Debug.LogError("Player_Manager not found!");
+            return Vector3.zero;
         }
     }
 }
