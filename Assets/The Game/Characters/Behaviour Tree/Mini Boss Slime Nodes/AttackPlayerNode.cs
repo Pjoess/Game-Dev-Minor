@@ -9,7 +9,7 @@ namespace SlimeMiniBoss
         private NavMeshAgent agent;
         private Vector3 playerPosition;
         private float attackRange;
-        private float offsetDistance; // Added offsetDistance parameter
+        private float offsetDistance;
         private LayerMask attackLayer;
         private float coneWidth;
         private float coneLength;

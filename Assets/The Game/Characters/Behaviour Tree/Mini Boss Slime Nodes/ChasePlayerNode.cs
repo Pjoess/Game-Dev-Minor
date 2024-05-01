@@ -29,22 +29,13 @@ namespace SlimeMiniBoss
             {
                 // Calculate the direction from the boss to the player
                 Vector3 directionToPlayer = (playerPosition - agent.transform.position).normalized;
-
-                // Calculate the destination point by subtracting the direction multiplied by the stop distance
                 Vector3 destinationPoint = playerPosition - directionToPlayer * stopDistance;
 
-                // Set the destination for the boss
                 agent.SetDestination(destinationPoint);
 
-                // Calculate the rotation towards the player
                 Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-
-                // Calculate the rotation step based on angular speed
                 float rotationStep = agent.angularSpeed * Time.deltaTime;
-
-                // Rotate the boss smoothly towards the player
                 agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, targetRotation, rotationStep);
-
                 return true;
             }
             else
