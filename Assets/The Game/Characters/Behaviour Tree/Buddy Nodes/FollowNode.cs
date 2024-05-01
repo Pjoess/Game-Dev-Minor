@@ -8,19 +8,19 @@ namespace buddy
     {   
         private NavMeshAgent agent;
         private float maxAgentToPlayerDistance;
-        private Vector3 playerPosition;
 
         public FollowNode(NavMeshAgent agent, float maxAgentToPlayerDistance)
         {
             this.agent = agent;
             this.maxAgentToPlayerDistance = maxAgentToPlayerDistance;
-            playerPosition = Blackboard.instance.GetPlayerPosition();
         }
 
         public virtual bool Update()
         {
             if (agent != null)
             {
+                Vector3 playerPosition = Blackboard.instance.GetPlayerPosition();
+
                 if (playerPosition != Vector3.zero)
                 {
                     float agentToPlayerDistance = Vector3.Distance(agent.transform.position, playerPosition);
@@ -36,10 +36,10 @@ namespace buddy
                     {
                         Blackboard.instance.animator.SetBool(Blackboard.instance.animIDWalk, false);
                     }
-                    return false;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
     }
 }
