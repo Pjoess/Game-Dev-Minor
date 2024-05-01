@@ -27,13 +27,13 @@ namespace buddy
 
                     if (agentToPlayerDistance >= maxAgentToPlayerDistance)
                     {
-                        Debug.Log(maxAgentToPlayerDistance);
-                        agent.SetDestination(playerPosition);
                         Debug.Log("Moving");
-                        Blackboard.instance.animator.SetBool(Blackboard.instance.animIDWalk, true);
+                        Blackboard.instance.animator.SetBool(Blackboard.instance.animIDWalk, true); 
+                        agent.SetDestination(playerPosition);
                     }
                     else
                     {
+                        Debug.Log("Not moving");
                         Blackboard.instance.animator.SetBool(Blackboard.instance.animIDWalk, false);
                     }
                     return true;
