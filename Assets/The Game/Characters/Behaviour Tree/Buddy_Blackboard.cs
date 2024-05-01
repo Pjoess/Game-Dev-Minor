@@ -9,28 +9,28 @@ namespace buddy
         
         private Player_Manager player;
 
-        public Animator animator;
-        [HideInInspector] public int animIDWalk;
-        [HideInInspector] public int animIDShooting;
-        [HideInInspector] public int animIDShootingMortar;
+        // public Animator animator;
+        // [HideInInspector] public int animIDWalk;
+        // [HideInInspector] public int animIDShooting;
+        // [HideInInspector] public int animIDShootingMortar;
 
         public void AssignAnimIDs()
         {
-            animIDWalk = Animator.StringToHash("isWalking");
-            animIDShooting = Animator.StringToHash("isShooting");
-            animIDShootingMortar = Animator.StringToHash("isShootingMortar");
+            // animIDWalk = Animator.StringToHash("isWalking");
+            // animIDShooting = Animator.StringToHash("isShooting");
+            // animIDShootingMortar = Animator.StringToHash("isShootingMortar");
         }
 
         private void Awake()
         {
             player = FindAnyObjectByType<Player_Manager>();
+            //animator = GameObject.Find("Buddy").GetComponent<Animator>();
             AssignAnimIDs();
             instance = this;
         }
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
             player = FindObjectOfType<Player_Manager>();
         }
 

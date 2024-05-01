@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,11 +9,15 @@ namespace buddy
     {   
         private NavMeshAgent agent;
         private float maxAgentToPlayerDistance;
+        private Animator animator;
+        private int animIDWalk;
 
-        public FollowNode(NavMeshAgent agent, float maxAgentToPlayerDistance)
+        public FollowNode(NavMeshAgent agent, float maxAgentToPlayerDistance, Animator animator, int animIDWalk)
         {
             this.agent = agent;
             this.maxAgentToPlayerDistance = maxAgentToPlayerDistance;
+            this.animator = animator; // Assign animator reference
+            this.animIDWalk = animIDWalk; // Assign animIDWalk reference
         }
 
         public virtual bool Update()
@@ -27,14 +32,12 @@ namespace buddy
 
                     if (agentToPlayerDistance >= maxAgentToPlayerDistance)
                     {
-                        Debug.Log("Moving");
-                        Blackboard.instance.animator.SetBool(Blackboard.instance.animIDWalk, true); 
                         agent.SetDestination(playerPosition);
+                        animator.SetBool(animIDWalk, true);
                     }
                     else
                     {
-                        Debug.Log("Not moving");
-                        Blackboard.instance.animator.SetBool(Blackboard.instance.animIDWalk, false);
+                        animator.SetBool(animIDWalk, false);
                     }
                     return true;
                 }

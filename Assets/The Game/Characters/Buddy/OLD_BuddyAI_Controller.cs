@@ -61,7 +61,7 @@ public class BuddyAI_Controller : MonoBehaviour
         {
             AssignAnimIDs();
             DefaultStatsOnAwake();
-            animator = GetComponent<Animator>();
+            animator = GameObject.Find("Buddy").GetComponent<Animator>();
             rigidBody = GetComponent<Rigidbody>();
             // Assign references
             buddy = GetComponent<NavMeshAgent>();
