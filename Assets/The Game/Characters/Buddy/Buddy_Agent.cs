@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 
 namespace buddy
 {
@@ -18,13 +17,15 @@ namespace buddy
 
         [Header("Attack")]
         public int shotsFired = 0;
-        public float shootingRange = 10f;
         public float bulletSpeed = 8f;
         public float bulletLifetime = 5f;
         public float bulletShootHeight = 1f;
         public float mortarSpeed = 5f;
         public float mortarSpawnHeight = 8f;
-        public float distanceToMove = 5f;
+
+        [Header("Ranges")]
+        public float shootingRange = 10f;
+        public float distanceToMove = 8f;
 
         [Header("Cooldown")]
         public TMP_Text buddyCooldownText;
