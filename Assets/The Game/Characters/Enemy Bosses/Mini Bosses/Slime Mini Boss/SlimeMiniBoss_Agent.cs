@@ -65,11 +65,15 @@ namespace SlimeMiniBoss
 #endregion
 
 #region Cone Raycast
-        // Draw Gizmos for cone shape
+        // Draw Gizmos for cone shape and chase range
         private void OnDrawGizmos()
         {
             // Draw cone shape in Gizmos
             DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
+
+            // Draw chase range sphere
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseRange);
         }
 
         // Draw cone shape in Gizmos

@@ -20,9 +20,10 @@ namespace SlimeMiniBoss
 
         public virtual bool Update()
         {
-            // Update the player's position
-            playerPosition = Blackboard.instance.GetPlayerPosition();
+            // Get the player's position
+            Vector3 playerPosition = Blackboard.instance.GetPlayerPosition();
 
+            // Calculate the distance to the player
             float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
 
             if (distanceToPlayer <= chaseRange)
@@ -35,6 +36,15 @@ namespace SlimeMiniBoss
 
                 // Set the destination for the boss
                 agent.SetDestination(destinationPoint);
+
+                // Calculate the rotation towards the player
+                Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+
+                // Calculate the rotation step based on angular speed
+                float rotationStep = agent.angularSpeed * Time.deltaTime;
+
+                // Rotate the boss smoothly towards the player
+                agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, targetRotation, rotationStep);
 
                 return true;
             }
