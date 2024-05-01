@@ -19,7 +19,7 @@ namespace SlimeMiniBoss
 
         [Header("Attack")]
         private float attackRange = 5f;
-        private float offsetDistance = 3f;
+        private float offsetDistance = 1f;
         private bool isAttacking;
         
         // --- IDamagable --- //
@@ -34,6 +34,10 @@ namespace SlimeMiniBoss
         private float coneWidth = 40f;
         private float coneLength = 5f;
         private float thickness = 2f;
+
+        [Header("Patrol Settings")]
+        public float patrolRadius = 20f;
+        public float stopDistance = 4f;
 
         private void Awake()
         {
@@ -52,7 +56,7 @@ namespace SlimeMiniBoss
             slimeBT?.Update(); // Update the boss behavior tree
         }
 
-#region Behaviour Tree
+        #region Behaviour Tree
         private void MiniBossSlimeBehaviourTree()
         {
             List<IBaseNode> aggresiveNodes = new()
@@ -63,20 +67,20 @@ namespace SlimeMiniBoss
 
             List<IBaseNode> passiveNodes = new()
             {
-                new PatrolNode(),
+                new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
             };
 
             List<IBaseNode> selectNode = new()
-        {
-            new SequenceNode(aggresiveNodes),
-            new SequenceNode(passiveNodes),
-        };
+            {
+                new SequenceNode(aggresiveNodes),
+                //new SequenceNode(passiveNodes),
+            };
 
-            slimeBT = new SelectorNode(selectNode);
+            slimeBT = new SelectorNode(aggresiveNodes);
         }
-#endregion
+        #endregion
 
-#region Cone Raycast
+        #region Cone Raycast
         // Draw Gizmos for cone shape and chase range
         private void OnDrawGizmos()
         {
@@ -84,8 +88,18 @@ namespace SlimeMiniBoss
             DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
 
             // Draw chase range sphere
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+            if(patrolCenterPoint != null){
+                // Draw patrol radius
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(patrolCenterPoint.transform.position, patrolRadius);
+            }
+
+            // Draw stop distance
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, stopDistance);
         }
 
         // Draw cone shape in Gizmos
@@ -124,7 +138,7 @@ namespace SlimeMiniBoss
             // Restore the previous Gizmos color
             Gizmos.color = previousColor;
         }
-#endregion
+        #endregion
 
         #region IDamagable
         // Mini Boss Receive damage
@@ -133,8 +147,6 @@ namespace SlimeMiniBoss
         public void Hit(int damage)
         {
             HealthPoints -= damage;
-            //ApplyDamageToMiniBoss();
-            //Debug.Log("Healthpoints : " + HealthPoints);
             enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
             CheckDeath();
         }
