@@ -16,12 +16,10 @@ namespace SlimeMiniBoss
 
         [Header("Chase")]
         private float chaseRange = 15f;
-        private bool isChasingPlayer = false;
 
         [Header("Attack")]
         private float attackRange = 5f;
         private float offsetDistance = 1f;
-        private bool isAttacking;
         
         // --- IDamagable --- //
         [Header("Stats")]
@@ -88,7 +86,7 @@ namespace SlimeMiniBoss
             List<IBaseNode> selectNode = new()
             {
                 new SequenceNode(aggresiveNodes),
-                new SequenceNode(passiveNodes),
+                //new SequenceNode(passiveNodes),
             };
 
             slimeBT = new SelectorNode(aggresiveNodes);
