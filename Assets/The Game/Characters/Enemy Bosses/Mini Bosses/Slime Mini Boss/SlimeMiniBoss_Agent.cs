@@ -77,17 +77,18 @@ namespace SlimeMiniBoss
             {
                 new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
                 new ChasePlayerNode(miniBossAgent, chaseRange),
+                new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
             };
 
             List<IBaseNode> passiveNodes = new()
             {
-                new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
+                
             };
 
             List<IBaseNode> selectNode = new()
             {
                 new SequenceNode(aggresiveNodes),
-                //new SequenceNode(passiveNodes),
+                new SequenceNode(passiveNodes),
             };
 
             slimeBT = new SelectorNode(aggresiveNodes);
