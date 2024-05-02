@@ -26,7 +26,6 @@ namespace SlimeMiniBoss
 
         public virtual bool Update()
         {
-
             // Increment patrol timer
             patrolTimer += Time.deltaTime;
 
@@ -37,6 +36,14 @@ namespace SlimeMiniBoss
                 currentDestination = GetRandomDestination();
                 agent.SetDestination(currentDestination);
                 patrolTimer = 0f; // Reset patrol timer
+            }
+
+            // Rotate towards the destination
+            Vector3 directionToDestination = currentDestination - agent.transform.position;
+            if (directionToDestination != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
+                agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
             }
 
             return true; // Return false as the patrol behavior continues

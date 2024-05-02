@@ -8,12 +8,16 @@ namespace SlimeMiniBoss
         private NavMeshAgent agent;
         private Vector3 playerPosition;
         private float chaseRange;
-        private float stopDistance = 2f; // Distance to stop from player
+        private float stopDistance = 2f;
+        private Vector3 lastPosition;
+        private float stuckTimeThreshold = 3f;
+        private float currentStuckTime = 0f;
 
         public ChasePlayerNode(NavMeshAgent agent, float chaseRange)
         {
             this.agent = agent;
             this.chaseRange = chaseRange;
+            lastPosition = agent.transform.position;
         }
 
         public virtual bool Update()
@@ -26,30 +30,39 @@ namespace SlimeMiniBoss
                 Vector3 directionToPlayer = (playerPosition - agent.transform.position).normalized;
                 Vector3 destinationPoint = playerPosition - directionToPlayer * stopDistance;
 
-                // Calculate a path to the player's position
-                NavMeshPath path = new NavMeshPath();
-                agent.CalculatePath(destinationPoint, path);
-
-                // Check if a valid path exists
-                if (path.status != NavMeshPathStatus.PathInvalid)
+                // Check if agent is stuck or standing still
+                if (Vector3.Distance(agent.transform.position, lastPosition) < 0.1f)
                 {
-                    // Set destination to the next corner of the path
-                    if (path.corners.Length > 1)
+                    currentStuckTime += Time.deltaTime;
+                    if (currentStuckTime >= stuckTimeThreshold)
                     {
-                        agent.SetDestination(path.corners[1]);
-                    }
-                    else
-                    {
-                        agent.SetDestination(destinationPoint);
-                    }
+                        // Agent is stuck or standing still, recalculate path to player
+                        NavMeshPath newPath = new NavMeshPath();
+                        agent.CalculatePath(playerPosition, newPath);
 
-                    // Rotate towards the player
-                    Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-                    float rotationStep = agent.angularSpeed * Time.deltaTime;
-                    agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, targetRotation, rotationStep);
+                        // Check if a valid path exists
+                        if (newPath.status != NavMeshPathStatus.PathInvalid && newPath.corners.Length > 1)
+                        {
+                            // Set the new destination
+                            agent.SetDestination(newPath.corners[newPath.corners.Length - 1]);
+                        }
 
-                    return true;
+                        currentStuckTime = 0f;
+                    }
                 }
+                else
+                {
+                    currentStuckTime = 0f; // Reset stuck time if agent is moving
+                }
+
+                // Rotate towards the player
+                Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+                float rotationStep = agent.angularSpeed * Time.deltaTime;
+                agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, targetRotation, rotationStep);
+
+                lastPosition = agent.transform.position; // Update last position
+
+                return true;
             }
 
             return false;

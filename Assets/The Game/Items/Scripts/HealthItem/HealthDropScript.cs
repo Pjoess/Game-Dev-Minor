@@ -40,7 +40,7 @@ public class HealthDropScript : MonoBehaviour
         if(dropped != null)
         {
             GameObject obj = Instantiate(droppedItemPrefab, pos, Quaternion.identity);
-            obj.GetComponent<HealthItemScript>().healthItem = dropped;
+            obj.GetComponentInChildren<HealthItemScript>().healthItem = dropped;
         }
     }
 }
