@@ -9,6 +9,7 @@ namespace SlimeMiniBoss
         private IBaseNode slimeBT = null;
         public LayerMask attackLayer;
         private NavMeshAgent miniBossAgent;
+        private Rigidbody rigidBody;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -39,10 +40,23 @@ namespace SlimeMiniBoss
         public float patrolRadius = 20f;
         public float stopDistance = 4f;
 
+        public Animator animator;
+        public int animIDAnticipate;
+        public int animIDAttack;
+
+        public void AssignAnimIDs()
+        {
+            animIDAnticipate = Animator.StringToHash("isAnticipating");
+            animIDAttack = Animator.StringToHash("isAttacking");
+        }
+
         private void Awake()
         {
+            AssignAnimIDs();
+            animator = GetComponent<Animator>();
             miniBossAgent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
+            rigidBody = GetComponent<Rigidbody>();
         }
 
         void Start()
