@@ -75,7 +75,7 @@ namespace SlimeMiniBoss
         {
             List<IBaseNode> aggresiveNodes = new()
             {
-                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength),
+                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
                 new ChasePlayerNode(miniBossAgent, chaseRange),
             };
 

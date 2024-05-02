@@ -16,7 +16,12 @@ namespace SlimeMiniBoss
         private float damageTimer = 0f;
         private float damageCooldown = 1f;
 
-        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, LayerMask attackLayer, float coneWidth, float coneLength)
+        private Animator animator;
+        private int animIDAnticipate;
+        private int animIDAttack;
+
+        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, 
+        LayerMask attackLayer, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
         {
             this.agent = agent;
             this.attackRange = attackRange;
@@ -24,6 +29,9 @@ namespace SlimeMiniBoss
             this.attackLayer = attackLayer;
             this.coneWidth = coneWidth;
             this.coneLength = coneLength;
+            this.animator = animator;
+            this.animIDAnticipate = animIDAnticipate;
+            this.animIDAttack = animIDAttack;
         }
 
         public virtual bool Update()
@@ -57,11 +65,12 @@ namespace SlimeMiniBoss
             // Check if the player is within the cone width and cone length
             if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
             {
-                Blackboard.instance.Hit(10);
-                return true;
+                //Blackboard.instance.Hit(10);
+                animator.SetBool(animIDAnticipate, true);
+                animator.SetBool(animIDAttack, true);
             }
-            return false;
+            //animator.SetBool(animIDAttack, false);
+            return true;
         }
-
     }
 }
