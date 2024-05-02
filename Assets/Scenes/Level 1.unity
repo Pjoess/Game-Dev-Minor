@@ -1038,12 +1038,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7033663635467597644, guid: 891f9064dc32cd44799e77e28e889e92, type: 3}
---- !u!82 &170468391 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1769203790580608777, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1511746846}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &172328365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2758808173843430218, guid: 46f8d17b9eeef754ebc1008196f84bdd,
@@ -8392,11 +8386,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
-      propertyPath: buddy
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
       propertyPath: runSpeed
       value: 7
       objectReference: {fileID: 0}
@@ -8407,84 +8396,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
-      propertyPath: jumpSound
-      value: 
-      objectReference: {fileID: 2077708169}
-    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: ouchSound
-      value: 
-      objectReference: {fileID: 2077708175}
-    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: pauseMenu
-      value: 
-      objectReference: {fileID: 2635536375556859381}
-    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: rollSound
-      value: 
-      objectReference: {fileID: 1511746847}
-    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
       propertyPath: walkSpeed
       value: -75.5
       objectReference: {fileID: 0}
     - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
-      propertyPath: pauseSound
-      value: 
-      objectReference: {fileID: 2077708176}
-    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: deathScript
-      value: 
-      objectReference: {fileID: 1142471480316760933}
-    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: footStepSound
-      value: 
-      objectReference: {fileID: 1511746848}
-    - target: {fileID: 1313073359967794662, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
       propertyPath: buddySwitchMode
       value: 
       objectReference: {fileID: 365917028}
-    - target: {fileID: 1769203790580608777, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: m_Volume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2154555186973364919, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2530774772826494316, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2530774772826494316, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 1385193d73fdae948b8c8baf19acaf36, type: 3}
-    - target: {fileID: 3128974143656040775, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: swordSlashSound
-      value: 
-      objectReference: {fileID: 170468391}
-    - target: {fileID: 3154074400707004757, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3154074400707004757, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.04
-      objectReference: {fileID: 0}
     - target: {fileID: 6162449676006419073, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8495,33 +8414,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.382
       objectReference: {fileID: 0}
-    - target: {fileID: 6961977104996585968, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7462105227262679010, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf8bc7af5666fda4eb05a418c28fa9f4, type: 3}
---- !u!82 &1511746847 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 2530774772826494316, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1511746846}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1511746848 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 3154074400707004757, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1511746846}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1534947532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4826323723909267917, guid: 0708d410ceaf54740ba86aa9668506c3,
@@ -12070,24 +11967,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b488edfedf421e24d8233f3d5e3da67e, type: 3}
---- !u!82 &2077708169 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 6961977104996585968, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1511746846}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &2077708175 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 6915279083833147340, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1511746846}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &2077708176 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 7462105227262679010, guid: cf8bc7af5666fda4eb05a418c28fa9f4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1511746846}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2083619524
 PrefabInstance:
   m_ObjectHideFlags: 0

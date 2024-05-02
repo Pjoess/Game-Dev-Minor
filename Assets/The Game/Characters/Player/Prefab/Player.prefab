@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.74
+      value: -6.383606
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -21,12 +21,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -44.14
+      value: -44.429504
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.68847626
+      value: 0.9830057
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.72525895
+      value: 0.18357539
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 92.981
+      value: 21.156
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -108,6 +108,16 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 290ef32a34ae8614bb59ceb15fc2f045, type: 2}
+    - target: {fileID: 6188633898161791687, guid: 13a2dbb8e45c25044a820ee5966ca6df,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.669
+      objectReference: {fileID: 0}
+    - target: {fileID: 6188633898161791687, guid: 13a2dbb8e45c25044a820ee5966ca6df,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.382
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -252,7 +262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cfdb5adc81c7746a6a39bc7e8f7bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buddy: {fileID: 0}
   rigidBody: {fileID: 0}
   sword: {fileID: 0}
   movement: {x: 0, y: 0}
@@ -264,32 +273,33 @@ MonoBehaviour:
   pauseSound: {fileID: 7462105227262679010}
   healthPoints: 0
   maxHealthPoints: 100
-  walkSpeed: 7
-  runSpeed: 10
+  walkSpeed: -75.5
+  runSpeed: 7
   speedChangeRate: 5
+  idleToFallTimer: 0.15
+  idleToFallDelta: 0
   hasJumped: 0
   jumpForce: 5
   jumpCooldown: 1
   jumpCooldownDelta: 0
-  idleToFallTimer: 0.15
-  idleToFallDelta: 0
   lastWKeyPressTime: 0
   doublePressTimeWindow: 0.2
   isSprinting: 0
   rotationSpeed: 600
   dashDirection: {x: 0, y: 0, z: 0}
-  dashForce: 7.5
+  dashForce: 10
   dashCooldown: 0.6
   isDashing: 0
   dashCooldownDelta: 0
   attackDistance: 0.15
   isStriking: 0
+  canAttack: 0
   struckAgain: 0
-  pauseMenu: {fileID: 0}
-  deathScript: {fileID: 0}
   buttonCameraOffsetForward: -50
   buttonCameraOffsetRight: -50
   buttonCameraOffsetUp: -50
+  minCameraZoom: -10
+  maxCameraZoom: -30
   buttonCameraOffset: {x: 950, y: 100, z: 0}
   buddySwitchMode: {fileID: 0}
   animator: {fileID: 0}
@@ -298,9 +308,7 @@ MonoBehaviour:
   animIDGrounded: 0
   animIDFall: 0
   animIDJump: 0
-  animIDStrike1: 0
-  animIDStrike2: 0
-  animIDStrike3: 0
+  animIDStrike: 0
   animIDDash: 0
   animIDMoveSpeed: 0
 --- !u!82 &6961977104996585968
