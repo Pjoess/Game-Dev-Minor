@@ -5,11 +5,11 @@ using UnityEngine;
 public class ShockwaveScript : MonoBehaviour
 {
 
-    private Player player;
+    private Player_Manager player;
 
     private void Awake()
     {
-        player = FindObjectOfType<Player>();
+        player = FindObjectOfType<Player_Manager>();
     }
 
     private void OnParticleTrigger()

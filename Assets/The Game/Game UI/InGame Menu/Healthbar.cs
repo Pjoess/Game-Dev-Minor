@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class Healthbar : MonoBehaviour
 {
     [SerializeField] Slider slider;
-    [SerializeField] Player player;
+    [SerializeField] Player_Manager player;
     [SerializeField] TMP_Text text;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<Player>();
+        player = FindObjectOfType<Player_Manager>();
         slider.maxValue = player.MaxHealthPoints;
     }
 
