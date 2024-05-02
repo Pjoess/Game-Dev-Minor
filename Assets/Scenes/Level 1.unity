@@ -3669,6 +3669,12 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 845eaa77f230d00459a004434189e08f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: 7f2a798913ee9c24da1b600d1eab57e3,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: 845eaa77f230d00459a004434189e08f,
         type: 3}
       propertyPath: m_Name
@@ -12834,6 +12840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Follow Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810216966829498057, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
+        type: 3}
+      propertyPath: AutoEnableInputs
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
