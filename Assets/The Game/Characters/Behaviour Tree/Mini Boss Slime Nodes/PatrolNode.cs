@@ -26,30 +26,24 @@ namespace SlimeMiniBoss
 
         public virtual bool Update()
         {
-            // Check if the player is within the chase range
-            if (Vector3.Distance(agent.transform.position, Blackboard.instance.GetPlayerPosition()) > chaseRange)
+            // Increment patrol timer
+            patrolTimer += Time.deltaTime;
+
+            // Check if reached current destination or patrol interval is reached
+            if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
             {
-                // Go back to the patrol center and patrol around it
-                currentDestination = patrolCenter.transform.position;
+                // Get a new random destination
+                currentDestination = GetRandomDestination();
                 agent.SetDestination(currentDestination);
                 patrolTimer = 0f; // Reset patrol timer
-
-                // Increment patrol timer
-                patrolTimer += Time.deltaTime;
-
-                // Check if reached current destination or patrol interval is reached
-                if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
-                {
-                    // Get a new random destination
-                    currentDestination = GetRandomDestination();
-                    agent.SetDestination(currentDestination);
-                    patrolTimer = 0f; // Reset patrol timer
-                }
-                return true; // Return true as the agent is going back to the patrol center
             }
-            else if (Vector3.Distance(agent.transform.position, Blackboard.instance.GetPlayerPosition()) < chaseRange)
+
+            // Rotate towards the destination
+            Vector3 directionToDestination = currentDestination - agent.transform.position;
+            if (directionToDestination != Vector3.zero)
             {
-                return false; // Return true as the agent is going back to the patrol center
+                Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
+                agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
             }
 
             return true; // Return false as the patrol behavior continues
