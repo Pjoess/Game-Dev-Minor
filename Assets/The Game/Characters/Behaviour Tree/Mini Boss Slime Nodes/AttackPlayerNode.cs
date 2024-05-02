@@ -16,7 +16,12 @@ namespace SlimeMiniBoss
         private float damageTimer = 0f;
         private float damageCooldown = 1f;
 
-        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, LayerMask attackLayer, float coneWidth, float coneLength)
+        private Animator animator;
+        private int animIDAnticipate;
+        private int animIDAttack;
+
+        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, 
+        LayerMask attackLayer, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
         {
             this.agent = agent;
             this.attackRange = attackRange;
@@ -24,6 +29,9 @@ namespace SlimeMiniBoss
             this.attackLayer = attackLayer;
             this.coneWidth = coneWidth;
             this.coneLength = coneLength;
+            this.animator = animator;
+            this.animIDAnticipate = animIDAnticipate;
+            this.animIDAttack = animIDAttack;
         }
 
         public virtual bool Update()
@@ -50,18 +58,17 @@ namespace SlimeMiniBoss
         private bool IsPlayerWithinCone(Vector3 direction, float coneWidth, float coneLength)
         {
             Vector3 directionToPlayer = playerPosition - agent.transform.position;
-
-            // Calculate the angle between the direction the agent is facing and the direction to the player
             float angleToPlayer = Vector3.Angle(direction, directionToPlayer);
 
             // Check if the player is within the cone width and cone length
             if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
             {
                 Blackboard.instance.Hit(10);
-                return true;
+                // animator.SetBool(animIDAnticipate, true);
+                // animator.SetBool(animIDAttack, true);
             }
-            return false;
+            //animator.SetBool(animIDAttack, false);
+            return true;
         }
-
     }
 }

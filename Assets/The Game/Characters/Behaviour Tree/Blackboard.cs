@@ -28,7 +28,7 @@ public class Blackboard : MonoBehaviour, IDamageble
         }
         else
         {
-            Debug.LogError("Player_Manager not found!");
+            Debug.LogError("Player_Manager in Blackboard not found!");
             return Vector3.zero;
         }
     }

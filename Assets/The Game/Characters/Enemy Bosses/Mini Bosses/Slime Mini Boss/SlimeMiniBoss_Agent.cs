@@ -9,6 +9,7 @@ namespace SlimeMiniBoss
         private IBaseNode slimeBT = null;
         public LayerMask attackLayer;
         private NavMeshAgent miniBossAgent;
+        private Rigidbody rigidBody;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -39,10 +40,23 @@ namespace SlimeMiniBoss
         public float patrolRadius = 20f;
         public float stopDistance = 4f;
 
+        private Animator animator;
+        private int animIDAnticipate;
+        private int animIDAttack;
+
+        private void AssignAnimIDs()
+        {
+            animIDAnticipate = Animator.StringToHash("isAnticipating");
+            animIDAttack = Animator.StringToHash("isAttacking");
+        }
+
         private void Awake()
         {
+            AssignAnimIDs();
+            animator = GetComponent<Animator>();
             miniBossAgent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
+            rigidBody = GetComponent<Rigidbody>();
         }
 
         void Start()
@@ -61,19 +75,20 @@ namespace SlimeMiniBoss
         {
             List<IBaseNode> aggresiveNodes = new()
             {
-                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength),
+                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
                 new ChasePlayerNode(miniBossAgent, chaseRange),
+                new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
             };
 
             List<IBaseNode> passiveNodes = new()
             {
-                new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
+                
             };
 
             List<IBaseNode> selectNode = new()
             {
                 new SequenceNode(aggresiveNodes),
-                //new SequenceNode(passiveNodes),
+                new SequenceNode(passiveNodes),
             };
 
             slimeBT = new SelectorNode(aggresiveNodes);
