@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 44c817e9a46a3924fbdbe7534ed5a4d1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.7557373
+      value: -7.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 44c817e9a46a3924fbdbe7534ed5a4d1,
         type: 3}
@@ -148,6 +148,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8972407748793277439}
   m_SourcePrefab: {fileID: 100100000, guid: 44c817e9a46a3924fbdbe7534ed5a4d1, type: 3}
+--- !u!95 &3790457470086787463 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 44c817e9a46a3924fbdbe7534ed5a4d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 7345649535827250198}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7580002945172910407 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 44c817e9a46a3924fbdbe7534ed5a4d1,
@@ -171,7 +177,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 6
   m_Center: {x: 0, y: 0, z: 0}
@@ -216,7 +222,7 @@ NavMeshAgent:
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 750
-  m_StoppingDistance: 5
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -332,3 +338,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0be800d21a0e3d4c8abfe8cadf6ea10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  attackLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  shootSound: {fileID: 4440051678307184094}
+  bulletPrefab: {fileID: 6183946527980881328, guid: b3ffb05800933a44f951aec45acd7114,
+    type: 3}
+  mortarPrefab: {fileID: 6183946527980881328, guid: 819d81b458173384d8713273e2dc12d3,
+    type: 3}
+  shotsFired: 0
+  bulletSpeed: 8
+  bulletLifetime: 5
+  bulletShootHeight: 1
+  mortarSpeed: 5
+  mortarSpawnHeight: 8
+  shootingRange: 10
+  maxAgentToPlayerDistance: 8
+  buddyCooldownText: {fileID: 0}
+  mortarCooldownTime: 3
+  animator: {fileID: 3790457470086787463}
+  animIDWalk: 0
+  animIDShooting: 0
+  animIDShootingMortar: 0

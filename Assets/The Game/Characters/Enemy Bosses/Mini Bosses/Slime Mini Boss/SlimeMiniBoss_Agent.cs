@@ -40,11 +40,11 @@ namespace SlimeMiniBoss
         public float patrolRadius = 20f;
         public float stopDistance = 4f;
 
-        public Animator animator;
-        public int animIDAnticipate;
-        public int animIDAttack;
+        private Animator animator;
+        private int animIDAnticipate;
+        private int animIDAttack;
 
-        public void AssignAnimIDs()
+        private void AssignAnimIDs()
         {
             animIDAnticipate = Animator.StringToHash("isAnticipating");
             animIDAttack = Animator.StringToHash("isAttacking");
