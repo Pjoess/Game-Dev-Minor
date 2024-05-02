@@ -58,16 +58,14 @@ namespace SlimeMiniBoss
         private bool IsPlayerWithinCone(Vector3 direction, float coneWidth, float coneLength)
         {
             Vector3 directionToPlayer = playerPosition - agent.transform.position;
-
-            // Calculate the angle between the direction the agent is facing and the direction to the player
             float angleToPlayer = Vector3.Angle(direction, directionToPlayer);
 
             // Check if the player is within the cone width and cone length
             if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
             {
-                //Blackboard.instance.Hit(10);
-                animator.SetBool(animIDAnticipate, true);
-                animator.SetBool(animIDAttack, true);
+                Blackboard.instance.Hit(10);
+                // animator.SetBool(animIDAnticipate, true);
+                // animator.SetBool(animIDAttack, true);
             }
             //animator.SetBool(animIDAttack, false);
             return true;
