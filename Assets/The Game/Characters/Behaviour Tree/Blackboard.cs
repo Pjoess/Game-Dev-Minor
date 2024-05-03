@@ -11,13 +11,12 @@ public class Blackboard : MonoBehaviour, IDamageble
 
     private void Awake()
     {
-        player = FindAnyObjectByType<Player_Manager>();
-        instance = this;
+        player = FindObjectOfType<Player_Manager>();
     }
 
     private void Start()
     {
-        player = FindObjectOfType<Player_Manager>();
+        instance = this;
     }
 
     public Vector3 GetPlayerPosition()
