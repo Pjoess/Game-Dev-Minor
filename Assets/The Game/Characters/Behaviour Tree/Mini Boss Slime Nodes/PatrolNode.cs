@@ -14,6 +14,11 @@ namespace SlimeMiniBoss
         private float patrolTimer = 0f;
         private float patrolInterval = 2f;
 
+        // --- Caching --- //
+        private Quaternion lookRotation;
+        Vector3 directionToDestination;
+        Vector3 randomDirection;
+
         public PatrolNode(NavMeshAgent agent, GameObject patrolCenter, float patrolRadius, float stopDistance, float chaseRange)
         {
             this.agent = agent;
@@ -27,7 +32,6 @@ namespace SlimeMiniBoss
         public virtual bool Update()
         {
             patrolTimer += Time.deltaTime;
-
             if (Vector3.SqrMagnitude(agent.transform.position - currentDestination) <= stopDistanceSquared || patrolTimer >= patrolInterval)
             {
                 currentDestination = GetRandomDestination();
@@ -45,18 +49,18 @@ namespace SlimeMiniBoss
         }
 
         private void RotateTowardsDestination()
+    {
+        directionToDestination = currentDestination - agent.transform.position;
+        if (directionToDestination.sqrMagnitude > Mathf.Epsilon) // Check if the magnitude is greater than epsilon
         {
-            Vector3 directionToDestination = currentDestination - agent.transform.position;
-            if (directionToDestination != Vector3.zero)
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
-                agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
-            }
+            lookRotation = Quaternion.LookRotation(directionToDestination);
+            agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
         }
+    }
 
         private Vector3 GetRandomDestination()
         {
-            Vector3 randomDirection = Random.insideUnitSphere * Mathf.Sqrt(patrolRadiusSquared); // Use square root for radius
+            randomDirection = Random.insideUnitSphere * Mathf.Sqrt(patrolRadiusSquared); // Use square root for radius
             randomDirection += patrolCenter.transform.position;
             NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, Mathf.Sqrt(patrolRadiusSquared), NavMesh.AllAreas); // Use square root for radius
             return hit.position;

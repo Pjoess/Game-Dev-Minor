@@ -69,7 +69,6 @@ namespace SlimeMiniBoss
                 // Check if animation has ended and condition is false (ONLY TEMPORARY Shockwave needs to be fixed)
                 if (!animator.IsInTransition(0) && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isIdling") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isAnticipating"))
                 {
-                    Debug.Log("Do Damage!");
                     Blackboard.instance.Hit(10);
                 }
                 return true;
