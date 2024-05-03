@@ -63,11 +63,11 @@ namespace SlimeMiniBoss
             // Check if the player is within the cone width and cone length
             if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
             {
-                Blackboard.instance.Hit(10);
-                // animator.SetBool(animIDAnticipate, true);
-                // animator.SetBool(animIDAttack, true);
+                //Blackboard.instance.Hit(10);
+                animator.SetBool(animIDAnticipate, true);
+                animator.SetBool(animIDAttack, true);
             }
-            //animator.SetBool(animIDAttack, false);
+            // animator.SetBool(animIDAnticipate, false);
             return true;
         }
     }
