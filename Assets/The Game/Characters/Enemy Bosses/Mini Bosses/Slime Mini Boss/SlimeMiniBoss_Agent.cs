@@ -176,6 +176,7 @@ namespace SlimeMiniBoss
         }
         #endregion
 
+        #region Animator
         public void DoShockwaveAttack()
         {
             shockwaveParticleSystem.Play();
@@ -186,5 +187,6 @@ namespace SlimeMiniBoss
             animator.SetBool(animIDAttack, false);
             animator.SetBool(animIDAnticipate, false);
         }
+        #endregion
     }
 }

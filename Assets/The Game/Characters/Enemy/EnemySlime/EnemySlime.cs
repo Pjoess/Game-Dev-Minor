@@ -20,11 +20,26 @@ public class EnemySlime : EnemyBase
         private Coroutine idling;
         private Coroutine attacking;
         private Coroutine timer;
+
+        
     #endregion
+
+    // private Animator animator;
+    //     private int animIDWalk;
+    //     private int animIDAnticipate;
+    //     private int animIDAttack;
+
+    // private void AssignAnimIDs()
+    // {
+    //     animIDWalk = Animator.StringToHash("isWalking");
+    //     animIDAnticipate = Animator.StringToHash("isAnticipating");
+    //     animIDAttack = Animator.StringToHash("isAttacking");
+    // }
 
     #region Unity Start Functions
         public override void Awake()
         {
+            //AssignAnimIDs();
             centerCollider = centerPoint.GetComponent<SphereCollider>();
             Agent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
@@ -67,7 +82,6 @@ public class EnemySlime : EnemyBase
 
         public override bool CheckChase()
         {
-
             if(CheckChaseRange()){
                 return true;
             }
@@ -217,7 +231,13 @@ public class EnemySlime : EnemyBase
                 enemyStateMachine.ChangeState(enemyChaseState);
             }
 
-            if(other.transform.CompareTag("Player") && IsAttacking && isDashing && !attackCollision && Agent.isStopped == false){
+            // Do Damage on Player (receive damage to player)
+            if(other.transform.CompareTag("Player") 
+                && IsAttacking 
+                && isDashing 
+                && !attackCollision 
+                && Agent.isStopped == false)
+            {
                 IDamageble damagable = other.collider.GetComponent<IDamageble>();
                 damagable.Hit(10);
                 StartCoroutine(AttackCollisionTimer());
@@ -243,4 +263,12 @@ public class EnemySlime : EnemyBase
             return false;
         }
     }
+
+    #region Animator
+    // public void EndAttack()
+    // {
+    //     animator.SetBool(animIDAnticipate, false);
+    //     animator.SetBool(animIDAttack, false);
+    // }
+    #endregion
 }
