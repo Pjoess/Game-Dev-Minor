@@ -7,57 +7,58 @@ namespace SlimeMiniBoss
     {
         private NavMeshAgent agent;
         private GameObject patrolCenter;
-        private float patrolRadius;
-        private float stopDistance;
+        private float patrolRadiusSquared; // Use squared radius for distance comparison
+        private float stopDistanceSquared; // Use squared distance for distance comparison
+        private float chaseRangeSquared; // Use squared range for distance comparison
         private Vector3 currentDestination;
         private float patrolTimer = 0f;
         private float patrolInterval = 2f;
-        private float chaseRange;
 
         public PatrolNode(NavMeshAgent agent, GameObject patrolCenter, float patrolRadius, float stopDistance, float chaseRange)
         {
             this.agent = agent;
             this.patrolCenter = patrolCenter;
-            this.patrolRadius = patrolRadius;
-            this.stopDistance = stopDistance;
-            this.chaseRange = chaseRange;
+            this.patrolRadiusSquared = patrolRadius * patrolRadius;
+            this.stopDistanceSquared = stopDistance * stopDistance;
+            this.chaseRangeSquared = chaseRange * chaseRange;
             currentDestination = GetRandomDestination();
         }
 
         public virtual bool Update()
         {
-            // Increment patrol timer
             patrolTimer += Time.deltaTime;
 
-            // Check if reached current destination or patrol interval is reached
-            if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
+            if (Vector3.SqrMagnitude(agent.transform.position - currentDestination) <= stopDistanceSquared || patrolTimer >= patrolInterval)
             {
-                // Get a new random destination
                 currentDestination = GetRandomDestination();
                 agent.SetDestination(currentDestination);
-                patrolTimer = 0f; // Reset patrol timer
+                patrolTimer = 0f;
             }
 
-            // Rotate towards the destination
-            Vector3 directionToDestination = currentDestination - agent.transform.position;
-            if (directionToDestination != Vector3.zero)
+            // No need to rotate if the agent has reached its destination
+            if (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
             {
-                // Normalize the direction vector if necessary
-                directionToDestination.Normalize();
-
-                Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
-                agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
+                RotateTowardsDestination();
             }
-
+            
             return true;
         }
 
-        // Get a random destination within patrol radius from patrol center
+        private void RotateTowardsDestination()
+        {
+            Vector3 directionToDestination = currentDestination - agent.transform.position;
+            if (directionToDestination != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
+                agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
+            }
+        }
+
         private Vector3 GetRandomDestination()
         {
-            Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+            Vector3 randomDirection = Random.insideUnitSphere * Mathf.Sqrt(patrolRadiusSquared); // Use square root for radius
             randomDirection += patrolCenter.transform.position;
-            NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas);
+            NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, Mathf.Sqrt(patrolRadiusSquared), NavMesh.AllAreas); // Use square root for radius
             return hit.position;
         }
     }
