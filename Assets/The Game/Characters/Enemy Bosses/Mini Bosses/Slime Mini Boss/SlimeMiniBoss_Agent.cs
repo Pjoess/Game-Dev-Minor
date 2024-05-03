@@ -7,15 +7,16 @@ namespace SlimeMiniBoss
     public class SlimeMiniBoss_Agent : MonoBehaviour, IDamageble
     {
         private IBaseNode slimeBT = null;
-        public LayerMask attackLayer;
+        public LayerMask attackLayer; // Player
         private NavMeshAgent miniBossAgent;
         private Rigidbody rigidBody;
+        private ParticleSystem shockwaveParticleSystem;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
 
         [Header("Chase")]
-        private float chaseRange = 15f;
+        private float chaseRange = 20f;
 
         [Header("Attack")]
         private float attackRange = 5f;
@@ -25,7 +26,7 @@ namespace SlimeMiniBoss
         [Header("Stats")]
         private EnemyHealthBar enemyHealthBar;
         public int healthPoints;
-        public int maxHealthPoints = 100;
+        public int maxHealthPoints = 200;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
@@ -51,15 +52,16 @@ namespace SlimeMiniBoss
         private void Awake()
         {
             AssignAnimIDs();
+            HealthPoints = MaxHealthPoints;
             animator = GetComponent<Animator>();
             miniBossAgent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             rigidBody = GetComponent<Rigidbody>();
+            shockwaveParticleSystem = GetComponentInChildren<ParticleSystem>();
         }
 
         void Start()
         {
-            HealthPoints = MaxHealthPoints;
             MiniBossSlimeBehaviourTree();
         }
 
@@ -71,25 +73,14 @@ namespace SlimeMiniBoss
         #region Behaviour Tree
         private void MiniBossSlimeBehaviourTree()
         {
-            List<IBaseNode> aggresiveNodes = new()
+            List<IBaseNode> Nodes = new()
             {
                 new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
-                new ChasePlayerNode(miniBossAgent, chaseRange),
+                new ChasePlayerNode(miniBossAgent, chaseRange, stopDistance),
                 new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
             };
 
-            List<IBaseNode> passiveNodes = new()
-            {
-                
-            };
-
-            List<IBaseNode> selectNode = new()
-            {
-                new SequenceNode(aggresiveNodes),
-                //new SequenceNode(passiveNodes),
-            };
-
-            slimeBT = new SelectorNode(aggresiveNodes);
+            slimeBT = new SelectorNode(Nodes);
         }
         #endregion
 
@@ -174,9 +165,10 @@ namespace SlimeMiniBoss
         }
         #endregion
 
+        #region Animator
         public void DoShockwaveAttack()
         {
-            GetComponentInChildren<ParticleSystem>().Play();
+            shockwaveParticleSystem.Play();
         }
 
         public void EndAttack()
@@ -184,5 +176,6 @@ namespace SlimeMiniBoss
             animator.SetBool(animIDAttack, false);
             animator.SetBool(animIDAnticipate, false);
         }
+        #endregion
     }
 }

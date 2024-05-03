@@ -41,19 +41,14 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         public EnemyHitState enemyHitState { get; set; }
         public EnemyIdleState enemyIdleState { get; set; }
         public EnemyAttackState enemyAttackState { get; set; }
-
-
-
-
     #endregion
 
     #region Abstract Functions
-    public abstract void Chase();
+        public abstract void Chase();
         public abstract void Attack();
         public abstract void Idle();
         public abstract void ExitIdle();
         public abstract void Hit(int damage);
-
         public abstract void InitializeStates();
         public abstract void Awake();
     #endregion
@@ -64,52 +59,7 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         public abstract bool CheckFall();
         public abstract bool CheckHit();
         public abstract bool CheckIdle();
-        // public bool CheckAttack()
-        // {
-        //     if(IsWithinStrikingDistance)
-        //     {
-        //         return true;
-        //     }
-        //     else
-        //     {
-        //         return false;
-        //     }
-        // }
-
-        // public bool CheckChase()
-        // {            // Agent.Move(directionToPlayer);
-        //         return true;
-        //     }
-        //     else 
-        //     {
-        //         return false;
-        //     }
-        // }
-
-        // public bool CheckFall()
-        // {
-        //     throw new System.NotImplementedException();
-        // }
-
-        // public bool CheckHit()
-        // {
-        //     throw new System.NotImplementedException();
-        // }
-
-        // public bool CheckIdle()
-        // {
-        //     if (!IsAggroed && !IsWithinStrikingDistance)
-        //     {
-        //         return true;
-        //     }
-        //     else
-        //     {
-        //         return false;
-        //     }
-        // }
     #endregion
-
-
 
     public void Update()
     {

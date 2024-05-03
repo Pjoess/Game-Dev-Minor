@@ -9,10 +9,10 @@ namespace SlimeMiniBoss
         private GameObject patrolCenter;
         private float patrolRadius;
         private float stopDistance;
+        private float chaseRange;
         private Vector3 currentDestination;
         private float patrolTimer = 0f;
         private float patrolInterval = 2f;
-        private float chaseRange;
 
         public PatrolNode(NavMeshAgent agent, GameObject patrolCenter, float patrolRadius, float stopDistance, float chaseRange)
         {
@@ -26,39 +26,58 @@ namespace SlimeMiniBoss
 
         public virtual bool Update()
         {
-            // Increment patrol timer
             patrolTimer += Time.deltaTime;
-
-            // Check if reached current destination or patrol interval is reached
             if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
             {
-                // Get a new random destination
                 currentDestination = GetRandomDestination();
                 agent.SetDestination(currentDestination);
-                patrolTimer = 0f; // Reset patrol timer
+                patrolTimer = 0f;
             }
 
-            // Rotate towards the destination
-            Vector3 directionToDestination = currentDestination - agent.transform.position;
-            if (directionToDestination != Vector3.zero)
+            // Check for player presence and chase if within chase range
+            if (PlayerWithinChaseRange())
             {
-                // Normalize the direction vector if necessary
-                directionToDestination.Normalize();
+                return false; // Indicate that patrolling should stop
+            }
 
+            // No need to rotate if the agent has reached its destination
+            if (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
+            {
+                RotateTowardsDestination();
+            }
+            
+            return true; // Continue patrolling
+        }
+
+#pragma warning disable // Hides The Warnings Temporary (asserion failed) does not affect the game
+        private void RotateTowardsDestination()
+        {
+            Vector3 directionToDestination = currentDestination - agent.transform.position;
+            if (directionToDestination.magnitude > Mathf.Epsilon) // Check if the magnitude is greater than epsilon
+            {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
                 agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
             }
-
-            return true; // Return false as the patrol behavior continues
         }
+#pragma warning restore
 
-        // Get a random destination within patrol radius from patrol center
         private Vector3 GetRandomDestination()
         {
             Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
             randomDirection += patrolCenter.transform.position;
             NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas);
             return hit.position;
+        }
+
+        private bool PlayerWithinChaseRange()
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                float distanceToPlayer = Vector3.Distance(player.transform.position, agent.transform.position);
+                return distanceToPlayer <= chaseRange;
+            }
+            return false;
         }
     }
 }

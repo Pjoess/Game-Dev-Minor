@@ -15,13 +15,13 @@ namespace SlimeMiniBoss
         private float coneLength;
         private float damageTimer = 0f;
         private float damageCooldown = 1f;
+        private Vector3 directionToPlayer;
 
         private Animator animator;
         private int animIDAnticipate;
         private int animIDAttack;
 
-        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, 
-        LayerMask attackLayer, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
+        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, LayerMask attackLayer, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
         {
             this.agent = agent;
             this.attackRange = attackRange;
@@ -39,13 +39,14 @@ namespace SlimeMiniBoss
             // Update the player's position
             playerPosition = Blackboard.instance.GetPlayerPosition();
 
-            float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
+            directionToPlayer = playerPosition - agent.transform.position;
+            float distanceToPlayer = directionToPlayer.magnitude; // Use magnitude for comparison
             damageTimer += Time.deltaTime; // Update damage timer
 
             // Check if the player is within attack range and the damage cooldown has passed
             if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
             {
-                if (IsPlayerWithinCone(agent.transform.forward, coneWidth, coneLength))
+                if (IsPlayerWithinCone(directionToPlayer))
                 {
                     damageTimer = 0f; // Reset damage timer
                     return true;
@@ -55,20 +56,24 @@ namespace SlimeMiniBoss
         }
 
         // Method to check if the player is within the cone
-        private bool IsPlayerWithinCone(Vector3 direction, float coneWidth, float coneLength)
+        private bool IsPlayerWithinCone(Vector3 directionToPlayer)
         {
-            Vector3 directionToPlayer = playerPosition - agent.transform.position;
-            float angleToPlayer = Vector3.Angle(direction, directionToPlayer);
+            float angleToPlayer = Vector3.Angle(agent.transform.forward, directionToPlayer);
 
             // Check if the player is within the cone width and cone length
             if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
             {
-                //Blackboard.instance.Hit(10);
                 animator.SetBool(animIDAnticipate, true);
                 animator.SetBool(animIDAttack, true);
+
+                // Check if animation has ended and condition is false (ONLY TEMPORARY Shockwave needs to be fixed)
+                if (!animator.IsInTransition(0) && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isIdling") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isAnticipating"))
+                {
+                    Blackboard.instance.Hit(10);
+                }
+                return true;
             }
-            // animator.SetBool(animIDAnticipate, false);
-            return true;
+            return false;
         }
     }
 }

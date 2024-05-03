@@ -6,18 +6,19 @@ public class Blackboard : MonoBehaviour, IDamageble
     public static Blackboard instance;
     private Player_Manager player;
 
-    public int MaxHealthPoints => throw new NotImplementedException();
-    public int HealthPoints { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+    private int healthPoints;
+    private readonly int maxHealthPoints;
+    public int MaxHealthPoints { get { return maxHealthPoints; } }
+    public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
+    
     private void Awake()
     {
-        player = FindAnyObjectByType<Player_Manager>();
-        instance = this;
+        player = FindObjectOfType<Player_Manager>();
     }
 
     private void Start()
     {
-        player = FindObjectOfType<Player_Manager>();
+        instance = this;
     }
 
     public Vector3 GetPlayerPosition()
