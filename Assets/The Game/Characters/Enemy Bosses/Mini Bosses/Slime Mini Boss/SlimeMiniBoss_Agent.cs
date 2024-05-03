@@ -16,7 +16,7 @@ namespace SlimeMiniBoss
         public GameObject patrolCenterPoint;
 
         [Header("Chase")]
-        private float chaseRange = 15f;
+        private float chaseRange = 20f;
 
         [Header("Attack")]
         private float attackRange = 5f;

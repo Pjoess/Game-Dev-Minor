@@ -8,7 +8,7 @@ namespace SlimeMiniBoss
     {
         private NavMeshAgent agent;
         private Vector3 playerPosition;
-        private float attackRangeSquared; // Use squared range for distance comparison
+        private float attackRange;
         private float offsetDistance;
         private LayerMask attackLayer;
         private float coneWidth;
@@ -24,7 +24,7 @@ namespace SlimeMiniBoss
         public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, LayerMask attackLayer, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
         {
             this.agent = agent;
-            this.attackRangeSquared = attackRange * attackRange; // Square the attack range
+            this.attackRange = attackRange;
             this.offsetDistance = offsetDistance;
             this.attackLayer = attackLayer;
             this.coneWidth = coneWidth;
@@ -40,11 +40,11 @@ namespace SlimeMiniBoss
             playerPosition = Blackboard.instance.GetPlayerPosition();
 
             directionToPlayer = playerPosition - agent.transform.position;
-            float distanceToPlayerSquared = directionToPlayer.sqrMagnitude; // Use squared distance for comparison
+            float distanceToPlayer = directionToPlayer.magnitude; // Use magnitude for comparison
             damageTimer += Time.deltaTime; // Update damage timer
 
             // Check if the player is within attack range and the damage cooldown has passed
-            if (distanceToPlayerSquared <= attackRangeSquared && damageTimer >= damageCooldown)
+            if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
             {
                 if (IsPlayerWithinCone(directionToPlayer))
                 {

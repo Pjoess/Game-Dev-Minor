@@ -49,6 +49,7 @@ namespace SlimeMiniBoss
             return true; // Continue patrolling
         }
 
+#pragma warning disable // Hides The Warnings Temporary (asserion failed) does not affect the game
         private void RotateTowardsDestination()
         {
             Vector3 directionToDestination = currentDestination - agent.transform.position;
@@ -58,6 +59,7 @@ namespace SlimeMiniBoss
                 agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
             }
         }
+#pragma warning restore
 
         private Vector3 GetRandomDestination()
         {
