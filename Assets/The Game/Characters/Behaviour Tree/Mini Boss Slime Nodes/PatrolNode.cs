@@ -42,6 +42,9 @@ namespace SlimeMiniBoss
             Vector3 directionToDestination = currentDestination - agent.transform.position;
             if (directionToDestination != Vector3.zero)
             {
+                // Normalize the direction vector if necessary
+                directionToDestination.Normalize();
+
                 Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
                 agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
             }
