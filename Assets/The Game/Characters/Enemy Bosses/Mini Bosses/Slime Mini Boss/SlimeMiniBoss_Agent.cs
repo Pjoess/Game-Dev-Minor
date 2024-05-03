@@ -7,7 +7,7 @@ namespace SlimeMiniBoss
     public class SlimeMiniBoss_Agent : MonoBehaviour, IDamageble
     {
         private IBaseNode slimeBT = null;
-        public LayerMask attackLayer;
+        public LayerMask attackLayer; // Player
         private NavMeshAgent miniBossAgent;
         private Rigidbody rigidBody;
 
