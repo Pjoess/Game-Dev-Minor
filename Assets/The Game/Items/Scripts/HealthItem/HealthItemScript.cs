@@ -10,7 +10,8 @@ public class HealthItemScript : MonoBehaviour
     void Start()
     {
         GetComponent<MeshRenderer>().material.color = healthItem.color;
-        transform.rotation = Quaternion.Euler(-90, 0, 0);
+        transform.rotation = Quaternion.Euler(-90, 0, 0); // The Rotation of the spawned heart
+        transform.position += new Vector3(0f,0.75f,0f); // The Height of the spawned heart
     }
 
     private void OnTriggerEnter(Collider other)

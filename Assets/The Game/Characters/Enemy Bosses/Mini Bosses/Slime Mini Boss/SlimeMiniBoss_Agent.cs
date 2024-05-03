@@ -173,5 +173,16 @@ namespace SlimeMiniBoss
             }
         }
         #endregion
+
+        public void DoShockwaveAttack()
+        {
+            GetComponentInChildren<ParticleSystem>().Play();
+        }
+
+        public void EndAttack()
+        {
+            animator.SetBool(animIDAttack, false);
+            animator.SetBool(animIDAnticipate, false);
+        }
     }
 }
