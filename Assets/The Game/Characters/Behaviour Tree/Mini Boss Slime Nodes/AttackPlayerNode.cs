@@ -8,23 +8,23 @@ namespace SlimeMiniBoss
     {
         private NavMeshAgent agent;
         private Vector3 playerPosition;
-        private float attackRange;
+        private float attackRangeSquared; // Use squared range for distance comparison
         private float offsetDistance;
         private LayerMask attackLayer;
         private float coneWidth;
         private float coneLength;
         private float damageTimer = 0f;
         private float damageCooldown = 1f;
+        private Vector3 directionToPlayer;
 
         private Animator animator;
         private int animIDAnticipate;
         private int animIDAttack;
 
-        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, 
-        LayerMask attackLayer, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
+        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float offsetDistance, LayerMask attackLayer, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
         {
             this.agent = agent;
-            this.attackRange = attackRange;
+            this.attackRangeSquared = attackRange * attackRange; // Square the attack range
             this.offsetDistance = offsetDistance;
             this.attackLayer = attackLayer;
             this.coneWidth = coneWidth;
@@ -39,13 +39,14 @@ namespace SlimeMiniBoss
             // Update the player's position
             playerPosition = Blackboard.instance.GetPlayerPosition();
 
-            float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
+            directionToPlayer = playerPosition - agent.transform.position;
+            float distanceToPlayerSquared = directionToPlayer.sqrMagnitude; // Use squared distance for comparison
             damageTimer += Time.deltaTime; // Update damage timer
 
             // Check if the player is within attack range and the damage cooldown has passed
-            if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
+            if (distanceToPlayerSquared <= attackRangeSquared && damageTimer >= damageCooldown)
             {
-                if (IsPlayerWithinCone(agent.transform.forward, coneWidth, coneLength))
+                if (IsPlayerWithinCone(directionToPlayer))
                 {
                     damageTimer = 0f; // Reset damage timer
                     return true;
@@ -55,10 +56,9 @@ namespace SlimeMiniBoss
         }
 
         // Method to check if the player is within the cone
-        private bool IsPlayerWithinCone(Vector3 direction, float coneWidth, float coneLength)
+        private bool IsPlayerWithinCone(Vector3 directionToPlayer)
         {
-            Vector3 directionToPlayer = playerPosition - agent.transform.position;
-            float angleToPlayer = Vector3.Angle(direction, directionToPlayer);
+            float angleToPlayer = Vector3.Angle(agent.transform.forward, directionToPlayer);
 
             // Check if the player is within the cone width and cone length
             if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
@@ -67,15 +67,14 @@ namespace SlimeMiniBoss
                 animator.SetBool(animIDAttack, true);
 
                 // Check if animation has ended and condition is false (ONLY TEMPORARY Shockwave needs to be fixed)
-                if (!animator.IsInTransition(0) 
-                    && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isIdling")
-                    && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isAnticipating"))
+                if (!animator.IsInTransition(0) && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isIdling") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isAnticipating"))
                 {
                     Debug.Log("Do Damage!");
                     Blackboard.instance.Hit(10);
                 }
+                return true;
             }
-            return true;
+            return false;
         }
     }
 }
