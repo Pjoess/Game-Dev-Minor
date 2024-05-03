@@ -590,7 +590,7 @@ NavMeshAgent:
   m_Speed: 6
   m_Acceleration: 6
   avoidancePriority: 50
-  m_AngularSpeed: 60
+  m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -629,6 +629,6 @@ MonoBehaviour:
     m_Bits: 128
   patrolCenterPoint: {fileID: 0}
   healthPoints: 0
-  maxHealthPoints: 100
+  maxHealthPoints: 200
   patrolRadius: 20
   stopDistance: 4
