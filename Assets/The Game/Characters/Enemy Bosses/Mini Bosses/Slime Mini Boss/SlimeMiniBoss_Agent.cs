@@ -73,25 +73,14 @@ namespace SlimeMiniBoss
         #region Behaviour Tree
         private void MiniBossSlimeBehaviourTree()
         {
-            List<IBaseNode> aggresiveNodes = new()
+            List<IBaseNode> Nodes = new()
             {
                 new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
                 new ChasePlayerNode(miniBossAgent, chaseRange, stopDistance),
                 new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
             };
 
-            List<IBaseNode> passiveNodes = new()
-            {
-                
-            };
-
-            List<IBaseNode> selectNode = new()
-            {
-                new SequenceNode(aggresiveNodes),
-                //new SequenceNode(passiveNodes),
-            };
-
-            slimeBT = new SelectorNode(aggresiveNodes);
+            slimeBT = new SelectorNode(Nodes);
         }
         #endregion
 
