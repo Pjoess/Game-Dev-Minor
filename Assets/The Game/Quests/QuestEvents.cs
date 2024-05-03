@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestEvents : MonoBehaviour
@@ -12,18 +10,18 @@ public class QuestEvents : MonoBehaviour
     public static void EnteredVillage()
     {
         Debug.Log("Entered Village");
-        OnPlayerEnterVillage.Invoke();
+        OnPlayerEnterVillage?.Invoke();
     }
 
     public static void ReachedCastle()
     {
         Debug.Log("Reached Castle");
-        OnPlayerReachCastle.Invoke();
+        OnPlayerReachCastle?.Invoke();
     }
 
     public static void MemoryStickPickUp()
     {
         Debug.Log("Picked Up Stick");
-        OnMemoryStickPickUp.Invoke();
+        OnMemoryStickPickUp?.Invoke();
     }
 }
