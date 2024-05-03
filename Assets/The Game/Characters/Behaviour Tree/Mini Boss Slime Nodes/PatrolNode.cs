@@ -49,7 +49,7 @@ namespace SlimeMiniBoss
                 agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
             }
 
-            return true; // Return false as the patrol behavior continues
+            return true;
         }
 
         // Get a random destination within patrol radius from patrol center

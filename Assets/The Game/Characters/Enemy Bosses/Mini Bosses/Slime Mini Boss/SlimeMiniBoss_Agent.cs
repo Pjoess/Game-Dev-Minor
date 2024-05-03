@@ -10,6 +10,7 @@ namespace SlimeMiniBoss
         public LayerMask attackLayer; // Player
         private NavMeshAgent miniBossAgent;
         private Rigidbody rigidBody;
+        private ParticleSystem shockwaveParticleSystem;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -51,15 +52,16 @@ namespace SlimeMiniBoss
         private void Awake()
         {
             AssignAnimIDs();
+            HealthPoints = MaxHealthPoints;
             animator = GetComponent<Animator>();
             miniBossAgent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             rigidBody = GetComponent<Rigidbody>();
+            shockwaveParticleSystem = GetComponentInChildren<ParticleSystem>();
         }
 
         void Start()
         {
-            HealthPoints = MaxHealthPoints;
             MiniBossSlimeBehaviourTree();
         }
 
@@ -176,7 +178,7 @@ namespace SlimeMiniBoss
 
         public void DoShockwaveAttack()
         {
-            GetComponentInChildren<ParticleSystem>().Play();
+            shockwaveParticleSystem.Play();
         }
 
         public void EndAttack()
