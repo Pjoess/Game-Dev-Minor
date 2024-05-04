@@ -11,7 +11,7 @@ public abstract class EnemyBase : MonoBehaviour, IChaseTriggerCheckable, IAttack
         //
 
         public int MaxHealthPoints { get { return maxHealthPoints; } }
-        [SerializeField] private int maxHealthPoints = 20;
+        [SerializeField] private int maxHealthPoints = 15;
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
         private int healthPoints;
         // public int MaxHealthPoints{ get {}}

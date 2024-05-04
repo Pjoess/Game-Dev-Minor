@@ -55,7 +55,7 @@ namespace SlimeMiniBoss
         private void RotateTowardsDestination()
         {
             Vector3 directionToDestination = currentDestination - agent.transform.position;
-            if (directionToDestination.magnitude > Mathf.Epsilon) // Check if the magnitude is greater than epsilon
+            if (directionToDestination != Vector3.zero) // Check if directionToDestination is not zero vector
             {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
                 agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
