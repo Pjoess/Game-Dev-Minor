@@ -43,25 +43,11 @@ namespace SlimeMiniBoss
             // No need to rotate if the agent has reached its destination
             if (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
             {
-                RotateTowardsDestination();
+                //RotateTowardsDestination();
             }
             
             return true; // Continue patrolling
         }
-
-// Hides/Surpress The Warnings (asserion failed) does not affect the game, it just gives te assertion warning
-// Because it gets error if the rotation fails, but the gameplay will continue.
-#pragma warning disable 
-        private void RotateTowardsDestination()
-        {
-            Vector3 directionToDestination = currentDestination - agent.transform.position;
-            if (directionToDestination != Vector3.zero) // Check if directionToDestination is not zero vector
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(directionToDestination);
-                agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
-            }
-        }
-#pragma warning restore
 
         private Vector3 GetRandomDestination()
         {
