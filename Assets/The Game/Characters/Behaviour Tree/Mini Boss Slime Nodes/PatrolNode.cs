@@ -48,8 +48,9 @@ namespace SlimeMiniBoss
             
             return true; // Continue patrolling
         }
-        
-// Hides The Warnings Temporary (asserion failed) does not affect the game
+
+// Hides/Surpress The Warnings (asserion failed) does not affect the game, it just gives te assertion warning
+// Because it gets error if the rotation fails, but the gameplay will continue.
 #pragma warning disable 
         private void RotateTowardsDestination()
         {
