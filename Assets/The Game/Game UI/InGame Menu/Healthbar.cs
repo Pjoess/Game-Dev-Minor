@@ -21,6 +21,6 @@ public class Healthbar : MonoBehaviour
     void Update()
     {
         slider.value = player.HealthPoints;
-        text.text = $"{player.HealthPoints} / {player.MaxHealthPoints}";
+        text.text = $"{player.HealthPoints}";
     }
 }
