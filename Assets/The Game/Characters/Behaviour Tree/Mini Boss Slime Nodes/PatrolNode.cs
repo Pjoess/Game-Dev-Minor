@@ -48,8 +48,9 @@ namespace SlimeMiniBoss
             
             return true; // Continue patrolling
         }
-
-#pragma warning disable // Hides The Warnings Temporary (asserion failed) does not affect the game
+        
+// Hides The Warnings Temporary (asserion failed) does not affect the game
+#pragma warning disable 
         private void RotateTowardsDestination()
         {
             Vector3 directionToDestination = currentDestination - agent.transform.position;
