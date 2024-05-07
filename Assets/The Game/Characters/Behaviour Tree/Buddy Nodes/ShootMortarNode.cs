@@ -11,40 +11,33 @@ namespace buddy
         private Transform targetEnemy;
         private LayerMask attackLayer;
         private GameObject mortarPrefab;
-        private TMP_Text buddyCooldownText;
 
         private float shootingRange;
-        private float mortarCooldownTime;
         private float mortarSpawnHeight;
         private float bulletLifetime;
-        private float nextMortarTime = 0f;
         private bool isShooting = false;
 
         public Animator animator;
         public int animIDShootingMortar;
-        
-        public ShootMortarNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, 
-            float mortarSpawnHeight, GameObject mortarPrefab, TMP_Text buddyCooldownText, float mortarCooldownTime,
-            Animator animator,int animIDShootingMortar)
+
+        public ShootMortarNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer,
+            float mortarSpawnHeight, GameObject mortarPrefab,
+            float bulletLifetime, Animator animator, int animIDShootingMortar)
         {
             this.agent = agent;
             this.shootingRange = shootingRange;
             this.attackLayer = attackLayer;
             this.mortarPrefab = mortarPrefab;
-            this.buddyCooldownText = buddyCooldownText;
-            this.mortarCooldownTime = mortarCooldownTime;
             this.mortarSpawnHeight = mortarSpawnHeight;
-            this.bulletLifetime = 5f; // Set the default bullet lifetime
+            this.bulletLifetime = bulletLifetime; // Set the bullet lifetime
             this.animator = animator;
             this.animIDShootingMortar = animIDShootingMortar;
         }
 
         public bool Update()
         {
-            if (!isShooting && Time.time >= nextMortarTime)
+            if (!isShooting && !Blackboard.instance.IsMortarOnCooldown())
             {
-                buddyCooldownText.text = "Mortar Ready! - (Press F)";
-
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     targetEnemy = FindClosestEnemy();
@@ -52,6 +45,7 @@ namespace buddy
                     {
                         isShooting = true;
                         agent.isStopped = true;
+                        Blackboard.instance.StartMortarCooldown();
                     }
                 }
             }
@@ -62,7 +56,6 @@ namespace buddy
             }
             else
             {
-                buddyCooldownText.text = "Cooldown: " + Mathf.CeilToInt(nextMortarTime - Time.time) + "s";
                 animator.SetBool(animIDShootingMortar, false);
             }
             return true;
@@ -75,7 +68,6 @@ namespace buddy
             Vector3 spawnPosition = targetEnemy.position + Vector3.up * mortarSpawnHeight;
             GameObject mortar = Object.Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
             Object.Destroy(mortar, bulletLifetime);
-            nextMortarTime = Time.time + mortarCooldownTime;
             isShooting = false;
             agent.isStopped = false;
         }
