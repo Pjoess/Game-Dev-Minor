@@ -26,7 +26,7 @@ namespace SlimeMiniBoss
         [Header("Stats")]
         private EnemyHealthBar enemyHealthBar;
         public int healthPoints;
-        public int maxHealthPoints = 200;
+        public int maxHealthPoints = 100;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     

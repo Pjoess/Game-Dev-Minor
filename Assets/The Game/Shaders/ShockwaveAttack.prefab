@@ -3861,14 +3861,14 @@ ParticleSystem:
   TriggerModule:
     enabled: 1
     serializedVersion: 2
-    inside: 0
+    inside: 2
     outside: 0
     enter: 2
     exit: 0
     colliderQueryMode: 0
-    radiusScale: 1
+    radiusScale: 4.5
     primitives:
-    - {fileID: 0}
+    - {fileID: 6374588513176910958, guid: cf8bc7af5666fda4eb05a418c28fa9f4, type: 3}
   SubModule:
     serializedVersion: 2
     enabled: 0
