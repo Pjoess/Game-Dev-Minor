@@ -29,6 +29,13 @@ namespace SlimeMiniBoss
         {
             playerPosition = Blackboard.instance.GetPlayerPosition();
             patrolTimer += Time.deltaTime;
+
+            // Check for player presence and chase if within chase range
+            if (PlayerWithinChaseRange())
+            {
+                return false; // Indicate that patrolling should stop
+            }
+            
             if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
             {
                 currentDestination = GetRandomDestination();
@@ -36,11 +43,7 @@ namespace SlimeMiniBoss
                 patrolTimer = 0f;
             }
 
-            // Check for player presence and chase if within chase range
-            if (PlayerWithinChaseRange())
-            {
-                return false; // Indicate that patrolling should stop
-            }
+            
             return true;
         }
 
