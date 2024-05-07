@@ -14,9 +14,9 @@ public class Blackboard : MonoBehaviour, IDamageble
     public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
     private int mortarCount = 0; // Counter for mortar cooldown
-    private const int maxMortarCount = 3; // Maximum count for mortar cooldown
+    private readonly int maxMortarCount = 6; // Maximum count for mortar cooldown
     private float nextMortarTime = 0f; // Stores the cooldown end time for shooting mortar
-    private float mortarCooldownTime = 3f; // Mortar cooldown time in seconds
+    private float mortarCooldownTime = 6f; // Mortar cooldown time in seconds
 
     public TMP_Text MortarCooldownText; // Text to display the mortar cooldown
 
@@ -31,6 +31,27 @@ public class Blackboard : MonoBehaviour, IDamageble
         StartCoroutine(UpdateMortarCooldownText());
     }
 
+    #region Player
+    public Vector3 GetPlayerPosition()
+    {
+        if (player != null)
+        {
+            return player.transform.position;
+        }
+        else
+        {
+            Debug.LogError("Player_Manager in Blackboard not found!");
+            return Vector3.zero;
+        }
+    }
+    #endregion
+
+    public void Hit(int damage)
+    {
+        player.Hit(damage);
+    }
+
+    #region Buddy
     private IEnumerator UpdateMortarCooldownText()
     {
         while (true)
@@ -47,24 +68,6 @@ public class Blackboard : MonoBehaviour, IDamageble
 
             yield return new WaitForSeconds(1f); // Wait for 1 second before updating again
         }
-    }
-
-    public Vector3 GetPlayerPosition()
-    {
-        if (player != null)
-        {
-            return player.transform.position;
-        }
-        else
-        {
-            Debug.LogError("Player_Manager in Blackboard not found!");
-            return Vector3.zero;
-        }
-    }
-
-    public void Hit(int damage)
-    {
-        player.Hit(damage);
     }
 
     // Method to check if shooting mortar is on cooldown
@@ -90,4 +93,5 @@ public class Blackboard : MonoBehaviour, IDamageble
     {
         return nextMortarTime - Time.time;
     }
+    #endregion
 }

@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
     // Reset to Default Color + Disable the Collider
     public void SwordToDefault(){
         gameObject.GetComponentInChildren<ParticleSystem>().Stop();
-        GetComponent<MeshRenderer>().material.color = new Color32(255, 240, 0, 200); // Yellow Default
+        //GetComponent<MeshRenderer>().material.color = new Color32(255, 240, 0, 200); // Yellow Default
         swordCollider.enabled = false; // Disable Collider
         enemiesHit.Clear();
     }

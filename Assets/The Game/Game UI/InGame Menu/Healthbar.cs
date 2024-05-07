@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class Healthbar : MonoBehaviour
     [SerializeField] Slider slider;
     [SerializeField] Player_Manager player;
     [SerializeField] TMP_Text text;
+
+    public event Action<float> OnHealthUpdated; // Event to notify when health is updated
 
     private float smoothness = 50f; // Adjust this value for the speed of health bar update
 
@@ -28,9 +31,14 @@ public class Healthbar : MonoBehaviour
 
         while (currentHealth != targetHealth)
         {
-            currentHealth = Mathf.MoveTowards(currentHealth, targetHealth, smoothness * Time.deltaTime);
+            // Calculate the new health value without going below 0
+            currentHealth = Mathf.Clamp(Mathf.MoveTowards(currentHealth, targetHealth, smoothness * Time.deltaTime), 0, player.MaxHealthPoints);
             slider.value = currentHealth;
             text.text = $"{Mathf.RoundToInt(currentHealth)}";
+
+            // Notify subscribers that health is updated
+            OnHealthUpdated?.Invoke(currentHealth);
+
             yield return null;
         }
     }

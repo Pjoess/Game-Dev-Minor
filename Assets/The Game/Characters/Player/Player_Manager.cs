@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -166,8 +167,11 @@ public class Player_Manager : MonoBehaviour, IDamageble
             isPaused = false;
             // Health
             healthPoints = maxHealthPoints;
-            // Stop freeze alles on start
-
+             Healthbar healthbar = FindObjectOfType<Healthbar>();
+            if (healthbar != null)
+            {
+                healthbar.OnHealthUpdated += HandleHealthUpdated;
+            }
             animator.SetFloat(animIDMoveSpeed, 1);
         }
 
@@ -313,7 +317,16 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Enemy")))
+            {
+                Vector3 direction = hit.point - transform.position;
+                direction.y = 0;
+                direction.Normalize();
+                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+                transform.rotation = rotation;
+            }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 Vector3 direction = hit.point - transform.position;
                 direction.y = 0;
@@ -430,8 +443,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 if (healthPoints < 0)   healthPoints = 0;
             }
             if(healthPoints <= 0){
-                Time.timeScale = 0;
-                deathScript.EnableDeathCanvas(healthPoints);
+                StartCoroutine(WaitThenEnableDeath(healthPoints));
             }
         }
 
@@ -520,27 +532,42 @@ public class Player_Manager : MonoBehaviour, IDamageble
     #region IDamagable
         public void Hit(int damage)
         {
-            // int random = Random.Range(1,2);
-
-            // if(random == 1){
-            //     healthPoints -= maxHealthPoints;
-            // }
             if(playerState != dashState) 
             {
                 ouchSound.Play();
                 healthPoints -= damage;
-                if(healthPoints <= 0){
-                deathScript.EnableDeathCanvas(healthPoints);
+                HandleHealthUpdated(healthPoints);
             }
+        }
+
+        public void ApplyKnockback(Vector3 pos)
+        {
+            if(playerState != dashState)
+            {
+                Vector3 pushDirection = transform.position - pos;
+                pushDirection.Normalize();
+                rigidBody.AddForce(pushDirection * 300, ForceMode.Acceleration);
             }
             
         }
+
+        void HandleHealthUpdated(float currentHealth)
+        {
+            if (currentHealth <= 0)
+            {
+                // Do something when health reaches zero
+                StartCoroutine(WaitThenEnableDeath((int)currentHealth));
+            }
+        }
+
+        private IEnumerator WaitThenEnableDeath(int health) 
+        {
+            yield return new WaitForSeconds(0.6f);
+            deathScript.EnableDeathCanvas(health);
+    }
     #endregion
 
-    public void ApplyKnockback(Vector3 pos)
-    {
-        // --- Knockback code not implemented yet
-    }
+    
 
     private void OnFootstep(AnimationEvent animationEvent){}
     private void OnLand(AnimationEvent animationEvent){}
