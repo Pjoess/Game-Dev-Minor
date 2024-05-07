@@ -31,8 +31,8 @@ namespace SlimeMiniBoss
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float coneWidth = 40f;
-        private float coneLength = 5f;
+        private float coneWidth = 50f;
+        private float coneLength = 8f;
         private float thickness = 2f;
 
         [Header("Patrol Settings")]

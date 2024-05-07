@@ -30,10 +30,7 @@ namespace SlimeMiniBoss
             // Check if player is within chase range
             if (Vector3.Distance(agent.transform.position, playerPosition) <= chaseRange)
             {
-                // Calculate direction to player
                 Vector3 directionToPlayer = (playerPosition - agent.transform.position).normalized;
-                
-                // Calculate the stop point before reaching the player
                 Vector3 destinationPoint = playerPosition - directionToPlayer * stopDistance;
 
                 // Check if agent is stuck or standing still
@@ -49,7 +46,6 @@ namespace SlimeMiniBoss
                         // Check if a valid path exists
                         if (newPath.status != NavMeshPathStatus.PathInvalid && newPath.corners.Length > 1)
                         {
-                            // Set the new destination
                             agent.SetDestination(destinationPoint);
                         }
 
