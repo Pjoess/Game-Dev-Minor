@@ -28,13 +28,14 @@ public class DialogueManager : MonoBehaviour
     void Start(){
         instance = this;
         input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
-        input.currentActionMap.FindAction("Move").Disable();
-        input.currentActionMap.FindAction("MoveCamera").Disable();
-        input.currentActionMap.FindAction("Zoom").Disable();
-        input.currentActionMap.FindAction("ToggleBuddyAttack").Disable();
-        input.currentActionMap.FindAction("Sprint").Disable();
-        input.currentActionMap.FindAction("Attack").Disable();
-        input.currentActionMap.FindAction("Dodge").Disable();
+        // input.currentActionMap.FindAction("Move").Disable();
+        // input.currentActionMap.FindAction("MoveCamera").Disable();
+        // input.currentActionMap.FindAction("Zoom").Disable();
+        // input.currentActionMap.FindAction("ToggleBuddyAttack").Disable();
+        // input.currentActionMap.FindAction("Sprint").Disable();
+        // input.currentActionMap.FindAction("Attack").Disable();
+        // input.currentActionMap.FindAction("Dodge").Disable();
+
         // input.actions["Move"].Disable();
         // input.actions["MoveCamera"].Disable();
         // input.actions["Zoom"].Disable();
@@ -126,7 +127,7 @@ public class DialogueManager : MonoBehaviour
         }else{
             gameObject.SetActive(false);
             input.SwitchCurrentActionMap("PlayerFull");
-            SetInputActive(inputIndex);
+            // SetInputActive(inputIndex);
             inputIndex++;
             isActive = false;
             index = 0;

@@ -21,6 +21,7 @@ public class EnemySlime : EnemyBase
         private Coroutine attacking;
         private Coroutine timer;
 
+        public int damage;
         
     #endregion
 
@@ -239,7 +240,7 @@ public class EnemySlime : EnemyBase
                 && Agent.isStopped == false)
             {
                 IDamageble damagable = other.collider.GetComponent<IDamageble>();
-                damagable.Hit(10);
+                damagable.Hit(damage);
                 StartCoroutine(AttackCollisionTimer());
             }
         }

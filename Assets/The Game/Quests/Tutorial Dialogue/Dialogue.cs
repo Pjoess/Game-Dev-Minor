@@ -6,6 +6,7 @@ public class Dialogue : MonoBehaviour
 {
 
     public static event System.Action<string[]> ChangeLines;
+    public bool isLastOne;
 
 
     [SerializeField]
@@ -16,7 +17,7 @@ public class Dialogue : MonoBehaviour
         if(other.tag == "Player" && !isTriggered){
             ChangeLines?.Invoke(lines);
             Debug.Log("changing lines");
-            gameObject.SetActive(false);
+            // gameObject.SetActive(false);
         }
     }
 
