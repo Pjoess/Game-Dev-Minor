@@ -317,7 +317,16 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Enemy")))
+            {
+                Vector3 direction = hit.point - transform.position;
+                direction.y = 0;
+                direction.Normalize();
+                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+                transform.rotation = rotation;
+            }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 Vector3 direction = hit.point - transform.position;
                 direction.y = 0;
