@@ -6,6 +6,7 @@ namespace SlimeMiniBoss
     public class PatrolNode : IBaseNode
     {
         private NavMeshAgent agent;
+        private Vector3 playerPosition;
         private GameObject patrolCenter;
         private float patrolRadius;
         private float stopDistance;
@@ -26,7 +27,15 @@ namespace SlimeMiniBoss
 
         public virtual bool Update()
         {
+            playerPosition = Blackboard.instance.GetPlayerPosition();
             patrolTimer += Time.deltaTime;
+
+            // Check for player presence and chase if within chase range
+            if (PlayerWithinChaseRange())
+            {
+                return false; // Indicate that patrolling should stop
+            }
+            
             if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
             {
                 currentDestination = GetRandomDestination();
@@ -34,19 +43,8 @@ namespace SlimeMiniBoss
                 patrolTimer = 0f;
             }
 
-            // Check for player presence and chase if within chase range
-            if (PlayerWithinChaseRange())
-            {
-                return false; // Indicate that patrolling should stop
-            }
-
-            // No need to rotate if the agent has reached its destination
-            if (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
-            {
-                //RotateTowardsDestination();
-            }
             
-            return true; // Continue patrolling
+            return true;
         }
 
         private Vector3 GetRandomDestination()
@@ -59,10 +57,9 @@ namespace SlimeMiniBoss
 
         private bool PlayerWithinChaseRange()
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
+            if (playerPosition != null)
             {
-                float distanceToPlayer = Vector3.Distance(player.transform.position, agent.transform.position);
+                float distanceToPlayer = Vector3.Distance(playerPosition, agent.transform.position);
                 return distanceToPlayer <= chaseRange;
             }
             return false;

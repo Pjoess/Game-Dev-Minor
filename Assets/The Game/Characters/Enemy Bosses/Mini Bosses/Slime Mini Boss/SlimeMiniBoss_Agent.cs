@@ -19,7 +19,7 @@ namespace SlimeMiniBoss
         private float chaseRange = 20f;
 
         [Header("Attack")]
-        private float attackRange = 5f;
+        private float attackRange = 8f;
         private float offsetDistance = 1f;
         
         // --- IDamagable --- //
@@ -31,13 +31,13 @@ namespace SlimeMiniBoss
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float coneWidth = 40f;
-        private float coneLength = 5f;
+        private float coneWidth = 50f;
+        private float coneLength = 8f;
         private float thickness = 2f;
 
         [Header("Patrol Settings")]
-        public float patrolRadius = 20f;
-        public float stopDistance = 4f;
+        private float patrolRadius = 20f;
+        private float stopDistance = 4f;
 
         private Animator animator;
         private int animIDAnticipate;
@@ -73,14 +73,25 @@ namespace SlimeMiniBoss
         #region Behaviour Tree
         private void MiniBossSlimeBehaviourTree()
         {
-            List<IBaseNode> Nodes = new()
+
+            List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
                 new ChasePlayerNode(miniBossAgent, chaseRange, stopDistance),
+                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
+            };
+
+            List<IBaseNode> IsPlayerNotInLineOfSight = new()
+            {
                 new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
             };
 
-            slimeBT = new SelectorNode(Nodes);
+            List<IBaseNode> Root = new()
+            {
+                new SequenceNode(IsPlayerInLineOfSight),
+                new SequenceNode(IsPlayerNotInLineOfSight),
+            };
+
+            slimeBT = new SelectorNode(Root);
         }
         #endregion
 
