@@ -317,7 +317,16 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Enemy")))
+            {
+                Vector3 direction = hit.point - transform.position;
+                direction.y = 0;
+                direction.Normalize();
+                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+                transform.rotation = rotation;
+            }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 Vector3 direction = hit.point - transform.position;
                 direction.y = 0;
@@ -531,7 +540,18 @@ public class Player_Manager : MonoBehaviour, IDamageble
             }
         }
 
-        void HandleHealthUpdated(float currentHealth)
+        public void ApplyKnockback(Vector3 pos)
+        {
+            if(playerState != dashState)
+            {
+                Vector3 pushDirection = transform.position - pos;
+                pushDirection.Normalize();
+                rigidBody.AddForce(pushDirection * 300, ForceMode.Acceleration);
+            }
+            
+        }
+
+    void HandleHealthUpdated(float currentHealth)
         {
             if (currentHealth <= 0)
             {
@@ -547,10 +567,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
     }
     #endregion
 
-    public void ApplyKnockback(Vector3 pos)
-    {
-        // --- Knockback code not implemented yet
-    }
+    
 
     private void OnFootstep(AnimationEvent animationEvent){}
     private void OnLand(AnimationEvent animationEvent){}
