@@ -551,7 +551,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             
         }
 
-    void HandleHealthUpdated(float currentHealth)
+        void HandleHealthUpdated(float currentHealth)
         {
             if (currentHealth <= 0)
             {

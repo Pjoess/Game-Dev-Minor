@@ -31,7 +31,8 @@ public class Healthbar : MonoBehaviour
 
         while (currentHealth != targetHealth)
         {
-            currentHealth = Mathf.MoveTowards(currentHealth, targetHealth, smoothness * Time.deltaTime);
+            // Calculate the new health value without going below 0
+            currentHealth = Mathf.Clamp(Mathf.MoveTowards(currentHealth, targetHealth, smoothness * Time.deltaTime), 0, player.MaxHealthPoints);
             slider.value = currentHealth;
             text.text = $"{Mathf.RoundToInt(currentHealth)}";
 
