@@ -26,7 +26,7 @@ public class Mortar : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<IDamageble>().Hit(5);
+            other.gameObject.GetComponent<IDamageble>().Hit(15);
             Destroy(this.gameObject);
         }
     }
