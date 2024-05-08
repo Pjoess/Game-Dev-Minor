@@ -18,6 +18,9 @@ namespace BasicEnemySlime
         private float patrolTimer = 0f;
         private float patrolInterval = 2f;
 
+        private float waitTimer = 0f;
+        private float waitDuration = 6f; // Wait duration in seconds
+
         private Animator animator;
         private int animIDWalking;
 
@@ -45,8 +48,24 @@ namespace BasicEnemySlime
                 return false;
             }
             
-            if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
+            if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance)
             {
+                // Agent has reached its destination
+                animator.SetBool(animIDWalking, false); // Stop walking animation
+                waitTimer += Time.deltaTime;
+
+                if (waitTimer >= waitDuration)
+                {
+                    // Reset wait timer and get a new destination
+                    waitTimer = 0f;
+                    currentDestination = GetRandomDestination();
+                    animator.SetBool(animIDWalking, true);
+                    agent.SetDestination(currentDestination);
+                }
+            }
+            else if (patrolTimer >= patrolInterval)
+            {
+                // Time to change destination
                 currentDestination = GetRandomDestination();
                 animator.SetBool(animIDWalking, true);
                 agent.SetDestination(currentDestination);
