@@ -22,7 +22,7 @@ public class PlayerWalkState : PlayerBaseState
         player.Dash();
         player.Attack();
         if (player.movement == Vector2.zero) player.ChangeState(player.idleState);
-        if (player.isSprinting) player.ChangeState(player.runState);
+        if (player.isSprinting || player.sprintToggle) player.ChangeState(player.runState);
         player.FallCheck();
     }
 }

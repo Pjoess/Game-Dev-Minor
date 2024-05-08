@@ -50,6 +50,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         public float lastWKeyPressTime = 0f;
         public float doublePressTimeWindow = 0.2f;
         public bool isSprinting = false;
+        public bool sprintToggle = false;
 
         [Header("Player Rotation")]
         public float rotationSpeed = 600f;
@@ -233,6 +234,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 lastWKeyPressTime = currentTime;
             }
 
+            if (sprintToggle) isSprinting = true;
+
             float speed = isSprinting ? runSpeed : walkSpeed;
 
             animationBlend = Mathf.Lerp(animationBlend, speed, Time.deltaTime * speedChangeRate);
@@ -398,7 +401,17 @@ public class Player_Manager : MonoBehaviour, IDamageble
     #region New Input System Methods
         void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-        void OnSprint(InputValue value)
+        void OnSprintToggle()
+        {
+            if (!sprintToggle) sprintToggle = true;
+            else
+            {
+                sprintToggle = false;
+                isSprinting = false;
+            }
+        }
+
+        void OnSprintHold()
         {
             if(!isSprinting) isSprinting = true;
             else isSprinting = false;

@@ -24,12 +24,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Sprint",
+                    "name": "SprintToggle",
+                    "type": "Button",
+                    "id": "7a2a0f4d-b26e-4e4e-999d-af38084266e5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SprintHold",
                     "type": "Button",
                     "id": "779efceb-e04a-42d4-ab5b-87ff77c507df",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -183,7 +192,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Sprint",
+                    "action": "SprintHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -194,7 +203,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Sprint",
+                    "action": "SprintHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -362,6 +371,17 @@
                     "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7a23f82a-f107-4b1d-96c4-538b5a63ade0",
+                    "path": "<Keyboard>/capsLock",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SprintToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
