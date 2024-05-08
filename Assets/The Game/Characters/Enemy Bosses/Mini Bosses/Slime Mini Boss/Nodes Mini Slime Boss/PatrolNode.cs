@@ -36,6 +36,7 @@ namespace SlimeMiniBoss
                 return false; // Indicate that patrolling should stop
             }
             
+            agent.isStopped = false;
             if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
             {
                 currentDestination = GetRandomDestination();
