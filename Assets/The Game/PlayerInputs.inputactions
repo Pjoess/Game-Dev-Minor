@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ToggleBuddyAttack",
+                    "name": "BuddyMortarAttack",
                     "type": "Button",
                     "id": "bcaad9f1-0e81-498b-b5d4-691de04f5be1",
                     "expectedControlType": "Button",
@@ -277,23 +277,12 @@
                 },
                 {
                     "name": "",
-                    "id": "cfce3a6d-b52b-4fc9-a4b6-6989b4ff80e9",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "ToggleBuddyAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "da519bd7-fe5e-4aa1-9289-6ba9019148d9",
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "ToggleBuddyAttack",
+                    "action": "BuddyMortarAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -304,7 +293,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ToggleBuddyAttack",
+                    "action": "BuddyMortarAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

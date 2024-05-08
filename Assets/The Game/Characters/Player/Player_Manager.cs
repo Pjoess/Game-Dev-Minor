@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using buddy;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEditor.UIElements;
@@ -10,7 +11,7 @@ using UnityEngine.InputSystem;
 public class Player_Manager : MonoBehaviour, IDamageble
 {
     #region Variables & References
-        private BuddyAI_Controller buddy;
+        private Buddy_Agent buddy;
         [HideInInspector] public Rigidbody rigidBody;
         [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
@@ -156,6 +157,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             transposer = virtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
             input = GetComponent<PlayerInput>();
             deathScript = FindObjectOfType<DeathScript>();
+            buddy = FindObjectOfType<Buddy_Agent>();
         }
         
         void Start()
@@ -394,7 +396,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
     #endregion
 
     #region New Input System Methods
-    void OnMove(InputValue value) => movement = value.Get<Vector2>();
+        void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
         void OnSprint(InputValue value)
         {
@@ -428,7 +430,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             if (value.isPressed && !isDashing)  isDashing = true;
         }
 
-       void OnZoom(InputValue value)
+        void OnZoom(InputValue value)
        {
             var val = value.Get<float>();
             transposer.m_FollowOffset.z += (val * Time.deltaTime);
@@ -469,6 +471,14 @@ public class Player_Manager : MonoBehaviour, IDamageble
             }
             if(healthPoints <= 0){
                 StartCoroutine(WaitThenEnableDeath(healthPoints));
+            }
+        }
+
+        void OnBuddyMortarAttack()
+        {
+            if (buddy != null)
+            {
+                if(buddy.canShootMortar) buddy.shootMortar = true;
             }
         }
 

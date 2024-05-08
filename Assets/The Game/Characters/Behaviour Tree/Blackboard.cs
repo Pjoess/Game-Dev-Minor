@@ -14,10 +14,10 @@ public class Blackboard : MonoBehaviour, IDamageble
     public int MaxHealthPoints { get { return maxHealthPoints; } }
     public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
-    private int mortarCount = 0; // Counter for mortar cooldown
-    private readonly int maxMortarCount = 10; // Maximum count for mortar cooldown
-    private float nextMortarTime = 0f; // Stores the cooldown end time for shooting mortar
-    private float mortarCooldownTime = 10; // Mortar cooldown time in seconds
+    //private int mortarCount = 0; // Counter for mortar cooldown
+    //private readonly int maxMortarCount = 10; // Maximum count for mortar cooldown
+    //private float nextMortarTime = 0f; // Stores the cooldown end time for shooting mortar
+    //private float mortarCooldownTime = 10; // Mortar cooldown time in seconds
 
     //public TMP_Text MortarCooldownText; // Text to display the mortar cooldown
     public Slider mortarBar;
