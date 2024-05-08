@@ -17,7 +17,7 @@ namespace BasicEnemySlime
 
         [Header("Patrol Settings")]
         private float patrolRadius = 20f;
-        private float stopDistance = 2f;
+        private float stopDistance = 1f;
 
         [Header("Chase")]
         private float chaseRange = 10f;
