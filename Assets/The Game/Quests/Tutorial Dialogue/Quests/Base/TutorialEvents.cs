@@ -19,17 +19,17 @@ public class TutorialEvents : MonoBehaviour
         OnEnterAttack?.Invoke();
     }
 
-    public static void OnEnteredDodge()
+    public static void EnteredDodge()
     {
         OnEnterDodge?.Invoke();
     }
 
-    public static void OnEnteredBuddy()
+    public static void EnteredBuddy()
     {
         OnEnterBuddy?.Invoke();
     }
 
-    public static void OnKilledEnemies()
+    public static void KilledEnemies()
     {
         OnKillEnemies?.Invoke();
     }

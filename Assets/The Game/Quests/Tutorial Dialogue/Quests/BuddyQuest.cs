@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class BuddyQuest : QuestStage
 {
+    public GameObject trigger;
+
     public override bool CheckStageCompleted()
     {
-        throw new System.NotImplementedException();
+        if(isFinished){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public override void StartStage()
     {
-        throw new System.NotImplementedException();
+        isActive = true;
+        questLogText = "Try out the buddy attacks \n" + $"-> Run along the path and kill the slimes. Then enter the portal";
+        trigger.SetActive(false);
+        TutorialEvents.OnEnterBuddy += Triggered;
+    }
+
+    public void Triggered(){
+        isFinished = true;
     }
 }

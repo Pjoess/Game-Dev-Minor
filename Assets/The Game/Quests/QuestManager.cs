@@ -14,6 +14,8 @@ public class QuestManager : MonoBehaviour
     [Header("Object Script References")]
     [SerializeField] private VictoryScript victoryScript;
 
+    public bool isTutorial;
+
     void Awake(){
         victoryScript = FindAnyObjectByType<VictoryScript>();
     }
@@ -47,7 +49,9 @@ public class QuestManager : MonoBehaviour
             {
                 UpdateLog("Quest Completed");
                 questCompleted = true;
-                victoryScript.EnableVictoryCanvas(questCompleted);
+                if(!isTutorial){
+                    victoryScript.EnableVictoryCanvas(questCompleted);
+                }
             }
         }
     }

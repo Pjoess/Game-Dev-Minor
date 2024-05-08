@@ -23,6 +23,10 @@ public class DialogueManager : MonoBehaviour
     public bool isActive = false;
     Coroutine coroutine;
 
+    public ShowSlimes showSlimes;
+
+    public bool isLastOne = false;
+
     public CinemachineVirtualCamera virtualCamera;
 
     void Start(){
@@ -126,11 +130,14 @@ public class DialogueManager : MonoBehaviour
             coroutine = StartCoroutine(TextCoroutine());
         }else{
             gameObject.SetActive(false);
-            input.SwitchCurrentActionMap("PlayerFull");
+            input.SwitchCurrentActionMap("Player");
             // SetInputActive(inputIndex);
             inputIndex++;
             isActive = false;
             index = 0;
+            if(isLastOne){
+                showSlimes.ToggleSlimes();
+            }
         }
     }
 }

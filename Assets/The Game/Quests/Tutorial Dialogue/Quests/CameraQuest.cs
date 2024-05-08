@@ -20,7 +20,7 @@ public class CameraQuest : QuestStage
         isActive = true;
         questLogText = "Try rotating camera and using zoom \n" + $"-> Run along the path and move camera";
         trigger.SetActive(false);
-        TutorialEvents.OnEnterCamera += Triggered;
+        TutorialEvents.OnEnterAttack += Triggered;
     }
 
     public void Triggered(){

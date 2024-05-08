@@ -15,8 +15,13 @@ public class Dialogue : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if(other.tag == "Player" && !isTriggered){
+
+            if(isLastOne){
+                DialogueManager.instance.isLastOne = true;
+                ChangeLines?.Invoke(lines);
+            }
+
             ChangeLines?.Invoke(lines);
-            Debug.Log("changing lines");
             // gameObject.SetActive(false);
         }
     }

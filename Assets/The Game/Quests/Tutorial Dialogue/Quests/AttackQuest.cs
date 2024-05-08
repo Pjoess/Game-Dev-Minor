@@ -4,13 +4,32 @@ using UnityEngine;
 
 public class AttackQuest : QuestStage
 {
+    public GameObject trigger;
+    public GameObject nextTrigger;
+    public static int slimesKilled = 0;
+
     public override bool CheckStageCompleted()
     {
-        throw new System.NotImplementedException();
+        if(isFinished){
+            // nextTrigger.GetComponent<BoxCollider>().isTrigger = true;
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public override void StartStage()
     {
-        throw new System.NotImplementedException();
+        isActive = true;
+        questLogText = "Try out attacking and using the combo \n" + $"-> Kill slime dummy's {slimesKilled}/2";
+        trigger.SetActive(false);
+        // nextTrigger.GetComponent<BoxCollider>().isTrigger = false;
+        TutorialEvents.OnEnterAttack += Triggered;
+    }
+
+    public void Triggered(){
+        // if(slimesKilled >= 2){
+        isFinished = true;
+        // }
     }
 }
