@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -76,8 +77,10 @@ public class Player_Manager : MonoBehaviour, IDamageble
         // --- UI CameraFollow --- //
         private CinemachineVirtualCamera virtualCamera;
         private CinemachineOrbitalTransposer transposer;
-        [SerializeField] float minCameraZoom = -10;
-        [SerializeField] float maxCameraZoom = -30;
+        [SerializeField] float minCameraZoomZ = -10f;
+        [SerializeField] float minCameraZoomY = 2f;
+        [SerializeField] float maxCameraZoomZ = -30f;
+        [SerializeField] float maxCameraZoomY = 22f;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
 
         // --- Buddy --- //
@@ -411,10 +414,16 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
        void OnZoom(InputValue value)
        {
-            transposer.m_FollowOffset.z += (value.Get<float>() * Time.deltaTime);
-            if (transposer.m_FollowOffset.z > minCameraZoom) transposer.m_FollowOffset.z = minCameraZoom;
-            if (transposer.m_FollowOffset.z < maxCameraZoom) transposer.m_FollowOffset.z = maxCameraZoom;
-       }
+            var val = value.Get<float>();
+            transposer.m_FollowOffset.z += (val * Time.deltaTime);
+            transposer.m_FollowOffset.y -= (val * Time.deltaTime);
+
+            if (transposer.m_FollowOffset.z > minCameraZoomZ) transposer.m_FollowOffset.z = minCameraZoomZ;
+            if (transposer.m_FollowOffset.z < maxCameraZoomZ) transposer.m_FollowOffset.z = maxCameraZoomZ;
+
+            if (transposer.m_FollowOffset.y > maxCameraZoomY) transposer.m_FollowOffset.y = maxCameraZoomY;
+            if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
+    }
 
         void OnPause(InputValue value)
         {
