@@ -411,9 +411,9 @@ public class Player_Manager : MonoBehaviour, IDamageble
             }
         }
 
-        void OnSprintHold()
+        void OnSprintHold(InputValue value)
         {
-            if(!isSprinting) isSprinting = true;
+            if(value.isPressed) isSprinting = true;
             else isSprinting = false;
         }
         
