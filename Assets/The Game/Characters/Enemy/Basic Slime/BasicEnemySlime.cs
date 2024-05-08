@@ -170,7 +170,7 @@ namespace BasicEnemySlime
             if (HealthPoints <= 0)
             {
                 GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
         #endregion

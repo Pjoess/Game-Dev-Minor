@@ -156,9 +156,6 @@ namespace SlimeMiniBoss
         #endregion
 
         #region IDamagable
-        // Mini Boss Receive damage
-        public void ApplyDamageToMiniBoss() => healthPoints -= 3; // Do damage to boss (with bullets)
-
         public void Hit(int damage)
         {
             HealthPoints -= damage;

@@ -136,6 +136,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6888217386000969541}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a3fe324d1e49f2e4e9d878545088a894,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9163416534044025976}
   m_SourcePrefab: {fileID: 100100000, guid: a3fe324d1e49f2e4e9d878545088a894, type: 3}
 --- !u!4 &4361313089482223704 stripped
 Transform:
@@ -253,6 +257,24 @@ MonoBehaviour:
   patrolCenterPoint: {fileID: 0}
   healthPoints: 0
   maxHealthPoints: 15
+--- !u!114 &9163416534044025976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5439639008646986364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0003d6daba133b4c864deacb6683ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droppedItemPrefab: {fileID: 5442458549055098946, guid: 6223adc9bca24834ea285120ba1050e4,
+    type: 3}
+  healthItems:
+  - {fileID: 11400000, guid: 75b0506aa1a8335419ea37df2522e0b3, type: 2}
+  - {fileID: 11400000, guid: ed7ddb331ea2bca4fba30797ffb5047a, type: 2}
+  - {fileID: 11400000, guid: 1af193e9e93966e4598c63b2e47d7184, type: 2}
 --- !u!1001 &5719722282251211658
 PrefabInstance:
   m_ObjectHideFlags: 0
