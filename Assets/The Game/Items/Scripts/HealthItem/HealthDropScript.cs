@@ -11,7 +11,7 @@ public class HealthDropScript : MonoBehaviour
     HealthItem GetDroppedItem()
     {
         int randomNumber = Random.Range(1, 101); //1-100
-        List<HealthItem> items = new List<HealthItem>();
+        List<HealthItem> items = new();
         foreach (HealthItem item in healthItems)
         {
             if(randomNumber <= item.dropChance)

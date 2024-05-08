@@ -2,51 +2,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace SlimeMiniBoss
+namespace BasicEnemySlime
 {
-    public class SlimeMiniBoss_Agent : MonoBehaviour, IDamageble
+    public class BasicEnemySlime : MonoBehaviour, IDamageble
     {
-        private IBaseNode slimeBT = null;
+        private IBaseNode basicSlimeBT = null;
         public LayerMask attackLayer; // Player
-        private NavMeshAgent miniBossAgent;
+        private NavMeshAgent agent;
         private Rigidbody rigidBody;
-        private ParticleSystem shockwaveParticleSystem;
+        public static float originalSpeed;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
 
+        [Header("Patrol Settings")]
+        private float patrolRadius = 20f;
+        private float stopDistance = 1f;
+
         [Header("Chase")]
-        private float chaseRange = 20f;
+        private float chaseRange = 10f;
 
         [Header("Attack")]
         private float attackRange = 8f;
         private float offsetDistance = 1f;
+        public static bool hasAttacked = false;
         
         // --- IDamagable --- //
         [Header("Stats")]
         private EnemyHealthBar enemyHealthBar;
         public int healthPoints;
-        public int maxHealthPoints = 100;
+        public int maxHealthPoints = 15;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
         private float coneWidth = 50f;
-        private float coneLength = 8f;
+        private float coneLength = 3f;
         private float thickness = 2f;
-
-        [Header("Patrol Settings")]
-        private float patrolRadius = 20f;
-        private float stopDistance = 4f;
 
         private Animator animator;
         private int animIDAnticipate;
         private int animIDAttack;
+        private int animIDWalking;
 
         private void AssignAnimIDs()
         {
             animIDAnticipate = Animator.StringToHash("isAnticipating");
             animIDAttack = Animator.StringToHash("isAttacking");
+            animIDWalking = Animator.StringToHash("isWalking");
         }
 
         private void Awake()
@@ -54,35 +57,35 @@ namespace SlimeMiniBoss
             AssignAnimIDs();
             HealthPoints = MaxHealthPoints;
             animator = GetComponent<Animator>();
-            miniBossAgent = GetComponent<NavMeshAgent>();
+            agent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             rigidBody = GetComponent<Rigidbody>();
-            shockwaveParticleSystem = GetComponentInChildren<ParticleSystem>();
         }
 
         void Start()
         {
-            MiniBossSlimeBehaviourTree();
+            originalSpeed = agent.speed;
+            BehaviourTree();
         }
 
         void Update()
         {
-            slimeBT?.Update(); // Update the boss behavior tree
+            basicSlimeBT?.Update(); // Update the boss behavior tree
         }
 
         #region Behaviour Tree
-        private void MiniBossSlimeBehaviourTree()
+        private void BehaviourTree()
         {
 
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new ChasePlayerNode(miniBossAgent, chaseRange, stopDistance),
-                new AttackPlayerNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
+                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking),
+                new AttackPlayerNode(agent,attackRange,stopDistance,attackLayer,coneWidth,coneLength,animator,animIDAnticipate,animIDAttack),
             };
 
             List<IBaseNode> IsPlayerNotInLineOfSight = new()
             {
-                new PatrolNode(miniBossAgent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange),
+                new PatrolNode(agent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange, attackRange,animator,animIDWalking),
             };
 
             List<IBaseNode> Root = new()
@@ -91,12 +94,11 @@ namespace SlimeMiniBoss
                 new SequenceNode(IsPlayerNotInLineOfSight),
             };
 
-            slimeBT = new SelectorNode(Root);
+            basicSlimeBT = new SelectorNode(Root);
         }
         #endregion
 
         #region Cone Raycast
-        // Draw Gizmos for cone shape and chase range
         private void OnDrawGizmos()
         {
             // Draw cone shape in Gizmos
@@ -167,22 +169,34 @@ namespace SlimeMiniBoss
         {
             if (HealthPoints <= 0)
             {
-                GetComponent<MemoryDropScipt>().DropItem(transform.position);
+                GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
                 Destroy(gameObject);
             }
         }
         #endregion
 
         #region Animator
-        public void DoShockwaveAttack()
+        public void EndWalk()
         {
-            shockwaveParticleSystem.Play();
+            animator.SetBool(animIDWalking, false);
+        }
+
+        public void EndAnticipate()
+        {
+            animator.SetBool(animIDAnticipate, false);
+            animator.SetBool(animIDAttack, true);
+        }
+
+        public void DoAttack()
+        {
+            hasAttacked = true;
         }
 
         public void EndAttack()
-        {
-            animator.SetBool(animIDAttack, false);
+        {   
+            hasAttacked = false;
             animator.SetBool(animIDAnticipate, false);
+            animator.SetBool(animIDAttack, false);
         }
         #endregion
     }
