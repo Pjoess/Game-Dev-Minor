@@ -14,9 +14,9 @@ public class Blackboard : MonoBehaviour, IDamageble
     public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
 
     private int mortarCount = 0; // Counter for mortar cooldown
-    private readonly int maxMortarCount = 6; // Maximum count for mortar cooldown
+    private readonly int maxMortarCount = 10; // Maximum count for mortar cooldown
     private float nextMortarTime = 0f; // Stores the cooldown end time for shooting mortar
-    private float mortarCooldownTime = 6f; // Mortar cooldown time in seconds
+    private float mortarCooldownTime = 10; // Mortar cooldown time in seconds
 
     public TMP_Text MortarCooldownText; // Text to display the mortar cooldown
 
@@ -84,7 +84,7 @@ public class Blackboard : MonoBehaviour, IDamageble
         if (mortarCount >= maxMortarCount) // If count reaches maximum, reset count and cooldown time
         {
             mortarCount = 0;
-            mortarCooldownTime = 3f; // Reset cooldown time
+            mortarCooldownTime = 10f; // Reset cooldown time
         }
     }
 
