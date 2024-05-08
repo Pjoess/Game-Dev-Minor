@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using buddy;
 using Cinemachine;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
