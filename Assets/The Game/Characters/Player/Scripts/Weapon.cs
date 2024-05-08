@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class Weapon : MonoBehaviour
     private bool strongAttack = false;
 
     public bool StrongAttack { get => strongAttack; set => strongAttack = value; }
+
+    public event Action onWeaponHit;
 
     void Start()
     {
@@ -42,6 +45,7 @@ public class Weapon : MonoBehaviour
         if (swordCollider.enabled && other.gameObject.CompareTag("Enemy") && !enemiesHit.Any(x => x == other.gameObject))
         {
             other.gameObject.GetComponent<IDamageble>().Hit(5);
+            onWeaponHit?.Invoke();
             if(strongAttack)
             {
                 other.gameObject.GetComponent<IDamageble>().ApplyKnockback();

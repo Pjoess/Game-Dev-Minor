@@ -63,6 +63,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
         [Header("Player Attack")]
         public float attackDistance = 0.15f;
         public bool isStriking = false;
+        [SerializeField] int baseMortarIncrease = 10;
+        public int clickAmount = 0;
         [HideInInspector] public bool canAttack = false;
         //[HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
@@ -170,12 +172,13 @@ public class Player_Manager : MonoBehaviour, IDamageble
             isPaused = false;
             // Health
             healthPoints = maxHealthPoints;
-             Healthbar healthbar = FindObjectOfType<Healthbar>();
+            Healthbar healthbar = FindObjectOfType<Healthbar>();
             if (healthbar != null)
             {
                 healthbar.OnHealthUpdated += HandleHealthUpdated;
             }
             animator.SetFloat(animIDMoveSpeed, 1);
+            sword.onWeaponHit += WeaponHit;
         }
 
         void Update(){
@@ -309,13 +312,13 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
     #region Player Attack
 
-    public void Attack()
-    {
-        if(isStriking)
+        public void Attack()
         {
-            ChangeState(strikeState);
+            if(isStriking)
+            {
+                ChangeState(strikeState);
+            }
         }
-    }
         public void AttackRotation()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -339,12 +342,24 @@ public class Player_Manager : MonoBehaviour, IDamageble
             }
         }
 
-    public void OnAttackPressed()
+        public void OnAttackPressed()
         {
             if(canAttack)
             {
                 struckAgain = true;
             }
+        }
+        
+        private void WeaponHit()
+        {
+            AddToMortarBar();
+        }
+
+        private void AddToMortarBar()
+        {
+            if(clickAmount == 0) clickAmount = 1;
+            int increaseAmount = baseMortarIncrease / clickAmount;
+            Blackboard.instance.AddToMortarBar(increaseAmount);
         }
 
         public void MoveForwardOnAttack(){
@@ -399,6 +414,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             if(value.isPressed && playerState != dashState){
                 AttackRotation();
+                clickAmount++;
                 if (isStriking) OnAttackPressed();
                 else if (!isStriking)
                 {
@@ -479,6 +495,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         public void EndAttack()
         {
+            clickAmount = 0;
             if (isStriking)
             {
                 sword.SwordToDefault();
@@ -501,6 +518,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         public void DisableSwordCollision()
         {
             sword.SwordToDefault();
+            clickAmount = 0;
             if (isDashing)
             {
                 canAttack = false;

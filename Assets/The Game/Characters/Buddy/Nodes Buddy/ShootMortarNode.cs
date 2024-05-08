@@ -36,7 +36,7 @@ namespace buddy
 
         public bool Update()
         {
-            if (!isShooting && !Blackboard.instance.IsMortarOnCooldown())
+            if (!isShooting && Blackboard.instance.IsMortarReady())
             {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
@@ -45,7 +45,6 @@ namespace buddy
                     {
                         isShooting = true;
                         agent.isStopped = true;
-                        Blackboard.instance.StartMortarCooldown();
                     }
                 }
             }
@@ -53,6 +52,7 @@ namespace buddy
             {
                 animator.SetBool(animIDShootingMortar, true);
                 ShootMortar();
+                Blackboard.instance.ResetMortar();
             }
             else
             {
