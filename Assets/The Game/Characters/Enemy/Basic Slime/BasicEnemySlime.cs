@@ -10,6 +10,7 @@ namespace BasicEnemySlime
         public LayerMask attackLayer; // Player
         private NavMeshAgent agent;
         private Rigidbody rigidBody;
+        public static float originalSpeed;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -24,6 +25,7 @@ namespace BasicEnemySlime
         [Header("Attack")]
         private float attackRange = 8f;
         private float offsetDistance = 1f;
+        public static bool hasAttacked = false;
         
         // --- IDamagable --- //
         [Header("Stats")]
@@ -62,6 +64,7 @@ namespace BasicEnemySlime
 
         void Start()
         {
+            originalSpeed = agent.speed;
             BehaviourTree();
         }
 
@@ -184,8 +187,14 @@ namespace BasicEnemySlime
             animator.SetBool(animIDAttack, true);
         }
 
-        public void EndAttack()
+        public void DoAttack()
         {
+            hasAttacked = true;
+        }
+
+        public void EndAttack()
+        {   
+            hasAttacked = false;
             animator.SetBool(animIDAnticipate, false);
             animator.SetBool(animIDAttack, false);
         }

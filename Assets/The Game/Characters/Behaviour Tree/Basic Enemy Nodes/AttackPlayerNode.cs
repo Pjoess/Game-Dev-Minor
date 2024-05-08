@@ -8,11 +8,14 @@ namespace BasicEnemySlime
     {
         private NavMeshAgent agent;
         private Vector3 playerPosition;
+
         private float attackRange;
         private float offsetDistance;
         private LayerMask attackLayer;
+
         private float coneWidth;
         private float coneLength;
+
         private float damageTimer = 0f;
         private float damageCooldown = 1f;
         private Vector3 directionToPlayer;
@@ -65,10 +68,20 @@ namespace BasicEnemySlime
             {
                 // Set animation parameters
                 animator.SetBool(animIDAnticipate, true);
-                
-                if(!animator.GetBool(animIDAttack) && !animator.GetBool(animIDAttack))
+
+                if(animator.GetBool(animIDAttack))
                 {
-                    agent.SetDestination(agent.transform.position * 100f);
+                    Vector3 forwardDirection = agent.transform.forward.normalized;
+                    agent.speed += 20f; // Adjust speed increase as needed
+                    agent.SetDestination(agent.transform.position + forwardDirection * 2f);
+                }
+                else
+                {
+                    agent.speed = BasicEnemySlime.originalSpeed; // Reset agent speed if not attacking
+                }
+                
+                if(BasicEnemySlime.hasAttacked)
+                {
                     Blackboard.instance.Hit(10);
                 }
                 return true;
