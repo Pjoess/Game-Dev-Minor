@@ -22,6 +22,8 @@ namespace buddy
         public float bulletShootHeight = 1f;
         public float mortarSpeed = 5f;
         public float mortarSpawnHeight = 8f;
+        public bool canShootMortar = false;
+        public bool shootMortar = false;
 
         [Header("Ranges")]
         public float shootingRange = 10f;
@@ -72,7 +74,7 @@ namespace buddy
             List<IBaseNode> enemyInLineOfSight = new()
             {
                 new ShootBulletNode(agent, shootingRange, attackLayer, bulletShootHeight, bulletSpeed, bulletLifetime, bulletPrefab, animator, animIDShooting),
-                new ShootMortarNode(agent, shootingRange, attackLayer, mortarSpawnHeight, mortarPrefab, mortarCooldownTime, animator, animIDShootingMortar)
+                new ShootMortarNode(this, agent, shootingRange, attackLayer, mortarSpawnHeight, mortarPrefab, mortarCooldownTime, animator, animIDShootingMortar)
             };
 
             List<IBaseNode> selectNode = new()

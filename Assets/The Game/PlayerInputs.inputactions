@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ToggleBuddyAttack",
+                    "name": "BuddyMortarAttack",
                     "type": "Button",
                     "id": "bcaad9f1-0e81-498b-b5d4-691de04f5be1",
                     "expectedControlType": "Button",
@@ -24,12 +24,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Sprint",
+                    "name": "SprintToggle",
+                    "type": "Button",
+                    "id": "7a2a0f4d-b26e-4e4e-999d-af38084266e5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SprintHold",
                     "type": "Button",
                     "id": "779efceb-e04a-42d4-ab5b-87ff77c507df",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -183,7 +192,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Sprint",
+                    "action": "SprintHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -194,7 +203,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Sprint",
+                    "action": "SprintHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -277,23 +286,12 @@
                 },
                 {
                     "name": "",
-                    "id": "cfce3a6d-b52b-4fc9-a4b6-6989b4ff80e9",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "ToggleBuddyAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "da519bd7-fe5e-4aa1-9289-6ba9019148d9",
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "ToggleBuddyAttack",
+                    "action": "BuddyMortarAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -304,7 +302,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ToggleBuddyAttack",
+                    "action": "BuddyMortarAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -333,7 +331,7 @@
                 {
                     "name": "modifier",
                     "id": "f05c5183-4ed4-4fdd-9f4c-ccb49397f7ba",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -373,6 +371,17 @@
                     "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7a23f82a-f107-4b1d-96c4-538b5a63ade0",
+                    "path": "<Keyboard>/capsLock",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SprintToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

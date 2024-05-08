@@ -33,7 +33,7 @@ public class PlayerDashState : PlayerBaseState
         }
         else
         {
-            if (player.isSprinting) player.ChangeState(player.runState);
+            if (player.isSprinting || player.sprintToggle) player.ChangeState(player.runState);
             else player.ChangeState(player.idleState);
         }
     }

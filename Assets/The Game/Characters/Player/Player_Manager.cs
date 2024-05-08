@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using buddy;
 using Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -9,7 +11,7 @@ using UnityEngine.InputSystem;
 public class Player_Manager : MonoBehaviour, IDamageble
 {
     #region Variables & References
-        private BuddyAI_Controller buddy;
+        private Buddy_Agent buddy;
         [HideInInspector] public Rigidbody rigidBody;
         [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
@@ -48,6 +50,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         public float lastWKeyPressTime = 0f;
         public float doublePressTimeWindow = 0.2f;
         public bool isSprinting = false;
+        public bool sprintToggle = false;
 
         [Header("Player Rotation")]
         public float rotationSpeed = 600f;
@@ -62,6 +65,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
         [Header("Player Attack")]
         public float attackDistance = 0.15f;
         public bool isStriking = false;
+        [SerializeField] int baseMortarIncrease = 10;
+        public int clickAmount = 0;
         [HideInInspector] public bool canAttack = false;
         //[HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
@@ -76,8 +81,10 @@ public class Player_Manager : MonoBehaviour, IDamageble
         // --- UI CameraFollow --- //
         private CinemachineVirtualCamera virtualCamera;
         private CinemachineOrbitalTransposer transposer;
-        [SerializeField] float minCameraZoom = -10;
-        [SerializeField] float maxCameraZoom = -30;
+        [SerializeField] float minCameraZoomZ = -10f;
+        [SerializeField] float minCameraZoomY = 2f;
+        [SerializeField] float maxCameraZoomZ = -30f;
+        [SerializeField] float maxCameraZoomY = 22f;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
 
         // --- Buddy --- //
@@ -151,6 +158,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             transposer = virtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
             input = GetComponent<PlayerInput>();
             deathScript = FindObjectOfType<DeathScript>();
+            buddy = FindObjectOfType<Buddy_Agent>();
         }
         
         void Start()
@@ -167,12 +175,13 @@ public class Player_Manager : MonoBehaviour, IDamageble
             isPaused = false;
             // Health
             healthPoints = maxHealthPoints;
-             Healthbar healthbar = FindObjectOfType<Healthbar>();
+            Healthbar healthbar = FindObjectOfType<Healthbar>();
             if (healthbar != null)
             {
                 healthbar.OnHealthUpdated += HandleHealthUpdated;
             }
             animator.SetFloat(animIDMoveSpeed, 1);
+            sword.onWeaponHit += WeaponHit;
         }
 
         void Update(){
@@ -224,6 +233,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 }
                 lastWKeyPressTime = currentTime;
             }
+
+            if (sprintToggle) isSprinting = true;
 
             float speed = isSprinting ? runSpeed : walkSpeed;
 
@@ -306,13 +317,13 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
     #region Player Attack
 
-    public void Attack()
-    {
-        if(isStriking)
+        public void Attack()
         {
-            ChangeState(strikeState);
+            if(isStriking)
+            {
+                ChangeState(strikeState);
+            }
         }
-    }
         public void AttackRotation()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -336,12 +347,24 @@ public class Player_Manager : MonoBehaviour, IDamageble
             }
         }
 
-    public void OnAttackPressed()
+        public void OnAttackPressed()
         {
             if(canAttack)
             {
                 struckAgain = true;
             }
+        }
+        
+        private void WeaponHit()
+        {
+            AddToMortarBar();
+        }
+
+        private void AddToMortarBar()
+        {
+            if(clickAmount == 0) clickAmount = 1;
+            int increaseAmount = baseMortarIncrease / clickAmount;
+            Blackboard.instance.AddToMortarBar(increaseAmount);
         }
 
         public void MoveForwardOnAttack(){
@@ -376,9 +399,19 @@ public class Player_Manager : MonoBehaviour, IDamageble
     #endregion
 
     #region New Input System Methods
-    void OnMove(InputValue value) => movement = value.Get<Vector2>();
+        void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-        void OnSprint(InputValue value)
+        void OnSprintToggle()
+        {
+            if (!sprintToggle) sprintToggle = true;
+            else
+            {
+                sprintToggle = false;
+                isSprinting = false;
+            }
+        }
+
+        void OnSprintHold()
         {
             if(!isSprinting) isSprinting = true;
             else isSprinting = false;
@@ -396,6 +429,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             if(value.isPressed && playerState != dashState){
                 AttackRotation();
+                clickAmount++;
                 if (isStriking) OnAttackPressed();
                 else if (!isStriking)
                 {
@@ -409,12 +443,18 @@ public class Player_Manager : MonoBehaviour, IDamageble
             if (value.isPressed && !isDashing)  isDashing = true;
         }
 
-       void OnZoom(InputValue value)
+        void OnZoom(InputValue value)
        {
-            transposer.m_FollowOffset.z += (value.Get<float>() * Time.deltaTime);
-            if (transposer.m_FollowOffset.z > minCameraZoom) transposer.m_FollowOffset.z = minCameraZoom;
-            if (transposer.m_FollowOffset.z < maxCameraZoom) transposer.m_FollowOffset.z = maxCameraZoom;
-       }
+            var val = value.Get<float>();
+            transposer.m_FollowOffset.z += (val * Time.deltaTime);
+            transposer.m_FollowOffset.y -= (val * Time.deltaTime);
+
+            if (transposer.m_FollowOffset.z > minCameraZoomZ) transposer.m_FollowOffset.z = minCameraZoomZ;
+            if (transposer.m_FollowOffset.z < maxCameraZoomZ) transposer.m_FollowOffset.z = maxCameraZoomZ;
+
+            if (transposer.m_FollowOffset.y > maxCameraZoomY) transposer.m_FollowOffset.y = maxCameraZoomY;
+            if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
+    }
 
         void OnPause(InputValue value)
         {
@@ -447,6 +487,14 @@ public class Player_Manager : MonoBehaviour, IDamageble
             }
         }
 
+        void OnBuddyMortarAttack()
+        {
+            if (buddy != null)
+            {
+                if(buddy.canShootMortar) buddy.shootMortar = true;
+            }
+        }
+
         // --- will be used later --- //
         // void OnToggleBuddyAttack(InputValue value)
         // {
@@ -470,6 +518,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         public void EndAttack()
         {
+            clickAmount = 0;
             if (isStriking)
             {
                 sword.SwordToDefault();
@@ -492,6 +541,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         public void DisableSwordCollision()
         {
             sword.SwordToDefault();
+            clickAmount = 0;
             if (isDashing)
             {
                 canAttack = false;
