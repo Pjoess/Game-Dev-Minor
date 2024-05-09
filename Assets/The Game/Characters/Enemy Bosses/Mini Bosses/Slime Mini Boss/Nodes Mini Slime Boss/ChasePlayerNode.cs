@@ -29,7 +29,7 @@ namespace SlimeMiniBoss
             agent.isStopped = true;
             
             // Check if player is within chase range
-            if (Vector3.Distance(agent.transform.position, playerPosition) <= chaseRange)
+            if (Vector3.Distance(agent.transform.position, playerPosition) <= chaseRange && agent.isStopped)
             {
                 agent.isStopped = false;
                 Vector3 directionToPlayer = (playerPosition - agent.transform.position).normalized;
