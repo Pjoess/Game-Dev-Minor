@@ -477,6 +477,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             if(healthPoints > 0)
             {
+                ouchSound.Play();
                 healthPoints -= 30;
                 if (healthPoints < 0)   healthPoints = 0;
             }
@@ -578,6 +579,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
     #endregion
 
     #region IDamagable
+        // Player receiving damage from enemies
         public void Hit(int damage)
         {
             if(playerState != dashState) 

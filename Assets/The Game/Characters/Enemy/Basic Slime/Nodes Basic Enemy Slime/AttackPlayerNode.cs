@@ -88,23 +88,5 @@ namespace BasicEnemySlime
             }
             return false;
         }
-
-        // Method to check if the player is within the cone
-        // private bool IsPlayerWithinCone(Vector3 directionToPlayer)
-        // {
-        //     float angleToPlayer = Vector3.Angle(agent.transform.forward, directionToPlayer);
-
-        //     // Check if the player is within the cone width and cone length
-        //     if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
-        //     {
-        //         animator.SetBool(animIDAnticipate, true);
-        //         animator.SetBool(animIDAttack, true);
-
-        //         Vector3 targetPosition = agent.transform.position + agent.transform.forward * 10f;
-        //         agent.SetDestination(targetPosition);
-        //         return true;
-        //     }
-        //     return false;
-        // }
     }
 }

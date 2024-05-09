@@ -9,7 +9,7 @@ namespace BasicEnemySlime
         private IBaseNode basicSlimeBT = null;
         public LayerMask attackLayer; // Player
         private NavMeshAgent agent;
-        private Rigidbody rigidBody;
+        private Rigidbody rigidBody; // Important for the bullets damage received
         public static float originalSpeed;
 
         [Header("Patrol Center Point")]
@@ -17,14 +17,13 @@ namespace BasicEnemySlime
 
         [Header("Patrol Settings")]
         private float patrolRadius = 20f;
-        private float stopDistance = 1f;
+        private float stopDistance = 3f;
 
         [Header("Chase")]
         private float chaseRange = 10f;
 
         [Header("Attack")]
-        private float attackRange = 8f;
-        private float offsetDistance = 1f;
+        private float attackRange = 4f;
         public static bool hasAttacked = false;
         
         // --- IDamagable --- //
@@ -36,8 +35,8 @@ namespace BasicEnemySlime
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float coneWidth = 50f;
-        private float coneLength = 3f;
+        private float coneWidth = 60f;
+        private float coneLength = 4f;
         private float thickness = 2f;
 
         private Animator animator;
