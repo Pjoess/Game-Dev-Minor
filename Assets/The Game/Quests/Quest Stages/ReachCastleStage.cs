@@ -12,7 +12,8 @@ public class ReachCastleStage : QuestStage
         castleTrigger.SetActive(true);
         Debug.Log("StartStage");
         isActive = true;
-        questLogText = "The Buddy is acting strange... and looks at the Castle, but why? \n" + "-> Go to the Castle.";
+        questLogText = "The Buddy is acting strange and looks at the Castle, but why? \n\n" 
+            + "-> Go to the Castle";
         QuestEvents.OnPlayerReachCastle += OnPlayerReachCastle;
     }
 

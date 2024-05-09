@@ -35,7 +35,7 @@ public class MemoryStickStage : QuestStage
 
     private void UpdateText()
     {
-        questLogText = "Your Buddy needs Memory Sticks. Large Slimes have eaten them, Find those Sticks and get them back! \n\n" +
-            $"-> Memory Sticks: {sticksCollected} / 3 obtained.";
+        questLogText = "Your Buddy needs Memory Chips. Large Slimes have eaten them, Find those Chips and get them back! \n\n" +
+            $"-> {sticksCollected} / 3 Memory Chips";
     }
 }
