@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class QuestManager : MonoBehaviour
 {
@@ -49,8 +50,11 @@ public class QuestManager : MonoBehaviour
             {
                 UpdateLog("Quest Completed");
                 questCompleted = true;
-                if(!isTutorial){
-                    victoryScript.EnableVictoryCanvas(questCompleted);
+                if(!isTutorial)
+                {
+                    //victoryScript.EnableVictoryCanvas(questCompleted);
+                    SceneManager.LoadScene(3);
+                    Debug.Log("Go to Scene 3 -> Check Build Settings"); // Remove when Level 2 works
                 }
             }
         }
