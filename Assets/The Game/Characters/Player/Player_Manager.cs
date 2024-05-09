@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using buddy;
 using Cinemachine;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
     
 public class Player_Manager : MonoBehaviour, IDamageble
@@ -21,7 +19,6 @@ public class Player_Manager : MonoBehaviour, IDamageble
         public AudioSource jumpSound;
         public AudioSource ouchSound;
         public AudioSource rollSound;
-        public AudioSource footStepSound;
         public AudioSource pauseSound;
 
         // --- IDamagable --- //
@@ -84,10 +81,6 @@ public class Player_Manager : MonoBehaviour, IDamageble
         [SerializeField] float maxCameraZoomZ = -30f;
         [SerializeField] float maxCameraZoomY = 22f;
         [SerializeField] private Vector3 buttonCameraOffset = new(950,100,0); // Adjust this for correct placement
-
-        // --- Buddy --- //
-        [Header("Buddy Controls")]
-        [SerializeField] private AudioSource buddySwitchMode;
 
         // --- Player States --- //
         public PlayerBaseState playerState;
