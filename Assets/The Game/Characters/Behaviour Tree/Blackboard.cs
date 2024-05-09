@@ -71,6 +71,7 @@ public class Blackboard : MonoBehaviour, IDamageble
         mortarBar.value = 0f;
     }
 
+    //OldCode
     //private IEnumerator UpdateMortarCooldownText()
     //{
     //    while (true)
