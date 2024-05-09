@@ -33,13 +33,13 @@ public class ScreenResolution_Controller : MonoBehaviour
 
         foreach (Resolution res in resolutions)
         {
-            if (res.refreshRate == currentRefreshRate)
+            if (Is16By9AspectRatio(res.width, res.height) && res.refreshRate == currentRefreshRate)
             {
                 filteredResolutions.Add(res);
             }
         }
 
-        List<string> options = new();
+        List<string> options = new List<string>();
         foreach (Resolution res in filteredResolutions)
         {
             string aspectRatio = GetAspectRatio(res.width, res.height);
@@ -58,6 +58,12 @@ public class ScreenResolution_Controller : MonoBehaviour
 
         // Set the resolution based on PlayerPrefs or current screen resolution
         Screen.SetResolution(screenWidth, screenHeight, true);
+    }
+
+    private bool Is16By9AspectRatio(int width, int height)
+    {
+        float aspectRatio = (float)width / height;
+        return Mathf.Approximately(aspectRatio, 16f / 9f);
     }
 
     private string GetAspectRatio(int width, int height)
