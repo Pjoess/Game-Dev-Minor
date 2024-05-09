@@ -1,28 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Dialogue : MonoBehaviour
 {
-
     public static event System.Action<string[]> ChangeLines;
     public bool isLastOne;
 
-
-    [SerializeField]
     public string[] lines;
-    public bool isTriggered{get;set;}
+    public bool IsTriggered{get;set;}
 
     private void OnTriggerEnter(Collider other) {
-        if(other.tag == "Player" && !isTriggered){
-
+        if(other.CompareTag("Player") && !IsTriggered){
             if(isLastOne){
                 DialogueManager.instance.isLastOne = true;
                 ChangeLines?.Invoke(lines);
             }
-
             ChangeLines?.Invoke(lines);
-            // gameObject.SetActive(false);
         }
     }
 

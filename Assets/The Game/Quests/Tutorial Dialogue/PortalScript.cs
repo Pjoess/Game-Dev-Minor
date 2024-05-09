@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class PortalScript : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.tag == "Player"){
+        if(other.gameObject.CompareTag("Player"))
+        {
             SceneManager.LoadScene(2);
         }
     }

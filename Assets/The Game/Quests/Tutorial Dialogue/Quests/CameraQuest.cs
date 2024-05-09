@@ -18,7 +18,7 @@ public class CameraQuest : QuestStage
     public override void StartStage()
     {
         isActive = true;
-        questLogText = "Try rotating camera and using zoom \n" + $"-> Run along the path and move camera";
+        questLogText = "Try rotating the Camera and the Zoom in and out \n\n" + $"-> Run along the path and move your Camera.";
         trigger.SetActive(false);
         TutorialEvents.OnEnterAttack += Triggered;
     }
