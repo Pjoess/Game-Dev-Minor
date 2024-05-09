@@ -35,16 +35,17 @@ namespace SlimeMiniBoss
             {
                 return false; // Indicate that patrolling should stop
             }
-            
-            agent.isStopped = false;
+            else
+            {
+                agent.isStopped = false; // Resume agent movement
+            }
+
             if (Vector3.Distance(agent.transform.position, currentDestination) <= stopDistance || patrolTimer >= patrolInterval)
             {
                 currentDestination = GetRandomDestination();
                 agent.SetDestination(currentDestination);
                 patrolTimer = 0f;
             }
-
-            
             return true;
         }
 
