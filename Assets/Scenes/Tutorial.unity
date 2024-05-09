@@ -3692,12 +3692,12 @@ PrefabInstance:
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000016695262
+      value: 0.000000016695267
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000004162654
+      value: -0.0000000041626556
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
@@ -3887,12 +3887,12 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000016695262
+      value: 0.000000016695267
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000004162654
+      value: -0.0000000041626556
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
@@ -4086,9 +4086,11 @@ MonoBehaviour:
   - Here I am now, You learned so much already. But there are more slimes ahead!
   - Try to use my mortar that is located on F. This will help you a lot in the next
     fight!
-  - Aim on a spot on the ground for me to shoot at!
-  - My mortar will be reloaded by you attacking. Attacking multiple times after each
-    other gives less regeneration. So use your attacks carefully!
+  - Get close to an enemy then when the buddy starts shooting its bullets press F,
+    the closest enemy will be hit by the Mortar.
+  - My mortar will be reloaded in the Mortar Bar by you attacking. Attacking multiple
+    times after each other gives less regeneration (Blue Bar). So use your attacks
+    carefully!
 --- !u!65 &1956249658
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4576,13 +4578,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3213205838190671930, guid: b9433fa78b77eeb4792eeb83e8e08e93,
         type: 3}
+      propertyPath: lines.Array.data[0]
+      value: Welcome to the Tutorial Level...
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213205838190671930, guid: b9433fa78b77eeb4792eeb83e8e08e93,
+        type: 3}
+      propertyPath: lines.Array.data[1]
+      value: Here you will learn how to play this game...
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213205838190671930, guid: b9433fa78b77eeb4792eeb83e8e08e93,
+        type: 3}
       propertyPath: lines.Array.data[2]
-      value: You can walk with WASD keys and run with holding SHIFT
+      value: You can walk by pressing WASD keys and run by holding SHIFT on your
+        keyboard
       objectReference: {fileID: 0}
     - target: {fileID: 3213205838190671930, guid: b9433fa78b77eeb4792eeb83e8e08e93,
         type: 3}
       propertyPath: lines.Array.data[3]
-      value: The running can be toggle locked by pressing CAPS LOCK
+      value: Running can be toggle locked by pressing CAPS LOCK
       objectReference: {fileID: 0}
     - target: {fileID: 3213205838190671930, guid: b9433fa78b77eeb4792eeb83e8e08e93,
         type: 3}
