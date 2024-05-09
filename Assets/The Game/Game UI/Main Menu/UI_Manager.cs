@@ -38,6 +38,10 @@ public class UI_Manager : MonoBehaviour
         SceneManager.LoadSceneAsync(2);
     }
 
+    public void RestartLevel(){
+        SceneManager.LoadSceneAsync(2);
+    }
+
     public void PlayTutorial(){
         SceneManager.LoadSceneAsync(1);
     }
