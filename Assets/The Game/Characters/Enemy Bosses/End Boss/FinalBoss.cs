@@ -17,6 +17,8 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     public List<AttackPatternSO> allAttackPaterns;
 
+    public float meleeRange = 3f;
+
     [HideInInspector] public bool isAttacking = false;
     public float attackPatternIntervalTime = 3f;
 
@@ -27,6 +29,17 @@ public class FinalBoss : MonoBehaviour, IDamageble
     public GameObject mortarPrefab;
 
     private IBaseNode BTRootNode;
+
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public int animIDIsShooting;
+    [HideInInspector] public int animIDIsMortarShooting;
+
+    private void AssignAnimIDs()
+    {
+        animIDIsShooting = Animator.StringToHash("isShooting");
+        animIDIsMortarShooting = Animator.StringToHash("isMortarShooting");
+    }
+
 
     private void CreateBT()
     {
@@ -40,6 +53,12 @@ public class FinalBoss : MonoBehaviour, IDamageble
         }
 
         BTRootNode = new SequenceNode(list);
+    }
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        AssignAnimIDs();
     }
 
     void Start()
@@ -74,5 +93,22 @@ public class FinalBoss : MonoBehaviour, IDamageble
             Destroy(gameObject);
             bossUI.gameObject.SetActive(false);
         }
+    }
+
+    public bool IsAnimatorCurrentState(string name)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(name);
+    }
+
+    public void ShootBullet()
+    {
+        Instantiate(bulletPrefab, transform.position + Vector3.up * 3f, Quaternion.identity);
+        animator.SetBool(animIDIsShooting, false);
+    }
+
+    public void ShootMortar()
+    {
+        Instantiate(mortarPrefab, Blackboard.instance.GetPlayerPosition() + Vector3.up * 8f, Quaternion.identity);
+        animator.SetBool(animIDIsMortarShooting, false);
     }
 }
