@@ -21,20 +21,7 @@ public class DeathScript : MonoBehaviour
 
     IEnumerator WaitSeconds()
     {
-        PauseAllOtherMusic();
         yield return new WaitForSeconds(0f);
         Time.timeScale = 0;
-    }
-
-    void PauseAllOtherMusic()
-    {
-        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
-        foreach (AudioSource audioSource in allAudioSources)
-        {
-            // if (audioSource != deathMusic)
-            // {
-            //     audioSource.Stop();
-            // }
-        } 
     }
 }

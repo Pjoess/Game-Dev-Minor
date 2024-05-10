@@ -68,6 +68,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         [Header("UI Canvas and Buttons")]
         public static bool isPaused = false;
+        public static bool isDead = false;
         private PauseMenu pauseMenu;
         private DeathScript deathScript;
         public float buttonCameraOffsetForward = -50f;
@@ -164,6 +165,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             // UI
             Time.timeScale = 1;
             isPaused = false;
+            isDead = false;
             // Health
             healthPoints = maxHealthPoints;
             Healthbar healthbar = FindObjectOfType<Healthbar>();
@@ -449,20 +451,23 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         void OnPause(InputValue value)
         {
-            pauseSound.Play();
-            if (value.isPressed && !isPaused)
+            if (!isDead)
             {
-                Debug.Log("Game Paused");
-                Time.timeScale = 0;
-                isPaused = true;
-                pauseMenu.EnablePauseCanvas();
-            }
-            else
-            {
-                Debug.Log("Game Started");
-                Time.timeScale = 1;
-                isPaused = false;
-                pauseMenu.EnablePauseCanvas();
+                pauseSound.Play();
+                if (value.isPressed && !isPaused)
+                {
+                    Debug.Log("Game Paused");
+                    Time.timeScale = 0;
+                    isPaused = true;
+                    pauseMenu.EnablePauseCanvas();
+                }
+                else if (value.isPressed)
+                {
+                    Debug.Log("Game Started");
+                    Time.timeScale = 1;
+                    isPaused = false;
+                    pauseMenu.EnablePauseCanvas();
+                }
             }
         }
 
@@ -475,6 +480,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 if (healthPoints < 0)   healthPoints = 0;
             }
             if(healthPoints <= 0){
+                isDead = true;
                 StartCoroutine(WaitThenEnableDeath(healthPoints));
             }
         }
@@ -598,6 +604,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             if (currentHealth <= 0)
             {
+                isDead = true;
                 // Do something when health reaches zero
                 StartCoroutine(WaitThenEnableDeath((int)currentHealth));
             }
