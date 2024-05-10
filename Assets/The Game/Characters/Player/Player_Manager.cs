@@ -322,7 +322,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Enemy")))
             {
-                Vector3 direction = hit.point - transform.position;
+                Vector3 direction = hit.collider.gameObject.transform.position - transform.position;
                 direction.y = 0;
                 direction.Normalize();
                 Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
