@@ -11,6 +11,8 @@ public class Weapon : MonoBehaviour
     private readonly List<GameObject> enemiesHit = new();
     private bool strongAttack = false;
 
+    [SerializeField] ParticleSystem hitParticle;
+
     public bool StrongAttack { get => strongAttack; set => strongAttack = value; }
 
     public event Action onWeaponHit;
@@ -45,6 +47,7 @@ public class Weapon : MonoBehaviour
         if (swordCollider.enabled && other.gameObject.CompareTag("Enemy") && !enemiesHit.Any(x => x == other.gameObject))
         {
             other.gameObject.GetComponent<IDamageble>().Hit(5);
+            Instantiate(hitParticle, other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position), Quaternion.identity);
             onWeaponHit?.Invoke();
             if(strongAttack)
             {

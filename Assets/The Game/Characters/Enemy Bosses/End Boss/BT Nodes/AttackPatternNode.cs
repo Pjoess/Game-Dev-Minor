@@ -80,11 +80,34 @@ public class AttackPatternNode : IBaseNode
 
             case AttackAction.Action.WAIT:
                 {
-                    //Only Interval so no code needed
+                    NextIndex();
                     break;
                 }
         }
 
+        
+    }
+
+    private void DoBulletAttack()
+    {
+        if(boss.IsAnimatorCurrentState("idle"))
+        {
+            boss.animator.SetBool(boss.animIDIsShooting, true);
+            NextIndex();
+        }
+    }
+
+    private void DoMortarAttack()
+    {
+        if (boss.IsAnimatorCurrentState("idle"))
+        {
+            boss.animator.SetBool(boss.animIDIsMortarShooting, true);
+            NextIndex();
+        }
+    }
+
+    private void NextIndex()
+    {
         if (index == currentPattern.Count - 1)
         {
             waitAfterPatternFinishTime = boss.attackPatternIntervalTime;
@@ -95,15 +118,5 @@ public class AttackPatternNode : IBaseNode
             attackIntervalWaitTime = currentPattern[index].GetInterval();
             index++;
         }
-    }
-
-    private void DoBulletAttack()
-    {
-        Object.Instantiate(boss.bulletPrefab, boss.transform.position + Vector3.up * 3f, Quaternion.identity);
-    }
-
-    private void DoMortarAttack()
-    {
-        Object.Instantiate(boss.mortarPrefab, Blackboard.instance.GetPlayerPosition() + Vector3.up * 8f, Quaternion.identity);
     }
 }

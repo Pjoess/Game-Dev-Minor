@@ -9,6 +9,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
 {
     #region Variables & References
         private Buddy_Agent buddy;
+        public GameObject buddyGameObject;
         [HideInInspector] public Rigidbody rigidBody;
         [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
@@ -179,7 +180,13 @@ public class Player_Manager : MonoBehaviour, IDamageble
             sword.onWeaponHit += WeaponHit;
         }
 
-        void Update(){
+        void Update()
+        {
+            buddyGameObject = GameObject.FindWithTag("Buddy");
+            // if (buddyGameObject != null)
+            // {
+            //     bool isActive = buddyGameObject.activeSelf;
+            // }
             playerState.UpdateState(this);
         }
     #endregion
@@ -325,7 +332,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Enemy")))
             {
-                Vector3 direction = hit.point - transform.position;
+                Vector3 direction = hit.collider.gameObject.transform.position - transform.position;
                 direction.y = 0;
                 direction.Normalize();
                 Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
@@ -486,6 +493,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 ouchSound.Play();
                 healthPoints -= 30;
                 if (healthPoints < 0)   healthPoints = 0;
+                VignetteController.instance.SetVignetterInstesity(0.4f);
             }
 
             if(healthPoints <= 0)
@@ -595,6 +603,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 ouchSound.Play();
                 healthPoints -= damage;
                 HandleHealthUpdated(healthPoints);
+                VignetteController.instance.SetVignetterInstesity(0.4f);
             }
         }
 

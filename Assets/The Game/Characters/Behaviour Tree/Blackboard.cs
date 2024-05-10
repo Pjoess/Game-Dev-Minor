@@ -64,7 +64,10 @@ public class Blackboard : MonoBehaviour, IDamageble
 
     public void AddToMortarBar(int value)
     {
-        mortarBar.value += value;
+        if(mortarBar != null)
+        {
+            mortarBar.value += value;
+        }
     }
     public void ResetMortar()
     {
