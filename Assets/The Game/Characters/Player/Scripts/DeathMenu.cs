@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class DeathScript : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class DeathScript : MonoBehaviour
             deathPanel.SetActive(false);
             Time.timeScale = 1;
         }
+    }
+
+    public void RestartLevel2()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(3);
     }
 
     IEnumerator WaitSeconds()
