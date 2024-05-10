@@ -3,7 +3,8 @@ using buddy;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-    
+using UnityEngine.SceneManagement;
+
 public class Player_Manager : MonoBehaviour, IDamageble
 {
     #region Variables & References
@@ -68,6 +69,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         [Header("UI Canvas and Buttons")]
         public static bool isPaused = false;
+        public static bool isDead = false;
+        public static bool isInDialogue = false;
         private PauseMenu pauseMenu;
         private DeathScript deathScript;
         public float buttonCameraOffsetForward = -50f;
@@ -164,6 +167,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             // UI
             Time.timeScale = 1;
             isPaused = false;
+            isDead = false;
             // Health
             healthPoints = maxHealthPoints;
             Healthbar healthbar = FindObjectOfType<Healthbar>();
@@ -296,13 +300,12 @@ public class Player_Manager : MonoBehaviour, IDamageble
                     dashDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * moveDirection;
                     dashDirection.y = 0; // Set the vertical component to zero to avoid moving up or down
                                          // Set isDashing to true to indicate the player is currently dashing
-                    
                 }
             }
             else if (dashCooldownDelta > 0)
             {
                 dashCooldownDelta -= Time.deltaTime;
-            }  
+            }
         }
     #endregion
 
@@ -435,35 +438,45 @@ public class Player_Manager : MonoBehaviour, IDamageble
         }
 
         void OnZoom(InputValue value)
-       {
+        {
             var val = value.Get<float>();
-            transposer.m_FollowOffset.z += (val * Time.deltaTime);
-            transposer.m_FollowOffset.y -= (val * Time.deltaTime);
+            transposer.m_FollowOffset.z += val * Time.deltaTime;
+            transposer.m_FollowOffset.y -= val * Time.deltaTime;
 
             if (transposer.m_FollowOffset.z > minCameraZoomZ) transposer.m_FollowOffset.z = minCameraZoomZ;
             if (transposer.m_FollowOffset.z < maxCameraZoomZ) transposer.m_FollowOffset.z = maxCameraZoomZ;
 
             if (transposer.m_FollowOffset.y > maxCameraZoomY) transposer.m_FollowOffset.y = maxCameraZoomY;
             if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
-    }
+        }
 
         void OnPause(InputValue value)
         {
-            pauseSound.Play();
-            if (value.isPressed && !isPaused)
+            if (!isDead && !IsInScene("Tutorial"))
             {
-                Debug.Log("Game Paused");
-                Time.timeScale = 0;
-                isPaused = true;
-                pauseMenu.EnablePauseCanvas();
+                pauseSound.Play();
+                if (value.isPressed && !isPaused)
+                {
+                    Debug.Log("Game Paused");
+                    Time.timeScale = 0;
+                    isPaused = true;
+                    pauseMenu.EnablePauseCanvas();
+                }
+                else
+                {
+                    Debug.Log("Game Started");
+                    Time.timeScale = 1;
+                    isPaused = false;
+                    pauseMenu.EnablePauseCanvas();
+                }
             }
-            else
-            {
-                Debug.Log("Game Started");
-                Time.timeScale = 1;
-                isPaused = false;
-                pauseMenu.EnablePauseCanvas();
-            }
+        }
+
+        // Method to check the current scene
+        private bool IsInScene(string sceneName)
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            return currentScene.name.Equals(sceneName);
         }
 
         void OnDebugTakeDamage()
@@ -474,7 +487,10 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 healthPoints -= 30;
                 if (healthPoints < 0)   healthPoints = 0;
             }
-            if(healthPoints <= 0){
+
+            if(healthPoints <= 0)
+            {
+                isDead = true;
                 StartCoroutine(WaitThenEnableDeath(healthPoints));
             }
         }
@@ -527,7 +543,6 @@ public class Player_Manager : MonoBehaviour, IDamageble
                     ChangeState(idleState);
                 }
             }
-            
         }
 
         public void DisableSwordCollision()
@@ -591,13 +606,13 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 pushDirection.Normalize();
                 rigidBody.AddForce(pushDirection * 300, ForceMode.Acceleration);
             }
-            
         }
 
         void HandleHealthUpdated(float currentHealth)
         {
             if (currentHealth <= 0)
             {
+                isDead = true;
                 // Do something when health reaches zero
                 StartCoroutine(WaitThenEnableDeath((int)currentHealth));
             }
@@ -607,10 +622,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             yield return new WaitForSeconds(0.6f);
             deathScript.EnableDeathCanvas(health);
-    }
+        }
     #endregion
-
-    
 
     private void OnFootstep(AnimationEvent animationEvent){}
     private void OnLand(AnimationEvent animationEvent){}
