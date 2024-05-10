@@ -16,7 +16,7 @@ public class RunningQuest : QuestStage
     public override void StartStage()
     {
         isActive = true;
-        questLogText = "Try running and walking \n" + $"-> Run along the path";
+        questLogText = "Try walking and running \n\n" + $"-> Run along the path.";
         TutorialEvents.OnEnterCamera += Triggered;
     }
 

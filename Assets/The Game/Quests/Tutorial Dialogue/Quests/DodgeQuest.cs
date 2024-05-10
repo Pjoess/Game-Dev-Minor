@@ -18,7 +18,7 @@ public class DodgeQuest : QuestStage
     public override void StartStage()
     {
         isActive = true;
-        questLogText = "Try dodging and moving around with it \n" + $"-> Run along the path using dodge";
+        questLogText = "Try dodging and moving around \n\n" + $"-> Run along the path and use Dodge.";
         trigger.SetActive(false);
         TutorialEvents.OnEnterDodge += Triggered;
     }

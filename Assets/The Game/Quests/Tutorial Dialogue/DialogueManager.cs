@@ -1,19 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI; 
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
-
-    public List<Dialogue> dialogues = new List<Dialogue>();
-
+    public List<Dialogue> dialogues = new();
     private PlayerInput input;
     public TextMeshProUGUI textComponent;
     public float textSpeed;
@@ -22,31 +17,13 @@ public class DialogueManager : MonoBehaviour
     public string[] lines;
     public bool isActive = false;
     Coroutine coroutine;
-
     public ShowSlimes showSlimes;
-
     public bool isLastOne = false;
-
     public CinemachineVirtualCamera virtualCamera;
 
     void Start(){
         instance = this;
         input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
-        // input.currentActionMap.FindAction("Move").Disable();
-        // input.currentActionMap.FindAction("MoveCamera").Disable();
-        // input.currentActionMap.FindAction("Zoom").Disable();
-        // input.currentActionMap.FindAction("ToggleBuddyAttack").Disable();
-        // input.currentActionMap.FindAction("Sprint").Disable();
-        // input.currentActionMap.FindAction("Attack").Disable();
-        // input.currentActionMap.FindAction("Dodge").Disable();
-
-        // input.actions["Move"].Disable();
-        // input.actions["MoveCamera"].Disable();
-        // input.actions["Zoom"].Disable();
-        // input.actions["ToggleBuddyAttack"].Disable();
-        // input.actions["Sprint"].Disable();
-        // input.actions["Attack"].Disable();
-        // input.actions["Dodge"].Disable();
         Debug.Log("Start");
         Dialogue.ChangeLines += ChangeLine;
         StartDialogue();
@@ -74,7 +51,6 @@ public class DialogueManager : MonoBehaviour
                 textComponent.text = lines[index];
             }
         }
-
     }
 
     public void StartDialogue(){
@@ -120,7 +96,6 @@ public class DialogueManager : MonoBehaviour
                     break;
             }
         }
-
     }
 
     void NextLine(){
@@ -131,7 +106,6 @@ public class DialogueManager : MonoBehaviour
         }else{
             gameObject.SetActive(false);
             input.SwitchCurrentActionMap("Player");
-            // SetInputActive(inputIndex);
             inputIndex++;
             isActive = false;
             index = 0;

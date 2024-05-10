@@ -11,7 +11,6 @@ public class AttackQuest : QuestStage
     public override bool CheckStageCompleted()
     {
         if(isFinished){
-            // nextTrigger.GetComponent<BoxCollider>().isTrigger = true;
             return true;
         }else{
             return false;
@@ -21,15 +20,12 @@ public class AttackQuest : QuestStage
     public override void StartStage()
     {
         isActive = true;
-        questLogText = "Try out attacking and using the combo \n" + $"-> Kill slime dummy's {slimesKilled}/2";
+        questLogText = "Try doing an attack combo \n\n" + $"-> Kill slime dummies {slimesKilled}/2";
         trigger.SetActive(false);
-        // nextTrigger.GetComponent<BoxCollider>().isTrigger = false;
         TutorialEvents.OnEnterAttack += Triggered;
     }
 
     public void Triggered(){
-        // if(slimesKilled >= 2){
         isFinished = true;
-        // }
     }
 }

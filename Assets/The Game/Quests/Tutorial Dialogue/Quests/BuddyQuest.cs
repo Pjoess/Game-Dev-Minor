@@ -18,7 +18,7 @@ public class BuddyQuest : QuestStage
     public override void StartStage()
     {
         isActive = true;
-        questLogText = "Try out the buddy attacks \n" + $"-> Run along the path and kill the slimes. Then enter the portal";
+        questLogText = "Try using the buddy attacks \n\n" + $"-> Run along the path and kill the slimes. When you are done, enter the portal.";
         trigger.SetActive(false);
         TutorialEvents.OnEnterBuddy += Triggered;
     }
