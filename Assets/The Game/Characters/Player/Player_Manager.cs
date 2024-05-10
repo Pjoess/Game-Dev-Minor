@@ -595,6 +595,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 ouchSound.Play();
                 healthPoints -= damage;
                 HandleHealthUpdated(healthPoints);
+                VignetteController.instance.SetVignetterInstesity(0.4f);
             }
         }
 
