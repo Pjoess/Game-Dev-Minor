@@ -493,6 +493,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 ouchSound.Play();
                 healthPoints -= 30;
                 if (healthPoints < 0)   healthPoints = 0;
+                VignetteController.instance.SetVignetterInstesity(0.4f);
             }
 
             if(healthPoints <= 0)
