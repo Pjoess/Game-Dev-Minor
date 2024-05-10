@@ -4,6 +4,7 @@ using Cinemachine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,11 +17,24 @@ public class DialogueManager : MonoBehaviour
     public int inputIndex = 0;
     public string[] lines;
     public bool isActive = false;
-    Coroutine coroutine;
+    Coroutine coroutine = null;
     public ShowSlimes showSlimes;
     public bool isLastOne = false;
     public CinemachineVirtualCamera virtualCamera;
 
+    public GameObject child;
+
+    void Awake(){
+        textComponent.text = string.Empty;
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        instance = null;
+        coroutine = null;
+        input = null;
+        index = 0;
+        inputIndex = 0;
+        isLastOne = false;
+        DontDestroyOnLoad(this.gameObject);
+    }
     void Start(){
         instance = this;
         input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
@@ -36,11 +50,7 @@ public class DialogueManager : MonoBehaviour
         this.lines = lines;
         StartDialogue();
     }
-    void Awake(){
-        textComponent.text = string.Empty;
-        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        
-    }
+
 
     void Update(){
         if(Input.GetKeyDown(KeyCode.E)){
@@ -57,7 +67,7 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("Start Dialogue");
         input.SwitchCurrentActionMap("UI");
         isActive = true;
-        gameObject.SetActive(true);
+        child.SetActive(true);
         textComponent.text = string.Empty;
         index = 0;
         coroutine = StartCoroutine(TextCoroutine());
@@ -69,6 +79,7 @@ public class DialogueManager : MonoBehaviour
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
+        coroutine = null;
     }
 
     void SetInputActive(int inputIndex){
@@ -104,12 +115,14 @@ public class DialogueManager : MonoBehaviour
             index++;
             coroutine = StartCoroutine(TextCoroutine());
         }else{
-            gameObject.SetActive(false);
+            child.SetActive(false); 
             input.SwitchCurrentActionMap("Player");
             inputIndex++;
             isActive = false;
             index = 0;
+            coroutine = null;
             if(isLastOne){
+                ResetTriggers.ResetAllTriggers();
                 showSlimes.ToggleSlimes();
             }
         }
