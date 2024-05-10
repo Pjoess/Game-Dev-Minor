@@ -33,7 +33,7 @@ public class NewBuddyMortar : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Enemy"));
             foreach(Collider collider in hitColliders)
             {
-                collider.gameObject.GetComponent<IDamageble>().Hit(20);
+                collider.gameObject.GetComponent<IDamageble>().Hit(15);
             }
             fallingSphere.gameObject.SetActive(false);
             Destroy(gameObject, destroyTime);
