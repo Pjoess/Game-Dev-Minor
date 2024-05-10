@@ -345,7 +345,7 @@ MonoBehaviour:
   shootSound: {fileID: 4440051678307184094}
   bulletPrefab: {fileID: 6183946527980881328, guid: b3ffb05800933a44f951aec45acd7114,
     type: 3}
-  mortarPrefab: {fileID: 6183946527980881328, guid: 819d81b458173384d8713273e2dc12d3,
+  mortarPrefab: {fileID: 6139811382575373569, guid: c838ab0e21d94bd459a7becbb91f9bca,
     type: 3}
   shotsFired: 0
   bulletSpeed: 8
@@ -353,6 +353,8 @@ MonoBehaviour:
   bulletShootHeight: 1
   mortarSpeed: 5
   mortarSpawnHeight: 8
+  canShootMortar: 0
+  shootMortar: 0
   shootingRange: 10
   maxAgentToPlayerDistance: 8
   buddyCooldownText: {fileID: 0}
