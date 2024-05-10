@@ -182,19 +182,10 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         void Update()
         {
-            // if (buddyGameObject == null)
+            buddyGameObject = GameObject.FindWithTag("Buddy");
+            // if (buddyGameObject != null)
             // {
-            //     // Attempt to find the buddy when it's toggled on
-            //     GameObject theBuddy = GameObject.FindWithTag("Buddy");
-            //     if (theBuddy != null)
-            //     {
-            //         // If found, store its reference
-            //         buddyGameObject = buddyGameObject.GetComponent<GameObject>();
-            //     }
-            //     else
-            //     {
-            //         Debug.Log("Buddy does not exist");
-            //     }
+            //     bool isActive = buddyGameObject.activeSelf;
             // }
             playerState.UpdateState(this);
         }
