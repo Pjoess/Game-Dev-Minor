@@ -9,6 +9,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
 {
     #region Variables & References
         private Buddy_Agent buddy;
+        public GameObject buddyGameObject;
         [HideInInspector] public Rigidbody rigidBody;
         [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
@@ -179,7 +180,22 @@ public class Player_Manager : MonoBehaviour, IDamageble
             sword.onWeaponHit += WeaponHit;
         }
 
-        void Update(){
+        void Update()
+        {
+            // if (buddyGameObject == null)
+            // {
+            //     // Attempt to find the buddy when it's toggled on
+            //     GameObject theBuddy = GameObject.FindWithTag("Buddy");
+            //     if (theBuddy != null)
+            //     {
+            //         // If found, store its reference
+            //         buddyGameObject = buddyGameObject.GetComponent<GameObject>();
+            //     }
+            //     else
+            //     {
+            //         Debug.Log("Buddy does not exist");
+            //     }
+            // }
             playerState.UpdateState(this);
         }
     #endregion
