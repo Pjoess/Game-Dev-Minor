@@ -108,7 +108,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     public void ShootMortar()
     {
-        Instantiate(mortarPrefab, Blackboard.instance.GetPlayerPosition() + Vector3.up * 8f, Quaternion.identity);
+        Instantiate(mortarPrefab, Blackboard.instance.GetPlayerPosition(), Quaternion.identity);
         animator.SetBool(animIDIsMortarShooting, false);
     }
 }
