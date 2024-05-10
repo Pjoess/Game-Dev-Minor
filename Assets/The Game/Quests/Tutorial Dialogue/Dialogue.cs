@@ -19,6 +19,7 @@ public class Dialogue : MonoBehaviour
             if(isLastOne){
                 DialogueManager.instance.isLastOne = true;
                 ChangeLines?.Invoke(lines);
+                return;
             }
 
             ChangeLines?.Invoke(lines);
