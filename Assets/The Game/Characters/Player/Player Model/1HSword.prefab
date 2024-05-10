@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2135721279414291136}
   - component: {fileID: 5246081071917426534}
   - component: {fileID: 4007131999155586135}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Trails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4903,7 +4903,7 @@ GameObject:
   - component: {fileID: 2392403096585948871}
   - component: {fileID: 5179788970003796591}
   - component: {fileID: 8359646835408954401}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: 1HSword
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -4918,9 +4918,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3758923570347227708}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.43616968, y: -0.37262782, z: 0.659491, w: 0.48577377}
+  m_LocalRotation: {x: -0.43616837, y: -0.37263054, z: 0.65949166, w: 0.48577192}
   m_LocalPosition: {x: 0.011, y: -0.086, z: -0.04}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 100.00002, y: 100.00002, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 345800037144137551}
@@ -5013,7 +5013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c4238f8d533814aa825d2b01c2886e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swordSlashSound: {fileID: 0}
+  swordSlashSound: {fileID: 8359646835408954401}
   colliderSwitchOn_Off: 0
 --- !u!82 &8359646835408954401
 AudioSource:
@@ -5027,7 +5027,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d5e88654c46b4514cb90f469f1b76e95, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5120,7 +5120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 345800037144137551}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Vfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
