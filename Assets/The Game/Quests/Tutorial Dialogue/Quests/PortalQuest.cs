@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PortalQuest: QuestStage
 {
-    public GameObject trigger;
 
     public override bool CheckStageCompleted()
     {
@@ -17,7 +16,6 @@ public class PortalQuest: QuestStage
     {
         isActive = true;
         questLogText = "Get to level 1 \n\n" + $"-> Run into the portal.";
-        trigger.SetActive(false);
     }
 
     public void Triggered(){

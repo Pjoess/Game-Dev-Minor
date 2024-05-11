@@ -128,7 +128,6 @@ public class DialogueManager : MonoBehaviour
             index = 0;
             coroutine = null;
             if(isLastOne){
-                ResetTriggers.ResetAllTriggers();
                 showSlimes.ToggleSlimes();
             }
         }
