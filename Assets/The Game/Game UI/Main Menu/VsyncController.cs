@@ -16,8 +16,8 @@ public class VsyncController : MonoBehaviour
     {
         isVsyncEnabled = !isVsyncEnabled; // Toggle Vsync state
         ApplyVsync(isVsyncEnabled ? 1 : 0);
-        SaveVsyncState();
         UpdateVsyncButtonText();
+        SaveVsyncState();
     }
 
     public void ApplyVsync(int vsyncCount)
