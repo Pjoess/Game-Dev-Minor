@@ -18,7 +18,10 @@ public class StompNode : IBaseNode
         float distanceToPlayer = Vector3.Distance(boss.transform.position,Blackboard.instance.GetPlayerPosition());
         if( distanceToPlayer < boss.meleeRange ) 
         {
-            //DoStomp
+            if (boss.IsAnimatorCurrentState("idle"))
+            {
+                boss.animator.SetBool(boss.animIDIsStomping, true);
+            }
         }
 
         return true;

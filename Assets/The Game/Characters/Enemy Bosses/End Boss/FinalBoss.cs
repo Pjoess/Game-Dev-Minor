@@ -17,6 +17,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     public List<AttackPatternSO> allAttackPaterns;
 
+    [SerializeField] private ParticleSystem shockwave;
     public float meleeRange = 3f;
 
     [HideInInspector] public bool isAttacking = false;
@@ -24,6 +25,9 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     [HideInInspector] public bool canRotate = true;
     public float rotationSpeed = 8f;
+
+    private bool fightStarted = false;
+    private bool isDead = false;
 
     public GameObject bulletPrefab;
     public GameObject mortarPrefab;
@@ -33,11 +37,15 @@ public class FinalBoss : MonoBehaviour, IDamageble
     [HideInInspector] public Animator animator;
     [HideInInspector] public int animIDIsShooting;
     [HideInInspector] public int animIDIsMortarShooting;
+    [HideInInspector] public int animIDIsStomping;
+    [HideInInspector] public int animIDIsDead;
 
     private void AssignAnimIDs()
     {
         animIDIsShooting = Animator.StringToHash("isShooting");
         animIDIsMortarShooting = Animator.StringToHash("isMortarShooting");
+        animIDIsStomping = Animator.StringToHash("isStomping");
+        animIDIsDead = Animator.StringToHash("isDead");
     }
 
 
@@ -45,11 +53,20 @@ public class FinalBoss : MonoBehaviour, IDamageble
     {
         var facePlayer = new FacePlayerNode(this);
         var attackPlayer = new AttackPatternNode(this);
+        var stomp = new StompNode(this);
+
+        List<IBaseNode> attackLlist = new List<IBaseNode>();
+        {
+            attackLlist.Add(attackPlayer);
+            attackLlist.Add(stomp);
+        }
+
+        SelectorNode attackNodes =  new SelectorNode(attackLlist);
 
         List<IBaseNode> list = new List<IBaseNode>();
         {
             list.Add(facePlayer);
-            list.Add(attackPlayer);
+            list.Add(attackNodes);
         }
 
         BTRootNode = new SequenceNode(list);
@@ -71,7 +88,10 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     void Update()
     {
-        BTRootNode?.Update();
+        if(fightStarted && !isDead)
+        {
+            BTRootNode?.Update();
+        }
     }
 
     public List<AttackAction> GetRandomPattern()
@@ -90,7 +110,9 @@ public class FinalBoss : MonoBehaviour, IDamageble
     {
         if(healthPoints <= 0)
         {
-            Destroy(gameObject);
+            QuestEvents.BuddyDead();
+            isDead = true;
+            animator.SetBool(animIDIsDead, true);
             bossUI.gameObject.SetActive(false);
         }
     }
@@ -110,5 +132,17 @@ public class FinalBoss : MonoBehaviour, IDamageble
     {
         Instantiate(mortarPrefab, Blackboard.instance.GetPlayerPosition(), Quaternion.identity);
         animator.SetBool(animIDIsMortarShooting, false);
+    }
+
+    public void DoStomp()
+    {
+        shockwave.Play();
+        animator.SetBool(animIDIsStomping, false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, meleeRange);
     }
 }
