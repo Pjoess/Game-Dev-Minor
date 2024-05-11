@@ -30,16 +30,16 @@ public class VsyncController : MonoBehaviour
 
     private void SaveVsyncState()
     {
-        PlayerPrefs.SetInt("VsyncEnabled", isVsyncEnabled ? 1 : 0); // Save Vsync state
+        PlayerPrefs.SetInt("Vsync", isVsyncEnabled ? 1 : 0); // Save Vsync state
         PlayerPrefs.Save(); // Save PlayerPrefs to disk
 
         // Debug log for testing
         Debug.Log("Vsync state saved: " + (isVsyncEnabled ? "Enabled" : "Disabled"));
     }
 
-    public void LoadVsyncState()
+    private void LoadVsyncState()
     {
-        int vsyncState = PlayerPrefs.GetInt("VsyncEnabled", 1); // Load Vsync state, default is enabled (1)
+        int vsyncState = PlayerPrefs.GetInt("Vsync", 1); // Load Vsync state, default is enabled (1)
         isVsyncEnabled = vsyncState == 1;
         QualitySettings.vSyncCount = vsyncState;
 

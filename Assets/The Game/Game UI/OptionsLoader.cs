@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class OptionsLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        // Load Vsync state (Does not work when Options are Disabled)
-        VsyncController.instance.LoadVsyncState();
-        
-        // Enable Vsync immediately on Game Start
-        QualitySettings.vSyncCount = 1;
+        // Load Vsync setting from PlayerPrefs, defaulting to 1 (enabled) if not found
+        int savedVsync = PlayerPrefs.GetInt("Vsync", 1);
+        QualitySettings.vSyncCount = savedVsync;
+        Debug.Log("Vsync setting loaded: " + QualitySettings.vSyncCount);
+    }
+
+    void OnApplicationQuit()
+    {
+        // Save current Vsync setting to PlayerPrefs
+        PlayerPrefs.SetInt("Vsync", QualitySettings.vSyncCount);
+        PlayerPrefs.Save();
+        Debug.Log("Vsync setting saved: " + QualitySettings.vSyncCount);
     }
 }
