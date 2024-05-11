@@ -3,11 +3,13 @@ using TMPro;
 
 public class VsyncController : MonoBehaviour
 {
+    public static VsyncController instance;
     public TMP_Text vsyncButtonText;
     private bool isVsyncEnabled = true; // Default Vsync is enabled
 
     void Start()
     {
+        instance = this;
         LoadVsyncState(); // Load Vsync state when the game starts
         UpdateVsyncButtonText(); // Update the text of the button based on Vsync state
         // Debug logs for testing
