@@ -6,6 +6,7 @@ using UnityEngine;
 public class GraphicsSettings : MonoBehaviour
 {
     public TMP_Text setQualityButton;
+    public VsyncController vsyncController; // Reference to the VsyncController script
 
     private void Start()
     {
@@ -26,9 +27,25 @@ public class GraphicsSettings : MonoBehaviour
 
         QualitySettings.SetQualityLevel(nextQualityLevel);
         SaveQualitySettings();
+
+        // Toggle Vsync along with quality settings
+        ToggleVsync(nextQualityLevel);
+
         UpdateButtonText();
+        vsyncController.UpdateVsyncButtonText(); // Update Vsync button text
 
         Debug.Log("Quality level toggled. Current level: " + nextQualityLevel);
+    }
+
+    private void ToggleVsync(int qualityLevel)
+    {
+        // If Vsync is enabled, set it based on the current quality level
+        if (vsyncController != null && vsyncController.IsVsyncEnabled()) // Call IsVsyncEnabled() as a method
+        {
+            int vsyncCount = qualityLevel == 2 ? 1 : 0; // Enable Vsync only at High quality level
+            vsyncController.ApplyVsync(vsyncCount);
+            vsyncController.UpdateVsyncButtonText(); // Update the text of the Vsync button based on Vsync state
+        }
     }
 
     private void UpdateButtonText()

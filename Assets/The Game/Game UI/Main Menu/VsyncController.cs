@@ -15,9 +15,14 @@ public class VsyncController : MonoBehaviour
     public void ToggleVSync()
     {
         isVsyncEnabled = !isVsyncEnabled; // Toggle Vsync state
-        QualitySettings.vSyncCount = isVsyncEnabled ? 1 : 0; // Apply Vsync state
+        ApplyVsync(isVsyncEnabled ? 1 : 0); // Apply Vsync state
         SaveVsyncState(); // Save Vsync state
         UpdateVsyncButtonText(); // Update the text of the button based on Vsync state
+    }
+
+    public void ApplyVsync(int vsyncCount)
+    {
+        QualitySettings.vSyncCount = vsyncCount; // Apply Vsync count
     }
 
     private void SaveVsyncState()
@@ -30,14 +35,19 @@ public class VsyncController : MonoBehaviour
     {
         int vsyncState = PlayerPrefs.GetInt("Vsync", 1); // Load Vsync state, default is enabled (1)
         isVsyncEnabled = vsyncState == 1;
-        QualitySettings.vSyncCount = vsyncState;
+        ApplyVsync(vsyncState);
     }
 
-    private void UpdateVsyncButtonText()
+    public void UpdateVsyncButtonText()
     {
         if (vsyncButtonText != null)
         {
             vsyncButtonText.text = isVsyncEnabled ? "Vsync On" : "Vsync Off";
         }
+    }
+
+    public bool IsVsyncEnabled()
+    {
+        return isVsyncEnabled;
     }
 }
