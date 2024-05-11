@@ -555,26 +555,32 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         public void DisableSwordCollision()
         {
-            sword.SwordToDefault();
-            clickAmount = 0;
-            if (isDashing)
+            if (isStriking)
             {
-                canAttack = false;
-                struckAgain = false;
-                Dash();
+                sword.SwordToDefault();
+                clickAmount = 0;
+                if (isDashing)
+                {
+                    canAttack = false;
+                    struckAgain = false;
+                    Dash();
+                }
             }
         }
 
         public void EndAttackAnim()
         {
-            sword.SwordToDefault();
-            canAttack = false;
-            struckAgain = false;
-            if (isDashing)
+            if(isStriking)
             {
-                Dash();
+                sword.SwordToDefault();
+                canAttack = false;
+                struckAgain = false;
+                if (isDashing)
+                {
+                    Dash();
+                }
+                ChangeState(idleState);
             }
-            ChangeState(idleState);
         }
 
         public void EndDash()
