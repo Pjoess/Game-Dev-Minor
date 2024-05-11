@@ -117,6 +117,11 @@ public class FinalBoss : MonoBehaviour, IDamageble
         }
     }
 
+    public void ActivateBoss()
+    {
+        fightStarted = true;
+    }
+
     public bool IsAnimatorCurrentState(string name)
     {
         return animator.GetCurrentAnimatorStateInfo(0).IsName(name);

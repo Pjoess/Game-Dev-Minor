@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnterCastleStage : QuestStage
 {
     [SerializeField] GameObject trigger;
+    [SerializeField] VictoryScript victory;
 
     public override void StartStage()
     {
@@ -22,6 +23,7 @@ public class EnterCastleStage : QuestStage
         {
             trigger.SetActive(false);
             isActive = false;
+            victory.EnableVictoryCanvas(true);
             return true;
         }
         else return false;

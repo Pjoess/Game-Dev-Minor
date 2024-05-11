@@ -6022,6 +6022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questLogText: 
   trigger: {fileID: 1566535594}
+  boss: {fileID: 2119896851}
 --- !u!4 &712643358
 Transform:
   m_ObjectHideFlags: 0
@@ -9058,6 +9059,11 @@ PrefabInstance:
       propertyPath: bossHealthBar
       value: 
       objectReference: {fileID: 1249845858}
+    - target: {fileID: 3220169007029051456, guid: ec0a0e4dc2fbfe24283c29dcb5fd26df,
+        type: 3}
+      propertyPath: maxHealthPoints
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 7094396070149739575, guid: ec0a0e4dc2fbfe24283c29dcb5fd26df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17135,7 +17141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questLogText: 
-  trigger: {fileID: 0}
+  trigger: {fileID: 1749239633}
+  victory: {fileID: 39532958490766058}
 --- !u!4 &1522668719
 Transform:
   m_ObjectHideFlags: 0
@@ -17562,6 +17569,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1566535596}
   - component: {fileID: 1566535595}
+  - component: {fileID: 1566535597}
   m_Layer: 0
   m_Name: BuddyTrigger
   m_TagString: Untagged
@@ -17605,6 +17613,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 285687808}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1566535597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566535594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a922a7447c9a30240b6f8e322667175b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1577568983
 GameObject:
   m_ObjectHideFlags: 0
@@ -18209,6 +18229,7 @@ GameObject:
   - component: {fileID: 1749239636}
   - component: {fileID: 1749239635}
   - component: {fileID: 1749239634}
+  - component: {fileID: 1749239637}
   m_Layer: 0
   m_Name: CastleTrigger
   m_TagString: Untagged
@@ -18251,6 +18272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questLogText: 
   trigger: {fileID: 0}
+  victory: {fileID: 0}
 --- !u!4 &1749239636
 Transform:
   m_ObjectHideFlags: 0
@@ -18266,6 +18288,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 285687808}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1749239637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749239633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3bee8e1b34d0864cb527fccd578851e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1750760373
 GameObject:
   m_ObjectHideFlags: 0
@@ -18766,7 +18800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc473cd87c4ea4c42ac7d33e21337d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vsyncButtonText: {fileID: 139604262}
+  vsyncText: {fileID: 0}
 --- !u!114 &1799116863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20253,6 +20287,18 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &2119896851 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3220169007029051456, guid: ec0a0e4dc2fbfe24283c29dcb5fd26df,
+    type: 3}
+  m_PrefabInstance: {fileID: 1123764403}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615e2996cc415874694173d3a4f5c943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2129674967 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3193733515506680673, guid: 62593c118389d184db2ca348a06dc661,
@@ -20450,7 +20496,7 @@ PrefabInstance:
     - target: {fileID: 9089151099650551783, guid: 62593c118389d184db2ca348a06dc661,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.13040881
+      value: 0.13040882
       objectReference: {fileID: 0}
     - target: {fileID: 9089151099650551783, guid: 62593c118389d184db2ca348a06dc661,
         type: 3}
@@ -20749,7 +20795,7 @@ PrefabInstance:
     - target: {fileID: 8327744688596667123, guid: 005bc5366fdc9e54e819af30300f6c14,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.13040881
+      value: 0.13040882
       objectReference: {fileID: 0}
     - target: {fileID: 8327744688596667123, guid: 005bc5366fdc9e54e819af30300f6c14,
         type: 3}

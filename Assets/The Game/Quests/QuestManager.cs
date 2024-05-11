@@ -50,12 +50,6 @@ public class QuestManager : MonoBehaviour
             {
                 UpdateLog("Quest Completed");
                 questCompleted = true;
-                if(!isTutorial)
-                {
-                    //victoryScript.EnableVictoryCanvas(questCompleted);
-                    SceneManager.LoadScene(3);
-                    Debug.Log("Go to Scene 3 -> Check Build Settings"); // Remove when Level 2 works
-                }
             }
         }
     }
