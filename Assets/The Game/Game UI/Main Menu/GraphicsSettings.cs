@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class GraphicsSettings : MonoBehaviour
 {
     public TMP_Text setQualityButton;
+    public TMP_Text setVsyncText;
     public VsyncController vsyncController; // Reference to the VsyncController script
+    private int nextQualityLevel;
+    private int currentQualityLevel;
 
     private void Start()
     {
@@ -16,36 +17,32 @@ public class GraphicsSettings : MonoBehaviour
 
     public void ToggleQuality()
     {
-        int currentQualityLevel = QualitySettings.GetQualityLevel();
+        currentQualityLevel = QualitySettings.GetQualityLevel();
 
         // Determine the next quality level based on the current one
-        int nextQualityLevel = currentQualityLevel + 1;
+        nextQualityLevel = currentQualityLevel + 1;
 
-        // If next level exceeds the maximum, wrap around to the first level
-        if (nextQualityLevel > 2)
+        // If next level exceeds the maximum, reset
+        if (nextQualityLevel > 2) 
+        {
             nextQualityLevel = 0;
+        }
 
+        // Change the quality settings
         QualitySettings.SetQualityLevel(nextQualityLevel);
         SaveQualitySettings();
 
-        // Toggle Vsync along with quality settings
-        ToggleVsync(nextQualityLevel);
+        // Use the Vsync settings from the VsyncController
+        int vsyncCount = vsyncController.GetVsyncCountForQuality(nextQualityLevel);
+        ApplyVsync(vsyncCount);
 
         UpdateButtonText();
-        vsyncController.UpdateVsyncButtonText(); // Update Vsync button text
-
-        Debug.Log("Quality level toggled. Current level: " + nextQualityLevel);
+        vsyncController.UpdateVsyncButtonText();
     }
 
-    private void ToggleVsync(int qualityLevel)
+    private void ApplyVsync(int vsyncCount)
     {
-        // If Vsync is enabled, set it based on the current quality level
-        if (vsyncController != null && vsyncController.IsVsyncEnabled()) // Call IsVsyncEnabled() as a method
-        {
-            int vsyncCount = qualityLevel == 2 ? 1 : 0; // Enable Vsync only at High quality level
-            vsyncController.ApplyVsync(vsyncCount);
-            vsyncController.UpdateVsyncButtonText(); // Update the text of the Vsync button based on Vsync state
-        }
+        QualitySettings.vSyncCount = vsyncCount;
     }
 
     private void UpdateButtonText()
@@ -61,6 +58,11 @@ public class GraphicsSettings : MonoBehaviour
             case 2:
                 setQualityButton.text = "High";
                 break;
+        }
+
+        if (setVsyncText != null)
+        {
+            setVsyncText.text = vsyncController.GetVsyncTextForQuality(QualitySettings.GetQualityLevel());
         }
     }
 

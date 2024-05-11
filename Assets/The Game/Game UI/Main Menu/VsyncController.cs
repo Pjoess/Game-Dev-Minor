@@ -50,4 +50,16 @@ public class VsyncController : MonoBehaviour
     {
         return isVsyncEnabled;
     }
+
+    public int GetVsyncCountForQuality(int qualityLevel)
+    {
+        // Determine the Vsync count based on the quality level
+        return qualityLevel == 2 ? 1 : 0; // Enable Vsync only at High quality level
+    }
+
+    public string GetVsyncTextForQuality(int qualityLevel)
+    {
+        // Determine the Vsync text based on the quality level
+        return qualityLevel == 2 ? "Vsync On" : "Vsync Off";
+    }
 }
