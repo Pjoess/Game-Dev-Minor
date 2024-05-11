@@ -28,6 +28,7 @@ public class TutorialSlime : MonoBehaviour , IDamageble
 
             if(HealthPoints <= 0)
             {
+                TutorialEvents.EnteredAttack();
                 Destroy(this.gameObject);
             }
         }

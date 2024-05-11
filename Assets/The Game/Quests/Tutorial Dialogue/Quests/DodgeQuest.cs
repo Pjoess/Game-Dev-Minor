@@ -20,7 +20,7 @@ public class DodgeQuest : QuestStage
         isActive = true;
         questLogText = "Try dodging and moving around \n\n" + $"-> Run along the path and use Dodge.";
         trigger.SetActive(false);
-        TutorialEvents.OnEnterDodge += Triggered;
+        TutorialEvents.OnEnterBuddy += Triggered;
     }
 
     public void Triggered(){

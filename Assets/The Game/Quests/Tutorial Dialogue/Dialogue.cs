@@ -8,6 +8,10 @@ public class Dialogue : MonoBehaviour
     public string[] lines;
     public bool IsTriggered{get;set;}
 
+    void Awake(){
+        ChangeLines = null;
+    }
+
     private void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player") && !IsTriggered){
             if(isLastOne){

@@ -5,12 +5,13 @@ using UnityEngine;
 public class AttackQuest : QuestStage
 {
     public GameObject trigger;
-    public GameObject nextTrigger;
+    public Collider nextTrigger;
     public static int slimesKilled = 0;
+    public bool WalkedOverTrigger;
 
     public override bool CheckStageCompleted()
     {
-        if(isFinished){
+        if(isFinished && WalkedOverTrigger){
             return true;
         }else{
             return false;
@@ -19,13 +20,32 @@ public class AttackQuest : QuestStage
 
     public override void StartStage()
     {
+        WalkedOverTrigger = false;
         isActive = true;
-        questLogText = "Try doing an attack combo \n\n" + $"-> Kill slime dummies {slimesKilled}/2";
+        questLogText = "Try doing an attack combo \n\n" + $"-> Kill slime dummies {slimesKilled}/4";
         trigger.SetActive(false);
+        nextTrigger.isTrigger = false;
         TutorialEvents.OnEnterAttack += Triggered;
+        TutorialEvents.OnTriggerDodge += TriggerDodge;
+    }
+    
+    public void Triggered(){
+        if(slimesKilled < 3){
+            slimesKilled++;
+            questLogText = "Try doing an attack combo \n\n" + $"-> Kill slime dummies {slimesKilled}/4";
+        }else if(slimesKilled == 3){
+            slimesKilled++;
+            // nextTrigger.gameObject.SetActive(true);
+            nextTrigger.isTrigger = true;
+            questLogText = "Try doing an attack combo \n\n" + $"-> Kill slime dummies {slimesKilled}/4";
+            slimesKilled = 0;
+            isFinished = true;
+            
+        }
+        
     }
 
-    public void Triggered(){
-        isFinished = true;
+    public void TriggerDodge(){
+        WalkedOverTrigger = true;
     }
 }

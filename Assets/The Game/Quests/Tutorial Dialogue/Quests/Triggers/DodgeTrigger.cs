@@ -8,6 +8,7 @@ public class DodgeTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            TutorialEvents.TriggerDodge();
             TutorialEvents.EnteredDodge();
         }
     }
