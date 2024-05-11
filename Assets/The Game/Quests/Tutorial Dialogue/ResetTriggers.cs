@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class ResetTriggers : MonoBehaviour
 {
-    public static GameObject[] children;
+    [SerializeField]public static GameObject[] children;
 
-    void Awake(){
-
+    public GameObject[] childrens;
+    void Start(){
+        children = childrens;
     }
 
     public static void ResetAllTriggers(){

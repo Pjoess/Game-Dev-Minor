@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using TMPro;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -33,9 +34,10 @@ public class DialogueManager : MonoBehaviour
         index = 0;
         inputIndex = 0;
         isLastOne = false;
-        DontDestroyOnLoad(this.gameObject);
+        // DontDestroyOnLoad(this.gameObject);
     }
     void Start(){
+        child.SetActive(false);
         instance = this;
         input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
         Debug.Log("Start");
@@ -57,7 +59,9 @@ public class DialogueManager : MonoBehaviour
             if(textComponent.text == lines[index]){
                 NextLine();
             }else{
-                StopCoroutine(coroutine);
+                if(coroutine!=null){
+                    StopCoroutine(coroutine);
+                }
                 textComponent.text = lines[index];
             }
         }

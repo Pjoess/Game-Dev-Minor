@@ -9,6 +9,10 @@ public class TutorialEvents : MonoBehaviour
     public static event Action OnEnterBuddy;
     public static event Action OnKillEnemies;
 
+    public static event Action OnTriggerDodge;
+    public static event Action OnEnterPortal;
+    public static event Action OnKillSlimes;
+
     public static void EnteredCamera()
     {
         OnEnterCamera?.Invoke();
@@ -32,5 +36,20 @@ public class TutorialEvents : MonoBehaviour
     public static void KilledEnemies()
     {
         OnKillEnemies?.Invoke();
+    }
+
+    public static void TriggerDodge()
+    {
+        OnTriggerDodge?.Invoke();
+    }
+
+    public static void KilledSlimes()
+    {
+        OnKillSlimes?.Invoke();
+    }
+
+    public static void EnteredPortal()
+    {
+        OnEnterPortal?.Invoke();
     }
 }
