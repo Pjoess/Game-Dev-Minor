@@ -18,7 +18,7 @@ public class DialogueManager : MonoBehaviour
     public int inputIndex = 0;
     public string[] lines;
     public bool isActive = false;
-    Coroutine coroutine = null;
+    Coroutine coroutine;
     public ShowSlimes showSlimes;
     public bool isLastOne = false;
     public CinemachineVirtualCamera virtualCamera;
@@ -28,20 +28,22 @@ public class DialogueManager : MonoBehaviour
     void Awake(){
         textComponent.text = string.Empty;
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        // Dialogue.ChangeLines += null;
         instance = null;
         coroutine = null;
-        input = null;
+        // input = null;
         index = 0;
         inputIndex = 0;
         isLastOne = false;
         // DontDestroyOnLoad(this.gameObject);
     }
     void Start(){
+        Dialogue.ChangeLines += ChangeLine;
         child.SetActive(false);
         instance = this;
         input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
         Debug.Log("Start");
-        Dialogue.ChangeLines += ChangeLine;
+        
         StartDialogue();
     }
 
@@ -83,7 +85,7 @@ public class DialogueManager : MonoBehaviour
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
-        coroutine = null;
+        // coroutine = null;
     }
 
     void SetInputActive(int inputIndex){
