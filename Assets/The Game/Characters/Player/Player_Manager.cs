@@ -130,9 +130,11 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
     private void JumpToScenes()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SceneManager.LoadScene(1);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SceneManager.LoadScene(2);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SceneManager.LoadScene(3);
+        if(isPaused){
+            if (Input.GetKeyDown(KeyCode.Alpha1)) SceneManager.LoadScene(1);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) SceneManager.LoadScene(2);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) SceneManager.LoadScene(3);
+        }
     }
 
     #region Default Unity Function
