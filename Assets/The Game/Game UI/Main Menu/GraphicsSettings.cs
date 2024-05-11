@@ -16,7 +16,6 @@ public class GraphicsSettings : MonoBehaviour
 
     public void ToggleQuality()
     {
-        vsyncController.vsyncText.text = "Vsync Off";
         currentQualityLevel = QualitySettings.GetQualityLevel();
 
         // Determine the next quality level based on the current one
