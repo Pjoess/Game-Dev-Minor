@@ -3,21 +3,21 @@ using TMPro;
 
 public class VsyncController : MonoBehaviour
 {
-    public TMP_Text vsyncButtonText;
-    private bool isVsyncEnabled = true; // Default Vsync is enabled
+    public TMP_Text vsyncText;
+    private bool isVsyncEnabled = true;
 
     void Start()
     {
-        LoadVsyncState(); // Load Vsync state when the game starts
-        UpdateVsyncButtonText(); // Update the text of the button based on Vsync state
+        LoadVsyncState();
+        UpdateVsyncButtonText();
     }
 
     public void ToggleVSync()
     {
-        isVsyncEnabled = !isVsyncEnabled; // Toggle Vsync state
-        ApplyVsync(isVsyncEnabled ? 1 : 0); // Apply Vsync state
-        SaveVsyncState(); // Save Vsync state
-        UpdateVsyncButtonText(); // Update the text of the button based on Vsync state
+        UpdateVsyncButtonText();
+        ApplyVsync(isVsyncEnabled ? 1 : 0);
+        SaveVsyncState();
+        UpdateVsyncButtonText();
     }
 
     public void ApplyVsync(int vsyncCount)
@@ -40,9 +40,9 @@ public class VsyncController : MonoBehaviour
 
     public void UpdateVsyncButtonText()
     {
-        if (vsyncButtonText != null)
+        if (vsyncText != null)
         {
-            vsyncButtonText.text = isVsyncEnabled ? "Vsync On" : "Vsync Off";
+            vsyncText.text = isVsyncEnabled ? "Vsync On" : "Vsync Off";
         }
     }
 
