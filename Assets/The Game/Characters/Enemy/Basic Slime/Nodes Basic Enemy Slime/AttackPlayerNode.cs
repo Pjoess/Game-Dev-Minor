@@ -72,8 +72,8 @@ namespace BasicEnemySlime
                 if(animator.GetBool(animIDAttack))
                 {
                     Vector3 forwardDirection = agent.transform.forward.normalized;
-                    agent.speed += 20f; // Adjust speed increase as needed
-                    agent.SetDestination(agent.transform.position + forwardDirection * 2f);
+                    agent.speed += 10f; // Adjust speed increase as needed
+                    agent.SetDestination(agent.transform.position + forwardDirection * 0.5f);
                 }
                 else
                 {

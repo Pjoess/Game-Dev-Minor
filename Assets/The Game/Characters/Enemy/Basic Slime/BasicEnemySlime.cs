@@ -17,7 +17,7 @@ namespace BasicEnemySlime
 
         [Header("Patrol Settings")]
         private float patrolRadius = 20f;
-        private float stopDistance = 3f;
+        private float stopDistance = 2f;
 
         [Header("Chase")]
         private float chaseRange = 10f;
@@ -35,9 +35,9 @@ namespace BasicEnemySlime
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float coneWidth = 60f;
-        private float coneLength = 4f;
-        private float thickness = 2f;
+        private float coneWidth = 200f;
+        private float coneLength = 5f;
+        private float thickness = 1f;
 
         private Animator animator;
         private int animIDAnticipate;
