@@ -5,6 +5,7 @@ using UnityEngine;
 public class ApproachBuddyStage : QuestStage
 {
     [SerializeField] GameObject trigger;
+    [SerializeField] FinalBoss boss;
 
     public override void StartStage()
     {
@@ -22,6 +23,7 @@ public class ApproachBuddyStage : QuestStage
         {
             trigger.SetActive(false);
             isActive = false;
+            boss.ActivateBoss();
             return true;
         }
         else return false;

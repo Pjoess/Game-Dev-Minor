@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ReachCastleStage : QuestStage
 {
@@ -20,6 +21,7 @@ public class ReachCastleStage : QuestStage
         {
             castleTrigger.SetActive(false);
             isActive = false;
+            SceneManager.LoadScene(3);
             return true;
         }
         else return false;
