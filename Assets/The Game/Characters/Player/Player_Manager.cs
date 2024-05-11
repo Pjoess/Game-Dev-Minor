@@ -128,6 +128,13 @@ public class Player_Manager : MonoBehaviour, IDamageble
         animIDMoveSpeed = Animator.StringToHash("MoveSpeed");
     }
 
+    private void JumpToScenes()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SceneManager.LoadScene(1);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SceneManager.LoadScene(2);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SceneManager.LoadScene(3);
+    }
+
     #region Default Unity Function
         // By Default on Start this will be the stats of the player
         private void StatsOnAwake()
@@ -182,11 +189,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         void Update()
         {
+            JumpToScenes();
             buddyGameObject = GameObject.FindWithTag("Buddy");
-            // if (buddyGameObject != null)
-            // {
-            //     bool isActive = buddyGameObject.activeSelf;
-            // }
             playerState.UpdateState(this);
         }
     #endregion
