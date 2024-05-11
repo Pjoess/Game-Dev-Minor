@@ -41,7 +41,6 @@ namespace buddy
                 if (targetEnemy != null && mortarPrefab != null)
                 {
                     agent.canShootMortar = true;
-                    Debug.Log("Can Shoot");
                     if (agent.shootMortar)
                     {
                         navAgent.isStopped = true;
