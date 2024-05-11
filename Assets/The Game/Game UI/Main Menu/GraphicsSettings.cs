@@ -47,6 +47,7 @@ public class GraphicsSettings : MonoBehaviour
 
     private void UpdateButtonText()
     {
+        setVsyncText.text = "Vsync On";
         switch (QualitySettings.GetQualityLevel())
         {
             case 0:
@@ -58,11 +59,6 @@ public class GraphicsSettings : MonoBehaviour
             case 2:
                 setQualityButton.text = "High";
                 break;
-        }
-
-        if (setVsyncText != null)
-        {
-            setVsyncText.text = vsyncController.GetVsyncTextForQuality(QualitySettings.GetQualityLevel());
         }
     }
 
