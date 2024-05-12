@@ -4,17 +4,11 @@ using TMPro;
 public class VsyncController : MonoBehaviour
 {
     public TMP_Text vsyncText;
-    public GraphicsSettings graphicsSettings;
     private bool isVsyncEnabled;
 
     void Start()
     {
         LoadVsyncState();
-    }
-
-    void Update()
-    {
-        UpdateVsyncButtonText();
     }
 
     public void ToggleVSync()
@@ -31,13 +25,13 @@ public class VsyncController : MonoBehaviour
 
     private void SaveVsyncState()
     {
-        PlayerPrefs.SetInt("QualityLevel", isVsyncEnabled ? 1 : 0);
+        PlayerPrefs.SetInt("VSyncState", isVsyncEnabled ? 1 : 0);
         PlayerPrefs.Save();
     }
 
     private void LoadVsyncState()
     {
-        int vsyncState = PlayerPrefs.GetInt("QualityLevel", 1);
+        int vsyncState = PlayerPrefs.GetInt("VSyncState", 1);
         isVsyncEnabled = vsyncState == 1;
         ApplyVsync(vsyncState);
         UpdateVsyncButtonText();
@@ -46,10 +40,5 @@ public class VsyncController : MonoBehaviour
     public void UpdateVsyncButtonText()
     {
         vsyncText.text = isVsyncEnabled ? "Vsync On" : "Vsync Off";
-    }
-
-    public bool IsVsyncEnabled()
-    {
-        return isVsyncEnabled = QualitySettings.vSyncCount > 0;
     }
 }
