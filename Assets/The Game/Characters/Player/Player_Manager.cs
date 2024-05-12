@@ -463,9 +463,32 @@ public class Player_Manager : MonoBehaviour, IDamageble
             if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
         }
 
+        // --- Only for Tutorial ---
+        // void OnPause(InputValue value)
+        // {
+        //     if (!isDead && !IsInScene("Tutorial"))
+        //     {
+        //         pauseSound.Play();
+        //         if (value.isPressed && !isPaused)
+        //         {
+        //             Debug.Log("Game Paused");
+        //             Time.timeScale = 0;
+        //             isPaused = true;
+        //             pauseMenu.EnablePauseCanvas();
+        //         }
+        //         else
+        //         {
+        //             Debug.Log("Game Started");
+        //             Time.timeScale = 1;
+        //             isPaused = false;
+        //             pauseMenu.EnablePauseCanvas();
+        //         }
+        //     }
+        // }
+
         void OnPause(InputValue value)
         {
-            if (!isDead && !IsInScene("Tutorial"))
+            if (!isDead)
             {
                 pauseSound.Play();
                 if (value.isPressed && !isPaused)
