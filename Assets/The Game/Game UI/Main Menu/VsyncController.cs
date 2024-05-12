@@ -15,6 +15,7 @@ public class VsyncController : MonoBehaviour
     {
         isVsyncEnabled = !isVsyncEnabled;
         ApplyVsync(isVsyncEnabled ? 1 : 0);
+        UpdateVsyncButtonText();
         SaveVsyncState();
     }
 
@@ -31,7 +32,7 @@ public class VsyncController : MonoBehaviour
 
     private void LoadVsyncState()
     {
-        int vsyncState = PlayerPrefs.GetInt("VSyncState", 1);
+        int vsyncState = PlayerPrefs.GetInt("VSyncState");
         isVsyncEnabled = vsyncState == 1;
         ApplyVsync(vsyncState);
         UpdateVsyncButtonText();

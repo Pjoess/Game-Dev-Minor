@@ -11,6 +11,7 @@ public class GraphicsSettings : MonoBehaviour
     void Start()
     {
         LoadQualitySettings();
+        LoadVsyncState();
     }
 
     void Update()
@@ -18,12 +19,19 @@ public class GraphicsSettings : MonoBehaviour
         UpdateQualitySettingsButtonText();
     }
 
+    // Save the current quality settings and VSync state before quitting the application.
+    void OnApplicationQuit() 
+    {
+        SaveQualitySettings();
+        SaveVsyncState();
+    }
+
     public void ToggleQuality()
     {
         currentQualityLevel = QualitySettings.GetQualityLevel();
         nextQualityLevel = currentQualityLevel + 1;
 
-        if (nextQualityLevel > 2) 
+        if (nextQualityLevel > 2)
         {
             nextQualityLevel = 0;
         }
@@ -63,9 +71,8 @@ public class GraphicsSettings : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("QualityLevel"))
         {
-            // If no quality level is set yet, set it to high and enable VSync
+            // If no quality level is set yet, set it to high
             QualitySettings.SetQualityLevel(2);
-            QualitySettings.vSyncCount = 1;
             SaveQualitySettings();
         }
         else
@@ -74,5 +81,18 @@ public class GraphicsSettings : MonoBehaviour
             int qualityLevel = PlayerPrefs.GetInt("QualityLevel");
             QualitySettings.SetQualityLevel(qualityLevel);
         }
+    }
+
+    private void SaveVsyncState()
+    {
+        PlayerPrefs.SetInt("VSyncState", QualitySettings.vSyncCount);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadVsyncState()
+    {
+        int vsyncState = PlayerPrefs.GetInt("VSyncState", 1);
+        QualitySettings.vSyncCount = vsyncState;
+        vsyncController.UpdateVsyncButtonText();
     }
 }
