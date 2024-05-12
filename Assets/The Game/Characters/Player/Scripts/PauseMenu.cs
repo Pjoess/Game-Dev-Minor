@@ -20,7 +20,14 @@ public class PauseMenu : MonoBehaviour
             Debug.Log(input.currentActionMap);
         } else {
             pauseMenu.SetActive(false);
-            input.SwitchCurrentActionMap("Player");
+            if(DialogueManager.instance != null)
+            {
+                if(!DialogueManager.instance.isActive)
+                {
+                    input.SwitchCurrentActionMap("Player");
+                }
+            }
+            else input.SwitchCurrentActionMap("Player");
             Debug.Log(input.currentActionMap);
         }
     }
