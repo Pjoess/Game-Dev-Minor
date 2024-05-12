@@ -19,6 +19,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     [SerializeField] private ParticleSystem shockwave;
     public float meleeRange = 3f;
+    public float stompCooldown = 2f;
 
     [HideInInspector] public bool isAttacking = false;
     public float attackPatternIntervalTime = 3f;
