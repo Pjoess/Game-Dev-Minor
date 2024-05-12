@@ -67,6 +67,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         [HideInInspector] public bool canAttack = false;
         //[HideInInspector] public event Action HasAttacked;
         [HideInInspector] public bool struckAgain;
+        public float stunTime = 1f;
 
         [Header("UI Canvas and Buttons")]
         public static bool isPaused = false;
@@ -95,6 +96,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         public PlayerRunState runState = new();
         public PlayerDashState dashState = new();
         public PlayerStrikeState strikeState = new();
+        public PlayerStunState stunState = new();
         //public PlayerStrike2State strike2State = new();
         //public PlayerStrike3State strike3State = new();
 
@@ -112,6 +114,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         //[HideInInspector] public int animIDStrike3;
         [HideInInspector] public int animIDDash;
         [HideInInspector] public int animIDMoveSpeed;
+        [HideInInspector] public int animIDHit;
     #endregion
 
     private void AssignAnimIDs()
@@ -126,6 +129,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         //animIDStrike3 = Animator.StringToHash("Strike3");
         animIDDash = Animator.StringToHash("Dash");
         animIDMoveSpeed = Animator.StringToHash("MoveSpeed");
+        animIDHit = Animator.StringToHash("isHit");
     }
 
     private void JumpToScenes()
@@ -640,6 +644,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 healthPoints -= damage;
                 HandleHealthUpdated(healthPoints);
                 VignetteController.instance.SetVignetterInstesity(0.4f);
+                ChangeState(stunState);
             }
         }
 
