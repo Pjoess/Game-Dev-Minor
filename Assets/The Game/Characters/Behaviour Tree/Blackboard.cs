@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Blackboard : MonoBehaviour, IDamageble
+public class Blackboard : MonoBehaviour
 {
     public static Blackboard instance;
     private Player_Manager player;
@@ -48,9 +48,10 @@ public class Blackboard : MonoBehaviour, IDamageble
     }
     #endregion
 
-    public void Hit(int damage)
+    public void HitPlayer(int damage, Vector3 position)
     {
         player.Hit(damage);
+        player.ApplyKnockback(position, 100);
     }
 
     #region Buddy

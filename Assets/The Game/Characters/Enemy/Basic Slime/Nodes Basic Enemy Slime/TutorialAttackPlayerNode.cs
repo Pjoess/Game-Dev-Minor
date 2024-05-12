@@ -82,7 +82,7 @@ namespace BasicEnemySlime
                 
                 if(TutorialAttackSlime.hasAttacked)
                 {
-                    Blackboard.instance.Hit(10);
+                    Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
                 }
                 return true;
             }
