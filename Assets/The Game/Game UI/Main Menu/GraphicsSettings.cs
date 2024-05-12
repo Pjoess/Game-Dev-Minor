@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GraphicsSettings : MonoBehaviour
@@ -8,20 +9,21 @@ public class GraphicsSettings : MonoBehaviour
     private int nextQualityLevel;
     private int currentQualityLevel;
 
-    private void Start()
+    void Start()
     {
         LoadQualitySettings();
-        UpdateButtonText();
+    }
+
+    void Update()
+    {
+        UpdateQualitySettingsButtonText();
     }
 
     public void ToggleQuality()
     {
         currentQualityLevel = QualitySettings.GetQualityLevel();
-
-        // Determine the next quality level based on the current one
         nextQualityLevel = currentQualityLevel + 1;
 
-        // If next level exceeds the maximum, reset
         if (nextQualityLevel > 2) 
         {
             nextQualityLevel = 0;
@@ -30,11 +32,13 @@ public class GraphicsSettings : MonoBehaviour
         // Change the quality settings
         QualitySettings.SetQualityLevel(nextQualityLevel);
         SaveQualitySettings();
-        UpdateButtonText();
+        UpdateQualitySettingsButtonText();
     }
 
-    private void UpdateButtonText()
+    private void UpdateQualitySettingsButtonText()
     {
+        vsyncController.vsyncText.text = QualitySettings.vSyncCount > 0 ? "Vsync On" : "Vsync Off";
+
         switch (QualitySettings.GetQualityLevel())
         {
             case 0:
@@ -54,22 +58,22 @@ public class GraphicsSettings : MonoBehaviour
         int qualityLevel = QualitySettings.GetQualityLevel();
         PlayerPrefs.SetInt("QualityLevel", qualityLevel);
         PlayerPrefs.Save();
-        Debug.Log("Quality settings saved. Level: " + qualityLevel);
     }
 
     private void LoadQualitySettings()
     {
-        if (PlayerPrefs.HasKey("QualityLevel"))
+        if (!PlayerPrefs.HasKey("QualityLevel"))
         {
-            int qualityLevel = PlayerPrefs.GetInt("QualityLevel");
-            QualitySettings.SetQualityLevel(qualityLevel);
-            Debug.Log("Quality settings loaded. Level: " + qualityLevel);
+            // If no quality level is set yet, set it to high and enable VSync
+            QualitySettings.SetQualityLevel(2);
+            QualitySettings.vSyncCount = 1;
+            SaveQualitySettings();
         }
         else
         {
-            // Set default quality level to High if nothing is saved yet
-            QualitySettings.SetQualityLevel(2); // High quality
-            SaveQualitySettings();
+            // Load the quality level from PlayerPrefs
+            int qualityLevel = PlayerPrefs.GetInt("QualityLevel");
+            QualitySettings.SetQualityLevel(qualityLevel);
         }
     }
 }

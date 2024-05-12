@@ -4,36 +4,40 @@ using TMPro;
 public class VsyncController : MonoBehaviour
 {
     public TMP_Text vsyncText;
-    private bool isVsyncEnabled = true;
+    public GraphicsSettings graphicsSettings;
+    private bool isVsyncEnabled;
 
     void Start()
     {
         LoadVsyncState();
+    }
+
+    void Update()
+    {
         UpdateVsyncButtonText();
     }
 
     public void ToggleVSync()
     {
-        isVsyncEnabled = !isVsyncEnabled; // Toggle Vsync state
+        isVsyncEnabled = !isVsyncEnabled;
         ApplyVsync(isVsyncEnabled ? 1 : 0);
-        UpdateVsyncButtonText();
         SaveVsyncState();
     }
 
     public void ApplyVsync(int vsyncCount)
     {
-        QualitySettings.vSyncCount = vsyncCount; // Apply Vsync count
+        QualitySettings.vSyncCount = vsyncCount;
     }
 
     private void SaveVsyncState()
     {
-        PlayerPrefs.SetInt("Vsync", isVsyncEnabled ? 1 : 0); // Save Vsync state
-        PlayerPrefs.Save(); // Save PlayerPrefs to disk
+        PlayerPrefs.SetInt("QualityLevel", isVsyncEnabled ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     private void LoadVsyncState()
     {
-        int vsyncState = PlayerPrefs.GetInt("Vsync", 1); // Load Vsync state, default is enabled (1)
+        int vsyncState = PlayerPrefs.GetInt("QualityLevel", 1);
         isVsyncEnabled = vsyncState == 1;
         ApplyVsync(vsyncState);
         UpdateVsyncButtonText();
@@ -41,14 +45,11 @@ public class VsyncController : MonoBehaviour
 
     public void UpdateVsyncButtonText()
     {
-        if (vsyncText != null)
-        {
-            vsyncText.text = isVsyncEnabled ? "Vsync On" : "Vsync Off";
-        }
+        vsyncText.text = isVsyncEnabled ? "Vsync On" : "Vsync Off";
     }
 
     public bool IsVsyncEnabled()
     {
-        return isVsyncEnabled;
+        return isVsyncEnabled = QualitySettings.vSyncCount > 0;
     }
 }
