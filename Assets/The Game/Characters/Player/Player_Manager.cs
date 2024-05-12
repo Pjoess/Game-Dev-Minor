@@ -207,10 +207,11 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
         public bool IsGrounded()
         {
-            return Physics.Raycast(transform.position + capsuleColider.center + new Vector3(0.4f, 0.0f, -0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
-                Physics.Raycast(transform.position + capsuleColider.center + new Vector3(-0.4f, 0.0f, 0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
-                Physics.Raycast(transform.position + capsuleColider.center + new Vector3(-0.4f, 0.0f, -0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
-                Physics.Raycast(transform.position + capsuleColider.center + new Vector3(0.4f, 0.0f, 0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f);
+        //return Physics.Raycast(transform.position + capsuleColider.center + new Vector3(0.4f, 0.0f, -0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
+        //    Physics.Raycast(transform.position + capsuleColider.center + new Vector3(-0.4f, 0.0f, 0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
+        //    Physics.Raycast(transform.position + capsuleColider.center + new Vector3(-0.4f, 0.0f, -0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f) ||
+        //    Physics.Raycast(transform.position + capsuleColider.center + new Vector3(0.4f, 0.0f, 0.4f), Vector3.down, capsuleColider.bounds.extents.y + 0.1f);
+        return true;
         }
 
         public void FallCheck()
@@ -642,17 +643,29 @@ public class Player_Manager : MonoBehaviour, IDamageble
             }
         }
 
-        public void ApplyKnockback(Vector3 pos)
+        public void ApplyKnockback(Vector3 pos, int force)
         {
             if(playerState != dashState)
             {
                 Vector3 pushDirection = transform.position - pos;
+                pushDirection.y = 0;
                 pushDirection.Normalize();
-                rigidBody.AddForce(pushDirection * 300, ForceMode.Acceleration);
+                StartCoroutine(KnockBackCoroutine(pushDirection, force));
             }
         }
 
-        void HandleHealthUpdated(float currentHealth)
+    private IEnumerator KnockBackCoroutine(Vector3 direction, int force)
+    {
+        int index = 0;
+        while(index <= 10)
+        {
+            rigidBody.AddForce(direction * force, ForceMode.Acceleration);
+            index++;
+            yield return null;
+        }
+    }
+
+    void HandleHealthUpdated(float currentHealth)
         {
             if (currentHealth <= 0)
             {

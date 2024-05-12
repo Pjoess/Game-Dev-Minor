@@ -7,9 +7,11 @@ public class BossBullet : MonoBehaviour
     private Vector3 direction;
     public float moveSpeed;
     public float lifetime;
+    private Player_Manager player;
 
     void Start()
     {
+        player = FindObjectOfType<Player_Manager>();
         sphereCollider = GetComponent<SphereCollider>();
         direction = Blackboard.instance.GetPlayerPosition() - transform.position;
         direction += Vector3.up * 1f;
@@ -30,7 +32,9 @@ public class BossBullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<IDamageble>().Hit(5);
+            player.Hit(5);
+            Vector3 point = other.ClosestPoint(transform.position);
+            player.ApplyKnockback(point, 50);
             Destroy(gameObject);
         }
         else if (other.gameObject.CompareTag("Obstacle")) Destroy(gameObject);

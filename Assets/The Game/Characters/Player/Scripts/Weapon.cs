@@ -51,7 +51,7 @@ public class Weapon : MonoBehaviour
             onWeaponHit?.Invoke();
             if(strongAttack)
             {
-                other.gameObject.GetComponent<IDamageble>().ApplyKnockback();
+                //other.gameObject.GetComponent<IDamageble>().ApplyKnockback();
             }
             enemiesHit.Add(other.gameObject);
         }

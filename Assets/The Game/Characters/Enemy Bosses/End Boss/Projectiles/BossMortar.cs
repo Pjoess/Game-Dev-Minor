@@ -4,9 +4,11 @@ public class BossMortar : MonoBehaviour
 {
     [HideInInspector] private SphereCollider sphereCollider;
     public float speed = 7f; // Speed of downward movement
+    private Player_Manager player;
 
     void Start()
     {
+        player = FindObjectOfType<Player_Manager>();
         sphereCollider = GetComponent<SphereCollider>();
     }
 
@@ -26,7 +28,8 @@ public class BossMortar : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<IDamageble>().Hit(15);
+            player.Hit(15);
+            player.ApplyKnockback(transform.position, 300);
             Destroy(this.gameObject);
         }
         else if (other.gameObject.CompareTag("Obstacle")) Destroy(this.gameObject);

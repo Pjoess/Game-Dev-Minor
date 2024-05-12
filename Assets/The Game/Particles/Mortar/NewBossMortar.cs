@@ -33,7 +33,9 @@ public class NewBossMortar : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Player"));
             foreach(Collider collider in hitColliders)
             {
-                collider.gameObject.GetComponent<IDamageble>().Hit(20);
+                IDamageble damageble = collider.gameObject.GetComponent<IDamageble>();
+                damageble.Hit(20);
+                damageble.ApplyKnockback(transform.position, 300);
             }
             fallingSphere.gameObject.SetActive(false);
             Destroy(gameObject, destroyTime);

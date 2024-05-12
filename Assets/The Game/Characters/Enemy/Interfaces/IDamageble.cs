@@ -7,5 +7,5 @@ public interface IDamageble
     public int MaxHealthPoints { get; }
     public int HealthPoints { get; set; }
     abstract void Hit(int damage);
-    virtual void ApplyKnockback() { }
+    virtual void ApplyKnockback(Vector3 direction, int force) { }
 }

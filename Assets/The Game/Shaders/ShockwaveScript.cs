@@ -23,14 +23,13 @@ public class ShockwaveScript : MonoBehaviour
         {
             player.Hit(20);
             hasHit = true;
+            Vector3 knockbackPos = transform.position;
+
+            //Set the same y position so player doesn't start flying :)
+            knockbackPos.y = player.transform.position.y;
+
+            player.ApplyKnockback(knockbackPos, 500);
         }
-
-        Vector3 knockbackPos = transform.position;
-
-        //Set the same y position so player doesn't start flying :)
-        knockbackPos.y = player.transform.position.y;
-
-        player.ApplyKnockback(knockbackPos);
     }
 
     private void Update()
