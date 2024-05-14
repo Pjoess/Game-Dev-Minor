@@ -34,12 +34,11 @@ namespace BasicEnemySlime
             float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
             damageTimer += Time.deltaTime; // Update damage timer
 
-            // Check if the player is within attack range and the damage cooldown has passed
             if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
             {
                 // Set animation parameters
                 animator.SetBool(animIDAnticipate, true);
-                
+
                 if(BasicEnemySlime.hasAttacked)
                 {
                     Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
