@@ -23,7 +23,7 @@ namespace BasicEnemySlime
         private float chaseRange = 10f;
 
         [Header("Attack")]
-        private float attackRange = 3f;
+        private float attackRange = 2f;
         public static bool hasAttacked = false;
         
         // --- IDamagable --- //
@@ -35,8 +35,8 @@ namespace BasicEnemySlime
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float coneWidth = 165f;
-        private float coneLength = 5f;
+        private float coneWidth = 100f;
+        private float coneLength = 2f;
         private float thickness = 1f;
 
         private Animator animator;
@@ -79,7 +79,7 @@ namespace BasicEnemySlime
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
                 new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking),
-                new AttackPlayerNode(agent,attackRange,stopDistance,attackLayer,coneWidth,coneLength,animator,animIDAnticipate,animIDAttack),
+                new AttackPlayerNode(agent,attackRange,animator,animIDAnticipate,animIDAttack),
             };
 
             List<IBaseNode> IsPlayerNotInLineOfSight = new()
@@ -104,7 +104,7 @@ namespace BasicEnemySlime
             DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
 
             // Draw chase range sphere
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, chaseRange);
 
             if(patrolCenterPoint != null){
@@ -133,23 +133,26 @@ namespace BasicEnemySlime
             // Calculate offset for thickness
             Vector3 offset = Vector3.up * thickness;
 
+            // Calculate the position of the cone start 2 units back from the middle point
+            Vector3 coneStart = origin + (-direction * 1f);
+
             // Draw cone base with thickness
-            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset);
-            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength - offset);
-            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength + offset);
-            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength + offset);
+            Gizmos.DrawLine(coneStart - offset, coneStart + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset);
+            Gizmos.DrawLine(coneStart - offset, coneStart + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength - offset);
+            Gizmos.DrawLine(coneStart + offset, coneStart + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength + offset);
+            Gizmos.DrawLine(coneStart + offset, coneStart + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength + offset);
 
             // Draw cone sides with thickness
-            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) - offset);
-            Gizmos.DrawLine(origin - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) - offset);
-            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) + offset);
-            Gizmos.DrawLine(origin + offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) + offset);
+            Gizmos.DrawLine(coneStart - offset, coneStart + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) - offset);
+            Gizmos.DrawLine(coneStart - offset, coneStart + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) - offset);
+            Gizmos.DrawLine(coneStart + offset, coneStart + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) + offset);
+            Gizmos.DrawLine(coneStart + offset, coneStart + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength / Mathf.Cos(Mathf.Deg2Rad * halfWidth) + offset);
 
             // Draw lines to connect cone sides to cone base with thickness
-            Gizmos.DrawLine(origin - offset, origin - offset);
-            Gizmos.DrawLine(origin + offset, origin + offset);
-            Gizmos.DrawLine(origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset, origin + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength + offset);
-            Gizmos.DrawLine(origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength - offset, origin + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength + offset);
+            Gizmos.DrawLine(coneStart - offset, coneStart - offset);
+            Gizmos.DrawLine(coneStart + offset, coneStart + offset);
+            Gizmos.DrawLine(coneStart + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset, coneStart + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength + offset);
+            Gizmos.DrawLine(coneStart + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength - offset, coneStart + Quaternion.Euler(0, halfWidth, 0) * direction * coneLength + offset);
 
             // Restore the previous Gizmos color
             Gizmos.color = previousColor;
