@@ -17,13 +17,13 @@ namespace BasicEnemySlime
 
         [Header("Patrol Settings")]
         private float patrolRadius = 20f;
-        private float stopDistance = 0f;
+        private float stopDistance = 2f;
 
         [Header("Chase")]
         private float chaseRange = 10f;
 
         [Header("Attack")]
-        private float attackRange = 2f;
+        private float attackRange = 3f;
         public static bool hasAttacked = false;
         
         // --- IDamagable --- //
@@ -75,7 +75,34 @@ namespace BasicEnemySlime
         #region Behaviour Tree
         private void BehaviourTree()
         {
+            //ChaseAttackPatrol();
+            AttackAndReturn();
+        }
 
+        private void AttackAndReturn()
+        {
+            List<IBaseNode> IsPlayerInLineOfSight = new()
+            {
+                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking),
+                new AttackPlayerNode(agent,attackRange,animator,animIDAnticipate,animIDAttack),
+            };
+
+            List<IBaseNode> IsPlayerNotInLineOfSight = new()
+            {
+                new ReturnBackToPosition(agent,agent.transform.position,stopDistance,chaseRange,attackRange,animator,animIDWalking),
+            };
+
+            List<IBaseNode> Root = new()
+            {
+                new SequenceNode(IsPlayerInLineOfSight),
+                new SequenceNode(IsPlayerNotInLineOfSight),
+            };
+
+            basicSlimeBT = new SelectorNode(Root);
+        }
+
+        private void ChaseAttackPatrol()
+        {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
                 new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking),
@@ -104,8 +131,12 @@ namespace BasicEnemySlime
             DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
 
             // Draw chase range sphere
-            Gizmos.color = Color.yellow;
+            Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+            // Draw chase range sphere
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, stopDistance);
 
             if(patrolCenterPoint != null){
                 // Draw patrol radius
