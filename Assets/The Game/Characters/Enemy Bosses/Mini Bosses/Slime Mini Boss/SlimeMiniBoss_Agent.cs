@@ -19,7 +19,7 @@ namespace SlimeMiniBoss
         private float chaseRange = 20f;
 
         [Header("Attack")]
-        private float attackRange = 8f;
+        private float attackRange = 19f;
         private float offsetDistance = 1f;
         
         // --- IDamagable --- //
@@ -32,7 +32,7 @@ namespace SlimeMiniBoss
     
         [Header("Cone Settings")]
         private float coneWidth = 50f;
-        private float coneLength = 8f;
+        private float coneLength = 10f;
         private float thickness = 2f;
 
         [Header("Patrol Settings")]
@@ -73,7 +73,22 @@ namespace SlimeMiniBoss
         #region Behaviour Tree
         private void MiniBossSlimeBehaviourTree()
         {
+            //PatrolChaseAttack();
+            OnlyAttackAndRotate();
+        }
 
+        private void OnlyAttackAndRotate()
+        {
+            List<IBaseNode> IsPlayerInLineOfSight = new()
+            {
+                new AttackPlayerOnPositionNode(miniBossAgent, attackRange, offsetDistance, attackLayer, coneWidth, coneLength,animator,animIDAnticipate,animIDAttack),
+            };
+
+            slimeBT = new SelectorNode(IsPlayerInLineOfSight);
+        }
+
+        private void PatrolChaseAttack()
+        {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
                 new ChasePlayerNode(miniBossAgent, chaseRange, stopDistance),
@@ -103,8 +118,12 @@ namespace SlimeMiniBoss
             DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
 
             // Draw chase range sphere
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+            // Draw attack range sphere
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
 
             if(patrolCenterPoint != null){
                 // Draw patrol radius
