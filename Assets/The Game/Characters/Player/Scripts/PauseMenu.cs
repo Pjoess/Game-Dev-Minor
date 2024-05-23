@@ -15,7 +15,7 @@ public class PauseMenu : MonoBehaviour
     public void EnablePauseCanvas(){
         if(Player_Manager.isPaused){
             pauseMenu.SetActive(true);
-            input.SwitchCurrentActionMap("UI");
+            // input.SwitchCurrentActionMap("UI");
             EventSystem.current.SetSelectedGameObject(mainMenuButton);
             Debug.Log(input.currentActionMap);
         } else {
@@ -24,10 +24,10 @@ public class PauseMenu : MonoBehaviour
             {
                 if(!DialogueManager.instance.isActive)
                 {
-                    input.SwitchCurrentActionMap("Player");
+                    // input.SwitchCurrentActionMap("Player");
                 }
             }
-            else input.SwitchCurrentActionMap("Player");
+            // else input.SwitchCurrentActionMap("Player");
             Debug.Log(input.currentActionMap);
         }
     }

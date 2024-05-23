@@ -23,6 +23,8 @@ public class DialogueManager : MonoBehaviour
     public bool isLastOne = false;
     public CinemachineVirtualCamera virtualCamera;
 
+    public bool canMove = false;
+
     public GameObject child;
 
     void Awake(){
@@ -50,6 +52,7 @@ public class DialogueManager : MonoBehaviour
     void ChangeLine(string[] lines){
         if(coroutine!=null){
             StopCoroutine(coroutine);
+            coroutine = null;
         }
         this.lines = lines;
         StartDialogue();
@@ -63,6 +66,7 @@ public class DialogueManager : MonoBehaviour
             }else{
                 if(coroutine!=null){
                     StopCoroutine(coroutine);
+                    coroutine = null;
                 }
                 textComponent.text = lines[index];
             }
@@ -71,7 +75,10 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(){
         Debug.Log("Start Dialogue");
-        input.SwitchCurrentActionMap("UI");
+        if(!canMove){
+            input.SwitchCurrentActionMap("UI");
+        }
+        
         isActive = true;
         child.SetActive(true);
         textComponent.text = string.Empty;
@@ -88,33 +95,6 @@ public class DialogueManager : MonoBehaviour
         // coroutine = null;
     }
 
-    void SetInputActive(int inputIndex){
-        if(inputIndex <= dialogues.Count -1){
-            switch (inputIndex)
-            {
-                case 0:
-                    input.currentActionMap.FindAction("Move").Enable();
-                    break;
-                case 1:
-                    input.actions["OnSprint"].Enable();
-                    break;
-                case 2:
-                    input.actions["MoveCamera"].Enable();
-                    input.actions["Zoom"].Enable();
-                    break;
-                case 3:
-                    input.actions["Attack"].Enable();
-                    break;
-                case 4:
-                    input.actions["Dodge"].Enable();
-                    break;
-                case 5:
-                    input.actions["ToggleBuddyAttack"].Enable();
-                    break;
-            }
-        }
-    }
-
     void NextLine(){
         textComponent.text = string.Empty;
         if(index < lines.Length - 1){
@@ -122,7 +102,10 @@ public class DialogueManager : MonoBehaviour
             coroutine = StartCoroutine(TextCoroutine());
         }else{
             child.SetActive(false); 
-            input.SwitchCurrentActionMap("Player");
+            if(!canMove){
+                input.SwitchCurrentActionMap("Player");
+            }
+            // input.SwitchCurrentActionMap("Player");
             inputIndex++;
             isActive = false;
             index = 0;

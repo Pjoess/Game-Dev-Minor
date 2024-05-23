@@ -9,6 +9,10 @@ public class AttackQuest : QuestStage
     public static int slimesKilled = 0;
     public bool WalkedOverTrigger;
 
+    void Awake(){
+        slimesKilled = 0;
+    }
+
     public override bool CheckStageCompleted()
     {
         if(isFinished && WalkedOverTrigger){
