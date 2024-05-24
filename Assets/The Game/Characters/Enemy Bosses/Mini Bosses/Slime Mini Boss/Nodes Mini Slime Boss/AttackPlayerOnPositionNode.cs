@@ -54,31 +54,13 @@ namespace SlimeMiniBoss
                         return true;
                     }
                 }
-                else
+                else if(!animator.GetBool(animIDAnticipate))
                 {
                     RotateTowardsPlayer(directionToPlayer);
                 }
             }
             return false;
         }
-
-        // Method to check if the player is within the cone
-        // private bool IsPlayerWithinCone(Vector3 directionToPlayer)
-        // {
-        //     float angleToPlayer = Vector3.Angle(agent.transform.forward, directionToPlayer);
-
-        //     // Check if the player is within the cone width and cone length
-        //     if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
-        //     {
-        //         if(!animator.GetBool(animIDAttack))
-        //             {
-        //                 animator.SetBool(animIDAnticipate, true);
-        //                 animator.SetBool(animIDAttack, true);
-        //             }
-        //         return true;
-        //     }
-        //     return false;
-        // }
 
         private void RotateTowardsPlayer(Vector3 directionToPlayer)
         {
