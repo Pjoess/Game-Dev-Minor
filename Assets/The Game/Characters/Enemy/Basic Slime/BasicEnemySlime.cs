@@ -17,13 +17,13 @@ namespace BasicEnemySlime
 
         [Header("Patrol Settings")]
         private float patrolRadius = 20f;
-        private float stopDistance = 2f;
+        private float stopDistance = 3f;
 
         [Header("Chase")]
         private float chaseRange = 10f;
 
         [Header("Attack")]
-        private float attackRange = 3f;
+        private float attackRange = 4f;
         public static bool hasAttacked = false;
         
         // --- IDamagable --- //
@@ -35,8 +35,8 @@ namespace BasicEnemySlime
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float coneWidth = 100f;
-        private float coneLength = 2f;
+        private float coneWidth = 60f;
+        private float coneLength = 3f;
         private float thickness = 1f;
 
         private Animator animator;
@@ -227,9 +227,9 @@ namespace BasicEnemySlime
 
         public void EndAttack()
         {   
-            hasAttacked = false;
             animator.SetBool(animIDAnticipate, false);
             animator.SetBool(animIDAttack, false);
+            hasAttacked = false;
         }
         #endregion
     }

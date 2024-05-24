@@ -39,9 +39,11 @@ namespace BasicEnemySlime
                 Vector3 directionToPlayer = (playerPosition - agent.transform.position).normalized;
                 Vector3 destinationPoint = playerPosition - directionToPlayer * stopDistance;
                 agent.isStopped = false;
+                
                 // Check if agent is stuck or standing still
                 if (Vector3.Distance(agent.transform.position, lastPosition) < 0.1f)
                 {
+                    RotateTowardsPlayer(directionToPlayer);
                     currentStuckTime += Time.deltaTime;
                     if (currentStuckTime >= stuckTimeThreshold)
                     {
@@ -63,7 +65,7 @@ namespace BasicEnemySlime
                 {
                     currentStuckTime = 0f; // Reset stuck time if agent is moving
                 }
-                RotateTowardsPlayer(directionToPlayer);
+                // RotateTowardsPlayer(directionToPlayer);
                 return true;
             }
             return false;

@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class EnemyHealthBar : MonoBehaviour
 {
-
     [SerializeField] private Slider slider;
     [SerializeField] private new Camera camera;
     [SerializeField] private Transform target;
@@ -16,6 +12,7 @@ public class EnemyHealthBar : MonoBehaviour
     {
         camera = Camera.main;
         slider = GetComponent<Slider>();
+        target = transform.parent; // Assign the target to the parent object
     }
 
     public void UpdateHealthBar(float currentValue, float maxValue)
