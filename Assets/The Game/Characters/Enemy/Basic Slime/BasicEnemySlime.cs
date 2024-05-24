@@ -101,6 +101,7 @@ namespace BasicEnemySlime
             basicSlimeBT = new SelectorNode(Root);
         }
 
+        // Removed for now, changed plan to slime goes back to its spawned point.
         private void ChaseAttackPatrol()
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
