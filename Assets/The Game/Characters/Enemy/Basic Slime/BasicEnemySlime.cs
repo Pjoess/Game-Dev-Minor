@@ -35,8 +35,9 @@ namespace BasicEnemySlime
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float coneWidth = 60f;
-        private float coneLength = 3f;
+        private float ConeOffset = 1f;
+        private float coneWidth = 30f;
+        private float coneLength = 4f;
         private float thickness = 1f;
 
         private Animator animator;
@@ -83,7 +84,7 @@ namespace BasicEnemySlime
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack),
+                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack,attackRange),
                 new AttackPlayerNode(agent,attackRange,animator,animIDAnticipate,animIDAttack),
             };
 
@@ -106,7 +107,7 @@ namespace BasicEnemySlime
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack),
+                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack,attackRange),
                 new AttackPlayerNode(agent,attackRange,animator,animIDAnticipate,animIDAttack),
             };
 
@@ -165,8 +166,8 @@ namespace BasicEnemySlime
             // Calculate offset for thickness
             Vector3 offset = Vector3.up * thickness;
 
-            // Calculate the position of the cone start 2 units back from the middle point
-            Vector3 coneStart = origin + (-direction * 1f);
+            // Calculate the position of the cone from the middle point
+            Vector3 coneStart = origin + (-direction * ConeOffset);
 
             // Draw cone base with thickness
             Gizmos.DrawLine(coneStart - offset, coneStart + Quaternion.Euler(0, -halfWidth, 0) * direction * coneLength - offset);
@@ -229,8 +230,12 @@ namespace BasicEnemySlime
         public void EndAttack()
         {   
             animator.SetBool(animIDAnticipate, false);
-            animator.SetBool(animIDAttack, false);
             hasAttacked = false;
+        }
+
+        public void EndAttackAnim()
+        {
+            animator.SetBool(animIDAttack, false);
         }
         #endregion
     }

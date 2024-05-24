@@ -15,11 +15,14 @@ namespace BasicEnemySlime
         private int animIDWalking;
         private int animIDAttack;
 
+        private float attackRange;
+
         // Timer
         private float stuckTimeThreshold = 3f;
         private float currentStuckTime = 0f;
 
-        public ChasePlayerNode(NavMeshAgent agent, float chaseRange, float stopDistance, Animator animator, int animIDWalking, int animIDAttack)
+        public ChasePlayerNode(NavMeshAgent agent, float chaseRange, float stopDistance, Animator animator, 
+            int animIDWalking, int animIDAttack, float attackRange)
         {
             this.agent = agent;
             this.chaseRange = chaseRange;
@@ -27,6 +30,7 @@ namespace BasicEnemySlime
             this.animator = animator;
             this.animIDWalking = animIDWalking;
             this.animIDAttack = animIDAttack;
+            this.attackRange = attackRange;
             lastPosition = agent.transform.position;
         }
 
@@ -41,16 +45,12 @@ namespace BasicEnemySlime
                 Vector3 directionToPlayer = (playerPosition - agent.transform.position).normalized;
                 Vector3 destinationPoint = playerPosition - directionToPlayer * stopDistance;
                 agent.isStopped = false;
-
-                // if(animator.GetBool(animIDAttack))
-                // {
-                //     return true;
-                // }
                 
                 // Check if agent is stuck or standing still
                 if (Vector3.Distance(agent.transform.position, lastPosition) < 0.1f)
                 {
                     RotateTowardsPlayer(directionToPlayer);
+
                     currentStuckTime += Time.deltaTime;
                     if (currentStuckTime >= stuckTimeThreshold)
                     {
@@ -72,7 +72,6 @@ namespace BasicEnemySlime
                 {
                     currentStuckTime = 0f; // Reset stuck time if agent is moving
                 }
-                // RotateTowardsPlayer(directionToPlayer);
                 return true;
             }
             return false;

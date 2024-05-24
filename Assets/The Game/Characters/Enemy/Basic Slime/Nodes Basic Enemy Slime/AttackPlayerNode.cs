@@ -28,7 +28,6 @@ namespace BasicEnemySlime
 
         public virtual bool Update()
         {
-            // Update the player's position
             playerPosition = Blackboard.instance.GetPlayerPosition();
 
             float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
@@ -37,7 +36,6 @@ namespace BasicEnemySlime
             if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
             {
                 agent.isStopped = true;
-                // Set animation parameters
                 animator.SetBool(animIDAnticipate, true);
 
                 if(BasicEnemySlime.hasAttacked)
