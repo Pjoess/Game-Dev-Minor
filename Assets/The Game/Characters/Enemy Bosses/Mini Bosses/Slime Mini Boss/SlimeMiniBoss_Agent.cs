@@ -21,6 +21,7 @@ namespace SlimeMiniBoss
         [Header("Attack")]
         private float attackRange = 19f;
         private float offsetDistance = 1f;
+        public static bool hasAttacked = false;
         
         // --- IDamagable --- //
         [Header("Stats")]
@@ -197,13 +198,20 @@ namespace SlimeMiniBoss
         #region Animator
         public void DoShockwaveAttack()
         {
+            hasAttacked = true;
             shockwaveParticleSystem.Play();
+        }
+
+        public void EndAnticipate()
+        {
+            animator.SetBool(animIDAttack, true);
         }
 
         public void EndAttack()
         {
-            animator.SetBool(animIDAttack, false);
+            hasAttacked = false;
             animator.SetBool(animIDAnticipate, false);
+            animator.SetBool(animIDAttack, false);
         }
         #endregion
     }

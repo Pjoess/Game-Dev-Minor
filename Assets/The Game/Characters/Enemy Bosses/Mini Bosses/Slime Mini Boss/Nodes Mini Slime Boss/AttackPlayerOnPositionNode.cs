@@ -6,7 +6,6 @@ namespace SlimeMiniBoss
     public class AttackPlayerOnPositionNode : IBaseNode
     {
         private NavMeshAgent agent;
-        private Vector3 playerPosition;
         private float attackRange;
         private float offsetDistance;
         private LayerMask attackLayer;
@@ -38,43 +37,48 @@ namespace SlimeMiniBoss
         public virtual bool Update()
         {
             // Update the player's position
-            playerPosition = Blackboard.instance.GetPlayerPosition();
+            Vector3 playerPosition = Blackboard.instance.GetPlayerPosition();
             Vector3 directionToPlayer = playerPosition - agent.transform.position;
             float distanceToPlayer = directionToPlayer.magnitude;
+            float angleToPlayer = Vector3.Angle(agent.transform.forward, directionToPlayer);
 
             // Check if the player is within attack range
             if (distanceToPlayer <= attackRange)
             {
-                if (IsPlayerWithinCone(directionToPlayer))
+                if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
                 {
-                    return true;
+                    if(!SlimeMiniBoss_Agent.hasAttacked)
+                    {
+                        animator.SetBool(animIDAnticipate, true);
+                        //animator.SetBool(animIDAttack, true);
+                        return true;
+                    }
                 }
                 else
                 {
-                    if(animator.GetBool(animIDAttack) == false)
-                    {
-                        // Smoothly rotate towards the player
-                        RotateTowardsPlayer(directionToPlayer);
-                    }
+                    RotateTowardsPlayer(directionToPlayer);
                 }
             }
             return false;
         }
 
         // Method to check if the player is within the cone
-        private bool IsPlayerWithinCone(Vector3 directionToPlayer)
-        {
-            float angleToPlayer = Vector3.Angle(agent.transform.forward, directionToPlayer);
+        // private bool IsPlayerWithinCone(Vector3 directionToPlayer)
+        // {
+        //     float angleToPlayer = Vector3.Angle(agent.transform.forward, directionToPlayer);
 
-            // Check if the player is within the cone width and cone length
-            if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
-            {
-                animator.SetBool(animIDAnticipate, true);
-                animator.SetBool(animIDAttack, true);
-                return true;
-            }
-            return false;
-        }
+        //     // Check if the player is within the cone width and cone length
+        //     if (angleToPlayer <= coneWidth / 2f && directionToPlayer.magnitude <= coneLength)
+        //     {
+        //         if(!animator.GetBool(animIDAttack))
+        //             {
+        //                 animator.SetBool(animIDAnticipate, true);
+        //                 animator.SetBool(animIDAttack, true);
+        //             }
+        //         return true;
+        //     }
+        //     return false;
+        // }
 
         private void RotateTowardsPlayer(Vector3 directionToPlayer)
         {
