@@ -83,7 +83,7 @@ namespace BasicEnemySlime
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking),
+                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack),
                 new AttackPlayerNode(agent,attackRange,animator,animIDAnticipate,animIDAttack),
             };
 
@@ -105,7 +105,7 @@ namespace BasicEnemySlime
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking),
+                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack),
                 new AttackPlayerNode(agent,attackRange,animator,animIDAnticipate,animIDAttack),
             };
 
