@@ -50,7 +50,6 @@ namespace SlimeMiniBoss
                     if(!SlimeMiniBoss_Agent.hasAttacked)
                     {
                         animator.SetBool(animIDAnticipate, true);
-                        //animator.SetBool(animIDAttack, true);
                         return true;
                     }
                 }
