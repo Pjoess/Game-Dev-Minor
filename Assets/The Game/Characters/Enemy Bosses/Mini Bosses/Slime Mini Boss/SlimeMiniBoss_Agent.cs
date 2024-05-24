@@ -87,6 +87,7 @@ namespace SlimeMiniBoss
             slimeBT = new SelectorNode(IsPlayerInLineOfSight);
         }
 
+        // Removed for now, changed to mini slime boss stays on its spot and just looks at the player.
         private void PatrolChaseAttack()
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
@@ -117,23 +118,24 @@ namespace SlimeMiniBoss
             // Draw cone shape in Gizmos
             DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
 
+            // *** Commented so because the mini bose changed to not moving, but only rotating *** //
             // Draw chase range sphere
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(transform.position, chaseRange);
+            // Gizmos.color = Color.blue;
+            // Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+            // Draw stop distance
+            // Gizmos.color = Color.yellow;
+            // Gizmos.DrawWireSphere(transform.position, stopDistance);
 
             // Draw attack range sphere
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, attackRange);
 
+            // Draw patrol radius
             if(patrolCenterPoint != null){
-                // Draw patrol radius
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(patrolCenterPoint.transform.position, patrolRadius);
             }
-
-            // Draw stop distance
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, stopDistance);
         }
 
         // Draw cone shape in Gizmos
