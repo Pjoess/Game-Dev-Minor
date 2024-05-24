@@ -133,7 +133,7 @@ namespace BasicEnemySlime
             DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
 
             // Draw chase range sphere
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, chaseRange);
 
             // Draw chase range sphere
