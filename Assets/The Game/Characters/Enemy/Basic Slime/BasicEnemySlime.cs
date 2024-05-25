@@ -17,13 +17,13 @@ namespace BasicEnemySlime
 
         [Header("Patrol Settings")]
         private float patrolRadius = 20f;
-        private float stopDistance = 3f;
+        private float stopDistance = 4f;
 
         [Header("Chase")]
         private float chaseRange = 10f;
 
         [Header("Attack")]
-        private float attackRange = 4f;
+        private float attackRange = 6f;
         public static bool hasAttacked = false;
         
         // --- IDamagable --- //
@@ -37,7 +37,7 @@ namespace BasicEnemySlime
         [Header("Cone Settings")]
         private float ConeOffset = 1f;
         private float coneWidth = 30f;
-        private float coneLength = 4f;
+        private float coneLength = 6f;
         private float thickness = 1f;
 
         private Animator animator;
