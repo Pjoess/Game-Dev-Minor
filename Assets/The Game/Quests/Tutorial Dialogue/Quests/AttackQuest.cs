@@ -6,7 +6,7 @@ public class AttackQuest : QuestStage
 {
     public GameObject trigger;
     public Collider nextTrigger;
-    public static int slimesKilled = 0;
+    public static int slimesKilled;
     public bool WalkedOverTrigger;
 
     void Awake(){
