@@ -17,6 +17,7 @@ public class KeybindingsUI : MonoBehaviour
     void Start()
     {
         input = GetComponentInParent<PlayerInput>();
+        input.DeactivateInput();
         allButtons = FindObjectsByType<Button>(FindObjectsSortMode.InstanceID);
 
         if (PlayerPrefs.HasKey("controls"))
