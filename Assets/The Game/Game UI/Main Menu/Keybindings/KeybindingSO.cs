@@ -12,11 +12,11 @@ public class KeybindingSO : ScriptableObject
     public string GetBinding(PlayerInput playerInput)
     {
         //playerInput.actions.bindings;
-        if(!isComposite) return playerInput.actions.FindAction(actionName).GetBindingDisplayString();
+        if(!isComposite) return playerInput.actions.FindAction(actionName).GetBindingDisplayString(InputBinding.DisplayStringOptions.DontUseShortDisplayNames);
         else
         {
             var action = playerInput.actions.FindAction(actionName);
-            return action.GetBindingDisplayString(compositeNumber);
+            return action.GetBindingDisplayString(compositeNumber, InputBinding.DisplayStringOptions.DontUseShortDisplayNames);
         }
 
     }
