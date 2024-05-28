@@ -2,23 +2,19 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class Controll : MonoBehaviour {
-    private string name;
-    private PlayerInput input;
+public class Controll : MonoBehaviour 
+{
+    public KeybindingSO[] keybindingSOs;
+    public static event System.Action<KeybindingSO[]> ChangeControlls;
 
-    private string KeybindName;
-
-    public string TextFormat = "";
-    
-    public Controll(string name, PlayerInput input){
-        this.name = name;
-        this.input = input;
-        
-        TextFormat.Replace("{button}", KeybindName);
+    void Awake(){
+        ChangeControlls = null;
     }
 
-    public void UpdateVariables(){
-        KeybindName = input.actions[name].GetBindingDisplayString();
-        TextFormat.Replace("{button}", KeybindName);
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.tag == "Player"){
+            ChangeControlls(keybindingSOs);
+        }
     }
+
 }

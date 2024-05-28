@@ -10,44 +10,33 @@ using UnityEngine.InputSystem;
 public class ControlsBox : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
-    public AllControlls allControlls;
-    public PlayerInput playerInput;
-
-    public string currentScheme;
-    public List<string> list = new List<string>();
-
-    public Controll[] controlls;
+    public KeybindingSO[] controlls;
+    public PlayerInput input;
 
     void Start(){
         textComponent.text = "";
-        allControlls = new AllControlls();
-        currentScheme = playerInput.currentControlScheme;
+        Controll.ChangeControlls += ChangeControlls;
+        UpdateText();
     }
 
     void Update(){
-        // if(!currentScheme.Equals(playerInput.currentControlScheme)){
-        //     allControlls.Update();
-        //     currentScheme = playerInput.currentControlScheme;
-        // }
+        //check for control scheme change, then UpdateText();
+    }
+
+    void ChangeControlls(KeybindingSO[] keybinds){
+        this.controlls = keybinds;
         UpdateText();
     }
 
     void UpdateText(){
-        var action = playerInput.actions["Move"];
-        var x = playerInput.actions["Move"].bindings;
-
-        for (int i = 0; i<x.Count; i++){
-            Debug.Log(x[i]);
-            if(x[i].isComposite){
-                
-                action.GetBindingDisplayString(x[i]);
-            }else if(x[i].isPartOfComposite){
-                break;
+        //set text to null and add all controlls keybinds in.
+        textComponent.text = "";
+        foreach(var control in controlls){
+            if(control.isComposite){
+                textComponent.text += control.actionName + " " + control.compositePartName + "  " + control.GetBinding(input) + "\n";
             }else{
-                playerInput.actions["Move"].GetBindingDisplayString();
+                textComponent.text += control.actionName + "  " + control.GetBinding(input) + "\n";
             }
         }
-        // textComponent.text = allControlls.Attack.TextFormat;
-        // textComponent.text = playerInput.actions["Move"].GetBindingDisplayString();
     }
 }
