@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -45,6 +46,9 @@ namespace BasicEnemySlime
         private int animIDAttack;
         private int animIDWalking;
 
+        private Renderer slimeRenderer;
+        private Color originalColor;
+
         private void AssignAnimIDs()
         {
             animIDAnticipate = Animator.StringToHash("isAnticipating");
@@ -54,7 +58,7 @@ namespace BasicEnemySlime
 
         private void SetRandomColor()
         {
-            List<Color> colors = new List<Color>
+            List<Color> colors = new()
             {
                 Color.blue,
                 Color.green,
@@ -69,9 +73,10 @@ namespace BasicEnemySlime
             Transform slimeTransform = transform.Find("slime");
             if (slimeTransform != null)
             {
-                if (slimeTransform.TryGetComponent<Renderer>(out var slimeRenderer))
+                if (slimeTransform.TryGetComponent<Renderer>(out slimeRenderer))
                 {
                     slimeRenderer.material.color = randomColor;
+                    originalColor = randomColor;
                 }
             }
         }
@@ -216,13 +221,25 @@ namespace BasicEnemySlime
             Gizmos.color = previousColor;
         }
         #endregion
-
+        
         #region IDamagable
         public void Hit(int damage)
         {
             HealthPoints -= damage;
-            enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
+            enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
             CheckDeath();
+            StartCoroutine(ChangeColorOnHit());
+        }
+
+        private IEnumerator ChangeColorOnHit()
+        {
+            if (slimeRenderer != null)
+            {
+                Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f); // Very light red color in sRGB
+                slimeRenderer.material.color = lightRed;
+                yield return new WaitForSeconds(0.2f);
+                slimeRenderer.material.color = originalColor;
+            }
         }
 
         private void CheckDeath()
