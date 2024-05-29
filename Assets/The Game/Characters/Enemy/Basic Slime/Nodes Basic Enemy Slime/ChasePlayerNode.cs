@@ -14,6 +14,7 @@ namespace BasicEnemySlime
         private Animator animator;
         private int animIDWalking;
         private int animIDAttack;
+        private int animIDAnticipate;
 
         private float attackRange;
 
@@ -22,7 +23,7 @@ namespace BasicEnemySlime
         private float currentStuckTime = 0f;
 
         public ChasePlayerNode(NavMeshAgent agent, float chaseRange, float stopDistance, Animator animator, 
-            int animIDWalking, int animIDAttack, float attackRange)
+            int animIDWalking, int animIDAttack, int animIDAnticipate, float attackRange)
         {
             this.agent = agent;
             this.chaseRange = chaseRange;
@@ -30,6 +31,7 @@ namespace BasicEnemySlime
             this.animator = animator;
             this.animIDWalking = animIDWalking;
             this.animIDAttack = animIDAttack;
+            this.animIDAnticipate = animIDAnticipate;
             this.attackRange = attackRange;
             lastPosition = agent.transform.position;
         }
@@ -49,7 +51,10 @@ namespace BasicEnemySlime
                 // Check if agent is stuck or standing still
                 if (Vector3.Distance(agent.transform.position, lastPosition) < 0.1f)
                 {
-                    RotateTowardsPlayer(directionToPlayer);
+                    if(!animator.GetBool(animIDAttack) && !BasicEnemySlime.hasAttacked)
+                    {
+                        RotateTowardsPlayer(directionToPlayer);
+                    }
 
                     currentStuckTime += Time.deltaTime;
                     if (currentStuckTime >= stuckTimeThreshold)

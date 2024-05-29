@@ -12,39 +12,67 @@ namespace BasicEnemySlime
         private float damageCooldown = 1f;
         private float damageTimer = 0f;
 
+        private float coneWidth;
+        private float coneLength;
+
         private Animator animator;
         private int animIDAnticipate;
         private int animIDAttack;
 
-        public AttackPlayerNode(NavMeshAgent agent, float attackRange, Animator animator, int animIDAnticipate, int animIDAttack)
+        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
         {
             this.agent = agent;
             this.attackRange = attackRange;
+            this.coneWidth = coneWidth;
+            this.coneLength = coneLength;
             this.animator = animator;
             this.animIDAnticipate = animIDAnticipate;
             this.animIDAttack = animIDAttack;
+
+            // Disable agent's automatic rotation
+            this.agent.updateRotation = false;
         }
 
         public virtual bool Update()
         {
             playerPosition = Blackboard.instance.GetPlayerPosition();
+            Vector3 directionToPlayer = playerPosition - agent.transform.position;
+            float distanceToPlayer = directionToPlayer.magnitude;
+            float angleToPlayer = Vector3.Angle(agent.transform.forward, directionToPlayer);
 
-            float distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition);
-            damageTimer += Time.deltaTime; // Update damage timer
+            damageTimer += Time.deltaTime;
 
             if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
             {
-                agent.isStopped = true;
-                animator.SetBool(animIDAnticipate, true);
-
-                if(BasicEnemySlime.hasAttacked)
+                // Check if the player is within the cone
+                if (angleToPlayer <= coneWidth / 2f && distanceToPlayer <= coneLength)
                 {
-                    Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
-                    damageTimer = 0f;
+                    agent.isStopped = true;
+                    animator.SetBool(animIDAnticipate, true);
+
+                    if (BasicEnemySlime.hasAttacked)
+                    {
+                        Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
+                        damageTimer = 0f;
+                        animator.SetBool(animIDAnticipate, false);
+                        agent.updateRotation = true;
+                        agent.isStopped = false;
+                    }
+                    return false;
                 }
-                return true;
+                else if (!animator.GetBool(animIDAttack))
+                {
+                    RotateTowardsPlayer(directionToPlayer);
+                }
             }
             return false;
+        }
+
+        private void RotateTowardsPlayer(Vector3 directionToPlayer)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+            float rotationStep = agent.angularSpeed * Time.deltaTime;
+            agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, targetRotation, rotationStep);
         }
     }
 }
