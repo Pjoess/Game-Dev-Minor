@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,6 +12,8 @@ namespace SlimeMiniBoss
         private NavMeshAgent miniBossAgent;
         private Rigidbody rigidBody;
         private ParticleSystem shockwaveParticleSystem;
+        private List<Color> originalHelmetColors = new List<Color>();
+        private Renderer[] helmetRenderers;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -64,6 +67,7 @@ namespace SlimeMiniBoss
         void Start()
         {
             MiniBossSlimeBehaviourTree();
+            SaveOriginalHelmetColors();
         }
 
         void Update()
@@ -112,14 +116,46 @@ namespace SlimeMiniBoss
         }
         #endregion
 
+        #region Save and Change Helmet Colors
+        private void SaveOriginalHelmetColors()
+        {
+            Transform helmetTransform = transform.Find("helmet");
+            if (helmetTransform != null)
+            {
+                helmetRenderers = helmetTransform.GetComponentsInChildren<Renderer>();
+                foreach (var renderer in helmetRenderers)
+                {
+                    originalHelmetColors.Add(renderer.material.color);
+                }
+            }
+        }
+
+        private IEnumerator ChangeColorOnHit()
+        {
+            if (helmetRenderers != null)
+            {
+                Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f);
+                foreach (var renderer in helmetRenderers)
+                {
+                    renderer.material.color = lightRed;
+                }
+                yield return new WaitForSeconds(0.2f);
+                for (int i = 0; i < helmetRenderers.Length; i++)
+                {
+                    helmetRenderers[i].material.color = originalHelmetColors[i];
+                }
+            }
+        }
+        #endregion
+
         #region Cone Raycast
-        // Draw Gizmos for cone shape and chase range
+        // Draw Gizmos for cone shape and attack range
         private void OnDrawGizmos()
         {
             // Draw cone shape in Gizmos
             DrawCone(transform.position, transform.forward, coneWidth, coneLength, thickness);
 
-            // *** Commented so because the mini bose changed to not moving, but only rotating *** //
+            // *** Commented so because the mini boss changed to not moving, but only rotating *** //
             // Draw chase range sphere
             // Gizmos.color = Color.blue;
             // Gizmos.DrawWireSphere(transform.position, chaseRange);
@@ -133,7 +169,8 @@ namespace SlimeMiniBoss
             Gizmos.DrawWireSphere(transform.position, attackRange);
 
             // Draw patrol radius
-            if(patrolCenterPoint != null){
+            if (patrolCenterPoint != null)
+            {
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(patrolCenterPoint.transform.position, patrolRadius);
             }
@@ -181,7 +218,8 @@ namespace SlimeMiniBoss
         public void Hit(int damage)
         {
             HealthPoints -= damage;
-            enemyHealthBar.UpdateHealthBar(HealthPoints,MaxHealthPoints);
+            enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
+            StartCoroutine(ChangeColorOnHit());
             CheckDeath();
         }
 

@@ -231,7 +231,7 @@ namespace BasicEnemySlime
         {
             if (slimeRenderer != null)
             {
-                Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f); // Very light red color in sRGB
+                Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f);
                 slimeRenderer.material.color = lightRed;
                 yield return new WaitForSeconds(0.2f);
                 slimeRenderer.material.color = originalColor;
