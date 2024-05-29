@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 
@@ -16,6 +17,7 @@ public class VictoryScript : MonoBehaviour
             //EventSystem.current.SetSelectedGameObject(victoryButton);
             PauseAllOtherMusic();
             endVideo.Play();
+            FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>().DeactivateInput();
             Time.timeScale = 0;
         } else {
             victoryMenuPanel.SetActive(false);
@@ -40,6 +42,7 @@ public class VictoryScript : MonoBehaviour
 
     private void LoadMainMenu(VideoPlayer vp)
     {
+        FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>().ActivateInput();
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
