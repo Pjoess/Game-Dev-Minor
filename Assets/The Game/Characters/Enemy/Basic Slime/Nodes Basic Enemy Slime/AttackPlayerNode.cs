@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -40,7 +39,7 @@ namespace BasicEnemySlime
 
                 if(BasicEnemySlime.hasAttacked)
                 {
-                    Blackboard.instance.HitPlayer(5, agent.gameObject.transform.position);
+                    Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
                     damageTimer = 0f;
                 }
                 return true;
