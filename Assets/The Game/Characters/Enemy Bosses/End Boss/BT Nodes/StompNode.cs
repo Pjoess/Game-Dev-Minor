@@ -16,16 +16,19 @@ public class StompNode : IBaseNode
 
     public bool Update()
     {
-        if(cooldown > 0) cooldown -= Time.deltaTime;
-        else
+        if(boss.phaseTwo)
         {
-            float distanceToPlayer = Vector3.Distance(boss.transform.position, Blackboard.instance.GetPlayerPosition());
-            if (distanceToPlayer < boss.meleeRange)
+            if (cooldown > 0) cooldown -= Time.deltaTime;
+            else
             {
-                if (boss.IsAnimatorCurrentState("idle"))
+                float distanceToPlayer = Vector3.Distance(boss.transform.position, Blackboard.instance.GetPlayerPosition());
+                if (distanceToPlayer < boss.meleeRange)
                 {
-                    boss.animator.SetBool(boss.animIDIsStomping, true);
-                    cooldown = boss.stompCooldown;
+                    if (boss.IsAnimatorCurrentState("idle"))
+                    {
+                        boss.animator.SetBool(boss.animIDIsStomping, true);
+                        cooldown = boss.stompCooldown;
+                    }
                 }
             }
         }

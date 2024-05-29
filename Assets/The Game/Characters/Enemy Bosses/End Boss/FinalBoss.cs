@@ -28,6 +28,9 @@ public class FinalBoss : MonoBehaviour, IDamageble
     public float rotationSpeed = 8f;
 
     private bool fightStarted = false;
+    public bool phaseTwo = false;
+    private float eyeColorIntensity = 0f;
+    [SerializeField] Material eyesMaterial;
     private bool isDead = false;
 
     public GameObject bulletPrefab;
@@ -81,6 +84,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     void Start()
     {
+        eyesMaterial.SetColor("_EmissionColor", Color.red * 0f);
         healthPoints = maxHealthPoints;
         bossHealthBar.maxValue = maxHealthPoints;
         bossHealthBar.value = healthPoints;
@@ -93,11 +97,27 @@ public class FinalBoss : MonoBehaviour, IDamageble
         {
             BTRootNode?.Update();
         }
+
+        if(healthPoints <= maxHealthPoints/2)
+        {
+            StartCoroutine(changeEyeColor());
+            phaseTwo = true;
+        }
     }
 
     public List<AttackAction> GetRandomPattern()
     {
         return allAttackPaterns[Random.Range(0, allAttackPaterns.Count)].GetActions();
+    }
+
+    private IEnumerator changeEyeColor()
+    {
+        while (eyeColorIntensity < 10f)
+        {
+            eyesMaterial.SetColor("_EmissionColor", Color.red * eyeColorIntensity);
+            eyeColorIntensity += 0.1f;
+            yield return null;
+        }
     }
 
     public void Hit(int damage)
