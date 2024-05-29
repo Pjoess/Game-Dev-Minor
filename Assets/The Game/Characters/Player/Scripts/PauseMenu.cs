@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
         if(Player_Manager.isPaused){
             pauseMenu.SetActive(true);
             // input.SwitchCurrentActionMap("UI");
-            EventSystem.current.SetSelectedGameObject(mainMenuButton);
+            //EventSystem.current.SetSelectedGameObject(mainMenuButton);
             Debug.Log(input.currentActionMap);
         } else {
             pauseMenu.SetActive(false);

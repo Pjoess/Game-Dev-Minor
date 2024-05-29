@@ -12,7 +12,7 @@ public class DeathScript : MonoBehaviour
     public void EnableDeathCanvas(int healthPoints){
         if(healthPoints <= 0){
             deathPanel.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(deathButton);
+            //EventSystem.current.SetSelectedGameObject(deathButton);
             StartCoroutine(WaitSeconds());
         } else {
             deathPanel.SetActive(false);

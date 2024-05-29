@@ -15,7 +15,7 @@ public class VictoryScript : MonoBehaviour
     public void EnableVictoryCanvas(bool quesCompleted){
         if(quesCompleted == true){
             victoryMenuPanel.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(victoryButton);
+            //EventSystem.current.SetSelectedGameObject(victoryButton);
             StartCoroutine(WaitSeconds());
         } else {
             victoryMenuPanel.SetActive(false);
