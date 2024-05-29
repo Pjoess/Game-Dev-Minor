@@ -25,20 +25,15 @@ ModelImporter:
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Scene' has import animation warnings that might
-      lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
-      retargeting quality.\n\t'mixamorig:Hips' has scale animation that will be discarded.\n\t'mixamorig:Spine'
-      has translation animation that will be discarded.\n\t'mixamorig:Spine' has
-      scale animation that will be discarded.\n\t'mixamorig:Neck' has translation
-      animation that will be discarded.\n\t'mixamorig:LeftShoulder' has translation
-      animation that will be discarded.\n\t'mixamorig:LeftArm' has scale animation
-      that will be discarded.\n\t'mixamorig:LeftForeArm' has scale animation that
-      will be discarded.\n\t'mixamorig:LeftHand' has scale animation that will be
-      discarded.\n\t'mixamorig:LeftHandThumb1' has translation animation that will
-      be discarded.\n\t'mixamorig:LeftHandIndex1' has translation animation that
-      will be discarded.\n\t'mixamorig:RightShoulder' has translation animation that
-      will be discarded.\n\t'mixamorig:RightArm' has scale animation that will be
-      discarded.\n\t'mixamorig:RightForeArm' has scale animation that will be discarded.\n\t'mixamorig:RightHand'
-      has scale animation that will be discarded.\n\t'mixamorig:RightHandThumb1'
+      lower retargeting quality:\n\t'mixamorig:Hips' has scale animation that will
+      be discarded.\n\t'mixamorig:Spine' has scale animation that will be discarded.\n\t'mixamorig:LeftArm'
+      has scale animation that will be discarded.\n\t'mixamorig:LeftForeArm' has
+      scale animation that will be discarded.\n\t'mixamorig:LeftHand' has scale animation
+      that will be discarded.\n\t'mixamorig:LeftHandThumb1' has translation animation
+      that will be discarded.\n\t'mixamorig:LeftHandIndex1' has translation animation
+      that will be discarded.\n\t'mixamorig:RightArm' has scale animation that will
+      be discarded.\n\t'mixamorig:RightForeArm' has scale animation that will be
+      discarded.\n\t'mixamorig:RightHand' has scale animation that will be discarded.\n\t'mixamorig:RightHandThumb1'
       has translation animation that will be discarded.\n\t'mixamorig:RightHandThumb2'
       has translation animation that will be discarded.\n\t'mixamorig:RightHandThumb3'
       has translation animation that will be discarded.\n\t'mixamorig:RightHandIndex1'
@@ -286,7 +281,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 1
     - serializedVersion: 16
-      name: Hit
+      name: PlayerHit
       takeName: Scene
       internalID: -7528102460371188311
       firstFrame: 277
@@ -299,12 +294,12 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 1
+      loopBlendOrientation: 0
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
