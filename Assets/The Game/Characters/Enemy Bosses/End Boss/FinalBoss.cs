@@ -84,6 +84,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     void Start()
     {
+        eyesMaterial.SetColor("_BaseColor", Color.red);
         eyesMaterial.SetColor("_EmissionColor", Color.red * 0f);
         healthPoints = maxHealthPoints;
         bossHealthBar.maxValue = maxHealthPoints;
@@ -100,7 +101,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
         if(healthPoints <= maxHealthPoints/2)
         {
-            StartCoroutine(changeEyeColor());
+            StartCoroutine(changeEyeColorPhaseTwo());
             phaseTwo = true;
         }
     }
@@ -110,12 +111,12 @@ public class FinalBoss : MonoBehaviour, IDamageble
         return allAttackPaterns[Random.Range(0, allAttackPaterns.Count)].GetActions();
     }
 
-    private IEnumerator changeEyeColor()
+    private IEnumerator changeEyeColorPhaseTwo()
     {
         while (eyeColorIntensity < 10f)
         {
             eyesMaterial.SetColor("_EmissionColor", Color.red * eyeColorIntensity);
-            eyeColorIntensity += 0.1f;
+            eyeColorIntensity += 0.01f;
             yield return null;
         }
     }
@@ -135,6 +136,8 @@ public class FinalBoss : MonoBehaviour, IDamageble
             isDead = true;
             animator.SetBool(animIDIsDead, true);
             bossUI.gameObject.SetActive(false);
+            eyesMaterial.SetColor("_EmissionColor", Color.black);
+            eyesMaterial.SetColor("_BaseColor", Color.grey);
         }
     }
 
