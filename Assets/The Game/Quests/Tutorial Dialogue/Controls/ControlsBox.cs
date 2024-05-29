@@ -12,15 +12,22 @@ public class ControlsBox : MonoBehaviour
     public TextMeshProUGUI textComponent;
     public KeybindingSO[] controlls;
     public PlayerInput input;
+    private string currentControllScheme;
 
     void Start(){
         textComponent.text = "";
+        currentControllScheme = input.currentControlScheme;
         Controll.ChangeControlls += ChangeControlls;
         UpdateText();
     }
 
     void Update(){
         //check for control scheme change, then UpdateText();
+
+        if(input.currentControlScheme != currentControllScheme){
+            currentControllScheme = input.currentControlScheme;
+            UpdateText();
+        }
     }
 
     void ChangeControlls(KeybindingSO[] keybinds){

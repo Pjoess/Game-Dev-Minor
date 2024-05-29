@@ -93,6 +93,9 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(textSpeed);
         }
         // coroutine = null;
+        yield return new WaitForSeconds(1f);
+        coroutine = null;
+        NextLine();
     }
 
     void NextLine(){
