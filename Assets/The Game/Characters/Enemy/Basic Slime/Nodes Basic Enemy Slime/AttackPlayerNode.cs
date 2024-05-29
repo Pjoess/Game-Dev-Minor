@@ -58,9 +58,10 @@ namespace BasicEnemySlime
                         agent.updateRotation = true;
                         agent.isStopped = false;
                     }
-                    return false;
+                    return true;
                 }
-                else if (!animator.GetBool(animIDAttack))
+                
+                if (!animator.GetBool(animIDAttack))
                 {
                     RotateTowardsPlayer(directionToPlayer);
                 }

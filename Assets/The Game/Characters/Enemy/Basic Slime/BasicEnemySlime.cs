@@ -21,7 +21,7 @@ namespace BasicEnemySlime
         private float stopDistance = 4f;
 
         [Header("Chase")]
-        private float chaseRange = 10f;
+        private float chaseRange = 15f;
 
         [Header("Attack")]
         private float attackRange = 6f;
@@ -249,32 +249,32 @@ namespace BasicEnemySlime
         #endregion
 
         #region Animator
-        public void EndWalk()
-        {
-            animator.SetBool(animIDWalking, false);
-        }
+            public void EndWalk()
+            {
+                animator.SetBool(animIDWalking, false);
+            }
 
-        public void EndAnticipate()
-        {
-            animator.SetBool(animIDAnticipate, false);
-            animator.SetBool(animIDAttack, true);
-        }
+            public void EndAnticipate()
+            {
+                animator.SetBool(animIDAnticipate, false);
+                animator.SetBool(animIDAttack, true);
+            }
 
-        public void DoAttack()
-        {
-            hasAttacked = true;
-        }
+            public void DoAttack()
+            {
+                hasAttacked = true;
+            }
 
-        public void EndAttack()
-        {   
-            animator.SetBool(animIDAnticipate, false);
-            hasAttacked = false;
-        }
+            public void EndAttack()
+            {   
+                animator.SetBool(animIDAnticipate, false);
+                hasAttacked = false;
+            }
 
-        public void EndAttackAnim()
-        {
-            animator.SetBool(animIDAttack, false);
-        }
+            public void EndAttackAnim()
+            {
+                animator.SetBool(animIDAttack, false);
+            }
         #endregion
     }
 }
