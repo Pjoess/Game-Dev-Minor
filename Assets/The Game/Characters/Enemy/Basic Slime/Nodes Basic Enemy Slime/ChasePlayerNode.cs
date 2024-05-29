@@ -48,7 +48,7 @@ namespace BasicEnemySlime
                 Vector3 destinationPoint = playerPosition - directionToPlayer * stopDistance;
                 agent.isStopped = false;
 
-                if(!animator.GetBool(animIDAttack) && !BasicEnemySlime.hasAttacked)
+                if(!animator.GetBool(animIDAttack) && !animator.GetBool(animIDAttack) && !BasicEnemySlime.hasAttacked)
                 {
                     RotateTowardsPlayer(directionToPlayer);
                 }
@@ -56,8 +56,6 @@ namespace BasicEnemySlime
                 // Check if agent is stuck or standing still
                 if (Vector3.Distance(agent.transform.position, lastPosition) < 0.1f)
                 {
-                    
-
                     currentStuckTime += Time.deltaTime;
                     if (currentStuckTime >= stuckTimeThreshold)
                     {
