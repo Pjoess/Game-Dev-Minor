@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571328, b: 0.3069218, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2008,10 +2008,7 @@ MonoBehaviour:
   isLastOne: 0
   lines:
   - Well done! Now you see we have a curve in the road ahead
-  - You maybe already found out, but you can rotate your camera!
-  - Try it out with holding MIDDLE MOUSE BUTTON down and moving your mouse left to
-    right
-  - You can also use SCROLL to zoom in and out!
+  - Rotate your camera to see more!
 --- !u!65 &929063007
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3969,11 +3966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLastOne: 0
   lines:
-  - Now that we have the basic movement under controll, we will start learning attacking
-  - A basic attack can be done by pressing the LMB button. And also if you attack
-    3 times you get a combo!
-  - Now that you know the basics, try hitting some slimes along this path while you
-    are at it!
+  - Now we see slime dummy's ahead. Go and kill them!
 --- !u!65 &1680415770
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4707,10 +4700,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLastOne: 0
   lines:
-  - Now that you learned how to attack, you will learn how to dodge enemy attacks.
-  - You can dodge roll by pressing SPACE. This dodge roll can also be used to dodge
-    any enemy attacks for a few moments!
-  - Try to dodge through these moving spikes without getting hit!
+  - You can dodge to evade enemy attacks.
+  - Try dodging through these barriers
 --- !u!65 &1896686089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4808,14 +4799,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLastOne: 1
   lines:
-  - Here I am now, You learned so much already. But there are more slimes ahead!
-  - Try to use my mortar that is located on F. This will help you a lot in the next
-    fight!
-  - Get close to an enemy then when the buddy starts shooting its bullets press F,
-    the closest enemy will be hit by the Mortar.
-  - My mortar will be reloaded in the Mortar Bar by you attacking. Attacking multiple
-    times after each other gives less regeneration (Blue Bar). So use your attacks
-    carefully!
+  - Now that I'm here, you can use my mortar.
+  - My mortar will charge up by you attacking enemies. But keep in mind that a attack
+    combo gives less mortar charge!
 --- !u!65 &1956249658
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5216,6 +5202,26 @@ PrefabInstance:
       propertyPath: showSlimes
       value: 
       objectReference: {fileID: 1543920407}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: lines.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: lines.Array.data[0]
+      value: Welcome to the Tutorial Level!
+      objectReference: {fileID: 0}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: lines.Array.data[1]
+      value: Here you will learn how to play this game
+      objectReference: {fileID: 0}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: lines.Array.data[2]
+      value: Check the controlls to the top right corner to start!
+      objectReference: {fileID: 0}
     - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
       propertyPath: dialogues.Array.data[0]
