@@ -15,7 +15,7 @@ namespace buddy
         private GameObject bulletPrefab;
         
         private float shootTimer = 0f;
-        private const float timeBetweenShots = 1f; // Time between each shot
+        private const float timeBetweenShots = 2f; // Time between each shot
 
         private Animator animator;
         private int animIDShoot;
