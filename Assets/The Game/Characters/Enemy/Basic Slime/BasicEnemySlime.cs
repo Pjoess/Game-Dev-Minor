@@ -52,6 +52,30 @@ namespace BasicEnemySlime
             animIDWalking = Animator.StringToHash("isWalking");
         }
 
+        private void SetRandomColor()
+        {
+            List<Color> colors = new List<Color>
+            {
+                Color.blue,
+                Color.green,
+                Color.yellow,
+                Color.cyan,
+                Color.magenta,
+                Color.white,
+                Color.black
+            };
+
+            Color randomColor = colors[Random.Range(0, colors.Count)];
+            Transform slimeTransform = transform.Find("slime");
+            if (slimeTransform != null)
+            {
+                if (slimeTransform.TryGetComponent<Renderer>(out var slimeRenderer))
+                {
+                    slimeRenderer.material.color = randomColor;
+                }
+            }
+        }
+
         private void Awake()
         {
             AssignAnimIDs();
@@ -66,6 +90,7 @@ namespace BasicEnemySlime
         {
             originalSpeed = agent.speed;
             BehaviourTree();
+            SetRandomColor();
         }
 
         void Update()
