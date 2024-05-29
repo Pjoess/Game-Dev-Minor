@@ -76,7 +76,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(){
         Debug.Log("Start Dialogue");
         if(!canMove){
-            input.SwitchCurrentActionMap("UI");
+            input.DeactivateInput();
         }
         
         isActive = true;
@@ -103,7 +103,7 @@ public class DialogueManager : MonoBehaviour
         }else{
             child.SetActive(false); 
             if(!canMove){
-                input.SwitchCurrentActionMap("Player");
+                input.ActivateInput();
             }
             // input.SwitchCurrentActionMap("Player");
             inputIndex++;
