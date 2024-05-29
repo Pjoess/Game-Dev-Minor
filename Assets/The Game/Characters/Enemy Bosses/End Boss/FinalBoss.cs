@@ -84,6 +84,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     void Start()
     {
+        eyeColorIntensity = 0f;
         eyesMaterial.SetColor("_BaseColor", Color.red);
         eyesMaterial.SetColor("_EmissionColor", Color.red * 0f);
         healthPoints = maxHealthPoints;
@@ -132,14 +133,23 @@ public class FinalBoss : MonoBehaviour, IDamageble
     {
         if(healthPoints <= 0)
         {
-            QuestEvents.BuddyDead();
-            isDead = true;
-            animator.SetBool(animIDIsDead, true);
-            bossUI.gameObject.SetActive(false);
-            eyesMaterial.SetColor("_EmissionColor", Color.black);
-            eyesMaterial.SetColor("_BaseColor", Color.grey);
+            StartCoroutine(Death());
+            
         }
     }
+
+
+    private IEnumerator Death()
+    {
+        isDead = true;
+        animator.SetBool(animIDIsDead, true);
+        bossUI.gameObject.SetActive(false);
+        eyesMaterial.SetColor("_EmissionColor", Color.black);
+        eyesMaterial.SetColor("_BaseColor", Color.grey);
+        yield return new WaitForSeconds(5f);
+        QuestEvents.BuddyDead();
+    }
+
 
     public void ActivateBoss()
     {

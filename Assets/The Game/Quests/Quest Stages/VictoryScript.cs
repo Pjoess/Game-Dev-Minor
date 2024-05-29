@@ -1,35 +1,26 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class VictoryScript : MonoBehaviour
 {
     [Header("Game Object References")]
     [SerializeField] private GameObject victoryMenuPanel;
-    [SerializeField] private GameObject victoryButton;
-
-    [Header("Audio Source References")]
-    [SerializeField] private AudioSource victoryMedievalSound;
-    [SerializeField] private AudioSource victoryCongratulations;
+    [SerializeField] private VideoPlayer endVideo;
 
     public void EnableVictoryCanvas(bool quesCompleted){
         if(quesCompleted == true){
             victoryMenuPanel.SetActive(true);
             //EventSystem.current.SetSelectedGameObject(victoryButton);
-            StartCoroutine(WaitSeconds());
+            PauseAllOtherMusic();
+            endVideo.Play();
+            Time.timeScale = 0;
         } else {
             victoryMenuPanel.SetActive(false);
             Time.timeScale = 1;
         }
-    }
-
-    IEnumerator WaitSeconds()
-    {
-        PauseAllOtherMusic();
-        victoryMedievalSound.Play();
-        yield return new WaitForSeconds(4f);
-        victoryCongratulations.Play();
-        Time.timeScale = 0;
     }
 
     void PauseAllOtherMusic()
@@ -37,10 +28,19 @@ public class VictoryScript : MonoBehaviour
         AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
         foreach (AudioSource audioSource in allAudioSources)
         {
-            if (audioSource != victoryMedievalSound && audioSource != victoryCongratulations)
-            {
-                audioSource.Stop();
-            }
+            audioSource.Stop();
         }
+    }
+
+    private void Start()
+    {
+        endVideo.Prepare();
+        endVideo.loopPointReached += LoadMainMenu;
+    }
+
+    private void LoadMainMenu(VideoPlayer vp)
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
     }
 }

@@ -24570,7 +24570,7 @@ MonoBehaviour:
   - {fileID: 658512371}
   - {fileID: 186209359}
   - {fileID: 1661264676}
-  victoryScript: {fileID: 236073426507658645}
+  victoryScript: {fileID: 0}
   isTutorial: 0
 --- !u!114 &1550018120
 MonoBehaviour:
@@ -32954,18 +32954,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2141693666}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &236073426507658645 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3188801854913994808, guid: 0505d1758fc22504dbd1bb68b78afbe4,
-    type: 3}
-  m_PrefabInstance: {fileID: 8903303753018805377}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efbcf5b2164d00041ba2267952d6c0e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &763381600381234906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45425,7 +45413,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6830324945872584522, guid: 0505d1758fc22504dbd1bb68b78afbe4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0505d1758fc22504dbd1bb68b78afbe4, type: 3}
