@@ -1,15 +1,27 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class UI_Manager : MonoBehaviour
 {
     public AudioSource buttonClick;
     public GameObject choicePanel;
     public GameObject MainMenuPanel;
+    public VideoPlayer introVideo;
+    private AudioListener audioListener;
 
     void Awake()
     {
         LoadVolume();
+    }
+
+    void Start()
+    {
+        // Subscribe to the video's completion event
+        introVideo.loopPointReached += OnVideoEnded;
+
+        // Get the main audio listener in the scene
+        audioListener = FindObjectOfType<AudioListener>();
     }
 
     private static void LoadVolume()
@@ -34,7 +46,28 @@ public class UI_Manager : MonoBehaviour
         SceneManager.LoadSceneAsync(0);
     }
 
-    public void PlayLevel(){
+    public void PlayLevel()
+    {
+        // Mute all audio when video starts playing
+        if (audioListener != null)
+            audioListener.enabled = false;
+
+        // Play the video from the beginning
+        introVideo.Stop();
+        introVideo.time = 0;
+        introVideo.Play();
+    }
+
+    void OnVideoEnded(VideoPlayer vp)
+    {
+        // Unsubscribe from the event to avoid multiple calls
+        introVideo.loopPointReached -= OnVideoEnded;
+
+        // Unmute audio when video ends
+        // if (audioListener != null)
+        //     audioListener.enabled = true;
+
+        // Load the scene after the video has ended
         SceneManager.LoadSceneAsync(2);
     }
 
