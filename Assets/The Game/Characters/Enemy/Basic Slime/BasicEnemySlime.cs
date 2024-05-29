@@ -63,10 +63,6 @@ namespace BasicEnemySlime
                 Color.blue,
                 Color.green,
                 Color.yellow,
-                Color.cyan,
-                Color.magenta,
-                Color.white,
-                Color.black
             };
 
             Color randomColor = colors[Random.Range(0, colors.Count)];
