@@ -30,7 +30,7 @@ namespace BasicEnemySlime
         [Header("Stats")]
         private EnemyHealthBar enemyHealthBar;
         public int healthPoints;
-        public int maxHealthPoints = 30;
+        public int maxHealthPoints = 15;
         public int MaxHealthPoints { get { return maxHealthPoints; } }
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
