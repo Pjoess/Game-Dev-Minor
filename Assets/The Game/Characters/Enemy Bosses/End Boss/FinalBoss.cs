@@ -121,6 +121,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
     public void ActivateBoss()
     {
         fightStarted = true;
+        bossUI.gameObject.SetActive(true);
     }
 
     public bool IsAnimatorCurrentState(string name)

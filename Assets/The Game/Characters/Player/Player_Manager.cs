@@ -153,7 +153,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         // Load before starting the Game
         void Awake(){
             StatsOnAwake();
-            pauseMenu = FindAnyObjectByType<PauseMenu>();
+            pauseMenu = FindObjectOfType<PauseMenu>();
             // Load Animations
             AssignAnimIDs();
             // References
