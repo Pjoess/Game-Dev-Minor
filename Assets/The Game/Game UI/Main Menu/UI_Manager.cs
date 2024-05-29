@@ -9,6 +9,7 @@ public class UI_Manager : MonoBehaviour
     public GameObject MainMenuPanel;
     public VideoPlayer introVideo;
     private AudioListener audioListener;
+    private bool videoEnded = false;
 
     void Awake()
     {
@@ -22,6 +23,21 @@ public class UI_Manager : MonoBehaviour
 
         // Get the main audio listener in the scene
         audioListener = FindObjectOfType<AudioListener>();
+    }
+
+    void OnEnable()
+    {
+        // Reset video when the GameObject is enabled
+        ResetVideo();
+    }
+
+    void Update()
+    {
+        // Skip video
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SkipVideo();
+        }
     }
 
     private static void LoadVolume()
@@ -48,27 +64,52 @@ public class UI_Manager : MonoBehaviour
 
     public void PlayLevel()
     {
-        // Mute all audio when video starts playing
+        choicePanel.SetActive(false);
         if (audioListener != null)
             audioListener.enabled = false;
 
-        // Play the video from the beginning
+        // Check if introVideo is not null before trying to use it
+        if (introVideo != null)
+        {
+            // If video has ended, reset it back to false and start from the beginning
+            if (videoEnded)
+            {
+                ResetVideo();
+            }
+
+            // Play the video
+            introVideo.Play();
+        }
+    }
+
+    void ResetVideo()
+    {
+        videoEnded = false;
         introVideo.Stop();
         introVideo.time = 0;
-        introVideo.Play();
+    }
+
+    void SkipVideo()
+    {
+        if (introVideo.isPlaying)
+        {
+            introVideo.time = introVideo.length;
+            videoEnded = true;
+        }
     }
 
     void OnVideoEnded(VideoPlayer vp)
     {
-        // Unsubscribe from the event to avoid multiple calls
         introVideo.loopPointReached -= OnVideoEnded;
-
-        // Unmute audio when video ends
-        // if (audioListener != null)
-        //     audioListener.enabled = true;
-
-        // Load the scene after the video has ended
+        if (audioListener != null)
+            audioListener.enabled = true;
+        
         SceneManager.LoadSceneAsync(2);
+    }
+
+    public bool VideoEnded()
+    {
+        return videoEnded;
     }
 
     public void RestartLevel(){
