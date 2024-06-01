@@ -1,3 +1,5 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
@@ -7,12 +9,22 @@ public class UI_Manager : MonoBehaviour
     public AudioSource buttonClick;
     public GameObject choicePanel;
     public GameObject MainMenuPanel;
+    public GameObject SkipVideoText;
     public VideoPlayer introVideo;
     public static bool videoEnded = false;
+    private float originalVolume;
 
     void Awake()
     {
         LoadVolume(); // for sound
+    }
+
+    void Start()
+    {
+        if (SkipVideoText != null)
+        {
+            SkipVideoText.SetActive(false);
+        }
     }
 
     void Update()
@@ -29,12 +41,32 @@ public class UI_Manager : MonoBehaviour
         if (!PlayerPrefs.HasKey("musicVolume"))
         {
             PlayerPrefs.SetFloat("musicVolume", 1);
-            AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
+        }
+
+        if (!PlayerPrefs.HasKey("isMuted"))
+        {
+            PlayerPrefs.SetInt("isMuted", 0);
+        }
+
+        if (PlayerPrefs.GetInt("isMuted") == 1)
+        {
+            AudioListener.volume = 0;
         }
         else
         {
             AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
         }
+    }
+
+    public void MuteSound()
+    {
+        originalVolume = AudioListener.volume;
+        AudioListener.volume = 0;
+    }
+
+    public void RestoreSound()
+    {
+        AudioListener.volume = originalVolume;
     }
 
     public void PlayGame()
@@ -43,7 +75,14 @@ public class UI_Manager : MonoBehaviour
 
         if (introVideo != null && !videoEnded) // Video Plays only one time per Startup of the Game
         {
+            MuteSound();
             introVideo.gameObject.SetActive(true);
+
+            if (SkipVideoText != null)
+            {
+                SkipVideoText.SetActive(true);
+            }
+
             introVideo.Play();
             introVideo.loopPointReached += OnIntroVideoEnded;
         }
@@ -58,7 +97,14 @@ public class UI_Manager : MonoBehaviour
     {
         introVideo.loopPointReached -= OnIntroVideoEnded;
         introVideo.gameObject.SetActive(false); // Disable the video
+
+        if (SkipVideoText != null)
+        {
+            SkipVideoText.SetActive(false);
+        }
+
         videoEnded = true; // Mark the video as ended
+        RestoreSound();
         DisplayChoicePanel();
     }
 
@@ -109,11 +155,11 @@ public class UI_Manager : MonoBehaviour
 
     public void QuitGame()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     public void PlayClickSound()
