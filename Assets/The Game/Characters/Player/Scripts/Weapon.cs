@@ -54,6 +54,7 @@ public class Weapon : MonoBehaviour
                 //other.gameObject.GetComponent<IDamageble>().ApplyKnockback();
             }
             enemiesHit.Add(other.gameObject);
+            TimeScript.instance.HitStop();
         }
     }
 }

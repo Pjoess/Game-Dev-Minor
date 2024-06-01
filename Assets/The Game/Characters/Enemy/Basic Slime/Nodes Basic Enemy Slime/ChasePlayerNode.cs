@@ -48,7 +48,7 @@ namespace BasicEnemySlime
                 Vector3 destinationPoint = playerPosition - directionToPlayer * stopDistance;
                 agent.isStopped = false;
 
-                if(!animator.GetBool(animIDAttack) && !animator.GetBool(animIDAttack) && !BasicEnemySlime.hasAttacked)
+                if(!animator.GetBool(animIDAttack))
                 {
                     RotateTowardsPlayer(directionToPlayer);
                 }
