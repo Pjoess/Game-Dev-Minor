@@ -91,6 +91,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    #region Notification Popup
     private void ShowQuestNotification(string text)
     {
         questNotification.text = text;
@@ -114,6 +115,7 @@ public class QuestManager : MonoBehaviour
         text.alpha = 0;
         text.gameObject.SetActive(false); // Disable the quest notification text after fade out
     }
+    #endregion
 }
 
 /* The quest has 4 stages:
