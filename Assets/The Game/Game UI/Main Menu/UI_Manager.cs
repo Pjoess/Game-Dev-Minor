@@ -7,17 +7,14 @@ public class UI_Manager : MonoBehaviour
     public AudioSource buttonClick;
     public GameObject choicePanel;
     public GameObject MainMenuPanel;
+    public GameObject SkipVideoText;
     public VideoPlayer introVideo;
-    private bool videoEnded = false;
+    public static bool videoEnded = false;
+    private float originalVolume;
 
     void Awake()
     {
-        LoadVolume();
-    }
-
-    void OnEnable()
-    {
-        ResetVideo();
+        LoadVolume(); // for sound
     }
 
     void Update()
@@ -34,7 +31,16 @@ public class UI_Manager : MonoBehaviour
         if (!PlayerPrefs.HasKey("musicVolume"))
         {
             PlayerPrefs.SetFloat("musicVolume", 1);
-            AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
+        }
+
+        if (!PlayerPrefs.HasKey("isMuted"))
+        {
+            PlayerPrefs.SetInt("isMuted", 0);
+        }
+
+        if (PlayerPrefs.GetInt("isMuted") == 1)
+        {
+            AudioListener.volume = 0;
         }
         else
         {
@@ -42,76 +48,83 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+    public void MuteSound()
+    {
+        originalVolume = AudioListener.volume;
+        AudioListener.volume = 0;
+    }
+
+    public void RestoreSound()
+    {
+        AudioListener.volume = originalVolume;
+    }
+
     public void PlayGame()
     {
-        choicePanel.SetActive(true);
         MainMenuPanel.SetActive(false);
-    }
 
-    public void ToMainMenu(){
-        SceneManager.LoadSceneAsync(0);
-    }
+        if (introVideo != null && !videoEnded) // Video Plays only one time per Startup of the Game
+        {
+            MuteSound();
+            introVideo.gameObject.SetActive(true);
 
-    void ResetVideo()
-    {
-        videoEnded = false;
-        if(introVideo != null){
-            introVideo.Stop();
-            introVideo.time = 0;
+            if (SkipVideoText != null)
+            {
+                SkipVideoText.SetActive(true);
+            }
+
+            introVideo.Play();
+            introVideo.loopPointReached += OnIntroVideoEnded;
         }
+        else
+        {
+            introVideo.gameObject.SetActive(false);
+            DisplayChoicePanel();
+        }
+    }
+
+    void OnIntroVideoEnded(VideoPlayer vp)
+    {
+        introVideo.loopPointReached -= OnIntroVideoEnded;
+        introVideo.gameObject.SetActive(false); // Disable the video
+
+        if (SkipVideoText != null)
+        {
+            SkipVideoText.SetActive(false);
+        }
+
+        videoEnded = true; // Mark the video as ended
+        RestoreSound();
+        DisplayChoicePanel();
+    }
+
+    void DisplayChoicePanel()
+    {
+        choicePanel.SetActive(true);
     }
 
     void SkipVideo()
     {
-        if (introVideo.isPlaying)
+        if (introVideo != null && introVideo.isPlaying)
         {
             introVideo.time = introVideo.length;
-            videoEnded = true;
+            OnIntroVideoEnded(introVideo); // Manually trigger the end event
         }
     }
 
     public void PlayLevel()
     {
-        choicePanel.SetActive(false);
-
-        if (introVideo != null)
-        {
-            if (videoEnded)
-            {
-                ResetVideo();
-            }
-            introVideo.Play();
-        }
-        introVideo.loopPointReached += OnLevelVideoEnded;
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void PlayTutorial()
     {
-        choicePanel.SetActive(false);
-
-        if (introVideo != null)
-        {
-            if (videoEnded)
-            {
-                ResetVideo();
-            }
-            introVideo.Play();
-        }
-        introVideo.loopPointReached += OnTutorialVideoEnded;
-    }
-
-    void OnLevelVideoEnded(VideoPlayer vp)
-    {
-        introVideo.loopPointReached -= OnLevelVideoEnded;
-
-        SceneManager.LoadSceneAsync(2);
-    }
-
-    void OnTutorialVideoEnded(VideoPlayer vp)
-    {
-        introVideo.loopPointReached -= OnTutorialVideoEnded;
-
         SceneManager.LoadSceneAsync(1);
+    }
+
+    public void ToMainMenu()
+    {
+        SceneManager.LoadSceneAsync(0);
     }
 
     public bool VideoEnded()
@@ -130,15 +143,17 @@ public class UI_Manager : MonoBehaviour
         MainMenuPanel.SetActive(true);
     }
 
-    public void QuitGame(){
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
-    public void PlayClickSound(){
-        if(buttonClick != null) buttonClick.Play();
+    public void PlayClickSound()
+    {
+        if (buttonClick != null) buttonClick.Play();
     }
 }
