@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using Cinemachine;
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 // using UnityEditor.Animations;
 using UnityEngine;
