@@ -25045,12 +25045,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1984414034}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &1609197611 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8475012800893936888, guid: 79bb0ffb1129a7f48879f2be66542aed,
-    type: 3}
-  m_PrefabInstance: {fileID: 5429456551982088799}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1620511959 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2935864361139038118, guid: 2fae3d1a6f39a0545a564037e3efddca,
@@ -28428,12 +28422,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2935864361139038118, guid: 2fae3d1a6f39a0545a564037e3efddca,
     type: 3}
   m_PrefabInstance: {fileID: 396921143}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1909290297 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 5041079273216448615, guid: 79bb0ffb1129a7f48879f2be66542aed,
-    type: 3}
-  m_PrefabInstance: {fileID: 5429456551982088799}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1923319966
 PrefabInstance:
@@ -45447,11 +45435,6 @@ PrefabInstance:
       propertyPath: buttonClick
       value: 
       objectReference: {fileID: 401723401}
-    - target: {fileID: 1572132195092578180, guid: 0505d1758fc22504dbd1bb68b78afbe4,
-        type: 3}
-      propertyPath: buttonClick
-      value: 
-      objectReference: {fileID: 401723401}
     - target: {fileID: 1609170187248807806, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: buttonClick
@@ -45462,16 +45445,6 @@ PrefabInstance:
       propertyPath: buttonClick
       value: 
       objectReference: {fileID: 401723401}
-    - target: {fileID: 3188801854913994808, guid: 0505d1758fc22504dbd1bb68b78afbe4,
-        type: 3}
-      propertyPath: victoryMedievalSound
-      value: 
-      objectReference: {fileID: 1909290297}
-    - target: {fileID: 3188801854913994808, guid: 0505d1758fc22504dbd1bb68b78afbe4,
-        type: 3}
-      propertyPath: victoryCongratulations
-      value: 
-      objectReference: {fileID: 1609197611}
     - target: {fileID: 3217171534370902222, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: buttonClick
@@ -45563,8 +45536,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 6830324945872584522, guid: 0505d1758fc22504dbd1bb68b78afbe4, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0505d1758fc22504dbd1bb68b78afbe4, type: 3}
