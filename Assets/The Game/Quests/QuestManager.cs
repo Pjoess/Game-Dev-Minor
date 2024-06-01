@@ -35,15 +35,27 @@ public class QuestManager : MonoBehaviour
         }
 
         questStages[currentStage].StartStage();
-        UpdateLog(questStages[currentStage].questLogText, false); // No sound at start
+        string currentQuestLogText = questStages[currentStage].questLogText;
+        UpdateLog(currentQuestLogText, true);
     }
 
     void Update()
     {
         if (!questCompleted)
         {
-            UpdateLog(questStages[currentStage].questLogText, true);
-            CheckQuestStageComplete();
+            string currentQuestLogText = questStages[currentStage].questLogText;
+
+            // Only update the quest log if it has changed
+            if (questLog.text != currentQuestLogText)
+            {
+                UpdateLog(currentQuestLogText, true);
+            }
+
+            // Check quest stage completion only if the quest log has changed
+            if (questLog.text == currentQuestLogText)
+            {
+                CheckQuestStageComplete();
+            }
         }
     }
 
@@ -63,6 +75,9 @@ public class QuestManager : MonoBehaviour
                 UpdateLog("Quest Completed", true);
                 questCompleted = true;
             }
+
+            // Enable quest notification again
+            questNotification.gameObject.SetActive(true);
         }
     }
 
