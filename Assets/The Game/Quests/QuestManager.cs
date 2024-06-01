@@ -1,12 +1,15 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class QuestManager : MonoBehaviour
 {
+    public static AudioSource QuestSound;
+
     [Header("Quest")]
     private bool questCompleted = false;
     [SerializeField] private TMP_Text questLog;
+    [SerializeField] private TMP_Text questNotification; // TextMeshPro for displaying the notifications
 
     [Header("Stage")]
     [SerializeField] QuestStage[] questStages;
@@ -17,24 +20,31 @@ public class QuestManager : MonoBehaviour
 
     public bool isTutorial;
 
-    void Awake(){
+    void Awake()
+    {
         victoryScript = FindAnyObjectByType<VictoryScript>();
     }
 
     void Start()
     {
+        // Find the AudioSource with the name "QuestUpdateSound"
+        QuestSound = GameObject.Find("QuestUpdateSound")?.GetComponent<AudioSource>();
+        if (QuestSound == null)
+        {
+            Debug.LogError("QuestUpdateSound GameObject or AudioSource component is missing in the scene");
+        }
+
         questStages[currentStage].StartStage();
-        UpdateLog(questStages[currentStage].questLogText);
+        UpdateLog(questStages[currentStage].questLogText, false); // No sound at start
     }
 
     void Update()
     {
-        if(!questCompleted)
+        if (!questCompleted)
         {
-            UpdateLog(questStages[currentStage].questLogText);
+            UpdateLog(questStages[currentStage].questLogText, true);
             CheckQuestStageComplete();
         }
-        
     }
 
     private void CheckQuestStageComplete()
@@ -44,19 +54,50 @@ public class QuestManager : MonoBehaviour
             if (currentStage < questStages.Length - 1)
             {
                 currentStage++;
+                QuestSound.Play();
+                ShowQuestNotification(questStages[currentStage].questLogText);
                 questStages[currentStage].StartStage();
             }
             else
             {
-                UpdateLog("Quest Completed");
+                UpdateLog("Quest Completed", true);
                 questCompleted = true;
             }
         }
     }
 
-    private void UpdateLog(string text)
+    private void UpdateLog(string text, bool playSound)
     {
         questLog.text = text;
+        if (playSound && QuestSound != null)
+        {
+            QuestSound.Play();
+            ShowQuestNotification(text);
+        }
+    }
+
+    private void ShowQuestNotification(string text)
+    {
+        questNotification.text = text;
+        questNotification.alpha = 1;
+        questNotification.gameObject.SetActive(true); // Enable the quest notification text
+        StartCoroutine(FadeOutText(3f, questNotification));
+    }
+
+    private IEnumerator FadeOutText(float fadeDuration, TMP_Text text)
+    {
+        float startAlpha = text.alpha;
+        float rate = 1.0f / fadeDuration;
+        float progress = 0.0f;
+
+        while (progress < 1.0f)
+        {
+            text.alpha = Mathf.Lerp(startAlpha, 0, progress);
+            progress += rate * Time.deltaTime;
+            yield return null;
+        }
+        text.alpha = 0;
+        text.gameObject.SetActive(false); // Disable the quest notification text after fade out
     }
 }
 
