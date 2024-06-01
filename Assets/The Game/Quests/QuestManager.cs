@@ -96,7 +96,7 @@ public class QuestManager : MonoBehaviour
         questNotification.text = text;
         questNotification.alpha = 1;
         questNotification.gameObject.SetActive(true); // Enable the quest notification text
-        StartCoroutine(FadeOutText(3f, questNotification));
+        StartCoroutine(FadeOutText(4f, questNotification));
     }
 
     private IEnumerator FadeOutText(float fadeDuration, TMP_Text text)
