@@ -29,14 +29,12 @@ public class QuestManager : MonoBehaviour
     {
         // Find the AudioSource with the name "QuestUpdateSound"
         QuestSound = GameObject.Find("QuestUpdateSound")?.GetComponent<AudioSource>();
-        if (QuestSound == null)
+        if (QuestSound != null)
         {
-            Debug.LogError("QuestUpdateSound GameObject or AudioSource component is missing in the scene");
+            questStages[currentStage].StartStage();
+            string currentQuestLogText = questStages[currentStage].questLogText;
+            UpdateLog(currentQuestLogText, true);
         }
-
-        questStages[currentStage].StartStage();
-        string currentQuestLogText = questStages[currentStage].questLogText;
-        UpdateLog(currentQuestLogText, true);
     }
 
     void Update()
