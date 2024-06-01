@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Cinemachine;
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 // using UnityEditor.Animations;
 using UnityEngine;
@@ -22,6 +24,9 @@ public class DialogueManager : MonoBehaviour
     public ShowSlimes showSlimes;
     public bool isLastOne = false;
     public CinemachineVirtualCamera virtualCamera;
+
+    public SpriteRenderer icon;
+    public Sprite image;
 
     public bool canMove = false;
 
@@ -58,6 +63,10 @@ public class DialogueManager : MonoBehaviour
         StartDialogue();
     }
 
+    public void ChangeIcon(Sprite texture){
+        image = texture;
+    }
+
 
     void Update(){
         if(Input.GetKeyDown(KeyCode.E)){
@@ -74,6 +83,9 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void StartDialogue(){
+        if(icon!=null){
+            icon.sprite = image;
+        }
         Debug.Log("Start Dialogue");
         if(!canMove){
             input.DeactivateInput();
