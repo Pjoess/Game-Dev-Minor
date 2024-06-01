@@ -10,7 +10,9 @@ public class EnterVillageStage : QuestStage
         villageTrigger.SetActive(true);
         Debug.Log("StartStage");
         isActive = true;
-        questLogText = "Something feels wrong? \n\n" + $"-> Enter the Village.";
+        questLogText = "Something feels wrong? \n\n" + 
+        "--- Task --- \n" +
+        $"Enter the Village";
         QuestEvents.OnPlayerEnterVillage += EnteredVillage;
     }
 
