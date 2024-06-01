@@ -8,16 +8,11 @@ public class UI_Manager : MonoBehaviour
     public GameObject choicePanel;
     public GameObject MainMenuPanel;
     public VideoPlayer introVideo;
-    private bool videoEnded = false;
+    public static bool videoEnded = false;
 
     void Awake()
     {
-        LoadVolume();
-    }
-
-    void OnEnable()
-    {
-        ResetVideo();
+        LoadVolume(); // for sound
     }
 
     void Update()
@@ -44,74 +39,56 @@ public class UI_Manager : MonoBehaviour
 
     public void PlayGame()
     {
-        choicePanel.SetActive(true);
         MainMenuPanel.SetActive(false);
-    }
 
-    public void ToMainMenu(){
-        SceneManager.LoadSceneAsync(0);
-    }
-
-    void ResetVideo()
-    {
-        videoEnded = false;
-        if(introVideo != null){
-            introVideo.Stop();
-            introVideo.time = 0;
+        if (introVideo != null && !videoEnded) // Video Plays only one time per Startup of the Game
+        {
+            introVideo.gameObject.SetActive(true);
+            introVideo.Play();
+            introVideo.loopPointReached += OnIntroVideoEnded;
         }
+        else
+        {
+            introVideo.gameObject.SetActive(false);
+            DisplayChoicePanel();
+        }
+    }
+
+    void OnIntroVideoEnded(VideoPlayer vp)
+    {
+        introVideo.loopPointReached -= OnIntroVideoEnded;
+        introVideo.gameObject.SetActive(false); // Disable the video
+        videoEnded = true; // Mark the video as ended
+        DisplayChoicePanel();
+    }
+
+    void DisplayChoicePanel()
+    {
+        choicePanel.SetActive(true);
     }
 
     void SkipVideo()
     {
-        if (introVideo.isPlaying)
+        if (introVideo != null && introVideo.isPlaying)
         {
             introVideo.time = introVideo.length;
-            videoEnded = true;
+            OnIntroVideoEnded(introVideo); // Manually trigger the end event
         }
     }
 
     public void PlayLevel()
     {
-        choicePanel.SetActive(false);
-
-        if (introVideo != null)
-        {
-            if (videoEnded)
-            {
-                ResetVideo();
-            }
-            introVideo.Play();
-        }
-        introVideo.loopPointReached += OnLevelVideoEnded;
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void PlayTutorial()
     {
-        choicePanel.SetActive(false);
-
-        if (introVideo != null)
-        {
-            if (videoEnded)
-            {
-                ResetVideo();
-            }
-            introVideo.Play();
-        }
-        introVideo.loopPointReached += OnTutorialVideoEnded;
-    }
-
-    void OnLevelVideoEnded(VideoPlayer vp)
-    {
-        introVideo.loopPointReached -= OnLevelVideoEnded;
-
-        SceneManager.LoadSceneAsync(2);
-    }
-
-    void OnTutorialVideoEnded(VideoPlayer vp)
-    {
-        introVideo.loopPointReached -= OnTutorialVideoEnded;
-
         SceneManager.LoadSceneAsync(1);
+    }
+
+    public void ToMainMenu()
+    {
+        SceneManager.LoadSceneAsync(0);
     }
 
     public bool VideoEnded()
@@ -130,7 +107,8 @@ public class UI_Manager : MonoBehaviour
         MainMenuPanel.SetActive(true);
     }
 
-    public void QuitGame(){
+    public void QuitGame()
+    {
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #else
@@ -138,7 +116,8 @@ public class UI_Manager : MonoBehaviour
         #endif
     }
 
-    public void PlayClickSound(){
-        if(buttonClick != null) buttonClick.Play();
+    public void PlayClickSound()
+    {
+        if (buttonClick != null) buttonClick.Play();
     }
 }
