@@ -40,9 +40,9 @@ public class ControlsBox : MonoBehaviour
         textComponent.text = "";
         foreach(var control in controlls){
             if(control.isComposite){
-                textComponent.text += control.actionName + " " + control.compositePartName + "  " + control.GetBinding(input) + "\n";
+                textComponent.text += control.actionName + " " + control.compositePartName + " " + control.GetBinding(input) + "\n";
             }else{
-                textComponent.text += control.actionName + "  " + control.GetBinding(input) + "\n";
+                textComponent.text += control.actionName + " " + control.GetBinding(input) + "\n";
             }
         }
     }
