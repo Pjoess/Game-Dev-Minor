@@ -19,14 +19,6 @@ public class UI_Manager : MonoBehaviour
         LoadVolume(); // for sound
     }
 
-    void Start()
-    {
-        if (SkipVideoText != null)
-        {
-            SkipVideoText.SetActive(false);
-        }
-    }
-
     void Update()
     {
         // Skip video
