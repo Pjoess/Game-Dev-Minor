@@ -171,18 +171,24 @@ public class Player_Manager : MonoBehaviour, IDamageble
         
         void Start()
         { 
+            // Hides cursor and locks it in the center
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
             // Default state
             playerState = idleState;
             playerState.EnterState(this);
+
             // Jumping
             jumpSound = GetComponent<AudioSource>();
             idleToFallDelta = idleToFallTimer;
             jumpCooldownDelta = 0f;
+
             // UI
             Time.timeScale = 1;
             isPaused = false;
             isDead = false;
+            
             // Health
             healthPoints = maxHealthPoints;
             Healthbar healthbar = FindObjectOfType<Healthbar>();
@@ -501,6 +507,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 if (value.isPressed && !isPaused) // Pause the game
                 {
                     Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                     Debug.Log("Game Paused");
                     Time.timeScale = 0;
                     isPaused = true;
@@ -509,6 +516,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 else // Unpause the game
                 {
                     Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
                     Debug.Log("Game Started");
                     Time.timeScale = 1;
                     isPaused = false;

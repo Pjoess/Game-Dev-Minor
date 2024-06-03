@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject mainMenuButton;
     private PlayerInput input;
+    
     private void Start()
     {
         input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
