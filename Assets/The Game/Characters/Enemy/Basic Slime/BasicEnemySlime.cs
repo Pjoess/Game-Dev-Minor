@@ -9,7 +9,7 @@ namespace BasicEnemySlime
     {
         private IBaseNode basicSlimeBT = null;
         public LayerMask attackLayer; // Player
-        private NavMeshAgent agent;
+        public NavMeshAgent agent;
         private Rigidbody rigidBody; // Important for the bullets damage received
         public static float originalSpeed;
 
@@ -18,14 +18,14 @@ namespace BasicEnemySlime
 
         [Header("Patrol Settings")]
         private float patrolRadius = 20f;
-        private float stopDistance = 4f;
+        public float stopDistance = 4f;
 
         [Header("Chase")]
-        private float chaseRange = 15f;
+        public float chaseRange = 15f;
 
         [Header("Attack")]
-        private float attackRange = 6f;
-        public static bool hasAttacked = false;
+        public float attackRange = 6f;
+        public bool hasAttacked = false;
         
         // --- IDamagable --- //
         [Header("Stats")]
@@ -36,15 +36,15 @@ namespace BasicEnemySlime
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float ConeOffset = 1f;
-        private float coneWidth = 30f;
-        private float coneLength = 6f;
-        private float thickness = 1f;
+        public float ConeOffset = 1f;
+        public float coneWidth = 30f;
+        public float coneLength = 6f;
+        public float thickness = 1f;
 
-        private Animator animator;
-        private int animIDAnticipate;
-        private int animIDAttack;
-        private int animIDWalking;
+        public Animator animator;
+        public int animIDAnticipate;
+        public int animIDAttack;
+        public int animIDWalking;
 
         private Renderer slimeRenderer;
         private Color originalColor;
@@ -110,46 +110,41 @@ namespace BasicEnemySlime
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack,animIDAnticipate,attackRange),
-                new AttackPlayerNode(agent, attackRange, coneWidth, coneLength, animator, animIDAnticipate, animIDAttack),
-            };
-
-            List<IBaseNode> IsPlayerNotInLineOfSight = new()
-            {
-                new ReturnBackToPosition(agent,agent.transform.position,stopDistance,chaseRange,attackRange,animator,animIDWalking),
+                new AttackPlayerNode(this),
+                new ChasePlayerNode(this)
             };
 
             List<IBaseNode> Root = new()
             {
-                new SequenceNode(IsPlayerInLineOfSight),
-                new SequenceNode(IsPlayerNotInLineOfSight),
+                new SelectorNode(IsPlayerInLineOfSight),
+                new ReturnBackToPosition(agent,agent.transform.position,stopDistance,chaseRange,attackRange,animator,animIDWalking),
             };
 
             basicSlimeBT = new SelectorNode(Root);
         }
 
         // Removed for now, changed plan to slime goes back to its spawned point.
-        private void ChaseAttackPatrol()
-        {
-            List<IBaseNode> IsPlayerInLineOfSight = new()
-            {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack,animIDAnticipate,attackRange),
-                new AttackPlayerNode(agent, attackRange, coneWidth, coneLength, animator, animIDAnticipate, animIDAttack),
-            };
+        //private void ChaseAttackPatrol()
+        //{
+        //    List<IBaseNode> IsPlayerInLineOfSight = new()
+        //    {
+        //        new ChasePlayerNode(this),
+        //        new AttackPlayerNode(agent, attackRange, coneWidth, coneLength, animator, animIDAnticipate, animIDAttack),
+        //    };
 
-            List<IBaseNode> IsPlayerNotInLineOfSight = new()
-            {
-                new PatrolNode(agent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange, attackRange,animator,animIDWalking),
-            };
+        //    List<IBaseNode> IsPlayerNotInLineOfSight = new()
+        //    {
+        //        new PatrolNode(agent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange, attackRange,animator,animIDWalking),
+        //    };
 
-            List<IBaseNode> Root = new()
-            {
-                new SequenceNode(IsPlayerInLineOfSight),
-                new SequenceNode(IsPlayerNotInLineOfSight),
-            };
+        //    List<IBaseNode> Root = new()
+        //    {
+        //        new SequenceNode(IsPlayerInLineOfSight),
+        //        new SequenceNode(IsPlayerNotInLineOfSight),
+        //    };
 
-            basicSlimeBT = new SelectorNode(Root);
-        }
+        //    basicSlimeBT = new SelectorNode(Root);
+        //}
         #endregion
 
         #region Cone Raycast
@@ -274,6 +269,8 @@ namespace BasicEnemySlime
             public void EndAttackAnim()
             {
                 animator.SetBool(animIDAttack, false);
+                agent.updateRotation = true;
+                agent.isStopped = false;
             }
         #endregion
     }
