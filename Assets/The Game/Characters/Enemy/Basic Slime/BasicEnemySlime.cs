@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 
 namespace BasicEnemySlime
 {
@@ -12,6 +13,9 @@ namespace BasicEnemySlime
         public NavMeshAgent agent;
         private Rigidbody rigidBody; // Important for the bullets damage received
         public static float originalSpeed;
+
+        private DecalProjector projector;
+        [SerializeField] private Material neutralFace, hitFace;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -85,6 +89,7 @@ namespace BasicEnemySlime
             agent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             rigidBody = GetComponent<Rigidbody>();
+            projector = GetComponentInChildren<DecalProjector>();
         }
 
         void Start()
@@ -228,7 +233,9 @@ namespace BasicEnemySlime
             {
                 Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f);
                 slimeRenderer.material.color = lightRed;
+                SetHitFace();
                 yield return new WaitForSeconds(0.2f);
+                SetNeutralFace();
                 slimeRenderer.material.color = originalColor;
             }
         }
@@ -289,5 +296,16 @@ namespace BasicEnemySlime
                 agent.isStopped = false;
             }
         #endregion
+
+
+        private void SetNeutralFace()
+        {
+            projector.material = neutralFace;
+        }
+
+        private void SetHitFace()
+        {
+            projector.material = hitFace;
+        }
     }
 }
