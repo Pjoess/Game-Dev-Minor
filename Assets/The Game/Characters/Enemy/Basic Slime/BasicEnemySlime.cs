@@ -243,8 +243,24 @@ namespace BasicEnemySlime
         }
         #endregion
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(hasAttacked)
+            {
+                if(collision.gameObject.CompareTag("Player"))
+                {
+                    Blackboard.instance.HitPlayer(10, collision.contacts[0].point);
+                    animator.SetBool(animIDAnticipate, false);
+                    animator.SetBool(animIDAttack, false);
+                    hasAttacked = false;
+                    agent.updateRotation = true;
+                    agent.isStopped = false;
+                }
+            }
+        }
+
         #region Animator
-            public void EndWalk()
+        public void EndWalk()
             {
                 animator.SetBool(animIDWalking, false);
             }

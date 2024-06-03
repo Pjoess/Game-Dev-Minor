@@ -40,7 +40,7 @@ namespace BasicEnemySlime
 
                     if (slime.hasAttacked)
                     {
-                        Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
+                        //Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
                         damageTimer = 0f;
                         slime.animator.SetBool(slime.animIDAnticipate, false);
                     }
