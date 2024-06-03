@@ -124,18 +124,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &89322379 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3188801854913994808, guid: 0505d1758fc22504dbd1bb68b78afbe4,
-    type: 3}
-  m_PrefabInstance: {fileID: 196392332}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efbcf5b2164d00041ba2267952d6c0e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &97963750 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -600508411396250865, guid: 3b82f250a5a71864cb47ba16523f70b0,
@@ -476,7 +464,7 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.15438315
+      value: 0.15438317
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
@@ -486,7 +474,7 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.15304187
+      value: 0.1530419
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
@@ -513,7 +501,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 310992944}
-    - targetCorrespondingSourceObject: {fileID: 9170032736108199815, guid: 0505d1758fc22504dbd1bb68b78afbe4,
+    - targetCorrespondingSourceObject: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1597224137}
@@ -996,12 +984,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &844964019 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 9170032736108199815, guid: 0505d1758fc22504dbd1bb68b78afbe4,
-    type: 3}
-  m_PrefabInstance: {fileID: 196392332}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &864878037 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1332774158676331235, guid: 568797ef9fcab9a45bba12e3ba62fff9,
@@ -1219,6 +1201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questLog: {fileID: 2049328613}
+  questNotification: {fileID: 0}
   questStages:
   - {fileID: 712643357}
   - {fileID: 1487642370}
@@ -1946,7 +1929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questLogText: 
-  script: {fileID: 89322379}
+  script: {fileID: 0}
 --- !u!1 &1385524482
 GameObject:
   m_ObjectHideFlags: 0
@@ -2365,7 +2348,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 844964019}
+  m_Father: {fileID: 2014881751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2380,7 +2363,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597224136}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 73f236b916d063f4ea6e448d1bffe070, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: eb6ae89ce4e27394e94fc629bd4aa033, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -3044,7 +3027,7 @@ PrefabInstance:
     - target: {fileID: 8327744688596667123, guid: 005bc5366fdc9e54e819af30300f6c14,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.15438315
+      value: 0.15438317
       objectReference: {fileID: 0}
     - target: {fileID: 8327744688596667123, guid: 005bc5366fdc9e54e819af30300f6c14,
         type: 3}
@@ -3054,7 +3037,7 @@ PrefabInstance:
     - target: {fileID: 8327744688596667123, guid: 005bc5366fdc9e54e819af30300f6c14,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.15304187
+      value: 0.1530419
       objectReference: {fileID: 0}
     - target: {fileID: 8327744688596667123, guid: 005bc5366fdc9e54e819af30300f6c14,
         type: 3}
