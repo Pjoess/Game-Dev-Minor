@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571328, b: 0.3069218, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5550,6 +5550,7 @@ MonoBehaviour:
   questLogText: 
   trigger: {fileID: 1680415767}
   nextTrigger: {fileID: 1896686089}
+  slimesKilled: 0
   WalkedOverTrigger: 0
   DidCombo: 0
   isAttacking: 0
@@ -6158,12 +6159,12 @@ PrefabInstance:
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001644218
+      value: 0.000000016442174
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000050709414
+      value: -0.00000000507094
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
@@ -6398,12 +6399,12 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001644218
+      value: 0.000000016442174
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000050709414
+      value: -0.00000000507094
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
@@ -8187,12 +8188,12 @@ PrefabInstance:
     - target: {fileID: 8390302013633295065, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -205.51276
+      value: -214
       objectReference: {fileID: 0}
     - target: {fileID: 8390302013633295065, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -86.186554
+      value: -241
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
