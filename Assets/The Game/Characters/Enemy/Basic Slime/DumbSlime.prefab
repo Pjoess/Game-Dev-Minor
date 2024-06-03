@@ -287,6 +287,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6701019518146155284, guid: dc031cb8ea67e0f41a594b423f1380c5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701019518146155284, guid: dc031cb8ea67e0f41a594b423f1380c5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -306,10 +316,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc031cb8ea67e0f41a594b423f1380c5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8758145969974565507}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc031cb8ea67e0f41a594b423f1380c5,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5979812271320291760}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc031cb8ea67e0f41a594b423f1380c5,
         type: 3}
@@ -323,6 +329,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 328383584136940888}
+    - targetCorrespondingSourceObject: {fileID: 6701019518146155284, guid: dc031cb8ea67e0f41a594b423f1380c5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1151500257791910801}
   m_SourcePrefab: {fileID: 100100000, guid: dc031cb8ea67e0f41a594b423f1380c5, type: 3}
 --- !u!1 &3846798452013268101 stripped
 GameObject:
@@ -359,29 +369,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3846798452013268101}
   m_Mesh: {fileID: 4711208715938537054, guid: 89323366fd46fcf43a330f82f653a5c5, type: 3}
---- !u!136 &8758145969974565507
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3846798452013268101}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.43, z: -0.00000071525574}
 --- !u!54 &5979812271320291760
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -407,7 +394,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!195 &3440854492058978263
 NavMeshAgent:
@@ -446,9 +433,22 @@ MonoBehaviour:
   attackLayer:
     serializedVersion: 2
     m_Bits: 128
+  agent: {fileID: 0}
   patrolCenterPoint: {fileID: 0}
+  stopDistance: 4
+  chaseRange: 15
+  attackRange: 6
+  hasAttacked: 0
   healthPoints: 0
   maxHealthPoints: 15
+  ConeOffset: 1
+  coneWidth: 30
+  coneLength: 6
+  thickness: 1
+  animator: {fileID: 0}
+  animIDAnticipate: 0
+  animIDAttack: 0
+  animIDWalking: 0
 --- !u!114 &328383584136940888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,3 +473,32 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4153439389559079380}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7304054240056922816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6701019518146155284, guid: dc031cb8ea67e0f41a594b423f1380c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 4153439389559079380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1151500257791910801
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7304054240056922816}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.43, z: -0.00000071525574}
