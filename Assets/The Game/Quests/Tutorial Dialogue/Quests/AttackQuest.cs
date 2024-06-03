@@ -8,7 +8,7 @@ public class AttackQuest : QuestStage
 {
     public GameObject trigger;
     public Collider nextTrigger;
-    public static int slimesKilled;
+    public int slimesKilled;
     public bool WalkedOverTrigger;
     public bool DidCombo;
 
@@ -18,6 +18,7 @@ public class AttackQuest : QuestStage
 
     void Awake(){
         slimesKilled = 0;
+        slimesKilled = default;
         timer = 0;
         attackStack = 0;
         isAttacking = false;
@@ -52,6 +53,7 @@ public class AttackQuest : QuestStage
 
     public override void StartStage()
     {
+        slimesKilled = 0;
         WalkedOverTrigger = false;
         DidCombo = false;
         isActive = true;
