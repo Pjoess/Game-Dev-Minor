@@ -171,6 +171,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         
         void Start()
         { 
+            Cursor.visible = false;
             // Default state
             playerState = idleState;
             playerState.EnterState(this);
@@ -491,20 +492,23 @@ public class Player_Manager : MonoBehaviour, IDamageble
         //     }
         // }
 
+        #region Pause Game
         void OnPause(InputValue value)
         {
             if (!isDead)
             {
                 pauseSound.Play();
-                if (value.isPressed && !isPaused)
+                if (value.isPressed && !isPaused) // Pause the game
                 {
+                    Cursor.visible = true;
                     Debug.Log("Game Paused");
                     Time.timeScale = 0;
                     isPaused = true;
                     pauseMenu.EnablePauseCanvas();
                 }
-                else
+                else // Unpause the game
                 {
+                    Cursor.visible = false;
                     Debug.Log("Game Started");
                     Time.timeScale = 1;
                     isPaused = false;
@@ -512,6 +516,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 }
             }
         }
+        #endregion
 
         // Method to check the current scene
         private bool IsInScene(string sceneName)
