@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AttackQuest : QuestStage
 {
@@ -8,14 +10,40 @@ public class AttackQuest : QuestStage
     public Collider nextTrigger;
     public static int slimesKilled;
     public bool WalkedOverTrigger;
+    public bool DidCombo;
+
+    public bool isAttacking;
+    public float timer;
+    public int attackStack;
 
     void Awake(){
         slimesKilled = 0;
+        timer = 0;
+        attackStack = 0;
+        isAttacking = false;
     }
 
     public override bool CheckStageCompleted()
     {
-        if(isFinished && WalkedOverTrigger){
+        if(!DidCombo){
+            timer += Time.deltaTime;
+        }
+        Debug.Log(timer);
+        if(isAttacking && attackStack >= 3){
+            DidCombo = true;
+            Debug.Log("Finished attack combo");
+        }
+        if(Input.GetMouseButtonDown(0) && !DidCombo){
+
+            if(isAttacking && timer < 0.15f){
+                attackStack++;
+            }else{
+                isAttacking = true;
+                timer = 0;
+                attackStack = 0;
+            }
+        }
+        if(isFinished && WalkedOverTrigger && DidCombo){
             return true;
         }else{
             return false;
@@ -25,8 +53,9 @@ public class AttackQuest : QuestStage
     public override void StartStage()
     {
         WalkedOverTrigger = false;
+        DidCombo = false;
         isActive = true;
-        questLogText = "Try doing an attack combo \n\n" + $"-> Kill slime dummies {slimesKilled}/4";
+        questLogText = "Try doing an attack combo \n\n" + $"-> Kill slime dummies {slimesKilled}/4 \n" + $"";
         trigger.SetActive(false);
         nextTrigger.isTrigger = false;
         TutorialEvents.OnEnterAttack += Triggered;

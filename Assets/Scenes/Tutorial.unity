@@ -2890,7 +2890,6 @@ GameObject:
   - component: {fileID: 879886939}
   - component: {fileID: 879886938}
   - component: {fileID: 879886937}
-  - component: {fileID: 879886936}
   m_Layer: 0
   m_Name: ResetPosition
   m_TagString: Untagged
@@ -2898,27 +2897,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &879886936
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879886935}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &879886937
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5573,6 +5551,10 @@ MonoBehaviour:
   trigger: {fileID: 1680415767}
   nextTrigger: {fileID: 1896686089}
   WalkedOverTrigger: 0
+  DidCombo: 0
+  isAttacking: 0
+  timer: 0
+  attackStack: 0
 --- !u!1 &1650437778 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8446518933552201169, guid: 33b5930eddb47d349bbdb96c7bde851b,
