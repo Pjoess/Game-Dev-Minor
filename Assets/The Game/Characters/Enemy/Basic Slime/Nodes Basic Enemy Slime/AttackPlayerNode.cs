@@ -5,29 +5,16 @@ namespace BasicEnemySlime
 {
     public class AttackPlayerNode : IBaseNode
     {
+        BasicEnemySlime slime;
         private NavMeshAgent agent;
         private Vector3 playerPosition;
-
-        private float attackRange;
         private float damageCooldown = 1f;
         private float damageTimer = 0f;
 
-        private float coneWidth;
-        private float coneLength;
-
-        private Animator animator;
-        private int animIDAnticipate;
-        private int animIDAttack;
-
-        public AttackPlayerNode(NavMeshAgent agent, float attackRange, float coneWidth, float coneLength, Animator animator, int animIDAnticipate, int animIDAttack)
+        public AttackPlayerNode(BasicEnemySlime slime)
         {
-            this.agent = agent;
-            this.attackRange = attackRange;
-            this.coneWidth = coneWidth;
-            this.coneLength = coneLength;
-            this.animator = animator;
-            this.animIDAnticipate = animIDAnticipate;
-            this.animIDAttack = animIDAttack;
+            this.slime = slime;
+            this.agent = slime.agent;
 
             // Disable agent's automatic rotation
             this.agent.updateRotation = false;
@@ -42,31 +29,33 @@ namespace BasicEnemySlime
 
             damageTimer += Time.deltaTime;
 
-            if (distanceToPlayer <= attackRange && damageTimer >= damageCooldown)
+            if (distanceToPlayer <= slime.attackRange && damageTimer >= damageCooldown)
             {
+                agent.ResetPath();
                 // Check if the player is within the cone
-                if (angleToPlayer <= coneWidth / 2f && distanceToPlayer <= coneLength)
+                if (angleToPlayer <= slime.coneWidth / 2f && distanceToPlayer <= slime.coneLength)
                 {
                     agent.isStopped = true;
-                    animator.SetBool(animIDAnticipate, true);
+                    slime.animator.SetBool(slime.animIDAnticipate, true);
 
-                    if (BasicEnemySlime.hasAttacked)
+                    if (slime.hasAttacked)
                     {
-                        Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
+                        //Blackboard.instance.HitPlayer(10, agent.gameObject.transform.position);
                         damageTimer = 0f;
-                        animator.SetBool(animIDAnticipate, false);
-                        agent.updateRotation = true;
-                        agent.isStopped = false;
+                        slime.animator.SetBool(slime.animIDAnticipate, false);
                     }
                     return true;
                 }
-                
-                if (!animator.GetBool(animIDAttack))
+
+                if (!slime.animator.GetBool(slime.animIDAttack))
                 {
                     RotateTowardsPlayer(directionToPlayer);
                 }
+
+                return true;
             }
-            return false;
+            else if (slime.animator.GetBool(slime.animIDAttack)) return true;
+            else return false;
         }
 
         private void RotateTowardsPlayer(Vector3 directionToPlayer)

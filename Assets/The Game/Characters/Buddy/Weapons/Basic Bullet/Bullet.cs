@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<IDamageble>().Hit(1);
+            other.gameObject.GetComponentInParent<IDamageble>().Hit(1);
             Destroy(this.gameObject);
         }
     }

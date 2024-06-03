@@ -8,7 +8,7 @@ namespace BasicEnemySlime
     {
         private IBaseNode basicSlimeBT = null;
         public LayerMask attackLayer; // Player
-        private NavMeshAgent agent;
+        public NavMeshAgent agent;
         private Rigidbody rigidBody; // Important for the bullets damage received
         public static float originalSpeed;
 
@@ -16,14 +16,14 @@ namespace BasicEnemySlime
         public GameObject patrolCenterPoint;
 
         [Header("Patrol Settings")]
-        private float patrolRadius = 20f;
-        private float stopDistance = 3f;
+        public float patrolRadius = 20f;
+        public float stopDistance = 3f;
 
         [Header("Chase")]
-        private float chaseRange = 10f;
+        public float chaseRange = 10f;
 
         [Header("Attack")]
-        private float attackRange = 4f;
+        public float attackRange = 4f;
         public static bool hasAttacked = false;
         
         // --- IDamagable --- //
@@ -35,14 +35,14 @@ namespace BasicEnemySlime
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float coneWidth = 60f;
-        private float coneLength = 4f;
-        private float thickness = 2f;
+        public float coneWidth = 60f;
+        public float coneLength = 4f;
+        public float thickness = 2f;
 
-        private Animator animator;
-        private int animIDAnticipate;
-        private int animIDAttack;
-        private int animIDWalking;
+        public Animator animator;
+        public int animIDAnticipate;
+        public int animIDAttack;
+        public int animIDWalking;
 
         private void AssignAnimIDs()
         {
@@ -77,7 +77,7 @@ namespace BasicEnemySlime
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack,animIDAnticipate,attackRange),
+                new TutorialChasePlayerNode(this),
                 new TutorialAttackPlayerNode(agent,attackRange,stopDistance,attackLayer,coneWidth,coneLength,animator,animIDAnticipate,animIDAttack),
             };
 

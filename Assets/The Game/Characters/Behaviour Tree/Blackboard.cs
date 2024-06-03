@@ -44,7 +44,7 @@ public class Blackboard : MonoBehaviour
     public void HitPlayer(int damage, Vector3 position)
     {
         player.Hit(damage);
-        player.ApplyKnockback(position, 100);
+        player.ApplyKnockback(position, 150);
     }
 
     #region Buddy

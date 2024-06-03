@@ -65,7 +65,9 @@ namespace buddy
             navAgent.transform.LookAt(targetEnemy);
 
             //Vector3 spawnPosition = targetEnemy.position + Vector3.up * mortarSpawnHeight;
-            GameObject mortar = Object.Instantiate(mortarPrefab, targetEnemy.position, Quaternion.identity);
+            Vector3 spawnPosition = targetEnemy.position;
+            spawnPosition.y = agent.transform.position.y;
+            GameObject mortar = Object.Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
             //Object.Destroy(mortar, bulletLifetime);
             navAgent.isStopped = false;
             agent.shootMortar = false;

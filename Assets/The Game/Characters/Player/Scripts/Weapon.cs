@@ -46,7 +46,7 @@ public class Weapon : MonoBehaviour
     {
         if (swordCollider.enabled && other.gameObject.CompareTag("Enemy") && !enemiesHit.Any(x => x == other.gameObject))
         {
-            other.gameObject.GetComponent<IDamageble>().Hit(5);
+            other.gameObject.GetComponentInParent<IDamageble>().Hit(5);
             Instantiate(hitParticle, other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position), Quaternion.identity);
             onWeaponHit?.Invoke();
             if(strongAttack)

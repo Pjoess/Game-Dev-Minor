@@ -3,9 +3,9 @@ using UnityEngine.AI;
 
 namespace BasicEnemySlime
 {
-    public class ChasePlayerNode : IBaseNode
+    public class TutorialChasePlayerNode : IBaseNode
     {
-        BasicEnemySlime slime;
+        TutorialAttackSlime slime;
         NavMeshAgent agent;
         private Vector3 playerPosition;
         private Vector3 lastPosition;
@@ -14,7 +14,7 @@ namespace BasicEnemySlime
         private float stuckTimeThreshold = 3f;
         private float currentStuckTime = 0f;
 
-        public ChasePlayerNode(BasicEnemySlime slime)
+        public TutorialChasePlayerNode(TutorialAttackSlime slime)
         {
             this.slime = slime;
             this.agent = slime.agent;
