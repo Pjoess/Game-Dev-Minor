@@ -63,7 +63,7 @@ public class UI_Manager : MonoBehaviour
     {
         MainMenuPanel.SetActive(false);
 
-        if (introVideo != null && !videoEnded) // Video Plays only one time per Startup of the Game
+        if (introVideo != null)
         {
             MuteSound();
             introVideo.gameObject.SetActive(true);
