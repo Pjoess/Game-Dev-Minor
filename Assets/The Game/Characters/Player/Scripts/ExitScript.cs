@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ExitScript : MonoBehaviour
@@ -11,12 +8,6 @@ public class ExitScript : MonoBehaviour
     void Start()
     {
         exitObject = GameObject.FindWithTag("Exit");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnCollisionEnter(Collision collision)

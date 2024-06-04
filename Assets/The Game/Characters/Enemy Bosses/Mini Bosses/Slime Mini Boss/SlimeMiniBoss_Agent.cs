@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 
 namespace SlimeMiniBoss
 {
@@ -14,6 +15,9 @@ namespace SlimeMiniBoss
         private ParticleSystem shockwaveParticleSystem;
         private List<Color> originalHelmetColors = new List<Color>();
         private Renderer[] helmetRenderers;
+
+        private DecalProjector decalProjector;
+        [SerializeField] Material neutralFace, hitFace;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -62,6 +66,7 @@ namespace SlimeMiniBoss
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             rigidBody = GetComponent<Rigidbody>();
             shockwaveParticleSystem = GetComponentInChildren<ParticleSystem>();
+            decalProjector = GetComponentInChildren<DecalProjector>();
         }
 
         void Start()
@@ -135,11 +140,13 @@ namespace SlimeMiniBoss
             if (helmetRenderers != null)
             {
                 Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f);
+                SetHitFace();
                 foreach (var renderer in helmetRenderers)
                 {
                     renderer.material.color = lightRed;
                 }
                 yield return new WaitForSeconds(0.2f);
+                SetNeutralFace();
                 for (int i = 0; i < helmetRenderers.Length; i++)
                 {
                     helmetRenderers[i].material.color = originalHelmetColors[i];
@@ -252,5 +259,15 @@ namespace SlimeMiniBoss
             animator.SetBool(animIDAttack, false);
         }
         #endregion
+
+        private void SetNeutralFace()
+        {
+            decalProjector.material = neutralFace;
+        }
+
+        private void SetHitFace()
+        {
+            decalProjector.material = hitFace;
+        }
     }
 }

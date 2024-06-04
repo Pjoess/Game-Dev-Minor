@@ -5,34 +5,19 @@ namespace BasicEnemySlime
 {
     public class ChasePlayerNode : IBaseNode
     {
-        private NavMeshAgent agent;
+        BasicEnemySlime slime;
+        NavMeshAgent agent;
         private Vector3 playerPosition;
-        private float chaseRange;
-        private float stopDistance;
         private Vector3 lastPosition;
-
-        private Animator animator;
-        private int animIDWalking;
-        private int animIDAttack;
-        private int animIDAnticipate;
-
-        private float attackRange;
 
         // Timer
         private float stuckTimeThreshold = 3f;
         private float currentStuckTime = 0f;
 
-        public ChasePlayerNode(NavMeshAgent agent, float chaseRange, float stopDistance, Animator animator, 
-            int animIDWalking, int animIDAttack, int animIDAnticipate, float attackRange)
+        public ChasePlayerNode(BasicEnemySlime slime)
         {
-            this.agent = agent;
-            this.chaseRange = chaseRange;
-            this.stopDistance = stopDistance;
-            this.animator = animator;
-            this.animIDWalking = animIDWalking;
-            this.animIDAttack = animIDAttack;
-            this.animIDAnticipate = animIDAnticipate;
-            this.attackRange = attackRange;
+            this.slime = slime;
+            this.agent = slime.agent;
             lastPosition = agent.transform.position;
         }
 
@@ -41,14 +26,14 @@ namespace BasicEnemySlime
             playerPosition = Blackboard.instance.GetPlayerPosition();
             
             // Check if player is within chase range
-            if (Vector3.Distance(agent.transform.position, playerPosition) <= chaseRange)
+            if (Vector3.Distance(agent.transform.position, playerPosition) <= slime.chaseRange)
             {
                 agent.isStopped = true;
                 Vector3 directionToPlayer = (playerPosition - agent.transform.position).normalized;
-                Vector3 destinationPoint = playerPosition - directionToPlayer * stopDistance;
+                Vector3 destinationPoint = playerPosition - directionToPlayer * slime.stopDistance;
                 agent.isStopped = false;
 
-                if(!animator.GetBool(animIDAttack))
+                if(!slime.animator.GetBool(slime.animIDAttack))
                 {
                     RotateTowardsPlayer(directionToPlayer);
                 }
@@ -66,7 +51,7 @@ namespace BasicEnemySlime
                         // Check if a valid path exists
                         if (newPath.status != NavMeshPathStatus.PathInvalid && newPath.corners.Length > 1)
                         {
-                            animator.SetBool(animIDWalking, true);
+                            slime.animator.SetBool(slime.animIDWalking, true);
                             agent.SetDestination(destinationPoint);
                         }
                         currentStuckTime = 0f;

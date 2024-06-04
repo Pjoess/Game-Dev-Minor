@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 
 namespace BasicEnemySlime
 {
@@ -9,23 +10,26 @@ namespace BasicEnemySlime
     {
         private IBaseNode basicSlimeBT = null;
         public LayerMask attackLayer; // Player
-        private NavMeshAgent agent;
+        public NavMeshAgent agent;
         private Rigidbody rigidBody; // Important for the bullets damage received
         public static float originalSpeed;
+
+        private DecalProjector projector;
+        [SerializeField] private Material neutralFace, hitFace;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
 
         [Header("Patrol Settings")]
         private float patrolRadius = 20f;
-        private float stopDistance = 4f;
+        public float stopDistance = 4f;
 
         [Header("Chase")]
-        private float chaseRange = 15f;
+        public float chaseRange = 15f;
 
         [Header("Attack")]
-        private float attackRange = 6f;
-        public static bool hasAttacked = false;
+        public float attackRange = 6f;
+        public bool hasAttacked = false;
         
         // --- IDamagable --- //
         [Header("Stats")]
@@ -36,15 +40,15 @@ namespace BasicEnemySlime
         public int HealthPoints { get { return healthPoints; } set { healthPoints = value; } }
     
         [Header("Cone Settings")]
-        private float ConeOffset = 1f;
-        private float coneWidth = 30f;
-        private float coneLength = 6f;
-        private float thickness = 1f;
+        public float ConeOffset = 1f;
+        public float coneWidth = 30f;
+        public float coneLength = 6f;
+        public float thickness = 1f;
 
-        private Animator animator;
-        private int animIDAnticipate;
-        private int animIDAttack;
-        private int animIDWalking;
+        public Animator animator;
+        public int animIDAnticipate;
+        public int animIDAttack;
+        public int animIDWalking;
 
         private Renderer slimeRenderer;
         private Color originalColor;
@@ -85,6 +89,7 @@ namespace BasicEnemySlime
             agent = GetComponent<NavMeshAgent>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             rigidBody = GetComponent<Rigidbody>();
+            projector = GetComponentInChildren<DecalProjector>();
         }
 
         void Start()
@@ -110,46 +115,41 @@ namespace BasicEnemySlime
         {
             List<IBaseNode> IsPlayerInLineOfSight = new()
             {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack,animIDAnticipate,attackRange),
-                new AttackPlayerNode(agent, attackRange, coneWidth, coneLength, animator, animIDAnticipate, animIDAttack),
-            };
-
-            List<IBaseNode> IsPlayerNotInLineOfSight = new()
-            {
-                new ReturnBackToPosition(agent,agent.transform.position,stopDistance,chaseRange,attackRange,animator,animIDWalking),
+                new AttackPlayerNode(this),
+                new ChasePlayerNode(this)
             };
 
             List<IBaseNode> Root = new()
             {
-                new SequenceNode(IsPlayerInLineOfSight),
-                new SequenceNode(IsPlayerNotInLineOfSight),
+                new SelectorNode(IsPlayerInLineOfSight),
+                new ReturnBackToPosition(agent,agent.transform.position,stopDistance,chaseRange,attackRange,animator,animIDWalking),
             };
 
             basicSlimeBT = new SelectorNode(Root);
         }
 
         // Removed for now, changed plan to slime goes back to its spawned point.
-        private void ChaseAttackPatrol()
-        {
-            List<IBaseNode> IsPlayerInLineOfSight = new()
-            {
-                new ChasePlayerNode(agent,chaseRange,stopDistance,animator,animIDWalking,animIDAttack,animIDAnticipate,attackRange),
-                new AttackPlayerNode(agent, attackRange, coneWidth, coneLength, animator, animIDAnticipate, animIDAttack),
-            };
+        //private void ChaseAttackPatrol()
+        //{
+        //    List<IBaseNode> IsPlayerInLineOfSight = new()
+        //    {
+        //        new ChasePlayerNode(this),
+        //        new AttackPlayerNode(agent, attackRange, coneWidth, coneLength, animator, animIDAnticipate, animIDAttack),
+        //    };
 
-            List<IBaseNode> IsPlayerNotInLineOfSight = new()
-            {
-                new PatrolNode(agent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange, attackRange,animator,animIDWalking),
-            };
+        //    List<IBaseNode> IsPlayerNotInLineOfSight = new()
+        //    {
+        //        new PatrolNode(agent, patrolCenterPoint, patrolRadius, stopDistance, chaseRange, attackRange,animator,animIDWalking),
+        //    };
 
-            List<IBaseNode> Root = new()
-            {
-                new SequenceNode(IsPlayerInLineOfSight),
-                new SequenceNode(IsPlayerNotInLineOfSight),
-            };
+        //    List<IBaseNode> Root = new()
+        //    {
+        //        new SequenceNode(IsPlayerInLineOfSight),
+        //        new SequenceNode(IsPlayerNotInLineOfSight),
+        //    };
 
-            basicSlimeBT = new SelectorNode(Root);
-        }
+        //    basicSlimeBT = new SelectorNode(Root);
+        //}
         #endregion
 
         #region Cone Raycast
@@ -233,7 +233,9 @@ namespace BasicEnemySlime
             {
                 Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f);
                 slimeRenderer.material.color = lightRed;
+                SetHitFace();
                 yield return new WaitForSeconds(0.2f);
+                SetNeutralFace();
                 slimeRenderer.material.color = originalColor;
             }
         }
@@ -248,8 +250,24 @@ namespace BasicEnemySlime
         }
         #endregion
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(hasAttacked)
+            {
+                if(collision.gameObject.CompareTag("Player"))
+                {
+                    Blackboard.instance.HitPlayer(10, collision.contacts[0].point);
+                    animator.SetBool(animIDAnticipate, false);
+                    animator.SetBool(animIDAttack, false);
+                    hasAttacked = false;
+                    agent.updateRotation = true;
+                    agent.isStopped = false;
+                }
+            }
+        }
+
         #region Animator
-            public void EndWalk()
+        public void EndWalk()
             {
                 animator.SetBool(animIDWalking, false);
             }
@@ -274,7 +292,20 @@ namespace BasicEnemySlime
             public void EndAttackAnim()
             {
                 animator.SetBool(animIDAttack, false);
+                agent.updateRotation = true;
+                agent.isStopped = false;
             }
         #endregion
+
+
+        private void SetNeutralFace()
+        {
+            projector.material = neutralFace;
+        }
+
+        private void SetHitFace()
+        {
+            projector.material = hitFace;
+        }
     }
 }

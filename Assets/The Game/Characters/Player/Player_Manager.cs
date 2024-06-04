@@ -171,17 +171,24 @@ public class Player_Manager : MonoBehaviour, IDamageble
         
         void Start()
         { 
+            // Hides cursor and locks it in the center
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
             // Default state
             playerState = idleState;
             playerState.EnterState(this);
+
             // Jumping
             jumpSound = GetComponent<AudioSource>();
             idleToFallDelta = idleToFallTimer;
             jumpCooldownDelta = 0f;
+
             // UI
             Time.timeScale = 1;
             isPaused = false;
             isDead = false;
+            
             // Health
             healthPoints = maxHealthPoints;
             Healthbar healthbar = FindObjectOfType<Healthbar>();
@@ -440,7 +447,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         void OnAttack(InputValue value)
         {
             if(value.isPressed && playerState != dashState){
-                AttackRotation();
+                //AttackRotation();
                 clickAmount++;
                 if (isStriking) OnAttackPressed();
                 else if (!isStriking)
@@ -491,20 +498,25 @@ public class Player_Manager : MonoBehaviour, IDamageble
         //     }
         // }
 
+        #region Pause Game
         void OnPause(InputValue value)
         {
             if (!isDead)
             {
                 pauseSound.Play();
-                if (value.isPressed && !isPaused)
+                if (value.isPressed && !isPaused) // Pause the game
                 {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                     Debug.Log("Game Paused");
                     Time.timeScale = 0;
                     isPaused = true;
                     pauseMenu.EnablePauseCanvas();
                 }
-                else
+                else // Unpause the game
                 {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
                     Debug.Log("Game Started");
                     Time.timeScale = 1;
                     isPaused = false;
@@ -512,6 +524,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 }
             }
         }
+        #endregion
 
         // Method to check the current scene
         private bool IsInScene(string sceneName)
