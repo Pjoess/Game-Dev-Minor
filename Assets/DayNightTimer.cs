@@ -3,13 +3,16 @@ using System.Collections;
 
 public class DayNightTimer : MonoBehaviour
 {
-    public float cycleDuration = 50.0f;
-    public float startRotation = 100.0f;
+    public float cycleDuration = 100f;
+    public float startRotation = 90f;
     public float endRotation = 0f;
-    public float waitTime = 30.0f;
+    public float waitTime = 100f;
 
     void Start()
     {
+        // Set the initial rotation's x-angle to 100
+        transform.localRotation = Quaternion.Euler(100f, transform.localRotation.eulerAngles.y, transform.localRotation.eulerAngles.z);
+
         StartCoroutine(RotateDayNightCycle());
     }
 
