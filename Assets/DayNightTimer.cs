@@ -10,8 +10,8 @@ public class DayNightTimer : MonoBehaviour
 
     void Start()
     {
-        // Set the initial rotation's x-angle to 100
-        transform.localRotation = Quaternion.Euler(100f, transform.localRotation.eulerAngles.y, transform.localRotation.eulerAngles.z);
+        // // Set the initial rotation's x-angle to 100
+        // transform.localRotation = Quaternion.Euler(100f, transform.localRotation.eulerAngles.y, transform.localRotation.eulerAngles.z);
 
         StartCoroutine(RotateDayNightCycle());
     }
