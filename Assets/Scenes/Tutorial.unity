@@ -531,6 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keybindingSOs: []
+  extraText: 
 --- !u!4 &309827982
 Transform:
   m_ObjectHideFlags: 0
@@ -3422,6 +3423,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1151625a53258d54f827cc037b30f312, type: 2}
   - {fileID: 11400000, guid: 5930d37d37f372344bb302e1f5168123, type: 2}
   - {fileID: 11400000, guid: d1cbae12c845537428d55e7a96def167, type: 2}
+  extraText: 
 --- !u!1 &929457373
 GameObject:
   m_ObjectHideFlags: 0
@@ -5550,6 +5552,7 @@ MonoBehaviour:
   questLogText: 
   trigger: {fileID: 1680415767}
   nextTrigger: {fileID: 1896686089}
+  slimesKilled: 0
   WalkedOverTrigger: 0
   DidCombo: 0
   isAttacking: 0
@@ -5915,6 +5918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keybindingSOs:
   - {fileID: 11400000, guid: e06567773516bc24fb5f5506f89ea0ec, type: 2}
+  extraText: Click 3 times to do a 3 hit combo
 --- !u!114 &1729631908 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3558605795138974798, guid: 6419228a3472bd84d9c38c83d948ed67,
@@ -6158,12 +6162,12 @@ PrefabInstance:
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001644218
+      value: 0.000000016442174
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000050709414
+      value: -0.00000000507094
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
@@ -6398,12 +6402,12 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001644218
+      value: 0.000000016442174
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000050709414
+      value: -0.00000000507094
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
@@ -6772,6 +6776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keybindingSOs:
   - {fileID: 11400000, guid: ce6a4e569adc01e4abaa33ba21bf9b44, type: 2}
+  extraText: 
 --- !u!1001 &1934372223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6964,6 +6969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keybindingSOs:
   - {fileID: 11400000, guid: 7df937a73b276dc4ab8a30d14dff9d42, type: 2}
+  extraText: 
 --- !u!1001 &1959754527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7906,10 +7912,80 @@ PrefabInstance:
       propertyPath: dialogues.Array.data[3]
       value: 
       objectReference: {fileID: 1956249657}
+    - target: {fileID: 1850849433947060849, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -1075.2913
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850849433947060849, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850849433947060849, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -485.89346
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694006207802720742, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 227.4388
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694006207802720742, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694006207802720742, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 183.71942
+      objectReference: {fileID: 0}
     - target: {fileID: 6277005086396460432, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6835668012802389224, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 496.7838
+      objectReference: {fileID: 0}
+    - target: {fileID: 6835668012802389224, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6835668012802389224, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 397.0137
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065200241070893730, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065200241070893730, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065200241070893730, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065200241070893730, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -274
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065200241070893730, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -22
       objectReference: {fileID: 0}
     - target: {fileID: 8703862036768980682, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}

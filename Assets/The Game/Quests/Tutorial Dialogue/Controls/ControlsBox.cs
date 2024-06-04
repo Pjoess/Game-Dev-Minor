@@ -11,10 +11,12 @@ public class ControlsBox : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public KeybindingSO[] controlls;
+    public string extraText;
     public PlayerInput input;
     private string currentControllScheme;
 
     void Start(){
+        extraText = "";
         textComponent.text = "";
         currentControllScheme = input.currentControlScheme;
         Controll.ChangeControlls += ChangeControlls;
@@ -30,8 +32,9 @@ public class ControlsBox : MonoBehaviour
         }
     }
 
-    void ChangeControlls(KeybindingSO[] keybinds){
+    void ChangeControlls(KeybindingSO[] keybinds, string extraText){
         this.controlls = keybinds;
+        this.extraText = extraText;
         UpdateText();
     }
 
@@ -45,5 +48,6 @@ public class ControlsBox : MonoBehaviour
                 textComponent.text += control.actionName + " " + control.GetBinding(input) + "\n";
             }
         }
+        textComponent.text += extraText;
     }
 }

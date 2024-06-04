@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 public class Controll : MonoBehaviour 
 {
     public KeybindingSO[] keybindingSOs;
-    public static event System.Action<KeybindingSO[]> ChangeControlls;
+    public string extraText;
+    public static event System.Action<KeybindingSO[], string> ChangeControlls;
 
     void Awake(){
         ChangeControlls = null;
@@ -13,7 +14,7 @@ public class Controll : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Player"){
-            ChangeControlls(keybindingSOs);
+            ChangeControlls(keybindingSOs, extraText);
         }
     }
 
