@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -44.429504
+      value: -36.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -141,6 +141,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5241135498612251345}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13a2dbb8e45c25044a820ee5966ca6df,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1313073359967794662}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13a2dbb8e45c25044a820ee5966ca6df,
         type: 3}
@@ -242,6 +246,21 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5241135498612251345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911542661901956375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac10ccd57b64664283c5bff8db86a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitStopTime: 0.075
+  slowMoTime: 2
+  slowMoTimeScale: 0.3
 --- !u!114 &1313073359967794662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cfdb5adc81c7746a6a39bc7e8f7bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buddyGameObject: {fileID: 0}
   rigidBody: {fileID: 0}
   sword: {fileID: 0}
   movement: {x: 0, y: 0}
@@ -289,6 +309,7 @@ MonoBehaviour:
   clickAmount: 0
   canAttack: 0
   struckAgain: 0
+  stunTime: 0.5
   buttonCameraOffsetForward: -50
   buttonCameraOffsetRight: -50
   buttonCameraOffsetUp: -50
@@ -306,6 +327,7 @@ MonoBehaviour:
   animIDStrike: 0
   animIDDash: 0
   animIDMoveSpeed: 0
+  animIDHit: 0
 --- !u!82 &6961977104996585968
 AudioSource:
   m_ObjectHideFlags: 0
