@@ -546,6 +546,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
             if(healthPoints <= 0)
             {
                 isDead = true;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
                 StartCoroutine(WaitThenEnableDeath(healthPoints));
             }
         }
@@ -688,7 +690,6 @@ public class Player_Manager : MonoBehaviour, IDamageble
             if (currentHealth <= 0)
             {
                 isDead = true;
-                // Do something when health reaches zero
                 StartCoroutine(WaitThenEnableDeath((int)currentHealth));
             }
         }
