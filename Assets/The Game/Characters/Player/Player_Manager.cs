@@ -343,7 +343,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 ChangeState(strikeState);
             }
         }
-        public void AttackRotation()
+        public void MouseAimAttackRotation()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -365,6 +365,17 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 transform.rotation = rotation;
             }
         }
+
+    public void AttackRotation()
+    {
+        if(movement != Vector2.zero)
+        {
+            vectorDirection = new Vector3(movement.x, 0, movement.y);
+            Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * vectorDirection;
+            Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+            transform.rotation = rotation;
+        }
+    }
 
         public void OnAttackPressed()
         {
@@ -575,6 +586,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             if (isStriking)
             {
+                AttackRotation();
                 struckAgain = false;
                 canAttack = true;
                 sword.DoSwordAttackEnableCollision();
