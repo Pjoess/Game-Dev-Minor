@@ -2726,6 +2726,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1465805139527980102, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1729375318869195305, guid: ecdc43a94a586fa47a594bb2fe08f66d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2776,6 +2781,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1895625093030430642, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 768933956}
+    - target: {fileID: 1895625093030430642, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleQuality
+      objectReference: {fileID: 0}
     - target: {fileID: 2564936843188351839, guid: ecdc43a94a586fa47a594bb2fe08f66d,
         type: 3}
       propertyPath: m_Name
@@ -2787,6 +2802,41 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3667705246682941909, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774536055452598228, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774536055452598228, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774536055452598228, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121357321127173120, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 768933957}
+    - target: {fileID: 6121357321127173120, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleVSync
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956439640952916446, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956439640952916446, guid: ecdc43a94a586fa47a594bb2fe08f66d,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
