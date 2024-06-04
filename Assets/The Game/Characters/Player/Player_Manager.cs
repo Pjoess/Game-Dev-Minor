@@ -697,6 +697,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
         private IEnumerator WaitThenEnableDeath(int health) 
         {
             yield return new WaitForSeconds(0.6f);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             deathScript.EnableDeathCanvas(health);
         }
     #endregion
