@@ -14,9 +14,20 @@ public class FpsCounter : MonoBehaviour
     private void Start()
     {
         // Load the saved state from PlayerPrefs
-        bool isFpsCounterEnabled = PlayerPrefs.GetInt(FpsToggleKey, 1) == 1; // Default is enabled (1)
-        _fpsToggle.isOn = isFpsCounterEnabled;
-        _fpsText.gameObject.SetActive(isFpsCounterEnabled);
+        int savedState = PlayerPrefs.GetInt(FpsToggleKey, -1);
+        if (savedState == -1)
+        {
+            // If no saved state exists, turn off the FPS counter and toggle
+            PlayerPrefs.SetInt(FpsToggleKey, 0);
+            _fpsToggle.isOn = false;
+            _fpsText.gameObject.SetActive(false);
+        }
+        else
+        {
+            // Set the toggle's state based on the loaded value
+            _fpsToggle.isOn = savedState == 1;
+            _fpsText.gameObject.SetActive(savedState == 1);
+        }
 
         // Add listener to the toggle
         _fpsToggle.onValueChanged.AddListener(OnFpsToggleChanged);
