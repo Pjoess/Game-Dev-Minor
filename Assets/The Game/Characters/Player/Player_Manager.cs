@@ -458,7 +458,6 @@ public class Player_Manager : MonoBehaviour, IDamageble
         void OnAttack(InputValue value)
         {
             if(value.isPressed && playerState != dashState){
-                //AttackRotation();
                 clickAmount++;
                 if (isStriking) OnAttackPressed();
                 else if (!isStriking)
@@ -588,9 +587,9 @@ public class Player_Manager : MonoBehaviour, IDamageble
             {
                 AttackRotation();
                 struckAgain = false;
-                canAttack = true;
                 sword.DoSwordAttackEnableCollision();
             }
+            
         }
 
         public void EndAttack()
@@ -598,19 +597,35 @@ public class Player_Manager : MonoBehaviour, IDamageble
             clickAmount = 0;
             if (isStriking)
             {
+                
                 sword.SwordToDefault();
-                canAttack = false;
                 //Check if Dash is queued
                 if (isDashing)
                 {
                     struckAgain = false;
                     Dash();
                 }
+            }
+        }
 
-                if (!struckAgain)
+        public void OpenAttackWindow()
+        {
+            if (isStriking)
+            {
+                canAttack = true;
+            }
+        }
+
+        public void CloseAttackWindow()
+        {
+            canAttack = false;
+            if (!struckAgain && isStriking)
+            {
+                if (isDashing)
                 {
-                    ChangeState(idleState);
+                    Dash();
                 }
+                else ChangeState(idleState);
             }
         }
 
@@ -619,7 +634,6 @@ public class Player_Manager : MonoBehaviour, IDamageble
             if (isStriking)
             {
                 sword.SwordToDefault();
-                clickAmount = 0;
                 if (isDashing)
                 {
                     canAttack = false;
@@ -633,6 +647,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             if(isStriking)
             {
+                clickAmount = 0;
                 sword.SwordToDefault();
                 canAttack = false;
                 struckAgain = false;
@@ -640,7 +655,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 {
                     Dash();
                 }
-                ChangeState(idleState);
+                else ChangeState(idleState);
             }
         }
 
