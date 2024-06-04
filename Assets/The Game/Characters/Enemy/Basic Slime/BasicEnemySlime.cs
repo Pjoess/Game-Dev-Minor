@@ -14,8 +14,13 @@ namespace BasicEnemySlime
         private Rigidbody rigidBody; // Important for the bullets damage received
         public static float originalSpeed;
 
+        private GameObject bone;
+
         private DecalProjector projector;
-        [SerializeField] private Material neutralFace, hitFace;
+        [SerializeField] private Material neutralFace, hitFace, deadFace;
+        [SerializeField] private ParticleSystem deathParticle;
+        [SerializeField] private float deathTimer = 2;
+        private bool isAlive = true;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -49,6 +54,7 @@ namespace BasicEnemySlime
         public int animIDAnticipate;
         public int animIDAttack;
         public int animIDWalking;
+        public int animIDDead;
 
         private Renderer slimeRenderer;
         private Color originalColor;
@@ -58,6 +64,7 @@ namespace BasicEnemySlime
             animIDAnticipate = Animator.StringToHash("isAnticipating");
             animIDAttack = Animator.StringToHash("isAttacking");
             animIDWalking = Animator.StringToHash("isWalking");
+            animIDDead = Animator.StringToHash("isDead");
         }
 
         private void SetRandomColor()
@@ -90,6 +97,7 @@ namespace BasicEnemySlime
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
             rigidBody = GetComponent<Rigidbody>();
             projector = GetComponentInChildren<DecalProjector>();
+            bone = transform.Find("dumb slime").Find("Bone").gameObject;
         }
 
         void Start()
@@ -101,7 +109,10 @@ namespace BasicEnemySlime
 
         void Update()
         {
-            basicSlimeBT?.Update(); // Update the boss behavior tree
+            if(isAlive)
+            {
+                basicSlimeBT?.Update();
+            }
         }
 
         #region Behaviour Tree
@@ -221,10 +232,13 @@ namespace BasicEnemySlime
         #region IDamagable
         public void Hit(int damage)
         {
-            HealthPoints -= damage;
-            enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
-            CheckDeath();
-            StartCoroutine(ChangeColorOnHit());
+            if(isAlive)
+            {
+                HealthPoints -= damage;
+                enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
+                CheckDeath();
+                if(isAlive) StartCoroutine(ChangeColorOnHit());
+            }
         }
 
         private IEnumerator ChangeColorOnHit()
@@ -244,9 +258,32 @@ namespace BasicEnemySlime
         {
             if (HealthPoints <= 0)
             {
-                GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
-                Destroy(gameObject);
+                animator.enabled = false;
+                transform.position = bone.transform.position;
+                bone.transform.position = transform.position;
+                agent.enabled = false;
+                rigidBody.isKinematic = false;
+                isAlive = false;
+                StartCoroutine(Dead());
             }
+        }
+
+        private IEnumerator Dead()
+        {
+            SetDeadFace();
+            ApplyKnockback(Blackboard.instance.GetPlayerPosition(), 300);
+            yield return new WaitForSeconds(deathTimer);
+            GetComponent<HealthDropScript>().InstantiateDroppedItem(transform.position);
+            ParticleSystem par = Instantiate(deathParticle, transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+            Destroy(gameObject);
+        }
+
+        public void ApplyKnockback(Vector3 direction, int force)
+        {
+            Vector3 pushDirection = transform.position - direction;
+            pushDirection.y = 0;
+            pushDirection.Normalize();
+            rigidBody.AddForce(pushDirection * force, ForceMode.Impulse);
         }
         #endregion
 
@@ -306,6 +343,11 @@ namespace BasicEnemySlime
         private void SetHitFace()
         {
             projector.material = hitFace;
+        }
+
+        private void SetDeadFace()
+        {
+            projector.material = deadFace;
         }
     }
 }
