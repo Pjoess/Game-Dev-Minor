@@ -258,11 +258,31 @@ namespace BasicEnemySlime
         {
             if (HealthPoints <= 0)
             {
+                //save the bone postion for later
+                var pos = bone.transform.position;
+
+                //reset the controller to force the slime into a neutral pose
+                var controller = animator.runtimeAnimatorController;
+                animator.runtimeAnimatorController = null;
+                animator.runtimeAnimatorController = controller;
+
+                //Reset the animator parameters just to be sure
+                //nothing strange happens
+                animator.SetBool(animIDAnticipate, false);
+                animator.SetBool(animIDAttack, false);
+                animator.SetBool(animIDWalking, false);
+
+                //disable the animator to stop animation
                 animator.enabled = false;
-                transform.position = bone.transform.position;
-                bone.transform.position = transform.position;
+
+                //Set the postition to the saved bone position, so that the slime
+                //will remain at the position it was
+                transform.position = pos;
+
+                //Disable navagent and kinematic for the knockback
                 agent.enabled = false;
                 rigidBody.isKinematic = false;
+
                 isAlive = false;
                 StartCoroutine(Dead());
             }
