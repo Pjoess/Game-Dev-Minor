@@ -13,6 +13,8 @@ namespace BasicEnemySlime
         public NavMeshAgent agent;
         private Rigidbody rigidBody; // Important for the bullets damage received
         public static float originalSpeed;
+        
+        public bool isTutorial; // checkbox for tutorial slimes
 
         private GameObject bone;
 
@@ -58,6 +60,8 @@ namespace BasicEnemySlime
 
         private Renderer slimeRenderer;
         private Color originalColor;
+
+    
 
         private void AssignAnimIDs()
         {
@@ -284,6 +288,9 @@ namespace BasicEnemySlime
                 rigidBody.isKinematic = false;
 
                 isAlive = false;
+                if(isTutorial){
+                    TutorialEvents.KilledSlimes();
+                }
                 StartCoroutine(Dead());
             }
         }
