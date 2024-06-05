@@ -7,6 +7,7 @@ public class VictoryScript : MonoBehaviour
 {
     [Header("Game Object References")]
     [SerializeField] private GameObject victoryMenuPanel;
+    [SerializeField] private GameObject endVideoTexture;
     [SerializeField] private VideoPlayer endVideo;
 
     public void EnableVictoryCanvas(bool quesCompleted)
@@ -14,6 +15,7 @@ public class VictoryScript : MonoBehaviour
         if(quesCompleted == true)
         {
             victoryMenuPanel.SetActive(true);
+            endVideoTexture.SetActive(true);
             //EventSystem.current.SetSelectedGameObject(victoryButton);
             PauseAllOtherMusic();
             endVideo.Play();

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class FinalBoss : MonoBehaviour, IDamageble
 {
-
-
     private int healthPoints;
     [SerializeField] private int maxHealthPoints = 100;
     public int MaxHealthPoints { get { return maxHealthPoints; } }
@@ -52,7 +50,6 @@ public class FinalBoss : MonoBehaviour, IDamageble
         animIDIsDead = Animator.StringToHash("isDead");
     }
 
-
     private void CreateBT()
     {
         var facePlayer = new FacePlayerNode(this);
@@ -65,7 +62,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
             attackLlist.Add(stomp);
         }
 
-        SelectorNode attackNodes =  new SelectorNode(attackLlist);
+        SelectorNode attackNodes = new SelectorNode(attackLlist);
 
         List<IBaseNode> list = new List<IBaseNode>();
         {
@@ -95,15 +92,21 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     void Update()
     {
-        if(fightStarted && !isDead)
+        if (fightStarted && !isDead)
         {
             BTRootNode?.Update();
         }
 
-        if(healthPoints <= maxHealthPoints/2)
+        if (healthPoints <= maxHealthPoints / 2)
         {
             StartCoroutine(changeEyeColorPhaseTwo());
             phaseTwo = true;
+        }
+
+        // Check for F2 key press 9(Debugger)
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            ReduceHealth(50);
         }
     }
 
@@ -129,15 +132,20 @@ public class FinalBoss : MonoBehaviour, IDamageble
         CheckDead();
     }
 
-    private void CheckDead()
+    public void ReduceHealth(int amount)
     {
-        if(healthPoints <= 0)
-        {
-            StartCoroutine(Death());
-            
-        }
+        healthPoints -= amount;
+        bossHealthBar.value = healthPoints;
+        CheckDead();
     }
 
+    private void CheckDead()
+    {
+        if (healthPoints <= 0)
+        {
+            StartCoroutine(Death());
+        }
+    }
 
     private IEnumerator Death()
     {
@@ -149,7 +157,6 @@ public class FinalBoss : MonoBehaviour, IDamageble
         yield return new WaitForSeconds(5f);
         QuestEvents.BuddyDead();
     }
-
 
     public void ActivateBoss()
     {
