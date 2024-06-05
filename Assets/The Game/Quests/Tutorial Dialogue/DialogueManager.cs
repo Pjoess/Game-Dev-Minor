@@ -34,6 +34,8 @@ public class DialogueManager : MonoBehaviour
 
     public GameObject child;
 
+    public AudioSource audioSource;
+
     void Awake(){
         textComponent.text = string.Empty;
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
@@ -104,6 +106,12 @@ public class DialogueManager : MonoBehaviour
     IEnumerator TextCoroutine(){
         
         yield return new WaitForSeconds(textSpeed);
+
+        if(lines[index].audioClip!=null){
+            audioSource.clip = lines[index].audioClip;
+            audioSource.Play();
+        }
+
         foreach(char c in lines[index].line.ToCharArray()){
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
@@ -138,6 +146,7 @@ public class DialogueManager : MonoBehaviour
         textComponent.text = string.Empty;
         if(index < lines.Length - 1){
             index++;
+            audioSource.Stop();
             ChangeName(lines[index].character);
             coroutine = StartCoroutine(TextCoroutine());
         }else{

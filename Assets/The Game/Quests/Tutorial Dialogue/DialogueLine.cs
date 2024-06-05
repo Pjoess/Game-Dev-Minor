@@ -9,4 +9,5 @@ public class DialogueLine
     [HideInInspector] public enum DialogueCharacter { BUDDY, ARTHUR, KING }
     public DialogueCharacter character;
     public string line;
+    public AudioClip audioClip;
 }
