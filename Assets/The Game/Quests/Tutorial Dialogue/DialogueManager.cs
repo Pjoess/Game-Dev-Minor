@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -13,10 +14,13 @@ public class DialogueManager : MonoBehaviour
     public List<Dialogue> dialogues = new();
     private PlayerInput input;
     public TextMeshProUGUI textComponent;
+    public TextMeshProUGUI nameComponent;
+    public Image charImage;
+    public Sprite buddySprite, arthurSprite;
     public float textSpeed;
     private int index = 0;
     public int inputIndex = 0;
-    public string[] lines;
+    public DialogueLine[] lines;
     public bool isActive = false;
     Coroutine coroutine;
     public ShowSlimes showSlimes;
@@ -49,10 +53,10 @@ public class DialogueManager : MonoBehaviour
         input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
         Debug.Log("Start");
         
-        StartDialogue();
+        if(lines.Length > 0) StartDialogue();
     }
 
-    void ChangeLine(string[] lines){
+    void ChangeLine(DialogueLine[] lines){
         if(coroutine!=null){
             StopCoroutine(coroutine);
             coroutine = null;
@@ -68,14 +72,14 @@ public class DialogueManager : MonoBehaviour
 
     void Update(){
         if(Input.GetKeyDown(KeyCode.E)){
-            if(textComponent.text == lines[index]){
+            if(textComponent.text == lines[index].line){
                 NextLine();
             }else{
                 if(coroutine!=null){
                     StopCoroutine(coroutine);
                     coroutine = null;
                 }
-                textComponent.text = lines[index];
+                textComponent.text = lines[index].line;
             }
         }
     }
@@ -93,12 +97,14 @@ public class DialogueManager : MonoBehaviour
         child.SetActive(true);
         textComponent.text = string.Empty;
         index = 0;
+        ChangeName(lines[index].character);
         coroutine = StartCoroutine(TextCoroutine());
     }
 
     IEnumerator TextCoroutine(){
+        
         yield return new WaitForSeconds(textSpeed);
-        foreach(char c in lines[index].ToCharArray()){
+        foreach(char c in lines[index].line.ToCharArray()){
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
@@ -108,10 +114,31 @@ public class DialogueManager : MonoBehaviour
         NextLine();
     }
 
+    private void ChangeName(DialogueLine.DialogueCharacter character)
+    {
+        switch (character)
+        {
+            case DialogueLine.DialogueCharacter.BUDDY:
+                nameComponent.text = "Buddy";
+                charImage.sprite = buddySprite;
+                break;
+
+            case DialogueLine.DialogueCharacter.ARTHUR:
+                nameComponent.text = "Arthur";
+                charImage.sprite = arthurSprite;
+                break;
+
+            case DialogueLine.DialogueCharacter.KING:
+                nameComponent.text = "King";
+                break;
+        }
+    }
+
     void NextLine(){
         textComponent.text = string.Empty;
         if(index < lines.Length - 1){
             index++;
+            ChangeName(lines[index].character);
             coroutine = StartCoroutine(TextCoroutine());
         }else{
             child.SetActive(false); 

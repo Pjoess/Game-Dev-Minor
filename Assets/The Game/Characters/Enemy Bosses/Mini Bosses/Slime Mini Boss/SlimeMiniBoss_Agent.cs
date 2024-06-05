@@ -16,8 +16,13 @@ namespace SlimeMiniBoss
         private List<Color> originalHelmetColors = new List<Color>();
         private Renderer[] helmetRenderers;
 
+        private GameObject bone;
+
         private DecalProjector decalProjector;
-        [SerializeField] Material neutralFace, hitFace;
+        [SerializeField] Material neutralFace, hitFace, deadFace;
+        [SerializeField] private ParticleSystem deathParticle;
+        [SerializeField] private float deathTimer = 2;
+        private bool isAlive = true;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -67,6 +72,7 @@ namespace SlimeMiniBoss
             rigidBody = GetComponent<Rigidbody>();
             shockwaveParticleSystem = GetComponentInChildren<ParticleSystem>();
             decalProjector = GetComponentInChildren<DecalProjector>();
+            bone = transform.Find("Armature").Find("Bone").gameObject;
         }
 
         void Start()
@@ -77,7 +83,10 @@ namespace SlimeMiniBoss
 
         void Update()
         {
-            slimeBT?.Update(); // Update the boss behavior tree
+            if(isAlive)
+            {
+                slimeBT?.Update(); // Update the boss behavior tree
+            }
         }
 
         #region Behaviour Tree
@@ -224,19 +233,65 @@ namespace SlimeMiniBoss
         #region IDamagable
         public void Hit(int damage)
         {
-            HealthPoints -= damage;
-            enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
-            StartCoroutine(ChangeColorOnHit());
-            CheckDeath();
+            if(isAlive)
+            {
+                HealthPoints -= damage;
+                enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
+                CheckDeath();
+                if(isAlive) StartCoroutine(ChangeColorOnHit());
+            }
         }
 
         private void CheckDeath()
         {
             if (HealthPoints <= 0)
             {
-                GetComponent<MemoryDropScipt>().DropItem(transform.position);
-                Destroy(gameObject);
+                
+                //save the bone postion for later
+                var pos = bone.transform.position;
+
+                //reset the controller to force the slime into a neutral pose
+                var controller = animator.runtimeAnimatorController;
+                animator.runtimeAnimatorController = null;
+                animator.runtimeAnimatorController = controller;
+
+                //Reset the animator parameters just to be sure
+                //nothing strange happens
+                animator.SetBool(animIDAnticipate, false);
+                animator.SetBool(animIDAttack, false);
+
+                //disable the animator to stop animation
+                animator.enabled = false;
+
+                //Set the postition to the saved bone position, so that the slime
+                //will remain at the position it was
+                transform.position = pos;
+
+                //Disable navagent and kinematic for the knockback
+                miniBossAgent.enabled = false;
+                rigidBody.isKinematic = false;
+
+                isAlive = false;
+                StartCoroutine(Dead());
             }
+        }
+
+        private IEnumerator Dead()
+        {
+            SetDeadFace();
+            ApplyKnockback(Blackboard.instance.GetPlayerPosition(), 300);
+            yield return new WaitForSeconds(deathTimer);
+            ParticleSystem par = Instantiate(deathParticle, transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+            GetComponent<MemoryDropScipt>().DropItem(transform.position);
+            Destroy(gameObject);
+        }
+
+        public void ApplyKnockback(Vector3 direction, int force)
+        {
+            Vector3 pushDirection = transform.position - direction;
+            pushDirection.y = 0;
+            pushDirection.Normalize();
+            rigidBody.AddForce(pushDirection * force, ForceMode.Impulse);
         }
         #endregion
 
@@ -268,6 +323,11 @@ namespace SlimeMiniBoss
         private void SetHitFace()
         {
             decalProjector.material = hitFace;
+        }
+
+        private void SetDeadFace()
+        {
+            decalProjector.material = deadFace;
         }
     }
 }

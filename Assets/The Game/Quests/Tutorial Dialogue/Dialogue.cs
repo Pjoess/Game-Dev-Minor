@@ -2,14 +2,25 @@ using UnityEngine;
 
 public class Dialogue : MonoBehaviour
 {
-    public static event System.Action<string[]> ChangeLines;
+    public static event System.Action<DialogueLine[]> ChangeLines;
     public bool isLastOne;
 
-    public string[] lines;
+    public DialogueLine[] lines;
     public bool IsTriggered{get;set;}
 
     void Awake(){
         ChangeLines = null;
+    }
+
+    public void TriggerDialgue()
+    {
+        if (isLastOne)
+        {
+            DialogueManager.instance.isLastOne = true;
+            ChangeLines?.Invoke(lines);
+            return;
+        }
+        ChangeLines?.Invoke(lines);
     }
 
     private void OnTriggerEnter(Collider other) {
