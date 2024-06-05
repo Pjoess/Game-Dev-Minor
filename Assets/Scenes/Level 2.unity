@@ -616,6 +616,12 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.6653795, y: 16.74945, z: 2.6718864}
   m_Center: {x: -0.00000029802322, y: 8.321075, z: 0.29982495}
+--- !u!1 &633408363 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 302010294799645261, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3676057653055833528}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &673218732 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8135473145668487922, guid: 3b82f250a5a71864cb47ba16523f70b0,
@@ -1602,7 +1608,7 @@ MonoBehaviour:
   - {fileID: 712643357}
   - {fileID: 1487642370}
   - {fileID: 1284313423}
-  victoryScript: {fileID: 0}
+  victoryScript: {fileID: 1864472935}
   isTutorial: 0
 --- !u!4 &961963911
 Transform:
@@ -2856,6 +2862,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleVSync
       objectReference: {fileID: 0}
+    - target: {fileID: 6701264448167627006, guid: ecdc43a94a586fa47a594bb2fe08f66d,
+        type: 3}
+      propertyPath: endVideoTexture
+      value: 
+      objectReference: {fileID: 633408363}
     - target: {fileID: 8480585902893701634, guid: ecdc43a94a586fa47a594bb2fe08f66d,
         type: 3}
       propertyPath: m_SizeDelta.x
