@@ -3215,8 +3215,10 @@ MonoBehaviour:
   lines:
   - character: 0
     line: Well done! Now you see we have a curve in the road ahead
+    audioClip: {fileID: 0}
   - character: 0
     line: Rotate your camera to see more!
+    audioClip: {fileID: 0}
 --- !u!65 &929063007
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4548,6 +4550,108 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 321db1bd570fdac4ba9c20a61e1adadd, type: 3}
+--- !u!1 &1169614311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6277005086396460432, guid: 33b5930eddb47d349bbdb96c7bde851b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2437675295188812792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1169614316
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169614311}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1176851519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6055,8 +6159,10 @@ MonoBehaviour:
   lines:
   - character: 0
     line: Now we see slime dummy's ahead. Go and kill them!
+    audioClip: {fileID: 0}
   - character: 0
     line: Keep in mind that you can use a combo!
+    audioClip: {fileID: 0}
 --- !u!65 &1680415770
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6313,17 +6419,17 @@ PrefabInstance:
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2635688
+      value: 0.26356882
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000003089231
+      value: 0.000000011307372
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000008440707
+      value: -0.0000000030895146
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
@@ -6623,17 +6729,17 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2635688
+      value: 0.26356882
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000003089231
+      value: 0.000000011307372
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000008440707
+      value: -0.0000000030895146
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
@@ -6955,8 +7061,10 @@ MonoBehaviour:
   lines:
   - character: 0
     line: You can dodge to evade enemy attacks.
+    audioClip: {fileID: 0}
   - character: 0
     line: Try dodging through these spikes
+    audioClip: {fileID: 0}
 --- !u!65 &1896686089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7136,10 +7244,13 @@ MonoBehaviour:
   lines:
   - character: 0
     line: Now that I'm here, you can use my mortar.
+    audioClip: {fileID: 0}
   - character: 0
     line: 'My mortar will charge up by you attacking enemies. '
+    audioClip: {fileID: 0}
   - character: 0
     line: But keep in mind that a attack combo gives less mortar charge!
+    audioClip: {fileID: 0}
 --- !u!65 &1956249658
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8101,6 +8212,11 @@ PrefabInstance:
       objectReference: {fileID: 1543920407}
     - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1169614316}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
       propertyPath: lines.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -8118,6 +8234,16 @@ PrefabInstance:
         type: 3}
       propertyPath: lines.Array.data[2].line
       value: Check the controlls to the top right corner to start!
+      objectReference: {fileID: 0}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: lines.Array.data[0].audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: lines.Array.data[1].audioClip
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6277005086396460432, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
@@ -8227,7 +8353,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6277005086396460432, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1169614316}
   m_SourcePrefab: {fileID: 100100000, guid: 33b5930eddb47d349bbdb96c7bde851b, type: 3}
 --- !u!1001 &5867667026498202192
 PrefabInstance:
