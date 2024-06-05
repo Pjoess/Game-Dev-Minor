@@ -3,6 +3,7 @@ using UnityEngine;
 public class MemoryStickStage : QuestStage
 {
     private int sticksCollected = 0;
+    [SerializeField] private Dialogue[] dialogues;
     public override void StartStage()
     {
         Debug.Log("StartStage");
@@ -23,6 +24,7 @@ public class MemoryStickStage : QuestStage
 
     private void StickPickUp()
     {
+        dialogues[sticksCollected].TriggerDialgue();
         sticksCollected++;
         UpdateText();
         if(sticksCollected == 3)

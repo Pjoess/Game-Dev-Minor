@@ -12,6 +12,17 @@ public class Dialogue : MonoBehaviour
         ChangeLines = null;
     }
 
+    public void TriggerDialgue()
+    {
+        if (isLastOne)
+        {
+            DialogueManager.instance.isLastOne = true;
+            ChangeLines?.Invoke(lines);
+            return;
+        }
+        ChangeLines?.Invoke(lines);
+    }
+
     private void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player") && !IsTriggered){
             if(isLastOne){

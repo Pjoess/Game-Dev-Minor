@@ -49,7 +49,7 @@ public class DialogueManager : MonoBehaviour
         input = FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>();
         Debug.Log("Start");
         
-        StartDialogue();
+        if(lines.Length > 0) StartDialogue();
     }
 
     void ChangeLine(string[] lines){
