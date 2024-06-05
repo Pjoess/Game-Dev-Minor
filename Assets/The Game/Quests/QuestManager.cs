@@ -9,7 +9,7 @@ public class QuestManager : MonoBehaviour
     [Header("Quest")]
     private bool questCompleted = false;
     [SerializeField] private TMP_Text questLog;
-    [SerializeField] private TMP_Text questNotification; // TextMeshPro for displaying the notifications
+    [SerializeField] private TMP_Text questNotification; // for displaying the notifications
 
     [Header("Stage")]
     [SerializeField] QuestStage[] questStages;
@@ -19,6 +19,7 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private VictoryScript victoryScript;
 
     public bool isTutorial;
+    private Coroutine fadeCoroutine;
 
     void Awake()
     {
@@ -95,7 +96,13 @@ public class QuestManager : MonoBehaviour
         questNotification.text = text;
         questNotification.alpha = 1;
         questNotification.gameObject.SetActive(true); // Enable the quest notification text
-        StartCoroutine(FadeOutText(4f, questNotification));
+        
+        // Cancel previous fade out coroutine if it's running
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
+        
+        // Start a new fade out coroutine
+        fadeCoroutine = StartCoroutine(FadeOutText(4f, questNotification));
     }
 
     private IEnumerator FadeOutText(float fadeDuration, TMP_Text text)
