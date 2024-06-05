@@ -26,25 +26,25 @@ public class AttackQuest : QuestStage
 
     public override bool CheckStageCompleted()
     {
-        if(!DidCombo){
-            timer += Time.deltaTime;
-        }
-        Debug.Log(timer);
-        if(isAttacking && attackStack >= 3){
-            DidCombo = true;
-            Debug.Log("Finished attack combo");
-        }
-        if(Input.GetMouseButtonDown(0) && !DidCombo){
+        // if(!DidCombo){
+        //     timer += Time.deltaTime;
+        // }
+        // Debug.Log(timer);
+        // if(isAttacking && attackStack >= 3){
+        //     DidCombo = true;
+        //     Debug.Log("Finished attack combo");
+        // }
+        // if(Input.GetMouseButtonDown(0) && !DidCombo){
 
-            if(isAttacking && timer < 0.15f){
-                attackStack++;
-            }else{
-                isAttacking = true;
-                timer = 0;
-                attackStack = 0;
-            }
-        }
-        if(isFinished && WalkedOverTrigger && DidCombo){
+        //     if(isAttacking && timer < 0.15f){
+        //         attackStack++;
+        //     }else{
+        //         isAttacking = true;
+        //         timer = 0;
+        //         attackStack = 0;
+        //     }
+        // }
+        if(isFinished && WalkedOverTrigger ){ // && DidCombo
             return true;
         }else{
             return false;
