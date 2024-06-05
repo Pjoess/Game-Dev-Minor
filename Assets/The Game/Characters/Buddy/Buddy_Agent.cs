@@ -26,8 +26,8 @@ namespace buddy
         public bool shootMortar = false;
 
         [Header("Ranges")]
-        public float shootingRange = 10f;
-        public float maxAgentToPlayerDistance = 8f;
+        public float shootingRange = 20f;
+        public float maxAgentToPlayerDistance = 5f;
 
         [Header("Cooldown")]
         public TMP_Text buddyCooldownText;

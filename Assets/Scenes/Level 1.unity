@@ -27950,6 +27950,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8972407748793277439, guid: f8db1c86389f58e4da2b5ab9a18372b0,
         type: 3}
+      propertyPath: shootingRange
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8972407748793277439, guid: f8db1c86389f58e4da2b5ab9a18372b0,
+        type: 3}
       propertyPath: buddyCooldownText
       value: 
       objectReference: {fileID: 392249016}
@@ -27957,6 +27962,11 @@ PrefabInstance:
         type: 3}
       propertyPath: attackLayer.m_Bits
       value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8972407748793277439, guid: f8db1c86389f58e4da2b5ab9a18372b0,
+        type: 3}
+      propertyPath: maxAgentToPlayerDistance
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
