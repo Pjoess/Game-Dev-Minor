@@ -8,12 +8,14 @@ public class UI_Manager : MonoBehaviour
 
     // UI and audio references
     public AudioSource buttonClick;
-    public GameObject choicePanel;
+    //public GameObject choicePanel;
     public GameObject MainMenuPanel;
     public GameObject SkipVideoText;
     public VideoPlayer introVideo;
     public static bool videoEnded = false;
     private float originalVolume;
+
+    private bool playMainGame = false;
 
     #endregion
 
@@ -81,8 +83,30 @@ public class UI_Manager : MonoBehaviour
     public void PlayGame()
     {
         MainMenuPanel.SetActive(false);
+        //DisplayChoicePanel();
+    }
 
-        // If there is an intro video, play it
+    // User chooses to play the main game
+    public void OnPlayGameSelected()
+    {
+        //choicePanel.SetActive(false);
+        MainMenuPanel.SetActive(false);
+        playMainGame = true;
+        PlayIntroOrLoadScene();
+    }
+
+    // User chooses to play the tutorial
+    public void OnPlayTutorialSelected()
+    {
+        //choicePanel.SetActive(false);
+        MainMenuPanel.SetActive(false);
+        playMainGame = false;
+        PlayIntroOrLoadScene();
+    }
+
+    // Play intro video or load the scene directly if no intro
+    void PlayIntroOrLoadScene()
+    {
         if (introVideo != null)
         {
             MuteSound();
@@ -98,9 +122,7 @@ public class UI_Manager : MonoBehaviour
         }
         else
         {
-            // If no intro video, display choice panel
-            introVideo.gameObject.SetActive(false);
-            DisplayChoicePanel();
+            LoadScene();
         }
     }
 
@@ -117,13 +139,20 @@ public class UI_Manager : MonoBehaviour
 
         videoEnded = true; // Mark the video as ended
         RestoreSound();
-        DisplayChoicePanel();
+        LoadScene();
     }
 
-    // Display the choice panel
-    void DisplayChoicePanel()
+    // Load the selected scene
+    void LoadScene()
     {
-        choicePanel.SetActive(true);
+        if (playMainGame)
+        {
+            SceneManager.LoadSceneAsync(2); // Main game scene
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync(1); // Tutorial scene
+        }
     }
 
     // Skip the intro video
@@ -136,28 +165,10 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    // Load a level
-    public void PlayLevel()
-    {
-        SceneManager.LoadSceneAsync(2);
-    }
-
-    // Load the tutorial
-    public void PlayTutorial()
-    {
-        SceneManager.LoadSceneAsync(1);
-    }
-
     // Return to the main menu
     public void ToMainMenu()
     {
         SceneManager.LoadSceneAsync(0);
-    }
-
-    // Check if the video has ended
-    public bool VideoEnded()
-    {
-        return videoEnded;
     }
 
     // Restart the current level
@@ -169,18 +180,18 @@ public class UI_Manager : MonoBehaviour
     // Go back to the main menu from the choice panel
     public void ChoiceToMainMenu()
     {
-        choicePanel.SetActive(false);
+        //choicePanel.SetActive(false);
         MainMenuPanel.SetActive(true);
     }
 
     // Quit the game
     public void QuitGame()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                Application.Quit();
+        #endif
     }
 
     #endregion
