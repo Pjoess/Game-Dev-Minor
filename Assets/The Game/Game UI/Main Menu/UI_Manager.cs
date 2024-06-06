@@ -17,6 +17,19 @@ public class UI_Manager : MonoBehaviour
 
     private bool playMainGame = false;
 
+    // Start and end times for the segments to play (in seconds)
+    private double[][] playSegments = new double[][]
+    {
+        new double[] { 1.0, 5.0 },
+        new double[] { 7.0, 23.0 },
+        new double[] { 30.0, 37.0 },
+        new double[] { 38.0, 49.0 },
+        new double[] { 50.0, 60.0 },
+        new double[] { 64.0, 67.0 },
+        new double[] { 69.0, 77.0 },
+        new double[] { 80.0, 90.0 }
+    };
+
     #endregion
 
     #region Unity Callbacks
@@ -29,9 +42,13 @@ public class UI_Manager : MonoBehaviour
     void Update()
     {
         // Check for skipping video
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            SkipSegment();
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            SkipVideo();
+            SkipWholeVideo();
         }
     }
 
@@ -155,8 +172,34 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    // Skip the intro video
-    void SkipVideo()
+    // Skip to the next segment of the intro video
+    void SkipSegment()
+    {
+        if (introVideo != null && introVideo.isPlaying)
+        {
+            double currentTime = introVideo.time;
+            for (int i = 0; i < playSegments.Length; i++)
+            {
+                if (currentTime >= playSegments[i][0] && currentTime < playSegments[i][1])
+                {
+                    // If it's the last segment, manually trigger the end event
+                    if (i == playSegments.Length - 1)
+                    {
+                        introVideo.time = introVideo.length;
+                        OnIntroVideoEnded(introVideo);
+                    }
+                    else
+                    {
+                        introVideo.time = playSegments[i + 1][0];
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    // Skip the whole intro video
+    void SkipWholeVideo()
     {
         if (introVideo != null && introVideo.isPlaying)
         {
