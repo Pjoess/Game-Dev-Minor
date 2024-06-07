@@ -3,10 +3,10 @@ using System.Collections;
 
 public class DayNightTimer : MonoBehaviour
 {
-    public float cycleDuration = 100f;
-    public float startRotation = 90f;
-    public float endRotation = 0f;
-    public float waitTime = 100f;
+    private float cycleDuration = 300f;
+    private float startRotation = 90f;
+    private float endRotation = 0f;
+    private float waitTime = 200f;
 
     void Start()
     {
