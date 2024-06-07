@@ -58,8 +58,10 @@ public class Player_Manager : MonoBehaviour, IDamageble
         public float dashCooldown = 2f;
         public bool isDashing = false;
         [HideInInspector] public float dashCooldownDelta;
-        
+
         [Header("Player Attack")]
+        private ParticleSystem.TrailModule swordTrailColor;
+        private int attackNumber = 0;
         public float attackDistance = 0.15f;
         public bool isStriking = false;
         [SerializeField] int baseMortarIncrease = 10;
@@ -167,6 +169,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             input = GetComponent<PlayerInput>();
             deathScript = FindObjectOfType<DeathScript>();
             buddy = FindObjectOfType<Buddy_Agent>();
+            swordTrailColor = sword.GetComponentInChildren<ParticleSystem>().trails;
         }
         
         void Start()
@@ -366,22 +369,40 @@ public class Player_Manager : MonoBehaviour, IDamageble
             }
         }
 
-    public void AttackRotation()
-    {
-        if(movement != Vector2.zero)
+        public void AttackRotation()
         {
-            vectorDirection = new Vector3(movement.x, 0, movement.y);
-            Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * vectorDirection;
-            Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-            transform.rotation = rotation;
+            if(movement != Vector2.zero)
+            {
+                vectorDirection = new Vector3(movement.x, 0, movement.y);
+                Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * vectorDirection;
+                Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+                transform.rotation = rotation;
+            }
         }
-    }
 
         public void OnAttackPressed()
         {
             if(canAttack)
             {
                 struckAgain = true;
+            }
+        }
+
+        private void SetSwordTrailColor()
+        {
+            switch(attackNumber)
+            {
+                case 0:
+                    swordTrailColor.colorOverTrail = Color.white;
+                    break;
+
+                case 1:
+                    swordTrailColor.colorOverTrail = Color.yellow;
+                    break;
+
+                case 2:
+                    swordTrailColor.colorOverTrail = Color.red;
+                    break;
             }
         }
         
@@ -462,6 +483,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
                 if (isStriking) OnAttackPressed();
                 else if (!isStriking)
                 {
+                    attackNumber = 0;
                     isStriking = true;
                 }
             }
@@ -585,6 +607,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
         {
             if (isStriking)
             {
+                SetSwordTrailColor();
+                attackNumber++;
                 AttackRotation();
                 struckAgain = false;
                 sword.DoSwordAttackEnableCollision();
