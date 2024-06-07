@@ -117,8 +117,12 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(textSpeed);
         }
         // coroutine = null;
+        while(audioSource.isPlaying){
+            yield return null;
+        }
         yield return new WaitForSeconds(1f);
         coroutine = null;
+        
         NextLine();
     }
 
