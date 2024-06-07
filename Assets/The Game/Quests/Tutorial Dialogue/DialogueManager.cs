@@ -104,13 +104,12 @@ public class DialogueManager : MonoBehaviour
     }
 
     IEnumerator TextCoroutine(){
-        
-        yield return new WaitForSeconds(textSpeed);
-
         if(lines[index].audioClip!=null){
             audioSource.clip = lines[index].audioClip;
             audioSource.Play();
         }
+
+        yield return new WaitForSeconds(textSpeed);
 
         foreach(char c in lines[index].line.ToCharArray()){
             textComponent.text += c;
