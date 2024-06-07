@@ -47,6 +47,7 @@ public class TimeScript : MonoBehaviour
         if (!stopped)
         {
             StartCoroutine(SlowMoCoroutine());
+            PostFXController.instance.StartSlowMoEffect(slowMoTime);
         }
     }
 

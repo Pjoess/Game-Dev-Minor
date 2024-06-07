@@ -281,6 +281,7 @@ namespace SlimeMiniBoss
             SetDeadFace();
             ApplyKnockback(Blackboard.instance.GetPlayerPosition(), 300);
             yield return new WaitForSeconds(deathTimer);
+            TimeScript.instance.SlowMo();
             ParticleSystem par = Instantiate(deathParticle, transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
             GetComponent<MemoryDropScipt>().DropItem(transform.position);
             Destroy(gameObject);
