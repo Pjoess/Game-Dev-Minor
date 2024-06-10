@@ -76,11 +76,13 @@ public class DialogueManager : MonoBehaviour
     void Update(){
         if(Time.timeScale == 0){
             paused = true;
-            audioSource.Pause();
+            if(audioSource != null)
+                audioSource.Pause();
         }
         if(Time.timeScale == 1 && paused){
             paused = false;
-            audioSource.UnPause();
+            if(audioSource != null)
+                audioSource.UnPause();
         }
         // if(Input.GetKeyDown(KeyCode.E)){
         //     if(textComponent.text == lines[index].line){
@@ -124,8 +126,10 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(textSpeed);
         }
         // coroutine = null;
-        while(audioSource.isPlaying){
-            yield return null;
+        if(audioSource!=null){
+            while(audioSource.isPlaying){
+                yield return null;
+            }
         }
         yield return new WaitForSeconds(1f);
         coroutine = null;

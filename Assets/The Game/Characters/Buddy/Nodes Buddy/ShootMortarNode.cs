@@ -13,8 +13,9 @@ namespace buddy
         private float shootingRange;
         private float mortarSpawnHeight;
         private float bulletLifetime;
-        public Animator animator;
-        public int animIDShootingMortar;
+        private Animator animator;
+        private int animIDShootingMortar;
+        private AudioSource shootSound;
 
         public ShootMortarNode(Buddy_Agent buddy)
         {
@@ -27,6 +28,7 @@ namespace buddy
             bulletLifetime = buddy.bulletLifetime; // Set the bullet lifetime
             animator = buddy.animator;
             animIDShootingMortar = buddy.animIDShootingMortar;
+            shootSound = buddy.shootSound;
         }
 
         public bool Update()
@@ -51,8 +53,7 @@ namespace buddy
             {
                 buddy.canShootMortar = false;
                 animator.SetBool(animIDShootingMortar, false);
-            }
-                
+            }   
             return true;
         }
 
@@ -64,6 +65,7 @@ namespace buddy
             Vector3 spawnPosition = targetEnemy.position;
             spawnPosition.y = buddy.transform.position.y;
             GameObject mortar = Object.Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
+            shootSound.Play();
             //Object.Destroy(mortar, bulletLifetime);
             navAgent.isStopped = false;
             buddy.shootMortar = false;
