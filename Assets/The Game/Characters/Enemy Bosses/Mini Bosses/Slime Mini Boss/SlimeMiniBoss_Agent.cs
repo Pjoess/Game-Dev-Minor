@@ -22,6 +22,7 @@ namespace SlimeMiniBoss
         [SerializeField] Material neutralFace, hitFace, deadFace;
         [SerializeField] private ParticleSystem deathParticle;
         [SerializeField] private float deathTimer = 2;
+        [SerializeField] private bool doSlowMoOnDeath = true;
         private bool isAlive = true;
 
         [Header("Patrol Center Point")]
@@ -281,7 +282,7 @@ namespace SlimeMiniBoss
             SetDeadFace();
             ApplyKnockback(Blackboard.instance.GetPlayerPosition(), 300);
             yield return new WaitForSeconds(deathTimer);
-            TimeScript.instance.SlowMo();
+            if (doSlowMoOnDeath) TimeScript.instance.SlowMo();
             Instantiate(deathParticle, transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
             MemoryDropScipt comp;
             TryGetComponent(out comp);
