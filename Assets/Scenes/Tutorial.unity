@@ -281,11 +281,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8314571269056883277, guid: fc48b59074185fc48b8702163f8cb78d, type: 3}
 --- !u!114 &103185137
@@ -2953,7 +2953,7 @@ Transform:
   m_GameObject: {fileID: 879886935}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 170.86, y: 107.22, z: 56.66}
+  m_LocalPosition: {x: 170.69, y: 106.74, z: 56.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3370,10 +3370,10 @@ MonoBehaviour:
   lines:
   - character: 0
     line: Well done! Now you see, there is a curve on the road
-    audioClip: {fileID: 8300000, guid: c59d156ea18b3bf4bb70d17aa5d05f70, type: 3}
+    audioClip: {fileID: 8300000, guid: ebc8194f0116a884487ed30fd1b5d783, type: 3}
   - character: 0
     line: Rotate your camera to see more!
-    audioClip: {fileID: 8300000, guid: e7be60999caa465429de14af35127c1a, type: 3}
+    audioClip: {fileID: 8300000, guid: ac69e6cc18f6f384e9e90c3d0cdfa0c0, type: 3}
 --- !u!65 &929063007
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6293,10 +6293,10 @@ MonoBehaviour:
   lines:
   - character: 0
     line: With the extra vision, you see slime dummy's ahead of you.
-    audioClip: {fileID: 8300000, guid: a5a50a8ac1c308b4b81f488ca72c2ecf, type: 3}
+    audioClip: {fileID: 8300000, guid: 93ca47717942d274ca484eb65e58b9df, type: 3}
   - character: 0
     line: Try out attacking by killing them!
-    audioClip: {fileID: 8300000, guid: 658b2c52672cadc40aa9d8973585e9ec, type: 3}
+    audioClip: {fileID: 8300000, guid: 9c4d55718d34600488f3d4204c93173c, type: 3}
 --- !u!65 &1680415770
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7170,10 +7170,10 @@ MonoBehaviour:
   - character: 0
     line: Good job! These slimes did not attack you, but if they did, you can dodge
       them.
-    audioClip: {fileID: 8300000, guid: da6934dd9a751ca489ee7ceb1b71f7b7, type: 3}
+    audioClip: {fileID: 8300000, guid: 8115b3a86a062344bb189afbbb869cbc, type: 3}
   - character: 0
     line: Try dodging through the spikes in the fence!
-    audioClip: {fileID: 8300000, guid: 3457083b66927da4daea91e2ecd98734, type: 3}
+    audioClip: {fileID: 8300000, guid: b7250e01903233d40b357bcf1a8e3992, type: 3}
 --- !u!65 &1896686089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7353,22 +7353,19 @@ MonoBehaviour:
   lines:
   - character: 0
     line: 'Now that you learned all the controls, I will accompany you. '
-    audioClip: {fileID: 8300000, guid: a2523d0c14b8f3f49afd2fb3fc9a1290, type: 3}
-  - character: 0
-    line: You can now try out my mortar ability!
-    audioClip: {fileID: 8300000, guid: 7d0d4e56055d0e347906c6071b298cfc, type: 3}
-  - character: 0
-    line: My mortar will be charged-up by attacking enemies.
-    audioClip: {fileID: 8300000, guid: 4870d841685a9b94ba0ec93acfb4cf68, type: 3}
-  - character: 0
-    line: If you hit without a combo it gives more mortar charge!
-    audioClip: {fileID: 8300000, guid: b7b04bf650279814ba3fe80ce7c07e3e, type: 3}
+    audioClip: {fileID: 8300000, guid: cd69f6873b2ed35409621292643c4aa6, type: 3}
   - character: 0
     line: Now i will spawn some real slimes for you to kill.
-    audioClip: {fileID: 8300000, guid: 37a01d0c992938c4d95d0a3840bffc73, type: 3}
+    audioClip: {fileID: 8300000, guid: 4ffb52f8c67511e40a3b143681554f5c, type: 3}
   - character: 0
-    line: Now Charge!!!
-    audioClip: {fileID: 8300000, guid: e715e5aee9c6abe40ba49f824b09cc6b, type: 3}
+    line: You can now try out my mortar ability!
+    audioClip: {fileID: 8300000, guid: 4251067dd22980244b95743556736095, type: 3}
+  - character: 0
+    line: My mortar will be charged-up by attacking enemies.
+    audioClip: {fileID: 8300000, guid: 213f3e398b2f4e84f854a5287cab98eb, type: 3}
+  - character: 0
+    line: If you hit without a combo it gives more mortar charge!
+    audioClip: {fileID: 8300000, guid: d03d76bfe28c22e41a077d163a220946, type: 3}
 --- !u!65 &1956249658
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8357,17 +8354,17 @@ PrefabInstance:
         type: 3}
       propertyPath: lines.Array.data[0].audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 0f98e0b6573d1194290a5bf237c995f4, type: 3}
+      objectReference: {fileID: 8300000, guid: 30748b75b96e8ce45a0d2e81a6ee347a, type: 3}
     - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
       propertyPath: lines.Array.data[1].audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 4d56c0fb2d4e2aa47935b5c87671def1, type: 3}
+      objectReference: {fileID: 8300000, guid: aa4c1e55542a76a4a94f223f7d1ab90e, type: 3}
     - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
       propertyPath: lines.Array.data[2].audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 429e63e1f944b9348b685352e5621f4a, type: 3}
+      objectReference: {fileID: 8300000, guid: cad1d206d02ae204cab5a54bc9da90e9, type: 3}
     - target: {fileID: 6277005086396460432, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
       propertyPath: m_Name

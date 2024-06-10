@@ -104,13 +104,12 @@ public class DialogueManager : MonoBehaviour
     }
 
     IEnumerator TextCoroutine(){
+        yield return new WaitForSeconds(textSpeed);
+        
         if(lines[index].audioClip!=null){
             audioSource.clip = lines[index].audioClip;
             audioSource.Play();
         }
-
-        yield return new WaitForSeconds(textSpeed);
-
         foreach(char c in lines[index].line.ToCharArray()){
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
@@ -149,6 +148,9 @@ public class DialogueManager : MonoBehaviour
         textComponent.text = string.Empty;
         if(index < lines.Length - 1){
             index++;
+            if(isLastOne && index == 2){
+                showSlimes.ToggleSlimes();
+            }
             audioSource.Stop();
             ChangeName(lines[index].character);
             coroutine = StartCoroutine(TextCoroutine());
@@ -162,9 +164,9 @@ public class DialogueManager : MonoBehaviour
             isActive = false;
             index = 0;
             coroutine = null;
-            if(isLastOne){
-                showSlimes.ToggleSlimes();
-            }
+            // if(isLastOne){
+            //     showSlimes.ToggleSlimes();
+            // }
         }
     }
 }
