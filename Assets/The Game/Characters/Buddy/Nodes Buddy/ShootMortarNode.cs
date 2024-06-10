@@ -5,32 +5,28 @@ namespace buddy
 {
     public class ShootMortarNode : IBaseNode
     {
-        Buddy_Agent agent;
+        Buddy_Agent buddy;
         private NavMeshAgent navAgent;
         private Transform targetEnemy;
         private LayerMask attackLayer;
         private GameObject mortarPrefab;
-
         private float shootingRange;
         private float mortarSpawnHeight;
         private float bulletLifetime;
-
         public Animator animator;
         public int animIDShootingMortar;
 
-        public ShootMortarNode(Buddy_Agent agent, NavMeshAgent navAgent, float shootingRange, LayerMask attackLayer,
-            float mortarSpawnHeight, GameObject mortarPrefab,
-            float bulletLifetime, Animator animator, int animIDShootingMortar)
+        public ShootMortarNode(Buddy_Agent buddy)
         {
-            this.agent = agent;
-            this.navAgent = navAgent;
-            this.shootingRange = shootingRange;
-            this.attackLayer = attackLayer;
-            this.mortarPrefab = mortarPrefab;
-            this.mortarSpawnHeight = mortarSpawnHeight;
-            this.bulletLifetime = bulletLifetime; // Set the bullet lifetime
-            this.animator = animator;
-            this.animIDShootingMortar = animIDShootingMortar;
+            this.buddy = buddy;
+            navAgent = buddy.agent;
+            shootingRange = buddy.shootingRange;
+            attackLayer = buddy.attackLayer;
+            mortarPrefab = buddy.mortarPrefab;
+            mortarSpawnHeight = buddy.mortarSpawnHeight;
+            bulletLifetime = buddy.bulletLifetime; // Set the bullet lifetime
+            animator = buddy.animator;
+            animIDShootingMortar = buddy.animIDShootingMortar;
         }
 
         public bool Update()
@@ -40,8 +36,8 @@ namespace buddy
                 targetEnemy = FindClosestEnemy();
                 if (targetEnemy != null && mortarPrefab != null)
                 {
-                    agent.canShootMortar = true;
-                    if (agent.shootMortar)
+                    buddy.canShootMortar = true;
+                    if (buddy.shootMortar)
                     {
                         navAgent.isStopped = true;
                         animator.SetBool(animIDShootingMortar, true);
@@ -49,11 +45,11 @@ namespace buddy
                         Blackboard.instance.ResetMortar();
                     }
                 }
-                else agent.canShootMortar = false;
+                else buddy.canShootMortar = false;
             }
             else
             {
-                agent.canShootMortar = false;
+                buddy.canShootMortar = false;
                 animator.SetBool(animIDShootingMortar, false);
             }
                 
@@ -66,11 +62,11 @@ namespace buddy
 
             //Vector3 spawnPosition = targetEnemy.position + Vector3.up * mortarSpawnHeight;
             Vector3 spawnPosition = targetEnemy.position;
-            spawnPosition.y = agent.transform.position.y;
+            spawnPosition.y = buddy.transform.position.y;
             GameObject mortar = Object.Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
             //Object.Destroy(mortar, bulletLifetime);
             navAgent.isStopped = false;
-            agent.shootMortar = false;
+            buddy.shootMortar = false;
             //animator.SetBool(animIDShootingMortar, false);
         }
 

@@ -74,7 +74,7 @@ namespace buddy
             List<IBaseNode> enemyInLineOfSight = new()
             {
                 new ShootBulletNode(this),
-                new ShootMortarNode(this, agent, shootingRange, attackLayer, mortarSpawnHeight, mortarPrefab, mortarCooldownTime, animator, animIDShootingMortar)
+                new ShootMortarNode(this)
             };
 
             List<IBaseNode> selectNode = new()
