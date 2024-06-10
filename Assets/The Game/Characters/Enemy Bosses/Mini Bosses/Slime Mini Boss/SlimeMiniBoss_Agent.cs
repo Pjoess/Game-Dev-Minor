@@ -57,6 +57,8 @@ namespace SlimeMiniBoss
         private int animIDAnticipate;
         private int animIDAttack;
 
+        private float spawnPosY;
+
         private void AssignAnimIDs()
         {
             animIDAnticipate = Animator.StringToHash("isAnticipating");
@@ -80,6 +82,7 @@ namespace SlimeMiniBoss
         {
             MiniBossSlimeBehaviourTree();
             SaveOriginalHelmetColors();
+            spawnPosY = transform.position.y;
         }
 
         void Update()
@@ -283,10 +286,12 @@ namespace SlimeMiniBoss
             ApplyKnockback(Blackboard.instance.GetPlayerPosition(), 300);
             yield return new WaitForSeconds(deathTimer);
             if (doSlowMoOnDeath) TimeScript.instance.SlowMo();
-            Instantiate(deathParticle, transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+            Vector3 spawnPos = transform.position;
+            spawnPos.y = spawnPosY;
+            Instantiate(deathParticle, spawnPos, Quaternion.Euler(new Vector3(-90, 0, 0)));
             MemoryDropScipt comp;
             TryGetComponent(out comp);
-            if (comp != null) comp.DropItem(transform.position);
+            if (comp != null) comp.DropItem(spawnPos);
             Destroy(gameObject);
         }
 
