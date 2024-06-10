@@ -13,9 +13,7 @@ namespace BasicEnemySlime
         public NavMeshAgent agent;
         private Rigidbody rigidBody; // Important for the bullets damage received
         public static float originalSpeed;
-        
         public bool isTutorial; // checkbox for tutorial slimes
-
         private GameObject bone;
 
         private DecalProjector projector;
@@ -60,8 +58,6 @@ namespace BasicEnemySlime
 
         private Renderer slimeRenderer;
         private Color originalColor;
-
-    
 
         private void AssignAnimIDs()
         {
@@ -360,7 +356,6 @@ namespace BasicEnemySlime
                 agent.isStopped = false;
             }
         #endregion
-
 
         private void SetNeutralFace()
         {
