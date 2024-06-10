@@ -16,7 +16,7 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI textComponent;
     public TextMeshProUGUI nameComponent;
     public Image charImage;
-    public Sprite buddySprite, arthurSprite;
+    public Sprite buddySprite, arthurSprite, kingSprite;
     public float textSpeed;
     private int index = 0;
     public int inputIndex = 0;
@@ -153,6 +153,7 @@ public class DialogueManager : MonoBehaviour
 
             case DialogueLine.DialogueCharacter.KING:
                 nameComponent.text = "King";
+                charImage.sprite = kingSprite;
                 break;
         }
     }

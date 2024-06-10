@@ -25,6 +25,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
     [HideInInspector] public bool canRotate = true;
     public float rotationSpeed = 8f;
 
+    [SerializeField] private float scaleSpeed;
     private bool fightStarted = false;
     public bool phaseTwo = false;
     private float eyeColorIntensity = 0f;
@@ -88,6 +89,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
         bossHealthBar.maxValue = maxHealthPoints;
         bossHealthBar.value = healthPoints;
         CreateBT();
+        StartCoroutine(ScaleBoss());
     }
 
     void Update()
@@ -127,9 +129,12 @@ public class FinalBoss : MonoBehaviour, IDamageble
 
     public void Hit(int damage)
     {
-        healthPoints -= damage;
-        bossHealthBar.value = healthPoints;
-        CheckDead();
+        if(fightStarted)
+        {
+            healthPoints -= damage;
+            bossHealthBar.value = healthPoints;
+            CheckDead();
+        }
     }
 
     public void ReduceHealth(int amount)
@@ -156,6 +161,15 @@ public class FinalBoss : MonoBehaviour, IDamageble
         eyesMaterial.SetColor("_BaseColor", Color.grey);
         yield return new WaitForSeconds(5f);
         QuestEvents.BuddyDead();
+    }
+
+    private IEnumerator ScaleBoss()
+    {
+        while (transform.localScale.x < 3.5f)
+        {
+            transform.localScale += scaleSpeed * Time.deltaTime * Vector3.one;
+            yield return null;
+        }
     }
 
     public void ActivateBoss()
