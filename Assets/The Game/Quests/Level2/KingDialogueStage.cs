@@ -18,7 +18,6 @@ public class KingDialogueStage : QuestStage
 
     public override bool CheckStageCompleted()
     {
-        CheckDialogueOver();
         if (isFinished)
         {
             isActive = false;
@@ -26,6 +25,7 @@ public class KingDialogueStage : QuestStage
             return true;
         }
         else return false;
+        CheckDialogueOver();
     }
 
     private void CheckDialogueOver()

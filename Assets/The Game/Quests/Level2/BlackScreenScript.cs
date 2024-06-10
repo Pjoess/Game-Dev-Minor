@@ -29,7 +29,7 @@ public class BlackScreenScript : MonoBehaviour
         while(panel.color.a < 1)
         {
             var clr = panel.color;
-            clr.a += 0.2f;
+            clr.a += blackScreenSpeed;
             panel.color = clr;
             yield return null;
         }
@@ -40,7 +40,7 @@ public class BlackScreenScript : MonoBehaviour
         while (panel.color.a > 0)
         {
             var clr = panel.color;
-            clr.a -= 0.2f;
+            clr.a -= blackScreenSpeed;
             panel.color = clr;
             yield return null;
         }
