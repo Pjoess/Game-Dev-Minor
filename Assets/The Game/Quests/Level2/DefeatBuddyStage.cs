@@ -9,7 +9,7 @@ public class DefeatBuddyStage : QuestStage
     {
         Debug.Log("StartStage");
         isActive = true;
-        questLogText = "The Buddy has lost control.? \n\n"
+        questLogText = "The Buddy has lost control. \n\n"
             + "-> Defeat The Buddy";
         QuestEvents.OnBuddyDeath += OnBuddyDeath;
     }

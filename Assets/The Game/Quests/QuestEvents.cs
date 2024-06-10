@@ -7,7 +7,6 @@ public class QuestEvents : MonoBehaviour
     public static event Action OnPlayerReachCastle;
     public static event Action OnMemoryStickPickUp;
 
-    public static event Action OnPlayerReachBuddy;
     public static event Action OnBuddyDeath;
     public static event Action OnPlayerEnterCastle;
 
@@ -27,11 +26,6 @@ public class QuestEvents : MonoBehaviour
     {
         Debug.Log("Picked Up Stick");
         OnMemoryStickPickUp?.Invoke();
-    }
-
-    public static void BuddyReached()
-    {
-        OnPlayerReachBuddy?.Invoke();
     }
 
     public static void BuddyDead()
