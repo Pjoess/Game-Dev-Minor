@@ -312,7 +312,7 @@ namespace BasicEnemySlime
 
         private void OnCollisionEnter(Collision collision)
         {
-            if(hasAttacked)
+            if(hasAttacked && isAlive)
             {
                 if(collision.gameObject.CompareTag("Player"))
                 {
