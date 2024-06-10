@@ -26,6 +26,7 @@ public class DialogueManager : MonoBehaviour
     public ShowSlimes showSlimes;
     public bool isLastOne = false;
     public CinemachineVirtualCamera virtualCamera;
+    public bool paused = false;
 
     public SpriteRenderer icon;
     public Sprite image;
@@ -73,6 +74,14 @@ public class DialogueManager : MonoBehaviour
 
 
     void Update(){
+        if(Time.timeScale == 0){
+            paused = true;
+            audioSource.Pause();
+        }
+        if(Time.timeScale == 1 && paused){
+            paused = false;
+            audioSource.UnPause();
+        }
         if(Input.GetKeyDown(KeyCode.E)){
             if(textComponent.text == lines[index].line){
                 NextLine();
