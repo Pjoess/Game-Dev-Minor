@@ -82,17 +82,17 @@ public class DialogueManager : MonoBehaviour
             paused = false;
             audioSource.UnPause();
         }
-        if(Input.GetKeyDown(KeyCode.E)){
-            if(textComponent.text == lines[index].line){
-                NextLine();
-            }else{
-                if(coroutine!=null){
-                    StopCoroutine(coroutine);
-                    coroutine = null;
-                }
-                textComponent.text = lines[index].line;
-            }
-        }
+        // if(Input.GetKeyDown(KeyCode.E)){
+        //     if(textComponent.text == lines[index].line){
+        //         NextLine();
+        //     }else{
+        //         if(coroutine!=null){
+        //             StopCoroutine(coroutine);
+        //             coroutine = null;
+        //         }
+        //         textComponent.text = lines[index].line;
+        //     }
+        // }
     }
 
     public void StartDialogue(){
