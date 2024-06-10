@@ -5,34 +5,33 @@ namespace buddy
 {
     public class ShootBulletNode : IBaseNode
     {
+        private Buddy_Agent buddy;
         private NavMeshAgent agent;
         private float shootingRange;
         private LayerMask attackLayer;
         private float bulletShootHeight;
         private float bulletSpeed;
         private float bulletLifetime;
-
         private GameObject bulletPrefab;
-        
         private float shootTimer = 0f;
         private const float timeBetweenShots = 2f; // Time between each shot
-
         private Animator animator;
-        private int animIDShoot;
+        private int animIDShooting;
+        private AudioSource shootingSound;
 
-        public ShootBulletNode(NavMeshAgent agent, float shootingRange, LayerMask attackLayer, 
-            float bulletShootHeight, float bulletSpeed, float bulletLifetime, GameObject bulletPrefab,
-            Animator animator, int animIDShoot)
+        public ShootBulletNode(Buddy_Agent buddy)
         {
-            this.agent = agent;
-            this.shootingRange = shootingRange;
-            this.attackLayer = attackLayer;
-            this.bulletShootHeight = bulletShootHeight;
-            this.bulletSpeed = bulletSpeed;
-            this.bulletLifetime = bulletLifetime;
-            this.bulletPrefab = bulletPrefab;
-            this.animator = animator;
-            this.animIDShoot = animIDShoot;
+            this.buddy = buddy;
+            agent = buddy.agent;
+            shootingRange = buddy.shootingRange;
+            attackLayer = buddy.attackLayer;
+            bulletShootHeight = buddy.bulletShootHeight;
+            bulletSpeed = buddy.bulletSpeed;
+            bulletLifetime = buddy.bulletLifetime;
+            bulletPrefab = buddy.bulletPrefab;
+            animator = buddy.animator;
+            animIDShooting = buddy.animIDShooting;
+            shootingSound = buddy.shootSound;
         }
 
         public bool Update()
@@ -45,12 +44,12 @@ namespace buddy
                 if (shootTimer >= timeBetweenShots)
                 {
                     ShootAtEnemy(enemyTransform);
-                    animator.SetBool(animIDShoot, true);
+                    animator.SetBool(animIDShooting, true);
                     shootTimer = 0f; // Reset the timer
                 }
                 else
                 {
-                    animator.SetBool(animIDShoot, false);
+                    animator.SetBool(animIDShooting, false);
                     shootTimer += Time.deltaTime; // Increment the timer
                 }
                 return true;
@@ -103,6 +102,8 @@ namespace buddy
 
                     // Instantiate the bullet prefab with the calculated rotation
                     GameObject bullet = Object.Instantiate(bulletPrefab, bulletSpawnPosition, agentRotation);
+                    shootingSound.Play();
+                    
                     if (bullet.TryGetComponent<Rigidbody>(out var bulletRigidbody))
                     {
                         bulletRigidbody.velocity = direction * bulletSpeed;

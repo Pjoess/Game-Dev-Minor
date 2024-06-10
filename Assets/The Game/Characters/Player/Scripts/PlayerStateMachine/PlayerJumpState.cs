@@ -9,7 +9,7 @@ public class PlayerJumpState : PlayerBaseState
         player.animator.SetBool(player.animIDJump, true);
         player.jumpCooldownDelta = player.jumpCooldown;
         player.rigidBody.AddForce(Vector3.up * player.jumpForce, ForceMode.Impulse);
-        player.jumpSound.Play();
+        //player.jumpSound.Play();
     }
 
     public override void ExitState(Player_Manager player)

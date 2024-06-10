@@ -18,7 +18,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         private PlayerInput input;
 
         [Header("Sound Effects")]
-        public AudioSource jumpSound;
+        //public AudioSource jumpSound;
         public AudioSource ouchSound;
         public AudioSource rollSound;
         public AudioSource pauseSound;
@@ -183,7 +183,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             playerState.EnterState(this);
 
             // Jumping
-            jumpSound = GetComponent<AudioSource>();
+            //jumpSound = GetComponent<AudioSource>();
             idleToFallDelta = idleToFallTimer;
             jumpCooldownDelta = 0f;
 
