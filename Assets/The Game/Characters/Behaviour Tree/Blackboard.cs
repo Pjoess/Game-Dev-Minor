@@ -39,13 +39,26 @@ public class Blackboard : MonoBehaviour
             return Vector3.zero;
         }
     }
-    #endregion
+
+    public void EnablePlayerInput()
+    {
+        player.input.ActivateInput();
+    }
+
+    public void DisablePlayerInput()
+    {
+        player.input.DeactivateInput();
+    }
 
     public void HitPlayer(int damage, Vector3 position)
     {
         player.Hit(damage);
         player.ApplyKnockback(position, 150);
     }
+
+    #endregion
+
+
 
     #region Buddy
 

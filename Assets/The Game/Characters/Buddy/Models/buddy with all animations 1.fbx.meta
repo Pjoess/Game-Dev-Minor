@@ -3,7 +3,22 @@ guid: 44c817e9a46a3924fbdbe7534ed5a4d1
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Materialmain color
+    second: {fileID: 2100000, guid: 8d33d8421d18ee04485778c77cd96ca5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyes
+    second: {fileID: 2100000, guid: e125913e87db593489f3b0b22b133f23, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: secondair color
+    second: {fileID: 2100000, guid: f4fe0016a78e35644b556b208b1a747a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -19,8 +34,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: Event MortarHasEnded has a time (1.360494) outside the
-      clip's valid range (0.000000..1.333333). It will never be fired
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0

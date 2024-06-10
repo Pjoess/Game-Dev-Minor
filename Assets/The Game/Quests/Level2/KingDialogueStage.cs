@@ -14,6 +14,7 @@ public class KingDialogueStage : QuestStage
         blackScreen.EnableBlackScreen();
         GetComponent<Dialogue>().TriggerDialgue();
         manager = FindObjectOfType<DialogueManager>();
+        Blackboard.instance.DisablePlayerInput();
     }
 
     public override bool CheckStageCompleted()
@@ -22,10 +23,14 @@ public class KingDialogueStage : QuestStage
         {
             isActive = false;
             blackScreen.DisableBlackScreen();
+            Blackboard.instance.EnablePlayerInput();
             return true;
         }
-        else return false;
-        CheckDialogueOver();
+        else
+        {
+            CheckDialogueOver();
+            return false;
+        }
     }
 
     private void CheckDialogueOver()

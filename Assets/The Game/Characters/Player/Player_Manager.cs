@@ -15,7 +15,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         [HideInInspector] public Weapon sword;
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public Vector3 vectorDirection;
-        private PlayerInput input;
+        [HideInInspector] public PlayerInput input;
 
         [Header("Sound Effects")]
         //public AudioSource jumpSound;
