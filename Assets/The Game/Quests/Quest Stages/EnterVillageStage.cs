@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EnterVillageStage : QuestStage
 {
-
     [SerializeField] GameObject villageTrigger;
 
     public override void StartStage()

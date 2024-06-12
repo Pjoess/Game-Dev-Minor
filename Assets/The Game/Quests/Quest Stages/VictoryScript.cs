@@ -138,6 +138,5 @@ public class VictoryScript : MonoBehaviour
             LoadMainMenu(endVideo); // Manually trigger the end event
         }
     }
-
     #endregion
 }

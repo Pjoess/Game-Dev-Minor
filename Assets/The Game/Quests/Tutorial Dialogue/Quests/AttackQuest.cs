@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class AttackQuest : QuestStage
 {
@@ -26,25 +22,7 @@ public class AttackQuest : QuestStage
 
     public override bool CheckStageCompleted()
     {
-        // if(!DidCombo){
-        //     timer += Time.deltaTime;
-        // }
-        // Debug.Log(timer);
-        // if(isAttacking && attackStack >= 3){
-        //     DidCombo = true;
-        //     Debug.Log("Finished attack combo");
-        // }
-        // if(Input.GetMouseButtonDown(0) && !DidCombo){
-
-        //     if(isAttacking && timer < 0.15f){
-        //         attackStack++;
-        //     }else{
-        //         isAttacking = true;
-        //         timer = 0;
-        //         attackStack = 0;
-        //     }
-        // }
-        if(isFinished && WalkedOverTrigger ){ // && DidCombo
+        if(isFinished && WalkedOverTrigger){ // && DidCombo
             return true;
         }else{
             return false;
@@ -75,9 +53,7 @@ public class AttackQuest : QuestStage
             questLogText = "Try doing an attack combo \n\n" + $"-> Kill slime dummies {slimesKilled}/4";
             slimesKilled = 0;
             isFinished = true;
-            
-        }
-        
+        } 
     }
 
     public void TriggerDodge(){

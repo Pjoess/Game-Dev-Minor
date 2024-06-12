@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 
 public class Controll : MonoBehaviour 
 {
@@ -13,7 +11,8 @@ public class Controll : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.tag == "Player"){
+        if(other.gameObject.CompareTag("Player"))
+        {
             ChangeControlls(keybindingSOs, extraText);
         }
     }

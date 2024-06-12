@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,21 +8,20 @@ public class ControlsBox : MonoBehaviour
     public KeybindingSO[] controlls;
     public string extraText;
     public PlayerInput input;
-    private string currentControllScheme;
+    private string currentControlScheme;
 
     void Start(){
         extraText = "";
         textComponent.text = "";
-        currentControllScheme = input.currentControlScheme;
+        currentControlScheme = input.currentControlScheme;
         Controll.ChangeControlls += ChangeControlls;
         UpdateText();
     }
 
     void Update(){
         //check for control scheme change, then UpdateText();
-
-        if(input.currentControlScheme != currentControllScheme){
-            currentControllScheme = input.currentControlScheme;
+        if(input.currentControlScheme != currentControlScheme){
+            currentControlScheme = input.currentControlScheme;
             UpdateText();
         }
     }

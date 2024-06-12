@@ -208,16 +208,19 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    // Return to the main menu
     public void ToMainMenu()
     {
         SceneManager.LoadSceneAsync(0);
     }
 
-    // Restart the current level
-    public void RestartLevel()
+    public void RestartLevel1()
     {
         SceneManager.LoadSceneAsync(2);
+    }
+
+    public void RestartTutorialLevel()
+    {
+        SceneManager.LoadSceneAsync(1);
     }
 
     // Go back to the main menu from the choice panel
