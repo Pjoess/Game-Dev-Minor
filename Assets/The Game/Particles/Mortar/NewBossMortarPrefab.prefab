@@ -173,9 +173,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4952581411795728004, guid: ce2042cafe5084f4ab93c60980455037,
         type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4952581411795728004, guid: ce2042cafe5084f4ab93c60980455037,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: -8681291935478700185, guid: 6c43f81d3c6a580479e1fc4d9dcb55a6,
+      objectReference: {fileID: 7922251121040759823, guid: 4cfb7fd6ae7a5754aad61038c9a876b3,
+        type: 3}
+    - target: {fileID: 4952581411795728004, guid: ce2042cafe5084f4ab93c60980455037,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 4362962105363994262, guid: 4cfb7fd6ae7a5754aad61038c9a876b3,
+        type: 3}
+    - target: {fileID: 4952581411795728004, guid: ce2042cafe5084f4ab93c60980455037,
+        type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: -1420874079755031372, guid: 4cfb7fd6ae7a5754aad61038c9a876b3,
         type: 3}
     - target: {fileID: 5531041993692773367, guid: ce2042cafe5084f4ab93c60980455037,
         type: 3}
@@ -186,7 +203,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -5495902117074765545, guid: 6c43f81d3c6a580479e1fc4d9dcb55a6,
+      objectReference: {fileID: -5495902117074765545, guid: 4cfb7fd6ae7a5754aad61038c9a876b3,
         type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
