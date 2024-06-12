@@ -276,6 +276,7 @@ namespace SlimeMiniBoss
                 rigidBody.isKinematic = false;
 
                 isAlive = false;
+                if (doSlowMoOnDeath) TimeScript.instance.SlowMo();
                 StartCoroutine(Dead());
             }
         }
@@ -285,7 +286,6 @@ namespace SlimeMiniBoss
             SetDeadFace();
             ApplyKnockback(Blackboard.instance.GetPlayerPosition(), 300);
             yield return new WaitForSeconds(deathTimer);
-            if (doSlowMoOnDeath) TimeScript.instance.SlowMo();
             Vector3 spawnPos = transform.position;
             spawnPos.y = spawnPosY;
             Instantiate(deathParticle, spawnPos, Quaternion.Euler(new Vector3(-90, 0, 0)));
