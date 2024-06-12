@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class BlackScreenScript : MonoBehaviour
 {
-    private Image panel;
+    private RawImage panel;
     [SerializeField] private float blackScreenSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        panel = GetComponent<Image>();
+        panel = GetComponent<RawImage>();
     }
 
     public void EnableBlackScreen()
