@@ -7,7 +7,6 @@ namespace buddy
     {
         Buddy_Agent buddy;
         private NavMeshAgent navAgent;
-        private Transform targetEnemy;
         private LayerMask attackLayer;
         private GameObject mortarPrefab;
         private float shootingRange;
@@ -35,15 +34,14 @@ namespace buddy
         {
             if (Blackboard.instance.IsMortarReady())
             {
-                targetEnemy = FindClosestEnemy();
-                if (targetEnemy != null && mortarPrefab != null)
+                if (buddy.targetedEnemy != null && mortarPrefab != null)
                 {
                     buddy.canShootMortar = true;
                     if (buddy.shootMortar)
                     {
                         navAgent.isStopped = true;
                         animator.SetBool(animIDShootingMortar, true);
-                        ShootMortar();
+                        ShootMortar(buddy.targetedEnemy.transform);
                         Blackboard.instance.ResetMortar();
                     }
                 }
@@ -57,12 +55,12 @@ namespace buddy
             return true;
         }
 
-        private void ShootMortar()
+        private void ShootMortar(Transform enemyTransform)
         {
-            navAgent.transform.LookAt(targetEnemy);
+            navAgent.transform.LookAt(enemyTransform);
 
             //Vector3 spawnPosition = targetEnemy.position + Vector3.up * mortarSpawnHeight;
-            Vector3 spawnPosition = targetEnemy.position;
+            Vector3 spawnPosition = enemyTransform.position;
             spawnPosition.y = buddy.transform.position.y;
             GameObject mortar = Object.Instantiate(mortarPrefab, spawnPosition, Quaternion.identity);
             shootSound.Play();
@@ -70,30 +68,6 @@ namespace buddy
             navAgent.isStopped = false;
             buddy.shootMortar = false;
             //animator.SetBool(animIDShootingMortar, false);
-        }
-
-        private Transform FindClosestEnemy()
-        {
-            Collider[] enemies = Physics.OverlapSphere(navAgent.transform.position, shootingRange, attackLayer);
-
-            Transform closestEnemy = null;
-            float closestEnemyDistance = Mathf.Infinity;
-
-            foreach (Collider enemyCollider in enemies)
-            {
-                if (enemyCollider.CompareTag("Enemy"))
-                {
-                    Transform enemyTransform = enemyCollider.transform;
-                    float distanceToEnemy = Vector3.Distance(navAgent.transform.position, enemyTransform.position);
-
-                    if (distanceToEnemy < closestEnemyDistance)
-                    {
-                        closestEnemy = enemyTransform;
-                        closestEnemyDistance = distanceToEnemy;
-                    }
-                }
-            }
-            return closestEnemy;
         }
     }
 }

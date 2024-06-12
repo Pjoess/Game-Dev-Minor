@@ -495,17 +495,18 @@ MonoBehaviour:
     m_Bits: 128
   agent: {fileID: 0}
   isTutorial: 0
+  targetedMaterial: {fileID: 2100000, guid: f3848a4488230364a966ac994af43bbe, type: 2}
   neutralFace: {fileID: 2100000, guid: 1c94dd03aeb79404fbe1918c95dea4ad, type: 2}
   hitFace: {fileID: 2100000, guid: 52fe889b0d2606a408bcdb5d4d3c4cef, type: 2}
   deadFace: {fileID: 2100000, guid: 1d6fd08aa909f4c4599992c26a1944e1, type: 2}
   deathParticle: {fileID: 706755499216200506, guid: e4bec7224cf7e68458531ebe5c5d0ecd,
     type: 3}
-  deathTimer: 1
   patrolCenterPoint: {fileID: 0}
   stopDistance: 4
   chaseRange: 15
   attackRange: 6
   hasAttacked: 0
+  deathTimer: 1
   healthPoints: 0
   maxHealthPoints: 15
   ConeOffset: 1

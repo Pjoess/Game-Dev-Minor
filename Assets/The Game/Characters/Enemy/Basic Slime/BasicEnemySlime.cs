@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace BasicEnemySlime
 {
-    public class BasicEnemySlime : MonoBehaviour, IDamageble
+    public class BasicEnemySlime : MonoBehaviour, IDamageble, IEnemyMaterialChanger
     {
         private IBaseNode basicSlimeBT = null;
         public LayerMask attackLayer; // Player
@@ -16,11 +16,17 @@ namespace BasicEnemySlime
         public bool isTutorial; // checkbox for tutorial slimes
         private GameObject bone;
 
+        [Header("Materials")]
+        private Material normalMaterial;
+        [SerializeField] private Material targetedMaterial;
+        private Material targetedMaterialInstance;
+
         private DecalProjector projector;
-        [SerializeField] private Material neutralFace, hitFace, deadFace;
+        [Header("Faces")]
+        [SerializeField] private Material neutralFace;
+        [SerializeField] private Material hitFace;
+        [SerializeField] private Material deadFace;
         [SerializeField] private ParticleSystem deathParticle;
-        [SerializeField] private float deathTimer = 2;
-        private bool isAlive = true;
 
         [Header("Patrol Center Point")]
         public GameObject patrolCenterPoint;
@@ -38,6 +44,8 @@ namespace BasicEnemySlime
         
         // --- IDamagable --- //
         [Header("Stats")]
+        [SerializeField] private float deathTimer = 1;
+        private bool isAlive = true;
         private EnemyHealthBar enemyHealthBar;
         public int healthPoints;
         public int maxHealthPoints = 15;
@@ -57,7 +65,6 @@ namespace BasicEnemySlime
         public int animIDDead;
 
         private Renderer slimeRenderer;
-        private Color originalColor;
 
         private void AssignAnimIDs()
         {
@@ -83,7 +90,6 @@ namespace BasicEnemySlime
                 if (slimeTransform.TryGetComponent<Renderer>(out slimeRenderer))
                 {
                     slimeRenderer.material.color = randomColor;
-                    originalColor = randomColor;
                 }
             }
         }
@@ -98,6 +104,7 @@ namespace BasicEnemySlime
             rigidBody = GetComponent<Rigidbody>();
             projector = GetComponentInChildren<DecalProjector>();
             bone = transform.Find("dumb slime").Find("Bone").gameObject;
+            targetedMaterialInstance = Instantiate(targetedMaterial);
         }
 
         void Start()
@@ -105,6 +112,9 @@ namespace BasicEnemySlime
             originalSpeed = agent.speed;
             BehaviourTree();
             SetRandomColor();
+
+            normalMaterial = slimeRenderer.material;
+            targetedMaterialInstance.SetColor("_Color", normalMaterial.color);
         }
 
         void Update()
@@ -112,6 +122,14 @@ namespace BasicEnemySlime
             if(isAlive)
             {
                 basicSlimeBT?.Update();
+            }
+            else
+            {
+                //Force change to normal material just to be sure
+                if(slimeRenderer.material != normalMaterial)
+                {
+                    slimeRenderer.material = normalMaterial;
+                }
             }
         }
 
@@ -245,6 +263,7 @@ namespace BasicEnemySlime
         {
             if (slimeRenderer != null)
             {
+                Color originalColor = slimeRenderer.material.color;
                 Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f);
                 slimeRenderer.material.color = lightRed;
                 SetHitFace();
@@ -370,6 +389,16 @@ namespace BasicEnemySlime
         private void SetDeadFace()
         {
             projector.material = deadFace;
+        }
+
+        public void TargetSlime()
+        {
+            slimeRenderer.material = targetedMaterialInstance;
+        }
+
+        public void UnTargetSlime()
+        {
+            slimeRenderer.material = normalMaterial;
         }
     }
 }

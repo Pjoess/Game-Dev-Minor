@@ -16,6 +16,7 @@ namespace buddy
         public GameObject mortarPrefab;
 
         [Header("Attack")]
+        public GameObject targetedEnemy;
         public int shotsFired = 0;
         public float bulletSpeed = 8f;
         public float bulletLifetime = 5f;
@@ -73,6 +74,7 @@ namespace buddy
 
             List<IBaseNode> enemyInLineOfSight = new()
             {
+                new EnemyTargetingNode(this),
                 new ShootBulletNode(this),
                 new ShootMortarNode(this)
             };

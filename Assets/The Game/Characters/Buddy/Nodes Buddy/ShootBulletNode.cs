@@ -36,14 +36,11 @@ namespace buddy
 
         public bool Update()
         {
-            // Find the closest enemy
-            Transform enemyTransform = FindClosestEnemy();
-
-            if (enemyTransform != null)
+            if (buddy.targetedEnemy != null)
             {
                 if (shootTimer >= timeBetweenShots)
                 {
-                    ShootAtEnemy(enemyTransform);
+                    ShootAtEnemy(buddy.targetedEnemy.transform);
                     animator.SetBool(animIDShooting, true);
                     shootTimer = 0f; // Reset the timer
                 }
@@ -55,38 +52,6 @@ namespace buddy
                 return true;
             }
             return false;
-        }
-
-        Transform FindClosestEnemy()
-        {
-            Transform closestEnemy = null;
-            float closestEnemyDistance = Mathf.Infinity;
-
-            Collider[] enemiesInRange = Physics.OverlapSphere(agent.transform.position, shootingRange, attackLayer);
-            
-            foreach (Collider enemyCollider in enemiesInRange)
-            {
-                // Check if the collider belongs to an enemy
-                if (enemyCollider.CompareTag("Enemy"))
-                {
-                    Transform enemyTransform = enemyCollider.transform;
-                    
-                    // Check if the enemy is within shooting range
-                    float distanceToEnemy = Vector3.Distance(agent.transform.position, enemyTransform.position);
-                    if (distanceToEnemy <= shootingRange)
-                    {
-                        if (Physics.Raycast(agent.transform.position, (enemyTransform.position - agent.transform.position).normalized, out RaycastHit hit, distanceToEnemy, attackLayer))
-                        {
-                            if (hit.collider.CompareTag("Enemy") && distanceToEnemy < closestEnemyDistance)
-                            {
-                                closestEnemy = enemyTransform;
-                                closestEnemyDistance = distanceToEnemy;
-                            }
-                        }
-                    }
-                }
-            }
-            return closestEnemy;
         }
 
         void ShootAtEnemy(Transform enemyTransform)
