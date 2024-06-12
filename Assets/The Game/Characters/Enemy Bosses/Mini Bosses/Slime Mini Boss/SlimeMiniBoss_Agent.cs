@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace SlimeMiniBoss
 {
-    public class SlimeMiniBoss_Agent : MonoBehaviour, IDamageble
+    public class SlimeMiniBoss_Agent : MonoBehaviour, IDamageble, IEnemyMaterialChanger
     {
         private IBaseNode slimeBT = null;
         public LayerMask attackLayer; // Player
@@ -17,6 +17,11 @@ namespace SlimeMiniBoss
         private Renderer[] helmetRenderers;
 
         private GameObject bone;
+
+        [Header("Materials")]
+        private Material normalMaterial;
+        [SerializeField] private Material targetedMaterial;
+        private Material targetedMaterialInstance;
 
         private DecalProjector decalProjector;
         [SerializeField] Material neutralFace, hitFace, deadFace;
@@ -76,6 +81,7 @@ namespace SlimeMiniBoss
             shockwaveParticleSystem = GetComponentInChildren<ParticleSystem>();
             decalProjector = GetComponentInChildren<DecalProjector>();
             bone = transform.Find("Armature").Find("Bone").gameObject;
+            targetedMaterialInstance = Instantiate(targetedMaterial);
         }
 
         void Start()
@@ -83,6 +89,8 @@ namespace SlimeMiniBoss
             MiniBossSlimeBehaviourTree();
             SaveOriginalHelmetColors();
             spawnPosY = transform.position.y;
+
+            normalMaterial = helmetRenderers[0].materials[1];
         }
 
         void Update()
@@ -90,6 +98,14 @@ namespace SlimeMiniBoss
             if(isAlive)
             {
                 slimeBT?.Update(); // Update the boss behavior tree
+            }
+            else
+            {
+                //Force change to normal material just to be sure
+                if (helmetRenderers[0].materials[1] != normalMaterial)
+                {
+                    helmetRenderers[0].materials[1] = normalMaterial;
+                }
             }
         }
 
@@ -152,6 +168,7 @@ namespace SlimeMiniBoss
         {
             if (helmetRenderers != null)
             {
+                SaveOriginalHelmetColors();
                 Color lightRed = new(255 / 255f, 51 / 255f, 51 / 255f, 1f);
                 SetHitFace();
                 foreach (var renderer in helmetRenderers)
@@ -337,6 +354,20 @@ namespace SlimeMiniBoss
         private void SetDeadFace()
         {
             decalProjector.material = deadFace;
+        }
+
+        public void TargetSlime()
+        {
+            Material[] materials = helmetRenderers[0].materials;
+            materials[1] = targetedMaterialInstance;
+            helmetRenderers[0].materials = materials;
+        }
+
+        public void UnTargetSlime()
+        {
+            Material[] materials = helmetRenderers[0].materials;
+            materials[1] = normalMaterial;
+            helmetRenderers[0].materials = materials;
         }
     }
 }
