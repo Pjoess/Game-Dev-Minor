@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2488,8 +2488,8 @@ GameObject:
   m_Component:
   - component: {fileID: 110513888}
   - component: {fileID: 110513889}
-  m_Layer: 9
-  m_Name: Waterbarrier1 (1)
+  m_Layer: 8
+  m_Name: Front RIght
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2529,8 +2529,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.06, y: 19.42, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.19333, y: 19.42, z: 7.934627}
+  m_Center: {x: 0.066662945, y: 0, z: 2.3099272}
 --- !u!1 &112483363
 GameObject:
   m_ObjectHideFlags: 0
@@ -6176,9 +6176,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 283195585}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Castle Water Barriers
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -6197,9 +6197,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 615868992}
+  - {fileID: 110513888}
   - {fileID: 532035619}
   - {fileID: 1671839188}
-  - {fileID: 110513888}
   - {fileID: 955279635}
   - {fileID: 1312799372}
   m_Father: {fileID: 820339495}
@@ -8438,7 +8438,7 @@ GameObject:
   - component: {fileID: 450943302}
   - component: {fileID: 450943301}
   m_Layer: 8
-  m_Name: barrier 1
+  m_Name: Lake Front
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9107,8 +9107,8 @@ GameObject:
   m_Component:
   - component: {fileID: 532035619}
   - component: {fileID: 532035620}
-  m_Layer: 9
-  m_Name: Waterbarrier1 (4)
+  m_Layer: 8
+  m_Name: Left
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9148,8 +9148,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.42, y: 19.27, z: 3.46}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.4200003, y: 22.3197, z: 5.869687}
+  m_Center: {x: -2.5567446e-16, y: -1.5248499, z: -1.2048348}
 --- !u!1001 &537098642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10868,8 +10868,8 @@ GameObject:
   m_Component:
   - component: {fileID: 615868992}
   - component: {fileID: 615868993}
-  m_Layer: 9
-  m_Name: Waterbarrier1
+  m_Layer: 8
+  m_Name: Front Left
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10906,11 +10906,11 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 19.27, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.167736, y: 19.27, z: 4.536876}
+  m_Center: {x: -0.08386753, y: 0, z: 1.2418855}
 --- !u!1001 &616673108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16081,8 +16081,8 @@ GameObject:
   m_Component:
   - component: {fileID: 955279635}
   - component: {fileID: 955279636}
-  m_Layer: 9
-  m_Name: Waterbarrier2
+  m_Layer: 8
+  m_Name: Bridge Left
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17982,7 +17982,7 @@ GameObject:
   - component: {fileID: 1057437245}
   - component: {fileID: 1057437246}
   m_Layer: 8
-  m_Name: Barrier2
+  m_Name: Right
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18022,8 +18022,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 20.5, z: 87.99}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.6579573, y: 20.5, z: 87.99}
+  m_Center: {x: 0.32897818, y: 0, z: 0}
 --- !u!1 &1059166769 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4242817513584748305, guid: 81f8e58885b5ec849aabb886b76d89c9,
@@ -19737,7 +19737,7 @@ GameObject:
   - component: {fileID: 1158078989}
   - component: {fileID: 1158078990}
   m_Layer: 8
-  m_Name: Barrier1
+  m_Name: Left
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19777,8 +19777,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 20.5, z: 87.99}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.2301803, y: 20.5, z: 88.35132}
+  m_Center: {x: -0.6150897, y: 0, z: -0.18066406}
 --- !u!1001 &1164009401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22246,8 +22246,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1312799372}
   - component: {fileID: 1312799373}
-  m_Layer: 9
-  m_Name: Waterbarrier2 (1)
+  m_Layer: 8
+  m_Name: Bridge RIght
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27709,8 +27709,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1671839188}
   - component: {fileID: 1671839189}
-  m_Layer: 9
-  m_Name: Waterbarrier1 (5)
+  m_Layer: 8
+  m_Name: Right
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27750,8 +27750,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.42, y: 19.27, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.5014176, y: 21.146349, z: 1.2508869}
+  m_Center: {x: 0.040704545, y: -0.93817425, z: 0.1254428}
 --- !u!1001 &1674810080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28374,7 +28374,7 @@ GameObject:
   - component: {fileID: 1730455579}
   - component: {fileID: 1730455580}
   m_Layer: 8
-  m_Name: Barrier3
+  m_Name: Front
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28414,8 +28414,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 29, y: 20.5, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 38.148693, y: 20.5, z: 3.52478}
+  m_Center: {x: -4.5743513, y: 0, z: -0.60788053}
 --- !u!1001 &1733389898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41361,27 +41361,27 @@ PrefabInstance:
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.264186
+      value: 9.355546
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.247559
+      value: -10.338928
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.96877867
+      value: 0.9710946
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.24792728
+      value: 0.23869506
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1e-45
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
@@ -41411,12 +41411,12 @@ PrefabInstance:
     - target: {fileID: 5576641026969029397, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 9.687584
+      value: 8.778944
       objectReference: {fileID: 0}
     - target: {fileID: 5576641026969029397, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -17.68758
+      value: -16.77894
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -42061,12 +42061,12 @@ PrefabInstance:
     - target: {fileID: 3343516129871464341, guid: 3693c2fea989c3149b97287b62141346,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 3343516129871464341, guid: 3693c2fea989c3149b97287b62141346,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8288611973848976118, guid: 3693c2fea989c3149b97287b62141346,
         type: 3}
@@ -42191,27 +42191,27 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.264186
+      value: 7.4092913
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.247559
+      value: -6.6191406
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.96877867
+      value: 0.9710946
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.24792728
+      value: 0.23869506
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1e-45
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
