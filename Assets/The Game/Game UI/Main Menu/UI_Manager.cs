@@ -213,6 +213,16 @@ public class UI_Manager : MonoBehaviour
         SceneManager.LoadSceneAsync(0);
     }
 
+    public void RestartLevel3()
+    {
+        SceneManager.LoadSceneAsync(4);
+    }
+
+    public void RestartLevel2()
+    {
+        SceneManager.LoadSceneAsync(3);
+    }
+
     public void RestartLevel1()
     {
         SceneManager.LoadSceneAsync(2);

@@ -10,8 +10,8 @@ public class DefeatBuddyStage : QuestStage
         boss.SetActive(true);
         Debug.Log("StartStage");
         isActive = true;
-        questLogText = "The Buddy has lost control. \n\n"
-            + "-> Defeat The Buddy";
+        questLogText = "Buddy has lost control. \n\n"
+            + "-> Defeat Buddy";
         QuestEvents.OnBuddyDeath += OnBuddyDeath;
     }
 

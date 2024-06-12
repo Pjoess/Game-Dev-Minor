@@ -8,7 +8,7 @@ public class QuestEvents : MonoBehaviour
     public static event Action OnMemoryStickPickUp;
 
     public static event Action OnBuddyDeath;
-    public static event Action OnPlayerEnterCastle;
+    public static event Action OnPlayerEnterThroneRoom;
 
     public static void EnteredVillage()
     {
@@ -33,8 +33,8 @@ public class QuestEvents : MonoBehaviour
         OnBuddyDeath?.Invoke();
     }
 
-    public static void EnterCastle()
+    public static void EnterThroneRoom()
     {
-        OnPlayerEnterCastle?.Invoke();
+        OnPlayerEnterThroneRoom?.Invoke();
     }
 }
