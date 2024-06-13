@@ -81,17 +81,26 @@
                     "name": "MoveCamera",
                     "type": "Value",
                     "id": "e499963a-3517-4516-b6cc-833455d3ae88",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseZoom",
+                    "type": "Value",
+                    "id": "1724b0a3-622c-4809-8786-d91588ea05a6",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Zoom",
+                    "name": "GamepadZoom",
                     "type": "Value",
-                    "id": "1724b0a3-622c-4809-8786-d91588ea05a6",
+                    "id": "4048623c-efda-4539-8549-4fe29d911bf1",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "ScaleVector2(y=5)",
                     "interactions": "",
                     "initialStateCheck": true
                 }
@@ -199,8 +208,8 @@
                 {
                     "name": "",
                     "id": "f2b51848-01e7-4d7f-8a0f-c428bbb3f3c8",
-                    "path": "<Gamepad>/leftStickPress",
-                    "interactions": "",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "SprintHold",
@@ -221,7 +230,7 @@
                 {
                     "name": "",
                     "id": "0320e3ce-f098-4e26-9c5e-1bfdde1d9563",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -298,46 +307,13 @@
                 {
                     "name": "",
                     "id": "c086eb77-bbce-4dd5-9714-d43daaef2939",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "BuddyMortarAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "deff0d09-1f36-4b9b-84c3-9b8287fc3137",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "67b6dd87-cfc1-4cb6-9bc5-1c19f8d665c6",
-                    "path": "<Mouse>/scroll/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "c722d30a-f3e7-4640-b93f-a8de7ae5ce55",
-                    "path": "<Mouse>/scroll/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -352,12 +328,56 @@
                 },
                 {
                     "name": "",
+                    "id": "b8d8cd6a-9c47-421c-9712-721b274056a6",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SprintToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7097565c-aac2-411c-886a-271aec72ce4a",
                     "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "MoveCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a7d5e319-11bd-4456-94dc-ec6de1981cd4",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "ScaleVector2(x=2)",
+                    "groups": "Gamepad",
+                    "action": "MoveCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5271e92f-79a9-466e-b1db-0718666b6b67",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "MouseZoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3939f58b-cf3b-438f-bfbd-00a2c62b3495",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "GamepadZoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -443,8 +463,8 @@
                 {
                     "name": "",
                     "id": "297de14b-b0a2-46ba-97a5-84b5321d9341",
-                    "path": "<Gamepad>/leftStickPress",
-                    "interactions": "",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "SprintHold",

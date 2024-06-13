@@ -4,6 +4,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Player_Manager : MonoBehaviour, IDamageble
 {
@@ -14,6 +15,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
         [HideInInspector] private CapsuleCollider capsuleColider;
         [HideInInspector] public Weapon sword;
         [HideInInspector] public Vector2 movement;
+        [HideInInspector] public Vector2 zoomIn;
         [HideInInspector] public Vector3 vectorDirection;
         [HideInInspector] public PlayerInput input;
 
@@ -209,7 +211,8 @@ public class Player_Manager : MonoBehaviour, IDamageble
             JumpToScenes();
             buddyGameObject = GameObject.FindWithTag("Buddy");
             playerState.UpdateState(this);
-        }
+            if(input.currentControlScheme.Equals("Gamepad")) GamepadZoom();
+    }
     #endregion
 
     #region General Functions
@@ -495,7 +498,7 @@ public class Player_Manager : MonoBehaviour, IDamageble
             if (value.isPressed && !isDashing)  isDashing = true;
         }
 
-        void OnZoom(InputValue value)
+        void OnMouseZoom(InputValue value)
         {
             var val = value.Get<float>();
             transposer.m_FollowOffset.z += val * Time.deltaTime;
@@ -506,7 +509,24 @@ public class Player_Manager : MonoBehaviour, IDamageble
 
             if (transposer.m_FollowOffset.y > maxCameraZoomY) transposer.m_FollowOffset.y = maxCameraZoomY;
             if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
-        }
+    }
+
+    void OnGamepadZoom(InputValue value)
+    {
+        zoomIn = value.Get<Vector2>();
+    }
+
+    private void GamepadZoom()
+    {
+        transposer.m_FollowOffset.z += zoomIn.y * Time.deltaTime;
+        transposer.m_FollowOffset.y -= zoomIn.y * Time.deltaTime;
+
+        if (transposer.m_FollowOffset.z > minCameraZoomZ) transposer.m_FollowOffset.z = minCameraZoomZ;
+        if (transposer.m_FollowOffset.z < maxCameraZoomZ) transposer.m_FollowOffset.z = maxCameraZoomZ;
+
+        if (transposer.m_FollowOffset.y > maxCameraZoomY) transposer.m_FollowOffset.y = maxCameraZoomY;
+        if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
+    }
 
         // --- Only for Tutorial ---
         // void OnPause(InputValue value)
