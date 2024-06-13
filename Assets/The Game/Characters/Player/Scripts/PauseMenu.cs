@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject mainMenuButton;
+    [SerializeField] private GameObject firstSelected;
     private PlayerInput input;
     
     private void Start()
@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
         if(Player_Manager.isPaused){
             pauseMenu.SetActive(true);
             // input.SwitchCurrentActionMap("UI");
-            //EventSystem.current.SetSelectedGameObject(mainMenuButton);
+            if(input.currentControlScheme.Equals("Gamepad")) EventSystem.current.SetSelectedGameObject(firstSelected);
             Debug.Log(input.currentActionMap);
         } else {
             pauseMenu.SetActive(false);

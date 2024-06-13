@@ -139,6 +139,9 @@
         },
         {
             "m_Id": "00104096b678431a959adaa23b82dcd7"
+        },
+        {
+            "m_Id": "2c7f691405cb4948acd6d27258545f43"
         }
     ],
     "m_StickyNoteDatas": [],
@@ -964,7 +967,7 @@
     "m_Type": "UnityEditor.ShaderGraph.SawtoothWaveNode",
     "m_ObjectId": "116e20f8d2eb485696fcd8125e1bcaca",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Sawtooth Wave",
     "m_DrawState": {
@@ -1111,7 +1114,7 @@
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "225a4e8b6716473a802549e07881610a",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Property",
     "m_DrawState": {
@@ -1265,10 +1268,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.GroupData",
+    "m_ObjectId": "2c7f691405cb4948acd6d27258545f43",
+    "m_Title": "Moving Lines",
+    "m_Position": {
+        "x": 10.0,
+        "y": 10.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "2f7633daef3b46a9a27858627d85dcf7",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Property",
     "m_DrawState": {
@@ -1964,7 +1978,7 @@
     "m_Type": "UnityEditor.ShaderGraph.SmoothstepNode",
     "m_ObjectId": "5cc7659fcb8e4958b9e8904b6d2d01c0",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Smoothstep",
     "m_DrawState": {
@@ -2060,10 +2074,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -635.0000610351563,
-            "y": 737.0000610351563,
-            "width": 208.0,
-            "height": 126.99993896484375
+            "x": -644.0,
+            "y": 576.9999389648438,
+            "width": 207.99996948242188,
+            "height": 127.00006103515625
         }
     },
     "m_Slots": [
@@ -2260,7 +2274,7 @@
     "m_Type": "UnityEditor.ShaderGraph.PositionNode",
     "m_ObjectId": "67827d7ae8fe42b68de04bc1e21a25e4",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Position",
     "m_DrawState": {
@@ -2362,10 +2376,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -306.0000305175781,
-            "y": 589.9999389648438,
-            "width": 208.0,
-            "height": 302.00006103515627
+            "x": -384.0,
+            "y": 337.9999694824219,
+            "width": 207.99996948242188,
+            "height": 302.0000915527344
         }
     },
     "m_Slots": [
@@ -2398,7 +2412,7 @@
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "6ce2e1e42055466186cc998271c72587",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Property",
     "m_DrawState": {
@@ -2434,7 +2448,7 @@
     "m_Type": "UnityEditor.ShaderGraph.SubtractNode",
     "m_ObjectId": "6e16eb31d7e7451a8b7f75e3ace6b72c",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Subtract",
     "m_DrawState": {
@@ -2801,7 +2815,7 @@
     "m_Type": "UnityEditor.ShaderGraph.MultiplyNode",
     "m_ObjectId": "8228ec2548ef40a4b1846dd37c601fd9",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Multiply",
     "m_DrawState": {
@@ -3625,7 +3639,7 @@
     "m_Type": "UnityEditor.ShaderGraph.SubtractNode",
     "m_ObjectId": "b24d346b0dd149f4ba0df98ac3f659cc",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Subtract",
     "m_DrawState": {
@@ -3765,7 +3779,7 @@
     "m_Type": "UnityEditor.ShaderGraph.NoiseNode",
     "m_ObjectId": "bdf35dde64b44777a4d6570e240e14c0",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Simple Noise",
     "m_DrawState": {
@@ -4292,7 +4306,7 @@
     "m_Type": "UnityEditor.ShaderGraph.SmoothstepNode",
     "m_ObjectId": "f4df2e81bda443d5ab50a66a09fef7b3",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "2c7f691405cb4948acd6d27258545f43"
     },
     "m_Name": "Smoothstep",
     "m_DrawState": {
