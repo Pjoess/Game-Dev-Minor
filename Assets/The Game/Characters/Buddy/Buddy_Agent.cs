@@ -75,7 +75,7 @@ namespace buddy
             List<IBaseNode> enemyInLineOfSight = new()
             {
                 new EnemyTargetingNode(this),
-                //new ShootBulletNode(this),
+                new ShootBulletNode(this),
                 new ShootMortarNode(this)
             };
 
