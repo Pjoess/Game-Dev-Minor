@@ -19,9 +19,9 @@ namespace SlimeMiniBoss
         private GameObject bone;
 
         [Header("Materials")]
-        private Material normalMaterial;
+        private Material[] normalMaterials;
         [SerializeField] private Material targetedMaterial;
-        private Material targetedMaterialInstance;
+        private Material[] targetedMaterialInstances;
 
         private DecalProjector decalProjector;
         [SerializeField] Material neutralFace, hitFace, deadFace;
@@ -81,7 +81,10 @@ namespace SlimeMiniBoss
             shockwaveParticleSystem = GetComponentInChildren<ParticleSystem>();
             decalProjector = GetComponentInChildren<DecalProjector>();
             bone = transform.Find("Armature").Find("Bone").gameObject;
-            targetedMaterialInstance = Instantiate(targetedMaterial);
+
+            targetedMaterialInstances = new Material[2];
+            targetedMaterialInstances[0] = Instantiate(targetedMaterial);
+            targetedMaterialInstances[1] = Instantiate(targetedMaterial);
         }
 
         void Start()
@@ -90,7 +93,8 @@ namespace SlimeMiniBoss
             SaveOriginalHelmetColors();
             spawnPosY = transform.position.y;
 
-            normalMaterial = helmetRenderers[0].materials[1];
+            normalMaterials = helmetRenderers[0].materials;
+            targetedMaterialInstances[0].SetColor("_Color", normalMaterials[0].color);
         }
 
         void Update()
@@ -102,9 +106,9 @@ namespace SlimeMiniBoss
             else
             {
                 //Force change to normal material just to be sure
-                if (helmetRenderers[0].materials[1] != normalMaterial)
+                if (helmetRenderers[0].materials != normalMaterials)
                 {
-                    helmetRenderers[0].materials[1] = normalMaterial;
+                    helmetRenderers[0].materials = normalMaterials;
                 }
             }
         }
@@ -359,14 +363,14 @@ namespace SlimeMiniBoss
         public void TargetSlime()
         {
             Material[] materials = helmetRenderers[0].materials;
-            materials[1] = targetedMaterialInstance;
+            materials = targetedMaterialInstances;
             helmetRenderers[0].materials = materials;
         }
 
         public void UnTargetSlime()
         {
             Material[] materials = helmetRenderers[0].materials;
-            materials[1] = normalMaterial;
+            materials = normalMaterials;
             helmetRenderers[0].materials = materials;
         }
     }

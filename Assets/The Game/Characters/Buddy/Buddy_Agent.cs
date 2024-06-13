@@ -75,7 +75,7 @@ namespace buddy
             List<IBaseNode> enemyInLineOfSight = new()
             {
                 new EnemyTargetingNode(this),
-                new ShootBulletNode(this),
+                //new ShootBulletNode(this),
                 new ShootMortarNode(this)
             };
 
@@ -86,6 +86,24 @@ namespace buddy
             };
 
             buddyBT = new SelectorNode(selectNode);
+        }
+
+        public void PlayerHitTarget(GameObject enemy)
+        {
+            if (targetedEnemy != null)
+            {
+                if (targetedEnemy != enemy)
+                {
+                    targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>().UnTargetSlime();
+                    targetedEnemy = enemy;
+                    targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>().TargetSlime();
+                }
+            }
+            else
+            {
+                targetedEnemy = enemy;
+                targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>().TargetSlime();
+            }
         }
 
         void OnDrawGizmosSelected()

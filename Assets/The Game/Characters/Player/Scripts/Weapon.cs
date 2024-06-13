@@ -1,3 +1,4 @@
+using buddy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ public class Weapon : MonoBehaviour
     public bool colliderSwitchOn_Off = false;
     private readonly List<GameObject> enemiesHit = new();
     private bool strongAttack = false;
+    private Buddy_Agent buddy;
 
     [SerializeField] ParticleSystem hitParticle;
 
@@ -23,6 +25,7 @@ public class Weapon : MonoBehaviour
         swordCollider = GetComponent<CapsuleCollider>();
         swordSlashSound = GetComponent<AudioSource>();
         SwordToDefault();
+        buddy = FindObjectOfType<Buddy_Agent>();
     }
 
     // Reset to Default Color + Disable the Collider
@@ -46,6 +49,7 @@ public class Weapon : MonoBehaviour
     {
         if (swordCollider.enabled && other.gameObject.CompareTag("Enemy") && !enemiesHit.Any(x => x == other.gameObject))
         {
+            if (buddy != null) buddy.PlayerHitTarget(other.gameObject);
             other.gameObject.GetComponentInParent<IDamageble>().Hit(5);
             Instantiate(hitParticle, other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position), Quaternion.identity);
             onWeaponHit?.Invoke();
