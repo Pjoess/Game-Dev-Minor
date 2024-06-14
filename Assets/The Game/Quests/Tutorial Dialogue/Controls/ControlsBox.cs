@@ -6,6 +6,7 @@ public class ControlsBox : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public KeybindingSO[] controlls;
+    public KeybindingSO[] controllerControlls;
     public string extraText;
     public PlayerInput input;
     private string currentControlScheme;
@@ -28,6 +29,7 @@ public class ControlsBox : MonoBehaviour
 
     void ChangeControlls(KeybindingSO[] keybinds, string extraText){
         this.controlls = keybinds;
+        this.controllerControlls = keybinds;
         this.extraText = extraText;
         UpdateText();
     }
@@ -35,13 +37,29 @@ public class ControlsBox : MonoBehaviour
     void UpdateText(){
         //set text to null and add all controlls keybinds in.
         textComponent.text = "";
-        foreach(var control in controlls){
-            if(control.isComposite){
-                textComponent.text += control.actionName + " " + control.compositePartName + " " + control.GetBinding(input) + "\n";
-            }else{
+
+        if(input.currentControlScheme.Equals("Gamepad"))
+        {
+            foreach (var control in controllerControlls)
+            {
                 textComponent.text += control.actionName + " " + control.GetBinding(input) + "\n";
             }
         }
+        else
+        {
+            foreach (var control in controlls)
+            {
+                if (control.isComposite)
+                {
+                    textComponent.text += control.actionName + " " + control.compositePartName + " " + control.GetBinding(input) + "\n";
+                }
+                else
+                {
+                    textComponent.text += control.actionName + " " + control.GetBinding(input) + "\n";
+                }
+            }
+        }
+
         textComponent.text += extraText;
     }
 }
