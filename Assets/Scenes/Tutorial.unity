@@ -6607,12 +6607,12 @@ PrefabInstance:
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000007197475
+      value: 0.000000010883075
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000018369413
+      value: -0.0000000027775808
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
@@ -6906,12 +6906,12 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000007197475
+      value: 0.000000010883075
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000018369413
+      value: -0.0000000027775808
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
@@ -8390,6 +8390,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
+      propertyPath: kingSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2fb31b4233e227a47b002d17437073fd,
+        type: 3}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
       propertyPath: showSlimes
       value: 
       objectReference: {fileID: 1543920407}
@@ -8398,6 +8404,12 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1169614316}
+    - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: buddySprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f3357aff41ee85142bcb5db5f3ee3363,
+        type: 3}
     - target: {fileID: 559880117876529333, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
       propertyPath: lines.Array.size
@@ -8433,6 +8445,12 @@ PrefabInstance:
       propertyPath: lines.Array.data[2].audioClip
       value: 
       objectReference: {fileID: 8300000, guid: cad1d206d02ae204cab5a54bc9da90e9, type: 3}
+    - target: {fileID: 1948035330841930742, guid: 33b5930eddb47d349bbdb96c7bde851b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f3357aff41ee85142bcb5db5f3ee3363,
+        type: 3}
     - target: {fileID: 6277005086396460432, guid: 33b5930eddb47d349bbdb96c7bde851b,
         type: 3}
       propertyPath: m_Name
