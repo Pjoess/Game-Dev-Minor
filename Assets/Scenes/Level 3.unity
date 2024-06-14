@@ -2681,7 +2681,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.45
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -2851,7 +2851,7 @@ PrefabInstance:
     - target: {fileID: 3220169007029051456, guid: ec0a0e4dc2fbfe24283c29dcb5fd26df,
         type: 3}
       propertyPath: hitSounds.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3220169007029051456, guid: ec0a0e4dc2fbfe24283c29dcb5fd26df,
         type: 3}
@@ -2862,12 +2862,12 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSounds.Array.data[1]
       value: 
-      objectReference: {fileID: 8300000, guid: b92f4ea7349791a4db1bbe2d7fed97e2, type: 3}
+      objectReference: {fileID: 8300000, guid: a5768877f8898db4496e68c62a0d6588, type: 3}
     - target: {fileID: 3220169007029051456, guid: ec0a0e4dc2fbfe24283c29dcb5fd26df,
         type: 3}
       propertyPath: hitSounds.Array.data[2]
       value: 
-      objectReference: {fileID: 8300000, guid: a5768877f8898db4496e68c62a0d6588, type: 3}
+      objectReference: {fileID: 8300000, guid: c7f340f6adec78f4b9979514e31fa772, type: 3}
     - target: {fileID: 3220169007029051456, guid: ec0a0e4dc2fbfe24283c29dcb5fd26df,
         type: 3}
       propertyPath: hitSounds.Array.data[3]
