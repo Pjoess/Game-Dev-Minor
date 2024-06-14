@@ -94,15 +94,15 @@ namespace buddy
             {
                 if (targetedEnemy != enemy)
                 {
-                    targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>().UnTargetSlime();
+                    targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>()?.UnTargetSlime();
                     targetedEnemy = enemy;
-                    targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>().TargetSlime();
+                    targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>()?.TargetSlime();
                 }
             }
             else
             {
                 targetedEnemy = enemy;
-                targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>().TargetSlime();
+                targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>()?.TargetSlime();
             }
         }
 

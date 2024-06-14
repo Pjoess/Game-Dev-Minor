@@ -25,14 +25,14 @@ public class EnemyTargetingNode : IBaseNode
             }
             else
             {
-                closestEnemy.GetComponentInParent<IEnemyMaterialChanger>().TargetSlime();
+                closestEnemy.GetComponentInParent<IEnemyMaterialChanger>()?.TargetSlime();
                 buddy.targetedEnemy = closestEnemy;
                 return true;
             }
         }
         else if (!IsEnemyStillInRange())
         {
-            buddy.targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>().UnTargetSlime();
+            buddy.targetedEnemy.GetComponentInParent<IEnemyMaterialChanger>()?.UnTargetSlime();
             buddy.targetedEnemy = null;
             return false;
         }
