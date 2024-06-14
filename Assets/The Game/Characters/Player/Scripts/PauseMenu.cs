@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject pauseMenu, controlsMenu;
     [SerializeField] private GameObject firstSelected;
     private PlayerInput input;
     
@@ -21,6 +21,7 @@ public class PauseMenu : MonoBehaviour
             Debug.Log(input.currentActionMap);
         } else {
             pauseMenu.SetActive(false);
+            controlsMenu.SetActive(false);
             input.SwitchCurrentActionMap("Player");
             Debug.Log(input.currentActionMap);
         }

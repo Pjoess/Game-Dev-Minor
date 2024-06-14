@@ -17,7 +17,7 @@ public class KeybindingsUI : MonoBehaviour
     void Start()
     {
         input = GetComponentInParent<PlayerInput>();
-        input.DeactivateInput();
+        if (input == null) input = FindObjectOfType<Player_Manager>().GetComponentInParent<PlayerInput>();
         allButtons = FindObjectsByType<Button>(FindObjectsSortMode.InstanceID);
 
         if (PlayerPrefs.HasKey("controls"))
@@ -30,6 +30,7 @@ public class KeybindingsUI : MonoBehaviour
 
     public void RebindButton(Button button)
     {
+        input.DeactivateInput();
         SetBinding(button);
 
         rebindingOperation = currentAction.PerformInteractiveRebinding().WithTargetBinding(currentBinding.compositeNumber).WithBindingGroup("Keyboard&Mouse").WithControlsHavingToMatchPath("<Keyboard>")
@@ -83,6 +84,7 @@ public class KeybindingsUI : MonoBehaviour
         UpdateButton(button);
         PlayerPrefs.SetString("controls", input.actions.SaveBindingOverridesAsJson());
         enableAllButtons();
+        input.ActivateInput();
     }
 
     private void RebindCancel(Button button)
@@ -90,6 +92,7 @@ public class KeybindingsUI : MonoBehaviour
         rebindingOperation.Dispose();
         UpdateButton(button);
         enableAllButtons();
+        input.ActivateInput();
     }
 
     private void disableAllButtons()

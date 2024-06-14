@@ -511,22 +511,22 @@ public class Player_Manager : MonoBehaviour, IDamageble
             if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
     }
 
-    void OnGamepadZoom(InputValue value)
-    {
-        zoomIn = value.Get<Vector2>();
-    }
+        void OnGamepadZoom(InputValue value)
+        {
+            zoomIn = value.Get<Vector2>();
+        }
 
-    private void GamepadZoom()
-    {
-        transposer.m_FollowOffset.z += zoomIn.y * Time.deltaTime;
-        transposer.m_FollowOffset.y -= zoomIn.y * Time.deltaTime;
+        private void GamepadZoom()
+        {
+            transposer.m_FollowOffset.z += zoomIn.y * Time.deltaTime;
+            transposer.m_FollowOffset.y -= zoomIn.y * Time.deltaTime;
 
-        if (transposer.m_FollowOffset.z > minCameraZoomZ) transposer.m_FollowOffset.z = minCameraZoomZ;
-        if (transposer.m_FollowOffset.z < maxCameraZoomZ) transposer.m_FollowOffset.z = maxCameraZoomZ;
+            if (transposer.m_FollowOffset.z > minCameraZoomZ) transposer.m_FollowOffset.z = minCameraZoomZ;
+            if (transposer.m_FollowOffset.z < maxCameraZoomZ) transposer.m_FollowOffset.z = maxCameraZoomZ;
 
-        if (transposer.m_FollowOffset.y > maxCameraZoomY) transposer.m_FollowOffset.y = maxCameraZoomY;
-        if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
-    }
+            if (transposer.m_FollowOffset.y > maxCameraZoomY) transposer.m_FollowOffset.y = maxCameraZoomY;
+            if (transposer.m_FollowOffset.y < minCameraZoomY) transposer.m_FollowOffset.y = minCameraZoomY;
+        }
 
         // --- Only for Tutorial ---
         // void OnPause(InputValue value)
