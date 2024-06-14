@@ -35,6 +35,9 @@ public class FinalBoss : MonoBehaviour, IDamageble
     public GameObject bulletPrefab;
     public GameObject mortarPrefab;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] hitSounds;
+
     private IBaseNode BTRootNode;
 
     [HideInInspector] public Animator animator;
@@ -133,8 +136,16 @@ public class FinalBoss : MonoBehaviour, IDamageble
         {
             healthPoints -= damage;
             bossHealthBar.value = healthPoints;
+            DoHitSound();
             CheckDead();
         }
+    }
+
+    private void DoHitSound()
+    {
+        audioSource.Stop();
+        audioSource.clip = hitSounds[Random.Range(0, hitSounds.Length)];
+        audioSource.Play();
     }
 
     public void ReduceHealth(int amount)
