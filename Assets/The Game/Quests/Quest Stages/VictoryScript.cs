@@ -58,8 +58,8 @@ public class VictoryScript : MonoBehaviour
             victoryMenuPanel.SetActive(true);
             endVideoTexture.SetActive(true);
             endVideoText.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             PauseAllOtherMusic();
             endVideo.Play();
             FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>().DeactivateInput();
