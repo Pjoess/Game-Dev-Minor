@@ -37,6 +37,8 @@ public class UI_Manager : MonoBehaviour
     void Awake()
     {
         LoadVolume(); // Load volume settings
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Update()
@@ -126,6 +128,9 @@ public class UI_Manager : MonoBehaviour
     {
         if (introVideo != null)
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
             MuteSound();
             introVideo.gameObject.SetActive(true);
 

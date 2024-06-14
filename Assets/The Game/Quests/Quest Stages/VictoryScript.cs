@@ -19,7 +19,10 @@ public class VictoryScript : MonoBehaviour
         new double[] { 1.0, 8.0 },
         new double[] { 9.0, 19.0 },
         new double[] { 20.0, 29.0 },
-        new double[] { 30.0, 50.0 }
+        new double[] { 30.0, 50.0 },
+        new double[] { 50.0, 100.0 },
+        new double[] { 100.0, 150.0 },
+        new double[] { 150.0, 200.0 }
     };
 
     #endregion
@@ -58,8 +61,8 @@ public class VictoryScript : MonoBehaviour
             victoryMenuPanel.SetActive(true);
             endVideoTexture.SetActive(true);
             endVideoText.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             PauseAllOtherMusic();
             endVideo.Play();
             FindObjectOfType<Player_Manager>().GetComponent<PlayerInput>().DeactivateInput();
