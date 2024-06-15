@@ -16,6 +16,8 @@ namespace SlimeMiniBoss
         private List<Color> originalHelmetColors = new List<Color>();
         private Renderer[] helmetRenderers;
 
+        [SerializeField] private AudioSource hurtSound;
+
         private GameObject bone;
 
         [Header("Materials")]
@@ -263,6 +265,8 @@ namespace SlimeMiniBoss
                 HealthPoints -= damage;
                 enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
                 CheckDeath();
+                hurtSound.Stop();
+                hurtSound.Play();
                 if(isAlive) StartCoroutine(ChangeColorOnHit());
             }
         }

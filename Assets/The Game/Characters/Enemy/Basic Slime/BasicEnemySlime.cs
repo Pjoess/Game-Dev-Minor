@@ -16,6 +16,8 @@ namespace BasicEnemySlime
         public bool isTutorial; // checkbox for tutorial slimes
         private GameObject bone;
 
+        [SerializeField] private AudioSource idleSound, hurtSound;
+
         [Header("Materials")]
         private Material normalMaterial;
         [SerializeField] private Material targetedMaterial;
@@ -115,6 +117,11 @@ namespace BasicEnemySlime
 
             normalMaterial = slimeRenderer.material;
             targetedMaterialInstance.SetColor("_Color", normalMaterial.color);
+
+            //With this the idle sound won't all play simultaniously
+            idleSound.PlayDelayed(Random.Range(0, 6));
+
+
         }
 
         void Update()
@@ -255,6 +262,8 @@ namespace BasicEnemySlime
                 HealthPoints -= damage;
                 enemyHealthBar.UpdateHealthBar(HealthPoints, MaxHealthPoints);
                 CheckDeath();
+                hurtSound.Stop();
+                hurtSound.Play();
                 if(isAlive) StartCoroutine(ChangeColorOnHit());
             }
         }
