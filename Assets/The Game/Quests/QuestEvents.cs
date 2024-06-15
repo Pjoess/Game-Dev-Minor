@@ -10,6 +10,16 @@ public class QuestEvents : MonoBehaviour
     public static event Action OnBuddyDeath;
     public static event Action OnPlayerEnterThroneRoom;
 
+    private void Awake()
+    {
+        OnPlayerEnterVillage = null;
+        OnPlayerReachCastle = null;
+        OnMemoryStickPickUp = null;
+
+        OnBuddyDeath = null;
+        OnPlayerEnterThroneRoom = null;
+    }
+
     public static void EnteredVillage()
     {
         Debug.Log("Entered Village");

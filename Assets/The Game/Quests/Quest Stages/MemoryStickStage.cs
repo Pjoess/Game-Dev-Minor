@@ -6,6 +6,7 @@ public class MemoryStickStage : QuestStage
     [SerializeField] private Dialogue[] dialogues;
     public override void StartStage()
     {
+        sticksCollected = 0;
         Debug.Log("StartStage");
         isActive = true;
         UpdateText();
