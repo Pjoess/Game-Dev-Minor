@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PostFXController : MonoBehaviour
 {
-
+    [SerializeField] AudioSource backgroundMusic;
     public static PostFXController instance;
     public float vigentteDecaySpeed;
 
@@ -47,13 +47,16 @@ public class PostFXController : MonoBehaviour
         while(chromaticAberration.intensity.value < 0.9f)
         {
             chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, 1, slowMoTime * Time.unscaledDeltaTime);
+            backgroundMusic.pitch = Mathf.Lerp(backgroundMusic.pitch, 0.5f, slowMoTime * Time.unscaledDeltaTime);
             yield return null;
         }
         while (chromaticAberration.intensity.value > 0.01f)
         {
             chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, 0, slowMoTime * 2 * Time.unscaledDeltaTime);
+            backgroundMusic.pitch = Mathf.Lerp(backgroundMusic.pitch, 1f, slowMoTime * Time.unscaledDeltaTime);
             yield return null;
         }
+        backgroundMusic.pitch = 1;
         chromaticAberration.intensity.value = 0;
     }
 }

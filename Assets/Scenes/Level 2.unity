@@ -696,7 +696,7 @@ PrefabInstance:
     - target: {fileID: 1159391734166823645, guid: c7c211b57d7fa2340944bfcdf35db88e,
         type: 3}
       propertyPath: doSlowMoOnDeath
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6764023299923997106, guid: c7c211b57d7fa2340944bfcdf35db88e,
         type: 3}
@@ -4599,6 +4599,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3995408925415646942, guid: 9b3d8518bd7d79847b4fd37afdc9d094,
+        type: 3}
+      propertyPath: backgroundMusic
+      value: 
+      objectReference: {fileID: 969317509}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
