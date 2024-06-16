@@ -93,6 +93,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
         bossHealthBar.value = healthPoints;
         CreateBT();
         StartCoroutine(ScaleBoss());
+        ScreenShakeManager.Instance.ShakeCamera(3, 6.5f);
     }
 
     void Update()
@@ -210,6 +211,7 @@ public class FinalBoss : MonoBehaviour, IDamageble
     {
         shockwave.Play();
         animator.SetBool(animIDIsStomping, false);
+        ScreenShakeManager.Instance.ShakeCamera(3, 0.75f);
     }
 
     private void OnDrawGizmos()
