@@ -685,7 +685,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keybindingSOs: []
+  controllerKeybindingSOs: []
   extraText: 
+  separateControls: 0
 --- !u!4 &309827982
 Transform:
   m_ObjectHideFlags: 0
@@ -3607,8 +3609,10 @@ MonoBehaviour:
   keybindingSOs:
   - {fileID: 11400000, guid: 1151625a53258d54f827cc037b30f312, type: 2}
   - {fileID: 11400000, guid: 5930d37d37f372344bb302e1f5168123, type: 2}
-  - {fileID: 11400000, guid: d1cbae12c845537428d55e7a96def167, type: 2}
+  controllerKeybindingSOs:
+  - {fileID: 11400000, guid: 1151625a53258d54f827cc037b30f312, type: 2}
   extraText: 
+  separateControls: 1
 --- !u!1 &929457373
 GameObject:
   m_ObjectHideFlags: 0
@@ -6419,7 +6423,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keybindingSOs:
   - {fileID: 11400000, guid: e06567773516bc24fb5f5506f89ea0ec, type: 2}
+  controllerKeybindingSOs: []
   extraText: Click 3 times to do a 3 hit combo
+  separateControls: 0
 --- !u!114 &1729631908 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3558605795138974798, guid: 6419228a3472bd84d9c38c83d948ed67,
@@ -6619,32 +6625,32 @@ PrefabInstance:
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.16996
+      value: 4.4718094
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.3991857
+      value: 2.2989535
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9619009
+      value: 0.97249246
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.27339837
+      value: 0.23293452
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000030804564
+      value: -4.10573e-29
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000008755494
+      value: 2.1316924e-30
       objectReference: {fileID: 0}
     - target: {fileID: 1112645285282015271, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
@@ -6669,12 +6675,12 @@ PrefabInstance:
     - target: {fileID: 5576641026969029397, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 12.96496
+      value: 8.266805
       objectReference: {fileID: 0}
     - target: {fileID: 5576641026969029397, guid: 023b4cd954bcdf442ac3f9d89d3adc84,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -20.96489
+      value: -16.26675
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6918,32 +6924,32 @@ PrefabInstance:
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.16996
+      value: 4.4718094
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.3991857
+      value: 2.2989535
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9619009
+      value: 0.97249246
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.27339837
+      value: 0.23293452
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000030804564
+      value: -4.10573e-29
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000008755494
+      value: 2.1316924e-30
       objectReference: {fileID: 0}
     - target: {fileID: 8865248523470092693, guid: 0505d1758fc22504dbd1bb68b78afbe4,
         type: 3}
@@ -7320,7 +7326,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keybindingSOs:
   - {fileID: 11400000, guid: ce6a4e569adc01e4abaa33ba21bf9b44, type: 2}
+  controllerKeybindingSOs: []
   extraText: 
+  separateControls: 0
 --- !u!1001 &1934372223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7526,7 +7534,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keybindingSOs:
   - {fileID: 11400000, guid: 7df937a73b276dc4ab8a30d14dff9d42, type: 2}
+  controllerKeybindingSOs: []
   extraText: 
+  separateControls: 0
 --- !u!1001 &1959754527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8642,9 +8652,73 @@ PrefabInstance:
       objectReference: {fileID: 1183835765}
     - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
         type: 3}
+      propertyPath: controls.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controls.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 708cd32d946ee6243bd7f3027278e138,
+        type: 2}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controls.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 206c59b6896e4da4990eb7a81d4122af,
+        type: 2}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controls.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 345e8c313a4cfe54089276e99b2b11a0,
+        type: 2}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controls.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1423bdc4b03a0e149ba41de43d2a8bf4,
+        type: 2}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controls.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: c6a43b86a4ee2c040af05ff5afb5d2a3,
+        type: 2}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controls.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 53b8781aadfe7a94eb558ec887be2bc5,
+        type: 2}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controllerControls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
       propertyPath: controllerControlls.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controllerControls.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 963d9f09aa3532e40b39ef81e6854cbb,
+        type: 2}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controllerControls.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c6a43b86a4ee2c040af05ff5afb5d2a3,
+        type: 2}
+    - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
+        type: 3}
+      propertyPath: controllerControls.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 53b8781aadfe7a94eb558ec887be2bc5,
+        type: 2}
     - target: {fileID: 559512088543835345, guid: fe0e05ef4ae2a0640bd53c74e53f52d7,
         type: 3}
       propertyPath: controllerControlls.Array.data[0]

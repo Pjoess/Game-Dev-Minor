@@ -1,19 +1,24 @@
 using UnityEngine;
 
-public class Controll : MonoBehaviour 
+public class Control : MonoBehaviour 
 {
     public KeybindingSO[] keybindingSOs;
+    public KeybindingSO[] controllerKeybindingSOs;
     public string extraText;
-    public static event System.Action<KeybindingSO[], string> ChangeControlls;
+    public bool separateControls = false;
+    public static event System.Action<KeybindingSO[], string> ChangeControls;
+    public static event System.Action<KeybindingSO[], KeybindingSO[], string> ChangeSeparateControls;
 
     void Awake(){
-        ChangeControlls = null;
+        ChangeControls = null;
+        ChangeSeparateControls = null;
     }
 
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.CompareTag("Player"))
         {
-            ChangeControlls(keybindingSOs, extraText);
+            if(separateControls) ChangeSeparateControls(keybindingSOs, controllerKeybindingSOs, extraText);
+            else ChangeControls(keybindingSOs, extraText);
         }
     }
 
